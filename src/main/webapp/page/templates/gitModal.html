@@ -1,0 +1,42 @@
+<div class="modal fade" id="gitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="gitController">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">GIT Share</h4>
+      </div>
+      <div class="modal-body">
+        <div id="gitAccountFields" class="row">
+          <div class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Username</span>
+            <input type="text" id="gitUsername" class="form-control centerText" ng-model="githubConfig.username" />
+          </div>
+          <div class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Password</span>
+            <input type="password" id="gitPassword" class="form-control centerText" ng-model="githubConfig.password" />
+          </div>
+          <div class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Repo Name</span>
+            <input type="text" id="gitRepo" class="form-control centerText" ng-model="githubConfig.repoName"/>
+          </div>
+          <div class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Branch</span>
+            <input type="text" id="gitBranch" class="form-control centerText" ng-model="githubConfig.repoBranch"/>
+          </div>
+          <div class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Path</span>
+            <input type="text" id="gitPath" class="form-control centerText" ng-model="githubConfig.path"/>
+          </div>
+          <div class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Comment</span>
+            <input type="text" id="gitCommitMessage" class="form-control centerText" ng-model="githubConfig.comment" />
+          </div>
+		  <div style="visibility:hidden" class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Content</span>
+            <input type="text" id="gitContent" class="form-control centerText" />
+          </div>
+      	<span class="trans-arrow"></span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary gitCommit btn-sm" ng-click="commitToGithub()">Commit</button>
+      </div>
+    </div>
+    <!-- /.modal-content --> 
+  </div>
+  <!-- /.modal-dialog --> 
+</div>

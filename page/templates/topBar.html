@@ -1,0 +1,431 @@
+<html>
+	<head>
+		<script src="../js/jquery.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body style="height:100%;">
+	<header  class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	  	<div class="container-fluid">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	        </div>
+	        <div class="navbar-collapse collapse">
+
+	        	<ul class="nav navbar-nav navbar-left">
+	        		<li>
+	        			<a class="navbar-brand" href="#" style="padding-top:8px;"><img src="../img/dashboardLogo.png" alt="Boxupp Tool logo"></a>
+	        		</li>
+	        		<li class="dropdown">
+					    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					      My workspaces <span class="caret"></span>
+					    </a>
+					    
+					    <ul class="dropdown-menu" role="menu">
+					    	<li> <a href="#/projects/">Switch Workspace</a></li>
+					    	<li class="divider"></li>
+					    	<li> <a href="#">Workspace settings</a></li>
+					    </ul>
+					</li>
+					<li class="active"><a href="#nodes" role="tab" data-toggle="tab">Boxes</a></li>
+					<li class="dropdown">
+					    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Provisioners <span class="caret"></span></a>
+					    <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+					      <li class=""><a href="#shell" tabindex="-1" role="tab" data-toggle="tab">Shell</a></li>
+					      <li class=""><a href="#puppet" tabindex="-1" role="tab" data-toggle="tab">Puppet</a></li>
+					    </ul>
+				  	</li>
+
+	        	</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li>
+						<button class="btn navbar-btn btn-success">DEPLOY</button>
+					</li>
+					<li>
+						<a id="vagrantIcon" data-toggle="modal" href="#vagrantFileModal">Config</a>
+					</li>
+					<li class="dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle">Share<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#gitModal" data-toggle="modal">Github</a>
+							</li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle">Help<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a ng-click="settingsExec(0)">Take A Tour</a>
+							</li>
+							<li>
+								<a href="http://www.boxupp.com/data/Boxupp_User_Manual_v0.0.3.pdf" target="_blank">Product Manual</a>
+							</li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle">Settings<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a class="helpNav" data-toggle="modal" href="#settingsModal">Default Template</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+	        </div>
+	    </div>
+	</header>
+	<div id="dashboard" style="height:100%">
+		<div class="container-fluid">
+			<div class="row">
+			<div style="margin-top:51px;">
+				<div class="tab-content">
+				  <div class="tab-pane fade active in" id="nodes">
+				  	
+				  	<!-- NODES_PANEL -->
+				  	<div class="col-md-2" id="sidebar"style="background:grey; position:fixed;left:0;bottom:0;top:51px; padding-top:20px;">
+				  		
+				  		<div class="panel panel-default nodesPanel">
+						  <div class="panel-heading">
+						    <h3 class="panel-title">Boxes</h3>
+						  </div>
+						  <div class="panel-body">
+						    <p><a href="#" ng-click="addNewVM()">Add node</a></p>
+						    <ul class="list-group nodesList">
+							    <li ng-repeat="box in boxesData" class="boxes list-group-item">
+									<input id="{{'box'+ $index}}" name="{{'box'+$index}}" type="radio" ng-model="$parent.nodeSelected" ng-value="$index" ng-change="selectNode($index)">
+									<label for="{{'box' + $index}}"><span class="icon-desktop"></span>{{box.vagrantID}}</label>
+									<div id="contextMenu">
+										<button type="button" name="clone" class="nodeActions" title="Clone Node" ng-click="cloneVM($index)"><i class="clone-icon"></i></button>
+										<button type="button" name="delete" class="nodeActions" title="Delete Node"ng-click="removeVM($index)"><i class="delete-icon"></i></button>
+									</div>
+									<span ng-show="!box.isValid" id="boxValidStatus">
+										<i class="icon-exclamation"></i>
+									</span>
+								</li>
+							</ul>
+						  </div>
+						</div>
+				  		<!--<ul class="list-group nodesList" ng-init="nodeSelected = 0">
+							
+						</ul>-->
+				  	</div>
+				  	<!-- NODES_PANEL -->
+
+				  	<div class="col-offset-md-2 col-md-10 col-offset-sm-2 col-sm-10 machineConfiguration container-fluid" style="display:block; float:right;">
+
+
+
+
+				  		<div class="row">
+					  		<div class="col-md-offset-1 col-md-5" style="margin-top:20px;">
+					  			<div class="panel panel-default nodesPanel">
+									<div class="panel-heading">
+										<h3 class="panel-title">Machine Details</h3>
+									</div>
+								  	<div class="panel-body">
+										<div class="input-group input-group-sm"> <span class="input-group-addon">Vagrant ID<sup>*</sup></span>
+							              <input name="vagrantID" id="vagrantID" 
+											ng-model="activeVM.vagrantID"
+											ng-change="limitLength()"
+											ng-maxlength="9"
+											ng-pattern="/^[a-z0-9]{1,13}$/"
+											type="text" 
+											class="form-control" 
+											ng-disabled="activeVM === null"
+											title="Machine's reference ID in Vagrant File"
+											required>
+							            </div>
+									  	<div class="input-group input-group-sm"> <span class="input-group-addon">Host-Name<sup>*</sup></span>
+							              <input name="hostName" id="hostName" type="text" data-placement="right" 
+											ng-model="activeVM.hostName"
+											class="form-control"
+											ng-disabled="activeVM === null"
+											title="The hostname the machine should have"
+											required>
+							            </div>
+							            <div class='input-group input-group-sm'>
+											<span class="input-group-addon">Box Type<sup>*</sup></span>
+											<input type="text"
+													ng-disabled="activeVM === null"
+													ng-model="activeVM.boxType" 
+													typeahead="state for state in states | filter:$viewValue | limitTo:12" 
+													typeahead-on-select="alertUser()"
+													data-placement="right"
+													title="Box type for this VM"
+													class="form-control"
+													name="activeVMBoxType"
+													required>
+										</div>
+										<div class="input-group input-group-sm"> <span class="input-group-addon">Box URL<sup>*</sup></span>
+							              <input name="boxUrl" 
+												id="boxUrl" 
+												type="url" 
+												data-placement="right" 
+												ng-disabled="activeVM === null" 
+												title="The URL that the configured box can be found at"
+												ng-model="activeVM.boxUrl" 
+												ng-blur="updateURLInformation()" 
+												class="form-control" 
+												required/>
+							            </div>
+									</div>
+								</div>
+					  		</div>
+					  		<div class="col-md-offset-1 col-md-5" style="margin-top:20px;">
+					  			<div class="panel panel-default nodesPanel">
+									<div class="panel-heading">
+										<h3 class="panel-title">Networking Details</h3>
+									</div>
+								  	<div class="panel-body container-fluid">
+								  		<div class="panel-body-field row">
+								  			<div class="col-sm-3">
+								  				<span>Network IP<sup>*</sup></span>
+								  			</div>
+								  			<div class="col-sm-9">
+								              <input name="networkIP" 
+													id="networkIP" 
+													type="text" 
+													ng-disabled="activeVM === null" 
+													ng-model="activeVM.networkIP" 
+													ng-pattern="/^(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))$/"
+													class="form-control"
+													required>
+								            </div>
+								  		</div>
+								  		<div class="panel-body-field row" ng-repeat="mapping in activeVM.portMappings">
+								  			<div class="col-sm-3">
+								  				<span>Host Port<sup>*</sup></span>
+								  			</div>
+								  			<div class="col-sm-2">
+								  				<input name="hostPort" id="hostPort" type="text" ng-disabled="activeVM === null" 
+													ng-model="mapping.hostPort" class="form-control"
+													ng-pattern="/^(6553[0-6]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{3}|[2-5]\d{3,4}|102[4-9]|10[3-9]\d|[2-9]\d{3}|1[1-9]\d{2,3}|1[0-0]\d{3})$/"
+												/>
+								  			</div>
+								  			<div class="col-sm-2">
+								  				<button type="button"  class="folderActions" ng-click="deletePortMapping($index)">
+													<i class="delete-icon"></i>
+												</button>
+								  			</div>
+								  			<div class="col-sm-3">
+								  				<span>VM Port<sup>*</sup></span>
+								  			</div>	
+								  			<div class="col-sm-2">
+								  				<input name="vmPort" id="vmPort" type="text" ng-disabled="activeVM === null" 
+													ng-model="mapping.vmPort" class="form-control"
+													ng-pattern="/^(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{3}|[1-5]\d{4}|[1-9]\d{0,3}|)$/"
+													/>
+								  			</div>
+								  		</div>
+								  		<div class="panel-body-field row">
+								  			
+											<a href="#" ng-click="addPortMapping()">Add Port Mapping</a>
+								  		</div>
+								  	</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-offset-1 col-md-5" style="margin-top:20px;">
+					  			<div class="panel panel-default nodesPanel">
+									<div class="panel-heading">
+										<h3 class="panel-title">Synced Folders</h3>
+									</div>
+								  	<div class="panel-body container-fluid">
+								  		<div class="panel-body-field row" ng-repeat="mapping in activeVM.syncFolders">
+								  			<div class="col-sm-3">
+								  				<span>Host Folder</span>
+								  			</div>
+								  			<div class="col-sm-2">
+								  				<input name="hostFolder" id="hostFolder" type="text" ng-disabled="activeVM === null" ng-model="mapping.hostFolder" title="Sync a folder on host machine to the guest machine" 					data-placement="bottom" class="form-control">
+								  			</div>
+								  			<div class="col-sm-2">
+								  				<button type="button" value="DeleteFolder" class="folderActions deleteFolder" ng-click="deleteFolderMapping($index)">
+													<i class="delete-icon"></i>
+												</button>
+								  			</div>
+								  			<div class="col-sm-3">
+								  				<span>VM Folder</span>
+								  			</div>	
+								  			<div class="col-sm-2">
+								  				<input name="syncFolder" id="syncFolder" type="text" ng-disabled="activeVM === null" ng-model="mapping.vmFolder" class="form-control">
+								  			</div>
+								  		</div>
+								  		<div class="panel-body-field row">								  			
+											<a href="#" ng-click="addSyncFolderMapping()">Add Folder Mapping</a>
+								  		</div>
+								  	</div>
+								</div>
+					  		</div>
+					  		<div class="col-md-offset-1 col-md-5" style="margin-top:20px;">
+					  			<div class="panel panel-default nodesPanel">
+									<div class="panel-heading">
+										<h3 class="panel-title">Miscellaneous Details</h3>
+									</div>
+								  	<div class="panel-body container-fluid">
+								  		<div class="panel-body-field row">
+								  			<div class="col-sm-3">
+								  				<span>VirtualBoxName</span>
+								  			</div>
+								  			<div class="col-sm-9">
+								              <input name="vboxName" id="vboxName" ng-model="activeVM.provisionerName" ng-disabled="activeVM === null" data-placement="bottom" title="Machine Name to set in VirtualBox GUI" type="text" class="form-control">
+								            </div>
+								  		</div>
+								  		<div class="panel-body-field row">
+								  			<div class="col-sm-3">
+								  				<span>CPU Exec CAP (%)</span>
+								  			</div>
+								  			<div class="col-sm-9">
+								              <input name="cpuExecCap" ng-pattern="/^(4[0-9]|[1-3]\d)$/" id="cpuExecCap" 
+												ng-model="activeVM.cpuExecCap" ng-disabled="activeVM === null" type="text" 
+												data-placement="bottom" title="Host Machine CPU usage in %age" class="form-control"/>
+								            </div>
+								  		</div>
+								  		<div class="panel-body-field row">
+								  			<div class="col-sm-3">
+								  				<span>Memory (RAM)</span>
+								  			</div>
+								  			<div class="col-sm-9">
+								              <input name="memory" id="memory" type="text" ng-disabled="activeVM === null" ng-model="activeVM.memory" ng-pattern="/^(409[0-6]|40[1-8]\d|4[00][0-8]\d|[1-3](\d){3}|51[2-9]|5[2-9][1-9]|[6-9]\d{2})$/" class="form-control">
+								            </div>
+								  		</div>
+								  		<div class="panel-body-field row">
+								  			<div class="col-sm-3">
+								  				<span>Boot Timeout</span>
+								  			</div>
+								  			<div class="col-sm-9">
+								              <input name="bootTimeout" 
+												id="bootTimeout" type="text" ng-disabled="activeVM === null" ng-model="activeVM.bootTimeout" 
+												class="form-control"/>
+								            </div>
+								  		</div>
+								  		<div class="panel-body-field row">
+								  			<div class="col-sm-3">
+								  				<span>GUI Required</span>
+								  			</div>
+								  			<div class="col-sm-9">
+								              <input name="guiMode" 
+												id="guiMode" ng-disabled="activeVM === null" ng-model="activeVM.guiMode" 
+												data-placement="bottom" title="If unselected, the machine will start in headless mode" 
+												type="checkbox">
+								            </div>
+								  		</div>
+								  	</div>
+								</div>
+					  		</div>
+						</div>
+						
+				  	</div>
+			  		
+			  	</div>
+
+				  
+				  
+			  	<!-- SHELL PROVISIONER PANEL -->
+				<div class="tab-pane fade container" id="shell">
+					<div ng-controller="shellController" class="row">
+						<div class="col-sm-12">
+							<a data-target="#" ng-click="invokeShellConsole()" class="btn btn-info">Script Editor</a>
+						</div>
+						<div class="col-sm-5">
+							<div id="scriptsConsole" class="panel panel-default">
+								<div class="panel-heading">
+									<span>
+										Shell Scripts
+									</span>
+									<span class="pull-right">
+										Add Script
+									</span>
+								</div>
+								<div class="panel-body">
+							    	<ul class="scriptsList">
+										<li ng-repeat="script in shellScripts">
+												<input type="radio" name="{{'script'+$index}}" ng-model="$parent.scriptSelected" ng-init="-1" ng-value="$index" ng-change="selectScript($index)" id="{{'script' + $index}}">
+												
+												<label class="scriptLabels" for="{{'script' + $index}}" ng-bind="script.scriptName"></label>
+												<textarea style="display:none" class="scriptSource" ng-model="script.scriptSource" ng-trim="false"></textarea>
+												<div id="scriptActionsMenu">
+													<button type="button" name="edit" id="{{'editScript' + $index}}" class="scriptActions" title="Edit Script" ng-click="editScript($index)"><i class="edit-icon"></i></button>
+													<button type="button" name="delete" class="scriptActions" title="Delete Script" ng-click="deleteScript($index)"><i class="delete-icon"></i></button>
+												</div>
+										</li>
+									</ul>
+							  	</div>
+							</div>
+						</div>
+						<div class="col-sm-offset-2 col-sm-5">
+							<div id="boxesConsole" class="panel pandel-default">
+								<div class="panel-heading">
+									Boxes
+								</div>
+								<div class="panel-body">
+									<ul class="boxesList">
+										<li ng-repeat="box in boxesData">
+											<input type="checkbox" 
+												   id="{{'node'+$index}}"
+												   name="{{'node'+$index}}"
+												   ng-checked="boxesData[$index].linkedScripts.indexOf(activeScript.scriptName) > -1" 
+												   ng-click="toggleScriptSelection($index)"
+												   ng-disabled="nodeSelectionDisabled">
+											<label for="{{'node'+$index}}"><span class="icon-desktop"></span>{{box.vagrantID}}<a class="nodeStatus"></a></label>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-offset-1 col-sm-10" style="position:fixed;top:70px; bottom:10px;" ng-show="showShellEditor" ng-init="showShellEditor=false">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<span>Script Editor</span>
+									<span class="pull-right">
+										Close
+									</span>
+								</div>
+								<div class="panel-body">
+									<div class="editing-section">
+										<div>
+											Shell Script Name
+										</div>
+										<div>
+											<input type="text" id="shellScriptName" 
+												   ng-model="activeScript.scriptName" 
+												   ng-class="{errorFocus:activeScript.scriptName.length == 0}"
+												   class="form-control" 
+												   maxlength="15" 
+												   name="shellScriptName"/>
+										</div>
+										<div class="form-control" 
+												id="scriptSource" 
+												ng-model="activeScript.scriptSource"
+												ui-codemirror="scriptEditorOptions"
+												ng-disabled="activeScript === null">
+										</div>
+									</div>									
+								</div>
+								<div class="panel-footer">
+									<a data-target="#" class="btn btn-primary" ng-hide="!nodeSelectionDisabled"
+										ng-click="pushNewScript(activeScript.scriptName,activeScript.scriptSource)">Save</a>
+								</div>
+							</div>
+						</div> 
+					</div>
+				</div>
+
+				<!-- SHELL PROVISIONER PANEL -->
+				  <div class="tab-pane fade" id="puppet">
+				    <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
+				  </div>
+				</div>
+				
+			</div>
+			</div>
+		</div>
+	</div>
+	</body>
+</html>

@@ -1,0 +1,405 @@
+
+body{
+	background : #444546;
+}
+body.dashBoardStyling{
+	background : #FFF;
+}
+
+@mixin modal-header-footer{
+	
+	div.modal-body{
+		overflow : auto;
+
+		div.projectLogo{
+			height : 200px;
+			border-right : 1px solid #eee;
+			color : #71B1D1;
+			i{
+				font-size : 75px;	
+			}
+			
+		}
+		div.boxConfig{
+			margin-bottom : 15px;
+
+			div.boxConfigTitles{
+				@include nav-label-styling();
+				margin-bottom : 10px;
+			}
+
+			input, select{
+				border-radius : 0px;
+			}			
+		}
+	}
+	
+	div.modal-header, div.modal-footer{
+		color:#FFF;
+		background:#444546;
+		h4{
+			font-family: 'Roboto', sans-serif;		
+			font-size: 16px;
+			line-height: 11px;	
+			font-weight : 100;	
+		}
+		
+		a{
+			font-family: 'Roboto', sans-serif;		
+			font-size: 14px;
+			line-height: 11px;	
+			font-weight : 100;		
+		}
+	}
+}
+
+@mixin boxupp-modal-styling{
+	top:50px;
+	border-radius : 0px;
+	
+	@include modal-header-footer();		
+}
+
+$mainNavBackground : #71B1D1;
+$mainNavHoverBackground : #71B1D1;
+
+div.ng-leave {
+	opacity : 0;
+}
+
+div.ng-enter{
+	opacity : 1;
+}
+
+div{
+	
+	transition-property: all;
+    transition-duration: 1.0s;
+     -webkit-transition-property: all; /* Safari */
+    -webkit-transition-duration: 0.5s; /* Safari */
+}
+
+.secondaryNavExpanded {
+	//width : 150px;
+}
+
+.secondaryNavClosed {
+	width : 0px;
+	padding : 0px;
+	
+}
+ 
+/*.playAreaExpanded {
+	margin-left: 315px;
+}
+
+.playAreaNormal{
+	margin-left: 315px;	
+}*/
+
+@mixin nav-label-styling {
+	font-family: 'Open Sans', sans-serif;
+	
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 11px;
+	line-height: 11px;	
+}
+
+@mixin sub-section-header-styling{
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 100;
+	font-size: 22px;
+	line-height: 11px;	
+	margin-bottom:30px;
+}
+
+@mixin box-config-titles{
+	font-family: 'Open Sans', sans-serif;
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 11px;
+}
+
+a.navbar-brand{
+	font-family: 'Open Sans', sans-serif;
+	text-transform: uppercase;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 11px;	
+}
+
+header#topNavBar {
+	background : #3c454f;
+}
+
+
+div.mainNavElements{
+	background : $mainNavBackground;
+	padding-top: 20px;
+	overflow-y : auto;
+	overflow-x : hidden;
+
+	div.panel{
+		border-radius : 0px;
+		div.panel-heading{
+			border-radius : 0px;
+			a{
+				cursor : pointer;
+				div.main-nav-icon{
+					font-size:26px;
+					position:relative;
+					left:0px;
+				}
+				div.main-nav-label{
+					@include nav-label-styling();
+					position: absolute;
+					top: 38px;
+					left: 68px;
+				}
+			}
+		}
+	} 
+
+	.mainNavList{
+			
+			margin-left: -15px;
+			margin-right: -15px;
+
+			li.active{
+				a{
+					background:#FFFFFF;
+					color:black;
+				}
+				a:hover{
+					background:#FFFFFF;
+				}
+			}
+
+			li{
+				
+
+				a{
+					border-radius : 0px;
+					color:#FFFFFF;
+					
+					.main-nav-icon i {
+						font-size:28px;
+						position:relative;
+						left:4px;
+					}
+
+					.main-nav-label{
+						@include nav-label-styling();
+						position: absolute;
+						top: 12px;
+						left: 65px;
+					}														
+				}
+				a:hover{
+					background : #88D2F7;
+					cursor : pointer;
+				}
+			}		
+	}
+}
+
+div.secondaryNavElements {
+	background : grey;
+	position:absolute;
+	top:51px;
+	bottom:0px;
+
+	.secondaryNavList{
+
+		li.active{
+				a{
+					background:#FFFFFF;
+					color:black;
+				}
+				a:hover{
+					background:#FFFFFF;
+				}
+		}
+		li{
+				
+
+				a{
+					border-radius : 0px;
+					color:#FFFFFF;
+					
+					.main-nav-icon i {
+						font-size:28px;
+						position:relative;
+						left:4px;
+					}
+
+					.main-nav-label{
+						@include nav-label-styling();
+						position: absolute;
+						top: 12px;
+						left: 65px;
+					}														
+				}
+				a:hover{
+					background : #88D2F7;
+					cursor : pointer;
+				}
+		}
+	}
+}
+
+div.boxConfigs {
+	margin-left:20px;
+	margin-top:20px;
+
+	ul{
+		li.active a{
+			border-radius : 0px;
+			-webkit-border-radius : 0px;
+		}
+		li {
+			a{
+				border-radius : 0px;
+				-webkit-border-radius :0px;
+				background : #71B1D1;
+				color: #FFF;
+				cursor : pointer;
+			}
+			a:hover{
+				background:grey;
+			}
+		}
+	}
+
+	div#boxConfigContent {
+		border : 1px solid #ddd;
+		border-top : none;
+
+		span.boxConfigTitles {
+			@include box-config-titles();
+		}
+
+		input{
+				border-radius : 0px;
+				-webkit-border-radius : 0px;
+		}
+
+		div.boxConfig{
+			margin-top:15px;
+		}
+		div.tab-pane{
+			min-height:320px;
+		}
+
+		div.boxConfigFxdTop{
+			max-height : 290px;
+			overflow-x : hidden;
+			overflow-y : auto;
+		}
+
+		div.boxConfigFxdBtm{
+			position: absolute;
+			cursor: pointer;
+			bottom:10px;
+		}
+	}
+}
+
+div.panel {
+	background : none;
+}
+
+div#controlBar{
+	ul.controlBarList{
+		li{
+			a.controlBarBtns{
+				color:#FFF;
+				width:100%;
+				cursor:pointer;
+			}
+			a.controlBarBtns:hover{
+				background:#FFF;
+			}
+		}
+	}
+}
+
+div{
+	.collapseCtrlBar{
+		height:0px;
+	}
+	.normalCtrlBar{
+		height:30px;
+	}
+	.expandCtrlBar{
+		height:400px;
+	}
+}
+div#ctrlBarPlayArea{
+
+	ul.ctrl-bar-sec-list, ul.ctrl-bar-main-list{
+		li{
+			overflow:auto;
+			a{
+				color:#FFF;
+				font-size:26px;
+				border-radius : 0px;
+				height:50px;
+				cursor:pointer;
+			}
+			a:hover{
+				background-color: #46505C;
+				height:50px;
+			}
+		}
+		li.active{
+			a{
+				background-color: #46505C;	
+			}			
+		}
+	}
+	div.sub-section-header{
+		@include sub-section-header-styling();
+	}
+	div.ctrl-bar-sec-nav, div.ctrl-bar-main-nav{
+		height:165px;
+		border-right:1px dashed #eee;
+	}
+	div#ctrl-bar-play-area{
+		span.boxConfigTitles{
+			@include box-config-titles();
+		}
+		div.boxConfig{
+			margin-bottom:10px; 
+
+			input{
+				-webkit-border-radius : 0px;
+				border-radius : 0px;
+				background:none;
+				color:#FFF;
+			}
+		}
+	}
+	div.main-nav-label{
+		@include nav-label-styling();
+		position:absolute;
+		top:20px;
+		left: 54px;
+	}
+	div.main-nav-icon{
+		float:left;
+	}
+}
+/*
+div.collapseCtrlBar{
+	height:0px;
+}
+
+div.expandCtrlBar{
+	height:30px;
+}*/
+
+@import './partials/login';
+@import './partials/projects';

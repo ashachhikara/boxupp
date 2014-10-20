@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="boxuppApp">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache"/>
+<META HTTP-EQUIV="Expires" CONTENT="-1"/>
+<title>BoxuPP</title>
+
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="css/main.css" rel="stylesheet" type="text/css"/>
+<link href="css/introjs.css" rel="stylesheet" type="text/css" />
+<link href="css/codemirror.css" rel="stylesheet" type="text/css" />
+<link href="css/perfect-scrollbar.css" rel="stylesheet" type="text/css" />
+<link href="css/animations.css" rel="stylesheet" type="text/css" />
+
+<script>document.write('<script src="js/jquery.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/angular.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/codemirror.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/shell_cm.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/puppet_cm.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/ui-codemirror.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<!--<script>document.write('<script src="js/boxupp.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>-->
+<script src="js/boxupp.js"></script>
+<script>document.write('<script src="js/gitController.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/shellController.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<!--<script>document.write('<script src="js/puppetController.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>-->
+<script src="js/puppetController.js"></script>
+<script>document.write('<script src="js/jquery.mousewheel.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/perfect-scrollbar.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/base64.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/underscore-min.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/github.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/intro.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/jquery-ui.min.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/angular-file-upload.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/angularFileUploadCtrl.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script src="js/angular-animate.min.js"></script>
+
+
+
+
+<!--[if gte IE 9]>
+  <style type="text/css">
+    .boxuppNav, .left-menus ul li input[type="radio"]:checked + label, .left-menus ul li input[type="radio"] + label:hover, .left-menus ul li:hover label, .ddBoxHeading, .sBoxHeading, .provisionSec button, .provisionSec button.activeProvisionControl, .provisionSec button:hover, .provisionSec button.activeProvisionControl:hover { filter: none; }
+  </style>
+<![endif]-->
+<!--[if lt IE 9]><script src="assets/js/libs/html5shiv.js"></script><![endif]-->
+<!--[if lt IE 9]><script type="text/javascript" src="plugins/flot/excanvas.min.js"></script><![endif]-->
+
+</head>
+<body ng-controller="boxuppAppController">
+<header class="header navbar navbar-fixed-top" role="banner">
+  <div class="container">
+    <div class="logo"><a href="#"><img src="img/logo.png" alt="" border="0"></a></div>
+    <ul class="topNav">
+	  <li data-intro="Share your Vagrant File with other team members through a common repository" data-step="11" data-position="left"><a class="git" id="gitIcon" data-toggle="modal" href="#gitModal"></a></li>
+      <li data-intro="Click here to preview the Vagrant file you just created" data-step="9" data-position="left"><a class="vagrant" id="vagrantIcon" data-toggle="modal" href="#vagrantFileModal"></a></li>
+	  <li><a class="info" id="infoIcon" data-toggle="modal" href="#">&nbsp;</a>
+      	<ul class="helpDropList">
+            <div class="dd-arrow">&nbsp;</div>
+            <li>
+				<a class="helpNav" ng-click="settingsExec(0)">
+					<label>Complete Tour</label>
+				</a>
+			</li>
+            <li>
+				<a class="helpNav" ng-click="settingsExec(1)" ng-init="tooltipStatus = 'On'">
+					<label>Toggle Tooltips<label id="tooltipState" ng-class="{'on':tooltipStatus === 'On','off':tooltipStatus === 'Off'}"ng-bind="tooltipStatus"></label></label>
+					
+				</a>
+			</li>
+			<li>
+				<a class="helpNav" data-toggle="modal" href="#settingsModal">
+					<label>Boxupp Settings</label>
+				</a>
+			</li>
+			<!--<li>
+				<a class="helpNav" data-toggle="modal" href="#fileUploadModal">
+					<label>File Upload</label>
+				</a>
+			</li>-->
+        </ul>
+      </li>
+    </ul>
+  </div>
+</header>
+<div id="machineSelection">
+  <form method="POST" id="vagrantSelection" name="vagrantSelection">
+    <input type="hidden" name="vmNumber" id="vmNumber" value="1" />
+    <div id="container">
+      <div id="sidebar" class="sidebar-fixed">
+        <div id="sidebar-content">
+        	<div class="leftHeading">
+				<div id="navButtons">
+					<button type="button" class="boxuppNav activeNav" id="vagrant" data-navIndex="0" data-intro="Get started with the Vagrant tab to create, customize and manage your virtual environments" data-step="1" data-position="right">Nodes</button>
+					<button type="button" class="boxuppNav" id="provision" data-navIndex="1" data-intro="Provision the machines you just created with various provisioners " data-step="4" data-position="bottom">Provisioners</button>
+				</div>
+                
+            </div>
+			<div class="TabbedPanelsContent" style="display:block">
+			<span class="addBtn addVMBtn" ng-click="addNewVM()" data-intro="Add even more machines to setup a complete project environment" data-step="2" data-position="bottom"><a href="#"></a></span>
+			  <div class="left-menus"><span class="dot-pin"><img src="img/dot-pin.png" alt="" border="0"/></span>
+				<div id="nodesContainer">
+					<ul class="boxesList" ng-init="nodeSelected = 0">
+						<li ng-repeat="box in boxesData" class="boxes">
+							<input id="{{'box'+ $index}}" name="{{'box'+$index}}" type="radio" ng-model="$parent.nodeSelected" ng-value="$index" ng-change="selectNode($index)">
+							<label for="{{'box' + $index}}"><span class="icon-desktop"></span>{{box.vagrantID}}</label>
+							<div id="contextMenu">
+								<button type="button" name="clone" class="nodeActions" title="Clone Node" ng-click="cloneVM($index)"><i class="clone-icon"></i></button>
+								<button type="button" name="delete" class="nodeActions" title="Delete Node"ng-click="removeVM($index)"><i class="delete-icon"></i></button>
+							</div>
+							<span ng-show="!box.isValid" id="boxValidStatus">
+								<i class="icon-exclamation"></i>
+							</span>
+						</li>
+					</ul>
+				</div>
+			  </div>
+              
+          
+			</div>
+			<div class="TabbedPanelsContent" style="display:none">
+             
+              
+              <div class="provisionSec">
+				  <button type="button" id="shell" class="provisioningControl activeProvisionControl" data-provsection="0" data-intro="Select a provisioner type to provision the machines" data-step="5" data-position="right"><span>Shell</span></button>
+                  <div class="blank_box"></div>
+                  <div class="clear"></div>
+                     <div class="blank_box1"></div>
+				  <button type="button" id="puppet" class="provisioningControl margin_left" data-provsection="1"><span>Puppet</span></button>
+                 <div class="clear"></div>
+				  <button type="button" id="ansible" class="provisioningControl"  data-provsection="2" disabled><span>Ansible</span></button>
+                     <div class="blank_box"></div>
+                      <div class="clear"></div>
+                  <div class="blank_box1"></div>
+				  <button type="button" id="chef" class="provisioningControl margin_left" data-provsection="3" disabled><span>Chef</span></button>
+                   
+			  </div>
+              
+      <div class="logo_bg"></div> 
+              
+              
+			</div>
+            
+        </div>
+      </div>
+      <div id="content">
+		<div class="container">
+              <div class="TabbedPanelsContent activeBoxuppNav" style="display:block">
+				<div ng-include="'templates/vmConfigurations.html'"></div>  
+			  </div>
+              <div class="TabbedPanelsContent" style="display:none">
+				<div ng-include="'templates/provisioningSection.html'"></div>
+			  </div>
+			  <div id="formButtons"> 
+				  <div class="btn-group" id="vagrantControls">
+					<button type="button" id="vagrantUP" 
+							ng-click="deployEnvironment()" 
+							class="btn btn-primary" 
+							ng-disabled="outputConsole.boxuppExecuting" 
+							data-intro="Click here to Boxupp everything you have worked on so far and deploy the complete environment on Virtualbox" 
+							data-step="10" 
+							data-position="top">
+							<i class="icon-rocket"></i>
+					</button>
+					<button type="button" id="extraOptions" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+					  <span class="caret"></span>
+					  <span class="sr-only">Toggle Dropdown</span>
+					</button>
+					<ul class="dropdown-menu" role="menu" >
+						<span class="boxuppOptions">
+							<li class="vagrantOptionsList">
+								<input type="radio" ng-model="vagrantOptions" ng-value="0" id="vagrantOption0" name="vagrantOption0">
+								<label class="vagrantOptionsLabels" for="vagrantOption0">{{fetchCommand(0)}}</label>
+							</li>
+							<li class="divider"></li>  
+							<li class="vagrantOptionsList">
+								<input type="radio" ng-model="vagrantOptions" ng-value="1" id="vagrantOption1" name="vagrantOption1">
+								<label class="vagrantOptionsLabels" for="vagrantOption1">Enter own command</label>
+							</li>
+						</span>
+					</ul>
+					<!--{{boxuppConfig.vagrantChangeFlag}}<br>
+					{{boxuppConfig.shellChangeFlag}}<br>
+					{{boxuppConfig.puppetChangeFlag}}<br>-->
+					
+				  </div>
+			  </div>
+		</div>
+				
+	  </div>
+		<a class="slideShape" ng-click="toggleConsoleWindow()"></a>
+			<!--<input type="hidden" id="vagrantChangeFlag" value="0" name="vagrantFlag">
+			<input type="hidden" id="provisionChangeFlag" value="0" name="provisionFlag">
+			<input type="hidden" id="environmentStatusFlag" value="0" name="environFlag">-->
+		</div>
+	</form>
+    </div>
+      
+
+
+<div ng-include="'templates/gitModal.html'"></div>
+<div ng-include="'templates/settings.html'"></div>
+<div ng-include="'templates/fileUpload.html'"></div>
+<div ng-include="'templates/vagrantModal.html'"></div>
+
+
+
+<div id="lightBox" ng-show="outputConsole.boxuppOutputWindow" ng-click="toggleConsoleWindow()"> 
+	
+</div>
+
+<div id="vagrantOutput" ng-show="outputConsole.boxuppOutputWindow">
+	  <header id="consoleHeader">Output Console: <span id="consoleButtons"><button id="consoleClose" ng-click="minimizeConsole()" type="button">X</button></span></header>
+		  <div id="consoleOutput">
+			<span class="vagrantOutputStream" ng-repeat="outputSnippet in vagrantOutput">
+				<span ng-class="{'normal':outputSnippet.type === 'normal','error':outputSnippet.type === 'error'}">{{outputSnippet.output}}<br></span>
+			</span>
+		  </div>
+		<span class="loader" ng-show="outputConsole.boxuppExecuting">
+			<img src="./img/cube.gif"></img>
+		</span>
+</div>
+<div id="loaderWindow" >
+	<span id="gifContainer">
+		<img src="./img/box.gif" width="100px" height="80px"></img>
+	</span>
+	<span id="loaderMessage">
+		Loading Boxes..
+	</span>
+</div>
+
+<script>document.write('<script src="js/shell.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/miscellaneous.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/bootstrap.min.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>document.write('<script src="js/ui-bootstrap-tpls-0.10.0.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
+<script>
+	
+</script>
+<div class="errorpage-container" ng-hide="true" ng-init="lockBoxupp = true"><div class="errorbox"><img src="img/attention.png" alt=""/> <p>An error occured while communicating with Boxupp server. Please refresh the page!</p></div></div>
+</body>
+<head>
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache"/>
+<META HTTP-EQUIV="Expires" CONTENT="-1"/>
+</head>
+</html>

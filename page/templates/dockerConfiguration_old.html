@@ -1,0 +1,237 @@
+<div id="BoxUpp" >
+    <div id="Box-1" ng-controller="dockerController">
+	    <!--<input type="hidden" name="foldersInBox1" id="foldersInBox1" value="1">
+		<input type="hidden" class="shellMappings" name="associatedSc1" id="associatedSc1" value="">-->
+        <div class="ddBox" data-intro="Click here to configure your Vagrant Settings" data-step="2" data-position="left">
+          	<div class="ddBoxHeading">
+            	<div class="ddBoxTitle">Machine Details</div>
+          	</div>
+
+          	<div id="collapse1_1" class="ddBoxBody hasmenu">
+           		<div class="input-group input-group-sm"> 
+           			<span class="input-group-addon">Vagrant ID<sup>*</sup></span>
+	              	<input name="vagrantID" id="vagrantID" data-placement="right" ng-model="activeContainer.vagrantID" ng-change="limitLength()" ng-maxlength="9" ng-pattern="/^[a-z0-9]{1,13}$/" type="text" class="form-control" ng-disabled="activeContainer === null" title="Machine's reference ID in Vagrant File" required>
+           		</div>
+			
+                <div class="input-group input-group-sm">
+                	<span class="input-group-addon">Host-Name<sup>*</sup></span>
+                  	<input name="hostName" id="hostName" type="text" data-placement="right" 
+					ng-model="activeContainer.hostName" class="form-control"
+					ng-disabled="activeContainer === null" title="The hostname the machine should have"
+					required>
+                </div>
+               
+                <div class="input-group input-group-sm dockerImageInput " > 
+                						<span style="width:8%; background-color:#252525;">
+
+            		<input name="radioGroup" type="radio" id="radio1" value="sshImage" ng-model="radioValue" style="margin-top:5px;" class="switch" ng-change="getListOfSSHImage();" ></span>
+            		<label for="first">ssh Enabled Image</label>
+            		<br/>
+            								<span  style="width:8%; background-color:#252525;">
+
+            		<input name="radioGroup" type="radio" value="preBuildImage" id="radio2" style="margin-top:5px;" ng-model="radioValue"  class="switch" ng-change="getRadioValue();" ></span>
+					 <label for="first">Pre Build Image</label>
+          		</div>
+          		
+                <div class="input-group input-group-sm dockerImageInput " ng-show="radioValue == 'sshImage'"  > 
+           			<select  ng-model="activeContainer.dockerImage" ng-repeat="sshImage in listOfSSHImages" class="form-control ">
+           				<option value="">{{sshImage.name}}</option>
+            		</select>
+            		
+          		</div>
+          		<div class="input-group input-group-sm dockerImageInput" ng-show="radioValue == 'preBuildImage'" >
+                	<span class="input-group-addon" >Pre-Build Image</span>
+						<input name="preBuildImg" id="preBuildImgID" data-placement="right" ng-model="activeContainer.dockerImage"  type="text" class="form-control"  title="docker Image in  Vagrant File">
+				</div>
+				
+                <!-- <div class="input-group input-group-sm dockerImageInput" ng-show="radioValue == 'preBuildImage'" >
+                <span class="input-group-addon" >Build Image</span>
+						<span class="input-group-addon" style="width:8%">
+							<button type="button" ng-click="setUploadSettings('activeContainer.vagrantID',null);" title="click to upload new files" class="btn btn-default moduleOperations keyuploader" style="display:block">
+								<i class="icon-upload"></i>
+							</button>
+						</span>
+			   		
+				</div> -->
+		  	</div>
+		</div>
+    
+        <div class="ddBox" data-position="right">
+          	<div class="ddBoxHeading">
+            	<div class="ddBoxTitle">Networking Details</div>
+         	</div>
+          	<div id="collapse1_2" class="ddBoxBody hasmenu">
+		  		<div class="syncBox">
+           
+					<div id="portMappings" ng-repeat="mapping in activeContainer.portMappings">
+						<div class="input-group input-group-sm reSet"> <span class="input-group-addon">Host Port</span>
+
+					  		<input name="hostPort" 
+							id="hostPort" 
+							type="text" 
+							ng-disabled="activeContainer === null" 
+							ng-model="mapping.hostPort" 
+							class="form-control"
+							ng-pattern="/^(6553[0-6]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{3}|[2-5]\d{3,4}|102[4-9]|10[3-9]\d|[2-9]\d{3}|1[1-9]\d{2,3}|1[0-0]\d{3})$/"
+							/>
+						</div>
+						<span class="syncFolderActions">
+						<button type="button" class="addPortBtn folderActions" ng-click="addPortMapping()">
+						<i class="icon-plus-sign-alt"></i>
+					</button>
+						<!--value="DeleteFolder" class="folderActions deleteFolder"-->
+							<button type="button"  class="folderActions" ng-click="deletePortMapping($index)">
+								<i class="delete-icon"></i>
+							</button>
+						</span>
+						<div class="input-group input-group-sm reSet right">
+							<span class="input-group-addon">VM Port</span>
+					  		<input name="vmPort" id="vmPort" type="text" ng-disabled="activeContainer === null" 
+							ng-model="mapping.vmPort" class="form-control"
+							ng-pattern="/^(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{3}|[1-5]\d{4}|[1-9]\d{0,3}|)$/"/>
+						</div>
+					</div>
+					<div id="LinkContainer"  >
+						<div class="input-group input-group-sm reSet"> <span class="input-group-addon">Docker Link</span>
+							<select  ng-model="dockerLinkContainers.linkContainer" ng-repeat="box in boxesData" class="form-control ">
+           						<option value="">{{box.vagrantID}}</option>
+            				</select>
+					  		
+							</div>
+							<span class="syncFolderActions">
+								<button type="button" class="addPortBtn folderActions" ng-click="addLinkMapping()">
+									<i class="icon-plus-sign-alt"></i>
+								</button>
+							</span>
+							<span class="syncFolderActions">
+							<!--value="DeleteFolder" class="folderActions deleteFolder"-->
+								<button type="button"  class="folderActions" ng-click="deleteDockerLinkContainer($index)">
+									<i class="delete-icon"></i>
+								</button>
+							</span>
+						</div>
+					</div>
+					
+		  		</div>
+        	</div>
+        <div class="authDdBox" data-position="left" >
+          	<div class="ddBoxHeading">
+            	<div class="ddBoxTitle">Authentication</div>
+         	</div>
+          	<div id="collapse1_3" class="authDdBoxBody syncFolders">
+
+
+          		<div class="authSyncBox" ng-show="radioValue == 'sshImage'" >
+            		<div class="input-group input-group-sm reSet details_input">
+						<span class="input-group-addon">Username<sup>*</sup></span>
+						<input  class="form-control ng-pristine ng-valid ng-valid-pattern" ng-model="activeContainer.username"type="text"  >
+					</div>
+
+					<div class="input-group input-group-sm reSet details_input1">
+						<!-- <span class="input-group-addon" style="width:8%; background-color:#252525;">
+							<input type="radio" style="margin-top:5px;">
+						</span> -->
+						<span class="input-group-addon">Password<sup>*</sup></span>
+						<input id="cpuExecCap" class="form-control ng-pristine ng-valid ng-valid-pattern" type="text"  ng-model="activeContainer.password" placeholder="Password" >
+					</div>
+
+					<!-- <div class="input-group input-group-sm reSet details_input1">
+						<span class="input-group-addon" style="width:8%; background-color:#252525;">
+							<input type="radio" style="margin-top:5px;">
+						</span>
+						<span class="input-group-addon" >Key</span>
+						<span class="input-group-addon" style="width:8%">
+							<button type="button" ng-click="setUploadSettings('files',null);" title="click to upload new files" class="btn btn-default moduleOperations keyuploader" style="display:block">
+								<i class="icon-upload"></i>
+							</button>
+						</span>
+					</div> -->
+            	</div>
+          	</div>
+        </div>
+        <div class="ddBox" data-intro="Sections like this can be used to configure a node you select from the panel on the left" data-step="4" data-position="right"  style="bottom">
+          	<div class="ddBoxHeading">
+            	<div class="ddBoxTitle">Miscellaneous Details</div>
+          	</div>
+          	<div id="collapse1_4"class="ddBoxBody miscDetails">
+				<div class="input-group input-group-sm">
+					<span class="input-group-addon">VirtualBox Name</span>
+              		<input name="vboxName" id="vboxName" ng-model="activeContainer.provisionerName" ng-disabled="activeContainer === null" data-placement="bottom" title="Machine Name to set in VirtualBox GUI"
+			  		type="text" class="form-control">
+            	</div>
+            	<div class="input-group input-group-sm reSet details_input"> <span class="input-group-addon addon_width">CPU Exec Cap</span>
+              		<input name="cpuExecCap" 
+					ng-pattern="/^(4[0-9]|[1-3]\d)$/"
+					id="cpuExecCap" 
+					ng-model="activeContainer.cpuExecCap" 
+					ng-disabled="activeContainer === null" 
+					type="text" 
+					data-placement="bottom" 
+					title="Host Machine CPU usage in %age"
+					class="form-control"/>
+			  		<span class="input-group-addon" style="width:8%">%</span>
+            	</div>
+            	<div class="input-group input-group-sm reSet details_input1"> <span class="input-group-addon">Memory (RAM)</span>
+             		 <input name="memory" 
+					id="memory" 
+					type="text" 
+					ng-disabled="activeContainer === null" 
+					ng-model="activeContainer.memory" 
+					ng-pattern="/^(409[0-6]|40[1-8]\d|4[00][0-8]\d|[1-3](\d){3}|51[2-9]|5[2-9][1-9]|[6-9]\d{2})$/"
+					class="form-control">
+			 	 	<span class="input-group-addon" style="width:8%">MB</span>
+            	</div>
+			
+				<div class="input-group input-group-sm reSet details_input"> <span class="input-group-addon addon_width">Boot Timeout</span>
+              		<input name="bootTimeout" 
+					id="bootTimeout" 
+					type="text" 
+					ng-disabled="activeContainer === null" 
+					ng-model="activeContainer.bootTimeout" 
+					class="form-control"/>
+			  		<span class="input-group-addon" style="width:8%">Sec</span>
+            	</div>
+            	<div class="input-group reSet checkbox gui_required">
+					<label class="dec_right">
+						<input name="guiMode" 
+						id="guiMode" 
+						ng-disabled="activeContainer === null" 
+						ng-model="activeContainer.guiMode" 
+						data-placement="bottom" 
+						title="If unselected, the machine will start in headless mode" 
+						type="checkbox"> GUI Required
+					</label>
+				</div>
+          	</div>
+        </div>
+        <div class="syncDdBox" data-position="left" style="float:left;">
+          	<div class="ddBoxHeading">
+            	<div class="ddBoxTitle">Synced Folder</div>
+          	</div>
+          	<div id="collapse1_3" class="ddBoxBody syncFolders">
+          		<div class="syncBox">
+                                 
+                	<!-- ngRepeat: mapping in activeContainer.syncFolders -->
+                	<div id="vm_1_folder1" ng-repeat="mapping in activeContainer.syncFolders" class="ng-scope">
+						<div class="input-group input-group-sm reSet">
+							<span class="input-group-addon">Host-Folder</span>
+							<input name="hostFolder" id="hostFolder" type="text" ng-disabled="activeContainer === null" ng-model="mapping.hostFolder" title="Sync a folder on host machine to the guest machine" data-placement="bottom" class="form-control ng-pristine ng-valid">
+						</div>
+						<span class="syncFolderActions">
+							<button type="button" value="DeleteFolder" class="folderActions deleteFolder" ng-click="deleteFolderMapping($index)">
+								<i class="delete-icon"></i>
+							</button>
+						</span>
+						<div class="input-group input-group-sm reSet right"> <span class="input-group-addon">VM-Folder</span>
+							<input name="syncFolder" id="syncFolder" type="text" ng-disabled="activeContainer === null" ng-model="mapping.vmFolder" class="form-control ng-pristine ng-valid">
+						</div>
+                	</div><!-- end ngRepeat: mapping in activeContainer.syncFolders -->
+            	</div>
+				<button type="button" name="folderAddBox1" id="folderAddBox1" class="addFolderBtn folderActions" ng-click="addSyncFolderMapping()">
+					<i class="icon-plus-sign-alt"></i>
+				</button>
+          	</div>
+        </div>
+        
+    </div>
+</div>

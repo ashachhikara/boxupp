@@ -1,0 +1,356 @@
+body {
+  background: #444546; }
+
+body.dashBoardStyling {
+  background: #FFF; }
+
+div.ng-leave {
+  opacity: 0; }
+
+div.ng-enter {
+  opacity: 1; }
+
+div {
+  transition-property: all;
+  transition-duration: 1.0s;
+  -webkit-transition-property: all;
+  /* Safari */
+  -webkit-transition-duration: 0.5s;
+  /* Safari */ }
+
+.secondaryNavClosed {
+  width: 0px;
+  padding: 0px; }
+
+/*.playAreaExpanded {
+	margin-left: 315px;
+}
+
+.playAreaNormal{
+	margin-left: 315px;	
+}*/
+a.navbar-brand {
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 11px; }
+
+header#topNavBar {
+  background: #3c454f; }
+
+div.mainNavElements {
+  background: #71B1D1;
+  padding-top: 20px;
+  overflow-y: auto;
+  overflow-x: hidden; }
+  div.mainNavElements div.panel {
+    border-radius: 0px; }
+    div.mainNavElements div.panel div.panel-heading {
+      border-radius: 0px; }
+      div.mainNavElements div.panel div.panel-heading a {
+        cursor: pointer; }
+        div.mainNavElements div.panel div.panel-heading a div.main-nav-icon {
+          font-size: 26px;
+          position: relative;
+          left: 0px; }
+        div.mainNavElements div.panel div.panel-heading a div.main-nav-label {
+          font-family: 'Open Sans', sans-serif;
+          text-transform: uppercase;
+          font-weight: 700;
+          font-size: 11px;
+          line-height: 11px;
+          position: absolute;
+          top: 38px;
+          left: 68px; }
+  div.mainNavElements .mainNavList {
+    margin-left: -15px;
+    margin-right: -15px; }
+    div.mainNavElements .mainNavList li.active a {
+      background: #FFFFFF;
+      color: black; }
+    div.mainNavElements .mainNavList li.active a:hover {
+      background: #FFFFFF; }
+    div.mainNavElements .mainNavList li a {
+      border-radius: 0px;
+      color: #FFFFFF; }
+      div.mainNavElements .mainNavList li a .main-nav-icon i {
+        font-size: 28px;
+        position: relative;
+        left: 4px; }
+      div.mainNavElements .mainNavList li a .main-nav-label {
+        font-family: 'Open Sans', sans-serif;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 11px;
+        line-height: 11px;
+        position: absolute;
+        top: 12px;
+        left: 65px; }
+    div.mainNavElements .mainNavList li a:hover {
+      background: #88D2F7;
+      cursor: pointer; }
+
+div.secondaryNavElements {
+  background: grey;
+  position: absolute;
+  top: 51px;
+  bottom: 0px; }
+  div.secondaryNavElements .secondaryNavList li.active a {
+    background: #FFFFFF;
+    color: black; }
+  div.secondaryNavElements .secondaryNavList li.active a:hover {
+    background: #FFFFFF; }
+  div.secondaryNavElements .secondaryNavList li a {
+    border-radius: 0px;
+    color: #FFFFFF; }
+    div.secondaryNavElements .secondaryNavList li a .main-nav-icon i {
+      font-size: 28px;
+      position: relative;
+      left: 4px; }
+    div.secondaryNavElements .secondaryNavList li a .main-nav-label {
+      font-family: 'Open Sans', sans-serif;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 11px;
+      line-height: 11px;
+      position: absolute;
+      top: 12px;
+      left: 65px; }
+  div.secondaryNavElements .secondaryNavList li a:hover {
+    background: #88D2F7;
+    cursor: pointer; }
+
+div.boxConfigs {
+  margin-left: 20px;
+  margin-top: 20px; }
+  div.boxConfigs ul li.active a {
+    border-radius: 0px;
+    -webkit-border-radius: 0px; }
+  div.boxConfigs ul li a {
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    background: #71B1D1;
+    color: #FFF;
+    cursor: pointer; }
+  div.boxConfigs ul li a:hover {
+    background: grey; }
+  div.boxConfigs div#boxConfigContent {
+    border: 1px solid #ddd;
+    border-top: none; }
+    div.boxConfigs div#boxConfigContent span.boxConfigTitles {
+      font-family: 'Open Sans', sans-serif;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 11px; }
+    div.boxConfigs div#boxConfigContent input {
+      border-radius: 0px;
+      -webkit-border-radius: 0px; }
+    div.boxConfigs div#boxConfigContent div.boxConfig {
+      margin-top: 15px; }
+    div.boxConfigs div#boxConfigContent div.tab-pane {
+      min-height: 320px; }
+    div.boxConfigs div#boxConfigContent div.boxConfigFxdTop {
+      max-height: 290px;
+      overflow-x: hidden;
+      overflow-y: auto; }
+    div.boxConfigs div#boxConfigContent div.boxConfigFxdBtm {
+      position: absolute;
+      cursor: pointer;
+      bottom: 10px; }
+
+div.panel {
+  background: none; }
+
+div#controlBar ul.controlBarList li a.controlBarBtns {
+  color: #FFF;
+  width: 100%;
+  cursor: pointer; }
+div#controlBar ul.controlBarList li a.controlBarBtns:hover {
+  background: #FFF; }
+
+div .collapseCtrlBar {
+  height: 0px; }
+div .normalCtrlBar {
+  height: 30px; }
+div .expandCtrlBar {
+  height: 400px; }
+
+div#ctrlBarPlayArea ul.ctrl-bar-sec-list li, div#ctrlBarPlayArea ul.ctrl-bar-main-list li {
+  overflow: auto; }
+  div#ctrlBarPlayArea ul.ctrl-bar-sec-list li a, div#ctrlBarPlayArea ul.ctrl-bar-main-list li a {
+    color: #FFF;
+    font-size: 26px;
+    border-radius: 0px;
+    height: 50px;
+    cursor: pointer; }
+  div#ctrlBarPlayArea ul.ctrl-bar-sec-list li a:hover, div#ctrlBarPlayArea ul.ctrl-bar-main-list li a:hover {
+    background-color: #46505C;
+    height: 50px; }
+div#ctrlBarPlayArea ul.ctrl-bar-sec-list li.active a, div#ctrlBarPlayArea ul.ctrl-bar-main-list li.active a {
+  background-color: #46505C; }
+div#ctrlBarPlayArea div.sub-section-header {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 100;
+  font-size: 22px;
+  line-height: 11px;
+  margin-bottom: 30px; }
+div#ctrlBarPlayArea div.ctrl-bar-sec-nav, div#ctrlBarPlayArea div.ctrl-bar-main-nav {
+  height: 165px;
+  border-right: 1px dashed #eee; }
+div#ctrlBarPlayArea div#ctrl-bar-play-area span.boxConfigTitles {
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 11px; }
+div#ctrlBarPlayArea div#ctrl-bar-play-area div.boxConfig {
+  margin-bottom: 10px; }
+  div#ctrlBarPlayArea div#ctrl-bar-play-area div.boxConfig input {
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    background: none;
+    color: #FFF; }
+div#ctrlBarPlayArea div.main-nav-label {
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 11px;
+  position: absolute;
+  top: 20px;
+  left: 54px; }
+div#ctrlBarPlayArea div.main-nav-icon {
+  float: left; }
+
+/*
+div.collapseCtrlBar{
+	height:0px;
+}
+
+div.expandCtrlBar{
+	height:30px;
+}*/
+div.login-container, div.registration-container {
+  background: #444546;
+  position: absolute;
+  top: 100px;
+  padding: 20px 15px 20px 15px;
+  color: white; }
+  div.login-container div.message-container, div.registration-container div.message-container {
+    position: relative;
+    top: 50px; }
+  div.login-container div.form-field, div.registration-container div.form-field {
+    margin-top: 15px;
+    width: 100%;
+    float: left; }
+    div.login-container div.form-field span.loginSpinner, div.login-container div.form-field span.newRegLoader, div.registration-container div.form-field span.loginSpinner, div.registration-container div.form-field span.newRegLoader {
+      position: absolute;
+      top: 2px;
+      right: 20px; }
+    div.login-container div.form-field div.fieldIcon, div.registration-container div.form-field div.fieldIcon {
+      font-size: 24px; }
+      div.login-container div.form-field div.fieldIcon a, div.registration-container div.form-field div.fieldIcon a {
+        width: 100%;
+        border-radius: 0px;
+        -webkit-border-radius: 0px; }
+    div.login-container div.form-field input, div.registration-container div.form-field input {
+      background: none;
+      border-radius: 0px;
+      -webkit-border-radius: 0px;
+      color: #FFF; }
+    div.login-container div.form-field input[type='button'], div.registration-container div.form-field input[type='button'] {
+      background: grey; }
+  div.login-container div.registrationAction a, div.registration-container div.registrationAction a {
+    cursor: pointer; }
+
+div.project-container {
+  position: absolute;
+  top: 100px; }
+  div.project-container div#newMachineModal div.modal-content {
+    top: 50px;
+    border-radius: 0px; }
+    div.project-container div#newMachineModal div.modal-content div.modal-body {
+      overflow: auto; }
+      div.project-container div#newMachineModal div.modal-content div.modal-body div.projectLogo {
+        height: 200px;
+        border-right: 1px solid #eee;
+        color: #71B1D1; }
+        div.project-container div#newMachineModal div.modal-content div.modal-body div.projectLogo i {
+          font-size: 75px; }
+      div.project-container div#newMachineModal div.modal-content div.modal-body div.boxConfig {
+        margin-bottom: 15px; }
+        div.project-container div#newMachineModal div.modal-content div.modal-body div.boxConfig div.boxConfigTitles {
+          font-family: 'Open Sans', sans-serif;
+          text-transform: uppercase;
+          font-weight: 700;
+          font-size: 11px;
+          line-height: 11px;
+          margin-bottom: 10px; }
+        div.project-container div#newMachineModal div.modal-content div.modal-body div.boxConfig input, div.project-container div#newMachineModal div.modal-content div.modal-body div.boxConfig select {
+          border-radius: 0px; }
+    div.project-container div#newMachineModal div.modal-content div.modal-header, div.project-container div#newMachineModal div.modal-content div.modal-footer {
+      color: #FFF;
+      background: #444546; }
+      div.project-container div#newMachineModal div.modal-content div.modal-header h4, div.project-container div#newMachineModal div.modal-content div.modal-footer h4 {
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        line-height: 11px;
+        font-weight: 100; }
+      div.project-container div#newMachineModal div.modal-content div.modal-header a, div.project-container div#newMachineModal div.modal-content div.modal-footer a {
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        line-height: 11px;
+        font-weight: 100; }
+  div.project-container span.titleText {
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+    line-height: 11px;
+    font-weight: 100;
+    color: #FFF; }
+  div.project-container a.titleTextAction {
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+    line-height: 11px;
+    font-weight: 300; }
+  div.project-container ul.projectsList {
+    list-style: none;
+    color: #FFF; }
+    div.project-container ul.projectsList li {
+      margin-bottom: 10px; }
+      div.project-container ul.projectsList li a {
+        display: block;
+        overflow: auto;
+        text-decoration: none;
+        cursor: pointer;
+        padding: 10px;
+        background: none;
+        border: 1px solid grey;
+        color: #FFF; }
+        div.project-container ul.projectsList li a div.projectLogo {
+          font-size: 35px;
+          float: left; }
+        div.project-container ul.projectsList li a div.projectTitle {
+          position: absolute;
+          left: 94px;
+          font-family: 'Open Sans', sans-serif;
+          text-transform: uppercase;
+          font-weight: 700;
+          font-size: 11px; }
+          div.project-container ul.projectsList li a div.projectTitle span {
+            color: #71B1D1; }
+        div.project-container ul.projectsList li a div.projectDesc {
+          position: absolute;
+          top: 32px;
+          left: 94px;
+          width: 66%;
+          font-family: 'Open Sans', sans-serif;
+          font-size: 12px; }
+      div.project-container ul.projectsList li a:hover {
+        background: #71B1D1;
+        color: #FFF; }
+        div.project-container ul.projectsList li a:hover div.projectTitle span {
+          color: #FFF; }
+
+/*# sourceMappingURL=trial.css.map */
