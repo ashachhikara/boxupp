@@ -53,19 +53,19 @@ public class MachineConfigurationBean {
 	private boolean guiMode;
 
 	@DatabaseField(useGetSet = true)
-	private boolean isPuppetMaster;
+	private boolean puppetMasterStatus;
 
 	@DatabaseField(useGetSet = true)
 	private String providerType;
 
 	@DatabaseField(useGetSet = true)
-	private boolean isShellMapped;
+	private boolean shellMappedStatus;
 
 	@DatabaseField(useGetSet = true)
-	private boolean isPuppetMapped;
+	private boolean puppetMappedStatus;
 
 	@DatabaseField(useGetSet = true)
-	private boolean isChefMapped;
+	private boolean chefMappedStatus;
 
 	@DatabaseField(useGetSet = true)
 	private String dockerImage;
@@ -74,7 +74,7 @@ public class MachineConfigurationBean {
 	private String username;
 
 	@DatabaseField(useGetSet = true)
-	private Password password;
+	private String password;
 
 	public Integer getMachineId() {
 		return machineId;
@@ -179,22 +179,15 @@ public class MachineConfigurationBean {
 		this.bootTimeout = bootTimeout;
 	}
 
-	public boolean isGuiMode() {
+	public boolean getGuiMode() {
 		return guiMode;
 	}
 
 	public void setGuiMode(boolean guiMode) {
 		this.guiMode = guiMode;
 	}
-
-	public boolean isPuppetMaster() {
-		return isPuppetMaster;
-	}
-
-	public void setPuppetMaster(boolean isPuppetMaster) {
-		this.isPuppetMaster = isPuppetMaster;
-	}
-
+	
+	
 	public String getProviderType() {
 		return providerType;
 	}
@@ -203,28 +196,36 @@ public class MachineConfigurationBean {
 		this.providerType = providerType;
 	}
 
-	public boolean isShellMapped() {
-		return isShellMapped;
+	public boolean getPuppetMasterStatus() {
+		return puppetMasterStatus;
 	}
 
-	public void setShellMapped(boolean isShellMapped) {
-		this.isShellMapped = isShellMapped;
+	public void setPuppetMasterStatus(boolean puppetMasterStatus) {
+		this.puppetMasterStatus = puppetMasterStatus;
 	}
 
-	public boolean isPuppetMapped() {
-		return isPuppetMapped;
+	public boolean isShellMappedStatus() {
+		return shellMappedStatus;
 	}
 
-	public void setPuppetMapped(boolean isPuppetMapped) {
-		this.isPuppetMapped = isPuppetMapped;
+	public void setShellMappedStatus(boolean shellMappedStatus) {
+		this.shellMappedStatus = shellMappedStatus;
 	}
 
-	public boolean isChefMapped() {
-		return isChefMapped;
+	public boolean isPuppetMappedStatus() {
+		return puppetMappedStatus;
 	}
 
-	public void setChefMapped(boolean isChefMapped) {
-		this.isChefMapped = isChefMapped;
+	public void setPuppetMappedStatus(boolean puppetMappedStatus) {
+		this.puppetMappedStatus = puppetMappedStatus;
+	}
+
+	public boolean isChefMappedStatus() {
+		return chefMappedStatus;
+	}
+
+	public void setChefMappedStatus(boolean chefMappedStatus) {
+		this.chefMappedStatus = chefMappedStatus;
 	}
 
 	public String getDockerImage() {
@@ -243,11 +244,11 @@ public class MachineConfigurationBean {
 		this.username = username;
 	}
 
-	public Password getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(Password password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
