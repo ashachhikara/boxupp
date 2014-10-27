@@ -55,6 +55,7 @@ public class DAOProvider {
 		try{
 			
 			providerDao = DaoManager.createDao(DBConnectionManager.getInstance().fetchDBConnection(), ProviderBean.class);
+			System.out.println(providerDao.toString());
 		}catch(SQLException e){
 			logger.error("Error initializing DAO access object for ProviderBean.class : "+e.getMessage());
 		}

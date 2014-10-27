@@ -204,7 +204,7 @@ public class MachineConfigurationBean {
 		this.puppetMasterStatus = puppetMasterStatus;
 	}
 
-	public boolean isShellMappedStatus() {
+	public boolean getShellMappedStatus() {
 		return shellMappedStatus;
 	}
 
@@ -212,7 +212,7 @@ public class MachineConfigurationBean {
 		this.shellMappedStatus = shellMappedStatus;
 	}
 
-	public boolean isPuppetMappedStatus() {
+	public boolean getPuppetMappedStatus() {
 		return puppetMappedStatus;
 	}
 
@@ -220,7 +220,7 @@ public class MachineConfigurationBean {
 		this.puppetMappedStatus = puppetMappedStatus;
 	}
 
-	public boolean isChefMappedStatus() {
+	public boolean getChefMappedStatus() {
 		return chefMappedStatus;
 	}
 

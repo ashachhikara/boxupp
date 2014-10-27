@@ -14,6 +14,10 @@ public class MachineProjectMapping {
 		this.machineConfig = machineConfig;
 	}
 	
+	public MachineProjectMapping(){
+		
+	}
+	
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
 	private Integer id;
 
