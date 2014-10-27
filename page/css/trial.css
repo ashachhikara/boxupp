@@ -212,6 +212,11 @@ div#ctrlBarPlayArea div#ctrl-bar-play-area div.boxConfig {
     border-radius: 0px;
     background: none;
     color: #FFF; }
+  div#ctrlBarPlayArea div#ctrl-bar-play-area div.boxConfig select {
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    background: none;
+    color: #FFF; }
 div#ctrlBarPlayArea div.main-nav-label {
   font-family: 'Open Sans', sans-serif;
   text-transform: uppercase;

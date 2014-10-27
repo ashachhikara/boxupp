@@ -1,4 +1,4 @@
-angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$timeout,vagrantStatus,executeCommand,retrieveMappings){
+angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,boxes,vagrantStatus,executeCommand,retrieveMappings){
 
 	$scope.boxuppMappings = {};
 	$scope.serverAddress = "http://"+window.location.host;
@@ -11,15 +11,19 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.outputConsole.boxuppExecuting = false;
 	$scope.outputConsole.boxuppOutputWindow = false;
 	$scope.providerValidation = false;
-	console.log($scope.bodyStyle);
+	
 	$scope.bodyStyle.applyDashBoardStyling = true;
-	console.log($scope.bodyStyle);
+	
 	$scope.vagrantCommands = {
 		0:"Choose what's best"
 	};
 	$scope.selectProviderPage = function(){
 		$scope.providerValidation = true;
 	}
+
+	boxes.fetchList($routeParams.projectID).then(function(response){
+		console.log(response);
+	});
 	
 	retrieveMappings.fetchMappings($scope.serverAddress,$scope).then(function(response){
 			if(response.data !== null){
@@ -225,7 +229,8 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	}
 	
 	$scope.shellScripts = [];
-	$scope.boxesData = [{
+	$scope.boxesData = [];
+	/*{
 							"vagrantID":"trialvm",
 							"hostName":"boxupp.test.machine",
 							"boxType":"Ubuntu",
@@ -247,7 +252,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 							"memory":"512",
 							"bootTimeout":"300",
 							"guiMode":false
-						}];
+						}*/
 	$scope.puppet = {
 		"manifests":[{"moFileName":"nodes.pp",
 					  "moFileSource":"# Sample nodes.pp file\n# Add master node \n# node \"puppet.vagrant.master.com\"\n# {\n# }\n# Add agent node \n# node \"puppet.vagrant.mysql.com\"\n# {\n    #Include modules to be added on the node in this format include module_name refer below e.g\n    #include haproxy\n# }",
