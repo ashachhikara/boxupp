@@ -17,14 +17,14 @@ public class Provider {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProviderBean> getAllProviders(){
-		return ProviderDAOManager.getInstance().readAllDB();
+		return ProviderDAOManager.getInstance().retriveProviders();
 	}
 	
 	@GET
 	@Path("/providers/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProviderBean getProviderData(@PathParam("id") String providerID){
-		return ProviderDAOManager.getInstance().readProvider(providerID);
+		return ProviderDAOManager.getInstance().read(providerID);
 		
 		
 	}

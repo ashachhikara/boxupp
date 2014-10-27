@@ -59,6 +59,7 @@ public class ProjectDAOManager implements DAOImplInterface  {
 //			if(rowsUpdated == 1) Utilities.getInstance().changeActiveDirectory(projectBean.getProjectId());
 			UserDAOManager.getInstance().populateMappingBean(projectBean, newData.get("owner").getValueAsText());
 			statusBean.setStatusCode(0);
+			statusBean.setData(projectBean);
 		}catch(SQLException e){
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
@@ -88,33 +89,25 @@ public class ProjectDAOManager implements DAOImplInterface  {
 		return statusBean;
 	}
 
-	
 	@Override
-	public <E> List<E> read(String id) {
-		List<ProjectBean> projectList = new ArrayList<ProjectBean>();
-		try {
-		if (projectForUserQuery == null) {
-			projectForUserQuery = makeProjectForUserQuery();
+	public <T>T read(String projectId) {
+		
+		ProjectBean project = null;
+		try{
+			project = projectDao.queryForId(Integer.parseInt(projectId));
+		}catch(SQLException e){
+			logger.error("Error querying the project from DB : " + e.getMessage());
 		}
-		projectForUserQuery.setArgumentHolderValue(0, UserDAOManager.userDetailDao.queryForId(Integer.parseInt(id)));
-		projectList = projectDao.query(projectForUserQuery);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return (List<E>)projectList;
+		return (T) project;
 	}
 
 	@Override
-	public StatusBean delete(String id) {
+	public StatusBean delete(String projectId) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			Utilities.getInstance().deleteProjectFile(projectDao.queryForId(Integer.parseInt(id)).getName());
-			projectDao.deleteById(Integer.parseInt(id));
-			List<ProjectProviderMappingBean> projectMappping = projectProviderMappingDao.queryForEq("projectId", Integer.parseInt(id));
+			Utilities.getInstance().deleteProjectFile(projectDao.queryForId(Integer.parseInt(projectId)).getName());
+			projectDao.deleteById(Integer.parseInt(projectId));
+			List<ProjectProviderMappingBean> projectMappping = projectProviderMappingDao.queryForEq("projectId", Integer.parseInt(projectId));
 				for(ProjectProviderMappingBean shellScript : projectMappping){
 					projectProviderMappingDao.delete(shellScript);
 				}
@@ -129,19 +122,6 @@ public class ProjectDAOManager implements DAOImplInterface  {
 		statusBean.setStatusMessage("Shell script deleted successfully");
 		return statusBean;
 	}
-
-	
-	/*@Override
-	public <T>T read(String id) {
-		ProjectBean project = null;
-		try{
-			project = projectDao.queryForId(Integer.parseInt(id));
-		}catch(SQLException e){
-			logger.error("Error querying the project from DB : " + e.getMessage());
-		}
-		return (T) project;
-	}*/
-
 	
 	public StatusBean createMappedDB(JsonNode newData) {
 		ProjectBean projectBean = new ProjectBean();
@@ -164,25 +144,22 @@ public class ProjectDAOManager implements DAOImplInterface  {
 		return statusBean;
 	}
 
-	
-	public <E> List<E> readMappedData(String mappedId) {
+	public <E> List<E> retriveProjectsForUser(String UserId) {
 		List<ProjectBean> projectList = new ArrayList<ProjectBean>();
 		try {
 			
 			List<UserProjectMapping> users = userProjectMappingDao.queryForAll();
-			for(UserProjectMapping user : users){
-				System.out.println(user.getId());
-			}
-			userProjectsQuery.setArgumentHolderValue(0,UserDAOManager.getInstance().userDetailDao.queryForId(Integer.parseInt(mappedId)));
+			userProjectsQuery.setArgumentHolderValue(0,UserDAOManager.getInstance().userDetailDao.queryForId(Integer.parseInt(UserId)));
 			projectList = projectDao.query(userProjectsQuery);
 			
 		} catch (NumberFormatException e) {
 			logger.error("Error parsing user ID : "+e.getMessage());
 		} catch (SQLException e) {
-			logger.error("Error fetching projects for user "+mappedId+ " : "+e.getMessage());
+			logger.error("Error fetching projects for user "+UserId+ " : "+e.getMessage());
 		}
 		return (List<E>)projectList;
 	}
+	
 	private PreparedQuery<ProjectBean> makeProjectForUserQuery(){
 		
 		QueryBuilder<UserProjectMapping, Integer> userPostQb = userProjectMappingDao.queryBuilder();
@@ -213,4 +190,6 @@ public class ProjectDAOManager implements DAOImplInterface  {
 		}
 		return provider;
 	}
+	
+
 }

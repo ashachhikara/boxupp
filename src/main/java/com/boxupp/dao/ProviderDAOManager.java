@@ -37,7 +37,7 @@ public class ProviderDAOManager implements DAOImplInterface {
 	}
 
 	
-	public <E> List<E> readAllDB() {
+	public <E> List<E> retriveProviders() {
 		List<ProviderBean> providerList = null;
 		try{
 			providerList = providerDao.queryForAll();
@@ -46,16 +46,12 @@ public class ProviderDAOManager implements DAOImplInterface {
 		}
 		return (List<E>) providerList;
 	}
+	
 	@Override
-	public <E> List< E> read(String id) {
-		return null;
-	
-	}
-	
-	public <T>T readProvider(String id) {
+	public <T>T read(String providerId) {
 		ProviderBean providerBean= null;
 		try{
-			providerBean = providerDao.queryForId(Integer.parseInt(id));
+			providerBean = providerDao.queryForId(Integer.parseInt(providerId));
 		}catch(SQLException e){
 			logger.error("Error querying the providers list from DB : " + e.getMessage());
 		}
@@ -70,24 +66,6 @@ public class ProviderDAOManager implements DAOImplInterface {
 
 	@Override
 	public StatusBean delete(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public StatusBean createMappedDB(String MappedId, JsonNode newData) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public <E> List<E> readMappedData(String MappedId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public <T> T populateMappingBean(T mappingBean, String...ids) {
 		// TODO Auto-generated method stub
 		return null;
 	}

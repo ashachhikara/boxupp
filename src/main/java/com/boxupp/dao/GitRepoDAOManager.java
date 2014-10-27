@@ -70,7 +70,7 @@ public class GitRepoDAOManager implements DAOImplInterface {
 
 
 	@Override
-	public <E> List<E> read(String id) {
+	public<T>T read(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

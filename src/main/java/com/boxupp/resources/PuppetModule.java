@@ -16,10 +16,9 @@ import org.codehaus.jackson.JsonNode;
 import com.boxupp.dao.ProjectDAOManager;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.responseBeans.StatusBean;
-
+@Path("/puppetModule/")
 public class PuppetModule {
 	@POST 
-	@Path("/puppetModule")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes("application/json")
 	public StatusBean savePuppetModule(JsonNode newPuppetModuleData) {
@@ -27,10 +26,10 @@ public class PuppetModule {
 	}
 	
 	@GET
-	@Path("/puppetModule/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<PuppetModuleBean> getPuppetModules(@PathParam("id") String projectId) {
-		return ProjectDAOManager.getInstance().read(projectId);
+	public List<PuppetModuleBean> getPuppetModules(@PathParam("id") String puppetModuleId) {
+		return ProjectDAOManager.getInstance().read(puppetModuleId);
 	}
 	
 	@POST 
@@ -42,7 +41,7 @@ public class PuppetModule {
 	}
 	
 	@DELETE 
-	@Path("/puppetModule/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StatusBean deletePuppetModule(@PathParam("id") String puppetModuleId) {
 		return ProjectDAOManager.getInstance().delete(puppetModuleId);

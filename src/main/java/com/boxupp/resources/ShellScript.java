@@ -16,7 +16,7 @@ import org.codehaus.jackson.JsonNode;
 import com.boxupp.dao.ShellScriptDAOManager;
 import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.responseBeans.StatusBean;
-
+@Path("/shellScript/")
 public class ShellScript {
 	@POST 
 	@Path("/shellScript")
@@ -26,10 +26,10 @@ public class ShellScript {
 		return ShellScriptDAOManager.getInstance().create(newShellScriptData);
 	}
 	@GET
-	@Path("/shellScript/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ShellScriptBean> getShellScripts(@PathParam("id") String projectId) {
-		return ShellScriptDAOManager.getInstance().read(projectId);
+	public ShellScriptBean getShellScripts(@PathParam("id") String shellScriptId) {
+		return ShellScriptDAOManager.getInstance().read(shellScriptId);
 	}
 	
 	@GET 
@@ -42,7 +42,7 @@ public class ShellScript {
 	}
 	
 	@DELETE
-	@Path("/deleteShellScript/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StatusBean deleteShellScript(@PathParam("id") String shellScriptId) {
 		return ShellScriptDAOManager.getInstance().delete(shellScriptId);

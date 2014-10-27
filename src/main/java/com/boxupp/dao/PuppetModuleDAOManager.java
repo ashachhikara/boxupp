@@ -13,7 +13,10 @@ import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
+import com.boxupp.db.beans.UserDetailBean;
 import com.boxupp.responseBeans.StatusBean;
+import com.boxupp.utilities.PuppetUtilities;
+import com.boxupp.utilities.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.j256.ormlite.dao.Dao;
@@ -99,11 +102,12 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 	}
 
 	@Override
-	public StatusBean delete(String id) {
+	public StatusBean delete(String puppetModuleId) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			puppetModuleDao.deleteById(Integer.parseInt(id));
-			List<PuppetModuleMapping> puppetModuleMappping = puppetModuleMappingDao.queryForEq("puppetId", Integer.parseInt(id));
+			PuppetUtilities.getInstance().deletePuppetModule(puppetModuleDao.queryForId(Integer.parseInt(puppetModuleId)).getModuleName());
+			puppetModuleDao.deleteById(Integer.parseInt(puppetModuleId));
+			List<PuppetModuleMapping> puppetModuleMappping = puppetModuleMappingDao.queryForEq("puppetId", Integer.parseInt(puppetModuleId));
 				for(PuppetModuleMapping puppetModule : puppetModuleMappping){
 					puppetModuleMappingDao.delete(puppetModule);
 				}
@@ -117,10 +121,19 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 		statusBean.setStatusMessage("Puppet module deleted successfully");
 		return statusBean;
 	}
-
-	
 	@Override
-	public <E>List <E> read(String projectId) {
+	public <T>T read(String puppetModuleId) {
+		PuppetModuleBean puppetModule = null;
+		try{
+			puppetModule = puppetModuleDao.queryForId(Integer.parseInt(puppetModuleId));
+		}catch(SQLException e){
+			logger.error("Error querying the module from DB : " + e.getMessage());
+		}
+		return  (T)puppetModule;
+	}
+	
+	
+	public <E>List <E> retriveModulesForProject(String projectId) {
 		List<PuppetModuleBean> puppetModuleList = new ArrayList<PuppetModuleBean>();
 		try {
 			if (moduleForProjectQuery == null) {

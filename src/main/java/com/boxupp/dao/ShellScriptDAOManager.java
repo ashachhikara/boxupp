@@ -11,6 +11,7 @@ import org.codehaus.jackson.JsonNode;
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.ProjectBean;
+import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.responseBeans.StatusBean;
@@ -99,12 +100,12 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 	}
 */
 	
-	public StatusBean delete(String id) {
+	public StatusBean delete(String shellScriptId) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			Utilities.getInstance().deleteScriptfileOnDisk(shellScriptDao.queryForId(Integer.parseInt(id)).getScriptName());
-			shellScriptDao.deleteById(Integer.parseInt(id));
-			List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq("script_id", Integer.parseInt(id));
+			Utilities.getInstance().deleteScriptfileOnDisk(shellScriptDao.queryForId(Integer.parseInt(shellScriptId)).getScriptName());
+			shellScriptDao.deleteById(Integer.parseInt(shellScriptId));
+			List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq("script_id", Integer.parseInt(shellScriptId));
 				for(ShellScriptMapping shellScript : shellscriptMappping){
 					shellScriptMappingDao.delete(shellScript);
 				}
@@ -118,9 +119,20 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		statusBean.setStatusMessage("Shell script deleted successfully");
 		return statusBean;
 	}
-
 	@Override
-	public <E> List<E> read(String projectId) {
+	public <T> T read(String scriptId) {
+		ShellScriptBean shellScript = null;
+		try{
+			shellScript = shellScriptDao.queryForId(Integer.parseInt(scriptId));
+		}catch(SQLException e){
+			logger.error("Error querying the script from DB : " + e.getMessage());
+		}
+		return  (T)shellScript;
+		
+	}
+
+	
+	public <E> List<E> retriveScriptsForProject(String projectId) {
 		List<ShellScriptBean> shellScriptList = new ArrayList<ShellScriptBean>();
 		try {
 		if (scriptForProjectQuery == null) {

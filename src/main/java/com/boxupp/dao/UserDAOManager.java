@@ -1,9 +1,6 @@
 package com.boxupp.dao;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,32 +67,28 @@ public class UserDAOManager implements DAOImplInterface{
 	}
 
 	@Override
-	public StatusBean delete(String id) {
+	public StatusBean delete(String userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	@Override
-	public <E> List<E> read(String id){
-		return null;
-		
-	}
-	public UserDetailBean readUserDetail(String id) {
+	
+	public <T>T read(String userId) {
 		UserDetailBean userDetail = null;
 		try{
-			userDetail = userDetailDao.queryForId(Integer.parseInt(id));
+			userDetail = userDetailDao.queryForId(Integer.parseInt(userId));
 		}catch(SQLException e){
 			logger.error("Error querying the user from DB : " + e.getMessage());
 		}
-		return  userDetail;
+		return  (T)userDetail;
 	}
 
-	public <T> T populateMappingBean(T mappingBean, String userID) {
+	public <T> T populateMappingBean(T mappingBean, String userId) {
 
 		UserProjectMapping userProjectMappingBean = null;
 		try {
-			System.out.println(Integer.parseInt(userID));
+			System.out.println(Integer.parseInt(userId));
 //			userProjectMappingBean = new UserProjectMapping(userDetailDao.queryForId(Integer.parseInt(ids[0])), (ProjectBean) mappingBean);
-			userProjectMappingBean = new UserProjectMapping(userDetailDao.queryForId(Integer.parseInt(userID)), (ProjectBean) mappingBean);
+			userProjectMappingBean = new UserProjectMapping(userDetailDao.queryForId(Integer.parseInt(userId)), (ProjectBean) mappingBean);
 			userProjectMappingDao.create(userProjectMappingBean);
 		} catch (SQLException e) {
 			e.printStackTrace();

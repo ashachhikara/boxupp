@@ -123,16 +123,26 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		statusBean.setStatusMessage("Machine Congifuration delete successfully");
 		return statusBean;
 	}
-
-	
 	@Override
-	public <E> List<E> read(String id) {
+	public <T>T read(String machineId) {
+		
+		MachineConfigurationBean machineConfig = null;
+		try{
+			machineConfig = machineConfigDao.queryForId(Integer.parseInt(machineId));
+		}catch(SQLException e){
+			logger.error("Error querying the machineconfig from DB : " + e.getMessage());
+		}
+		return (T) machineConfig;
+	}
+	
+
+	public <E> List<E> retriveBoxesForProject(String projectId) {
 		List<MachineConfigurationBean> machineList = new ArrayList<MachineConfigurationBean>();
 		try {
 		if (machineForProjectQuery == null) {
 			machineForProjectQuery =  makeMachineForProjectQuery();
 		}
-		 machineForProjectQuery.setArgumentHolderValue(0, ProjectDAOManager.projectDao.queryForId(Integer.parseInt(id)));
+		 machineForProjectQuery.setArgumentHolderValue(0, ProjectDAOManager.projectDao.queryForId(Integer.parseInt(projectId)));
 		 machineList = machineConfigDao.query(machineForProjectQuery);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block

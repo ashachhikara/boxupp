@@ -1,7 +1,5 @@
 package com.boxupp.dao;
 
-import java.util.List;
-
 import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.responseBeans.StatusBean;
@@ -9,7 +7,7 @@ import com.boxupp.responseBeans.StatusBean;
 public interface DAOImplInterface {
 	public StatusBean create(JsonNode data);
 	
-	public <E> List<E> read(String id);
+	public <T>T read(String id);
 	
 	public StatusBean update(JsonNode updatedData);
 	

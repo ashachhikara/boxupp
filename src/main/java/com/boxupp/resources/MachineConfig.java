@@ -1,7 +1,5 @@
 package com.boxupp.resources;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,10 +14,9 @@ import org.codehaus.jackson.JsonNode;
 import com.boxupp.dao.MachineConfigDAOManager;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.responseBeans.StatusBean;
-
+@Path("/machineConfig/")
 public class MachineConfig {
 	@POST 
-	@Path("/machineConfig")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes("application/json")
 	public StatusBean saveMachineConfiguration(JsonNode mappings) {
@@ -27,10 +24,10 @@ public class MachineConfig {
 	}
 	
 	@GET
-	@Path("/machineConfig/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<MachineConfigurationBean> getMachineConfig(@PathParam("id") String projectId) {
-		return MachineConfigDAOManager.getInstance().read(projectId);
+	public MachineConfigurationBean getMachineConfig(@PathParam("id") String machineId) {
+		return MachineConfigDAOManager.getInstance().read(machineId);
 	}
 	@POST 
 	@Path("/updateMachineConfig")
@@ -41,10 +38,11 @@ public class MachineConfig {
 	}
 	
 	@DELETE
-	@Path("/machineConfig/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StatusBean deleteMachineConfiguration(@PathParam("id") String machineID) {
-		return MachineConfigDAOManager.getInstance().delete(machineID);
+	public StatusBean deleteMachineConfiguration(@PathParam("id") String machineId) {
+		return MachineConfigDAOManager.getInstance().delete(machineId);
 	}
+	
 	
 }

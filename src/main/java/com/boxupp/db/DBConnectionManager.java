@@ -9,7 +9,11 @@ import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ProviderBean;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.ShellScriptBean;
+<<<<<<< Updated upstream
 import com.boxupp.db.beans.UserProjectMapping;
+=======
+import com.boxupp.db.beans.UserDetailBean;
+>>>>>>> Stashed changes
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -59,9 +63,10 @@ public class DBConnectionManager {
 			TableUtils.dropTable(connectionSource, UserProjectMapping.class, true);
 //			TableUtils.dropTable(connectionSource, UserDetailBean.class, true);
 //			
-			TableUtils.dropTable(connectionSource, ShellScriptBean.class, false);
+			//TableUtils.D(connectionSource, UserDetailBean.class, false);
+			//TableUtils.dropTable(connectionSource, ShellScriptBean.class, false);
 			
-			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, false);
+			//TableUtils.dropTable(connectionSource, PuppetModuleBean.class, false);
 //			
 //			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, true);
 //			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, true);
@@ -75,8 +80,9 @@ public class DBConnectionManager {
 //			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
 			TableUtils.createTable(connectionSource, UserProjectMapping.class);
 //			TableUtils.createTable(connectionSource, UserDetailBean.class);
-//			
-			TableUtils.createTable(connectionSource, ShellScriptBean.class);
+			TableUtils.createTableIfNotExists(connectionSource, UserDetailBean.class);
+			TableUtils.createTableIfNotExists(connectionSource, ProviderBean.class);
+			TableUtils.createTableIfNotExists(connectionSource, ShellScriptBean.class);
 			
 			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
 //			
@@ -135,9 +141,6 @@ public class DBConnectionManager {
 		ProviderBean provider2 = new ProviderBean();
 		provider2.setDisabled(false);
 		provider2.setName("Docker");
-		
-		
-		
 		DAOProvider.getInstance().fetchProviderDao().create(provider2);
 		System.out.println("Done");
 	}
