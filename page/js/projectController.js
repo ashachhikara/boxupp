@@ -10,7 +10,7 @@ angular.module("boxuppApp").controller('projectController',function($scope,Proje
 	});
 
 	$scope.providers = Providers.query(function(){
-
+		console.log($scope.providers);
 		//Queries all the providers stored in the database
 		
 	});

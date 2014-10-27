@@ -44,8 +44,8 @@
 					            	</div>
 					            	<div class="boxConfig col-sm-10"> 
 					            		<div class="boxConfigTitles">Select a provider type<sup>*</sup></div>
-						            	<select name="providerNames" ng-model="newProject.providerType" ng-options="provider.id as provider.name for provider in providers" class="form-control">
-		    								<option value="">Select Provider type</option>
+						            	<select name="providerNames" ng-model="newProject.providerType" ng-options="provider.providerId as provider.name for provider in providers" class="form-control">
+		    								<option value="" >Select a provider</option>
 										</select>
 					            	</div>
 			        			</div>
@@ -58,7 +58,7 @@
 			    </div>
 			  </div>
 			</div>
-
+			<span style="color:#FFF; position:fixed; top:20px; left:20px;">Data{{newProject.providerType}}</span>
 			<div class="col-md-offset-1 col-md-10" >
 				<div class="projects">
 					<ul class="projectsList">
