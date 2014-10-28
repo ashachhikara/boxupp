@@ -17,7 +17,7 @@ public class Provider {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProviderBean> getAllProviders(){
-		return ProviderDAOManager.getInstance().retriveProviders();
+		return ProviderDAOManager.getInstance().retireveProviders();
 	}
 	
 	@GET
