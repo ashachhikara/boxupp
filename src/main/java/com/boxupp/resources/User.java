@@ -41,6 +41,6 @@ public class User {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProjectBean> getAllProjectsList(@PathParam("id") String userId){
 		
-		return ProjectDAOManager.getInstance().retriveProjectsForUser(userId);
+		return ProjectDAOManager.getInstance().retireveProjectsForUser(userId);
 	}
 }
