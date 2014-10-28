@@ -21,7 +21,7 @@ public class Provider {
 	}
 	
 	@GET
-	@Path("/providers/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProviderBean getProviderData(@PathParam("id") String providerID){
 		return ProviderDAOManager.getInstance().read(providerID);
