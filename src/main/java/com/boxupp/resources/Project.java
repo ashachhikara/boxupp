@@ -37,7 +37,7 @@ public class Project {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes("application/json")
 	public StatusBean createNewProject(JsonNode newProjectData){
-		return ProjectDAOManager.getInstance().createMappedDB(newProjectData);
+		return ProjectDAOManager.getInstance().create(newProjectData);
 	}
 	
 	

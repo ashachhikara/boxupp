@@ -29,6 +29,7 @@ public class MachineConfig {
 	public MachineConfigurationBean getMachineConfig(@PathParam("id") String machineId) {
 		return MachineConfigDAOManager.getInstance().read(machineId);
 	}
+	
 	@POST 
 	@Path("/updateMachineConfig")
 	@Produces(MediaType.APPLICATION_JSON)
