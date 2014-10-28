@@ -52,19 +52,19 @@ public class Project {
 	@Path("/getScripts/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ShellScriptBean> getAllShellScriptsList(@PathParam("id") String projectId){
-		return ShellScriptDAOManager.getInstance().retriveScriptsForProject(projectId);
+		return ShellScriptDAOManager.getInstance().retireveScriptsForProject(projectId);
 	}
 	@GET
 	@Path("/getBoxes/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<MachineConfigurationBean> getAllMachinConfigsList(@PathParam("id") String projectId){
-		return  MachineConfigDAOManager.getInstance().retriveBoxesForProject(projectId);
+		return  MachineConfigDAOManager.getInstance().retireveBoxesForProject(projectId);
 	}
 	@GET
 	@Path("/getModules/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<PuppetModuleBean> getAllPuppetModulesList(@PathParam("id") String projectId){
-		return  PuppetModuleDAOManager.getInstance().retriveModulesForProject(projectId);
+		return  PuppetModuleDAOManager.getInstance().retireveModulesForProject(projectId);
 	}
 	
 	

@@ -136,7 +136,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	}
 	
 
-	public <E> List<E> retriveBoxesForProject(String projectId) {
+	public <E> List<E> retireveBoxesForProject(String projectId) {
 		List<MachineConfigurationBean> machineList = new ArrayList<MachineConfigurationBean>();
 		try {
 		if (machineForProjectQuery == null) {

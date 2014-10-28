@@ -37,7 +37,7 @@ public class ProviderDAOManager implements DAOImplInterface {
 	}
 
 	
-	public <E> List<E> retriveProviders() {
+	public <E> List<E> retireveProviders() {
 		List<ProviderBean> providerList = null;
 		try{
 			providerList = providerDao.queryForAll();

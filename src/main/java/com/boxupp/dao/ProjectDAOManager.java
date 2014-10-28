@@ -144,7 +144,7 @@ public class ProjectDAOManager implements DAOImplInterface  {
 		return statusBean;
 	}
 
-	public <E> List<E> retriveProjectsForUser(String UserId) {
+	public <E> List<E> retireveProjectsForUser(String UserId) {
 		List<ProjectBean> projectList = new ArrayList<ProjectBean>();
 		try {
 			

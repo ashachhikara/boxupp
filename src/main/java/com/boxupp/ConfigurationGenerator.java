@@ -42,8 +42,7 @@ public class ConfigurationGenerator {
 	}
 
 	//Note: The output after template merger can also be redirected to a file on disk //
-	 public static boolean generateConfig(
-			List<MachineConfigurationBean> machineConfigList,
+	 public static boolean generateConfig(List<MachineConfigurationBean> machineConfigList,
 			List<PuppetModuleBean> puppetModules,
 			List<ShellScriptBean> shellScripts,
 			List<ShellScriptMapping> scriptMappings,

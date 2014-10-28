@@ -133,7 +133,7 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 	}
 	
 	
-	public <E>List <E> retriveModulesForProject(String projectId) {
+	public <E>List <E> retireveModulesForProject(String projectId) {
 		List<PuppetModuleBean> puppetModuleList = new ArrayList<PuppetModuleBean>();
 		try {
 			if (moduleForProjectQuery == null) {

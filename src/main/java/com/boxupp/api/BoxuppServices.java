@@ -3,14 +3,18 @@ package com.boxupp.api;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,6 +34,9 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import com.boxupp.ConfigurationGenerator;
 import com.boxupp.FileManager;
@@ -47,6 +54,7 @@ import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.responseBeans.BoxURLResponse;
 import com.boxupp.responseBeans.ProjectConfig;
+import com.boxupp.responseBeans.SearchModuleBean;
 import com.boxupp.responseBeans.SnapshotData;
 import com.boxupp.responseBeans.SnapshotStatus;
 import com.boxupp.responseBeans.StatusBean;
@@ -164,11 +172,9 @@ public class BoxuppServices {
 		
 			puppetModuleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryForEq("project",ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectId)));
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		String provider  = ProjectDAOManager.getInstance().getProviderForProject(projectId);
 	
@@ -258,9 +264,60 @@ public class BoxuppServices {
 		return urlResponse;
 	}
 	@GET
+	@Path("/searchPuppetModule")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<SearchModuleBean> searchPuppetModule(@Context HttpServletRequest request) {
+		List <SearchModuleBean> moduleList = new ArrayList<SearchModuleBean>();
+		String module = request.getParameter("query");
+		String url = "https://forgeapi.puppetlabs.com:443/v3/modules?query="+module;
+		
+		try {
+			HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+			con.setRequestMethod("GET");
+			con.setRequestProperty("owner", request.getParameter("owner"));
+			con.setRequestProperty("tag", request.getParameter("tag"));
+			con.setRequestProperty("show+deleted", request.getParameter("show+deleted"));
+			con.setRequestProperty("sort_by", request.getParameter("sort_by"));
+			con.setRequestProperty("operatingsystem", request.getParameter("operatingsystem"));
+			con.setRequestProperty("supported", request.getParameter("supported"));
+			con.setRequestProperty("pe_requirement", request.getParameter("pe_requirement"));
+			con.setRequestProperty("puppet_requirement", request.getParameter("puppet_requirement"));
+			con.setRequestProperty("limit", request.getParameter("limit"));
+			con.setRequestProperty("offset", request.getParameter("offset"));
+			con.setRequestProperty("If-Modified-Since", request.getParameter("If-Modified-Since"));
+			con.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				String inputLine;
+				StringBuilder response = new StringBuilder();
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
+				JSONObject o = new JSONObject(response.toString());
+				JSONArray jsonArray = o.getJSONArray("results");
+					for(int i=0; i<jsonArray.length(); i++){
+						SearchModuleBean searchModule = new SearchModuleBean();
+						JSONObject currentRelease = (JSONObject) ((JSONObject) jsonArray.get(i)).get("current_release");
+						searchModule.setFileUri(currentRelease.get("file_uri").toString());
+						searchModule.setModuleName(((JSONObject)currentRelease.get("metadata")).get("name").toString());
+						moduleList.add(searchModule);
+					}
+					
+			} catch (ProtocolException e) {
+				logger.error("Error in searching module :"+e.getMessage());
+			} catch (IOException e) {
+				logger.error("Error in searching module :"+e.getMessage());
+			} catch (JSONException e) {
+				logger.error("Error in searching module :"+e.getMessage());
+			}
+		return moduleList;
+	}
+
+	@GET
 	@Path("/downloadPuppetModule")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String dowunloadPuppetModule(@Context HttpServletRequest request) {
+	public StatusBean dowunloadPuppetModule(@Context HttpServletRequest request) {
+		StatusBean statusBean = new StatusBean();
 		String fileURL = request.getParameter("fileUrl");
 		URL url = null;
 		int responseCode = 0;
@@ -276,23 +333,17 @@ public class BoxuppServices {
 			// always check HTTP response code first
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				String fileName = "";
-				String disposition = httpConn
-						.getHeaderField("Content-Disposition");
-				String contentType = httpConn.getContentType();
-				int contentLength = httpConn.getContentLength();
-
+				String disposition = httpConn.getHeaderField("Content-Disposition");
+				
 				if (disposition != null) {
 					// extracts file name from header field
 					int index = disposition.indexOf("filename=");
 					if (index > 0) {
-						fileName = disposition.substring(index + 9,
-								disposition.length());
-
+						fileName = disposition.substring(index + 9,	disposition.length());
 					}
 				} else {
 					// extracts file name from URL
-					fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1,
-							fileURL.length());
+					fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1, fileURL.length());
 				}
 
 				// opens input stream from the HTTP connection
@@ -311,25 +362,24 @@ public class BoxuppServices {
 
 				outputStream.close();
 				inputStream.close();
-				
-				System.out.println("File downloaded");
+				logger.info("File downloaded");
 				extrectFile(saveFilePath, saveDir);
 				File file = new File(saveFilePath);
 				file.delete();
 			
 			} else {
-				System.out
-						.println("No file to download. Server replied HTTP code: "
-								+ responseCode);
+				logger.info("No file to download. Server replied HTTP code: "+ responseCode);
 			}
 			httpConn.disconnect();
+			statusBean.setStatusCode(0);
+			statusBean.setStatusMessage(" Module Downloaded successfully ");
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
+			logger.error("Error in loading module :" +e.getMessage());
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error in loading module :" +e.getMessage());
 		}
-		return null;
+		return statusBean;
 
 	}
 
@@ -338,51 +388,34 @@ public class BoxuppServices {
 		try {
 			File file = new File(saveFilePath);
 			FileInputStream fin = new FileInputStream(file);
-
 			BufferedInputStream in = new BufferedInputStream(fin);
-
 			GzipCompressorInputStream gzIn = new GzipCompressorInputStream(in);
-
 			TarArchiveInputStream tarIn = new TarArchiveInputStream(gzIn);
-
 			TarArchiveEntry entry = null;
 
 			while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
 
-				System.out.println("Extracting: " + entry.getName());
-
 				/** If the entry is a directory, create the directory. **/
-
 				if (entry.isDirectory()) {
-
 					File f = new File(saveDir + entry.getName());
-
 					f.mkdirs();
-
 				} else {
-
 					int count;
 					byte data[] = new byte[4096];
-					FileOutputStream fos;
-
-					fos = new FileOutputStream(saveDir + entry.getName());
-					BufferedOutputStream dest = new BufferedOutputStream(fos,
-							4096);
+					FileOutputStream fos = new FileOutputStream(saveDir + entry.getName());
+					BufferedOutputStream dest = new BufferedOutputStream(fos, 4096);
 					while ((count = tarIn.read(data, 0, 4096)) != -1) {
 						dest.write(data, 0, count);
 					}
 					dest.close();
-
 					/** Close the input stream **/
 				}
 			}
 			tarIn.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in unzip the module file :"+e.getMessage());
 		}
-
-		System.out.println("untar completed successfully!!");
+		logger.info("untar completed successfully!!");
 
 	}
 

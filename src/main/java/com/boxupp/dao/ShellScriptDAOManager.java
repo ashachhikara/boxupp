@@ -132,7 +132,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 	}
 
 	
-	public <E> List<E> retriveScriptsForProject(String projectId) {
+	public <E> List<E> retireveScriptsForProject(String projectId) {
 		List<ShellScriptBean> shellScriptList = new ArrayList<ShellScriptBean>();
 		try {
 		if (scriptForProjectQuery == null) {
