@@ -14,6 +14,10 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	
 	$scope.bodyStyle.applyDashBoardStyling = true;
 	
+	$scope.resetCtrlBarSecNav = function(){
+		$('ul.ctrl-bar-sec-list li').removeClass('active');
+	}
+
 	$scope.vagrantCommands = {
 		0:"Choose what's best"
 	};
