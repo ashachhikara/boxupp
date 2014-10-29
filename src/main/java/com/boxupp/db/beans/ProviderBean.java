@@ -10,7 +10,7 @@ public class ProviderBean {
 	private Integer providerId;
 	
 
-	@DatabaseField(useGetSet = true)
+	@DatabaseField(useGetSet = true, unique = true)
 	private String name;
 	
 	@DatabaseField(useGetSet = true)

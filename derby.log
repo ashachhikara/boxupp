@@ -1,15 +1,8 @@
 ----------------------------------------------------------------
-<<<<<<< Updated upstream
-Mon Oct 27 18:11:48 IST 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0149-51a0-6b4a-0000046051d0 
-on database directory D:\Workspace\boxupp\boxupp-tool\boxupp with class loader sun.misc.Launcher$AppClassLoader@307b37df 
-Loaded from file:/C:/Users/Paxcel%20Technologies/.m2/repository/org/apache/derby/derby/10.11.1.1/derby-10.11.1.1.jar
-=======
-Mon Oct 27 17:45:04 IST 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0149-5187-f047-00000400d358 
-on database directory /home/asha/boxupp-tool/boxupp with class loader sun.misc.Launcher$AppClassLoader@5e970110 
+Wed Oct 29 11:34:32 IST 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0149-5a81-6db4-000008a37cf8 
+on database directory /home/asha/boxupp-tool/boxupp with class loader java.net.URLClassLoader@307b7258 
 Loaded from file:/home/asha/.m2/repository/org/apache/derby/derby/10.11.1.1/derby-10.11.1.1.jar
->>>>>>> Stashed changes
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_65-b32
 user.dir=/home/asha/boxupp-tool

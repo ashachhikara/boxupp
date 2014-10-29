@@ -11,6 +11,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.outputConsole.boxuppExecuting = false;
 	$scope.outputConsole.boxuppOutputWindow = false;
 	$scope.providerValidation = false;
+	$scope.quickBox = {};
 	
 	$scope.bodyStyle.applyDashBoardStyling = true;
 	
@@ -24,6 +25,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	boxes.fetchList($routeParams.projectID).then(function(response){
 		console.log(response);
 	});
+
 	
 	retrieveMappings.fetchMappings($scope.serverAddress,$scope).then(function(response){
 			if(response.data !== null){
@@ -274,12 +276,12 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		if(!$scope.vagrantSelection.vagrantID.$error.pattern && 
 			!$scope.vagrantSelection.vagrantID.$error.maxlength && 
 			!$scope.vagrantSelection.vagrantID.$error.required){
-		var vagrantID = "";
-		vagrantID = $scope.activeVM.vagrantID +"";
-		if(vagrantID.length>8){
-			vagrantID = vagrantID.substring(0,8);
-			$scope.activeVM.vagrantID = vagrantID;
-		}
+			var vagrantID = "";
+			vagrantID = $scope.activeVM.vagrantID +"";
+			if(vagrantID.length>8){
+				vagrantID = vagrantID.substring(0,8);
+				$scope.activeVM.vagrantID = vagrantID;
+			}
 		}
 	}
 	
@@ -481,7 +483,15 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 				configData.cookbooksChangeFlag
 			);
 	}
-	
+	$scope.createBoxes = function(){
+		$scope.quickBox.projectID = $routeParams.projectID;
+		Boxes.save($scope.quickBox,function(data){
+				$scope.quickBox.push(angular.copy(data.beanData));
+				$scope.quickBox = {};
+				//Reset form pristine state
+				//$scope.quickBoxData.$setPristine();
+			});
+	}
 	
 	$scope.pushNewVM = function(id,name,type,url,ip){
 		/*var newVMProps = {};

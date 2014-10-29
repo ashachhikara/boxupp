@@ -15,7 +15,7 @@ public class UserDetailBean {
 	@DatabaseField( useGetSet = true)
 	private String lastName;
 	
-	@DatabaseField(useGetSet = true)
+	@DatabaseField(useGetSet = true, unique = true )
 	private String mailId;
 	
 	@DatabaseField(useGetSet = true)

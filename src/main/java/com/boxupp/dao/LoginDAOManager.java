@@ -39,16 +39,20 @@ public class LoginDAOManager {
 		UserCredentials loginBean = null;
 		Gson loginParam = new Gson();
 		loginBean = loginParam.fromJson(loginCredentials.toString(),UserCredentials.class);
+		System.out.println(loginBean.getLoginId());
+		System.out.println(loginBean.getPassword());
 		try{
 			List<UserDetailBean> userData = userDetailDao.queryBuilder().where().eq("mailId", loginBean.getLoginId()).and().eq("password", loginBean.getPassword()).query();
 			if(userData.size() == 1){
 				authResponse.setStatusCode(0);
 				authResponse.setUserID(userData.get(0).getUserId());
 				authResponse.setStatusMessage("User authenticated successfully");
+				
 			}else{
 				authResponse.setStatusCode(1);
 				authResponse.setStatusMessage("User could not be authenticated");
 			}
+			System.out.println(userData.size());
 		}
 		catch(SQLException e){
 			logger.error("Error authorizing user : "+e.getMessage());
