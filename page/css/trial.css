@@ -10,14 +10,14 @@ div.ng-leave {
 div.ng-enter {
   opacity: 1; }
 
-div {
-  transition-property: all;
-  transition-duration: 1.0s;
-  -webkit-transition-property: all;
-  /* Safari */
-  -webkit-transition-duration: 0.5s;
-  /* Safari */ }
-
+/*
+div{
+	
+	transition-property: all;
+    transition-duration: 1.0s;
+     -webkit-transition-property: all; 
+    -webkit-transition-duration: 0.5s; 
+}*/
 .secondaryNavClosed {
   width: 0px;
   padding: 0px; }
@@ -273,41 +273,6 @@ div.login-container, div.registration-container {
 div.project-container {
   position: absolute;
   top: 100px; }
-  div.project-container div#newMachineModal div.modal-content {
-    top: 50px;
-    border-radius: 0px; }
-    div.project-container div#newMachineModal div.modal-content div.modal-body {
-      overflow: auto; }
-      div.project-container div#newMachineModal div.modal-content div.modal-body div.projectLogo {
-        height: 200px;
-        border-right: 1px solid #eee;
-        color: #71B1D1; }
-        div.project-container div#newMachineModal div.modal-content div.modal-body div.projectLogo i {
-          font-size: 75px; }
-      div.project-container div#newMachineModal div.modal-content div.modal-body div.boxConfig {
-        margin-bottom: 15px; }
-        div.project-container div#newMachineModal div.modal-content div.modal-body div.boxConfig div.boxConfigTitles {
-          font-family: 'Open Sans', sans-serif;
-          text-transform: uppercase;
-          font-weight: 700;
-          font-size: 11px;
-          line-height: 11px;
-          margin-bottom: 10px; }
-        div.project-container div#newMachineModal div.modal-content div.modal-body div.boxConfig input, div.project-container div#newMachineModal div.modal-content div.modal-body div.boxConfig select {
-          border-radius: 0px; }
-    div.project-container div#newMachineModal div.modal-content div.modal-header, div.project-container div#newMachineModal div.modal-content div.modal-footer {
-      color: #FFF;
-      background: #444546; }
-      div.project-container div#newMachineModal div.modal-content div.modal-header h4, div.project-container div#newMachineModal div.modal-content div.modal-footer h4 {
-        font-family: 'Roboto', sans-serif;
-        font-size: 16px;
-        line-height: 11px;
-        font-weight: 100; }
-      div.project-container div#newMachineModal div.modal-content div.modal-header a, div.project-container div#newMachineModal div.modal-content div.modal-footer a {
-        font-family: 'Roboto', sans-serif;
-        font-size: 14px;
-        line-height: 11px;
-        font-weight: 100; }
   div.project-container span.titleText {
     font-family: 'Roboto', sans-serif;
     font-size: 22px;
@@ -357,5 +322,47 @@ div.project-container {
         color: #FFF; }
         div.project-container ul.projectsList li a:hover div.projectTitle span {
           color: #FFF; }
+
+div.modal-content {
+  top: 50px;
+  border-radius: 0px; }
+  div.modal-content div.modal-body {
+    overflow: auto; }
+    div.modal-content div.modal-body div.projectLogo {
+      height: 200px;
+      border-right: 1px solid #eee;
+      color: #71B1D1; }
+      div.modal-content div.modal-body div.projectLogo i {
+        font-size: 75px; }
+    div.modal-content div.modal-body div.boxConfig {
+      margin-bottom: 15px; }
+      div.modal-content div.modal-body div.boxConfig div.editor {
+        -webkit-transition-property: all;
+        -webkit-transition-duration: 0s; }
+      div.modal-content div.modal-body div.boxConfig span.boxConfigTitles {
+        font-family: 'Open Sans', sans-serif;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 11px;
+        line-height: 11px;
+        margin-bottom: 10px;
+        color: grey; }
+      div.modal-content div.modal-body div.boxConfig input, div.modal-content div.modal-body div.boxConfig select {
+        border-radius: 0px; }
+  div.modal-content div.modal-header, div.modal-content div.modal-footer {
+    color: #FFF;
+    background: #444546; }
+    div.modal-content div.modal-header h4, div.modal-content div.modal-footer h4 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      line-height: 11px;
+      font-weight: 100; }
+    div.modal-content div.modal-header a, div.modal-content div.modal-footer a {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      line-height: 11px;
+      font-weight: 100; }
+  div.modal-content div.modal-body {
+    color: black; }
 
 /*# sourceMappingURL=trial.css.map */

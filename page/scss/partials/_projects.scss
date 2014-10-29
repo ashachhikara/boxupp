@@ -3,11 +3,7 @@ div.project-container{
 	top:100px;
 
 
-	div#newMachineModal{
-		div.modal-content{
-			@include boxupp-modal-styling();
-		}
-	}
+	
 
 	span.titleText{
 		

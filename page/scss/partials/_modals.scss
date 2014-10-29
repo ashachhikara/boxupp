@@ -1,0 +1,75 @@
+@mixin modal-header-footer{
+	
+	div.modal-body{
+		overflow : auto;
+
+		div.projectLogo{
+			height : 200px;
+			border-right : 1px solid #eee;
+			color : #71B1D1;
+			i{
+				font-size : 75px;	
+			}
+			
+		}
+		div.boxConfig{
+			margin-bottom : 15px;
+
+			div.editor{
+				-webkit-transition-property: all;
+				-webkit-transition-duration: 0s;
+			}
+
+			span.boxConfigTitles{
+				@include modal-label-styling();
+				margin-bottom : 10px;
+				color : grey;
+			}
+
+			input, select{
+				border-radius : 0px;
+			}			
+		}
+	}
+	
+	div.modal-header, div.modal-footer{
+		color:#FFF;
+		background:#444546;
+		h4{
+			font-family: 'Roboto', sans-serif;		
+			font-size: 16px;
+			line-height: 11px;	
+			font-weight : 100;	
+		}
+		
+		a{
+			font-family: 'Roboto', sans-serif;		
+			font-size: 14px;
+			line-height: 11px;	
+			font-weight : 100;		
+		}
+	}
+	div.modal-body{
+		color: black;
+	}
+}
+
+@mixin boxupp-modal-styling{
+	top:50px;
+	border-radius : 0px;
+	
+	@include modal-header-footer();		
+}
+
+@mixin modal-label-styling {
+	font-family: 'Open Sans', sans-serif;
+	
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 11px;
+	line-height: 11px;	
+}
+
+div.modal-content{
+	@include boxupp-modal-styling();
+}

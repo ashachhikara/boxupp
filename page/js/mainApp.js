@@ -1,4 +1,4 @@
-angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,boxes,vagrantStatus,executeCommand,retrieveMappings){
+angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,ResourcesData,vagrantStatus,executeCommand,retrieveMappings){
 
 	$scope.boxuppMappings = {};
 	$scope.serverAddress = "http://"+window.location.host;
@@ -25,11 +25,31 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		$scope.providerValidation = true;
 	}
 
-	boxes.fetchList($routeParams.projectID).then(function(response){
-		console.log(response);
+	(function(){
+		$scope.fetchBoxList();
+		$scope.fetchScriptList();
+		$scope.fetchModuleList();
 	});
+
+	$scope.fetchBoxList = function(){
+		ResourcesData.fetchBoxList($routeParams.projectID).then(function(response){
+			console.log(response);
+		});	
+	}
+
+	$scope.fetchScriptList = function(){
+		ResourcesData.fetchScriptList($routeParams.projectID).then(function(response){
+			console.log(response);
+		});		
+	}
 	
-	retrieveMappings.fetchMappings($scope.serverAddress,$scope).then(function(response){
+	$scope.fetchModuleList = function(){
+		ResourcesData.fetchModuleList($routeParams.projectID).then(function(response){
+			console.log(response);
+		});			
+	}
+	
+	/*retrieveMappings.fetchMappings($scope.serverAddress,$scope).then(function(response){
 			if(response.data !== null){
 				var scripts = response.data.shellScripts;
 				for(counter in scripts){
@@ -63,9 +83,8 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 			
 			//$scope.$parent.selectNode(0);
 			//$timeout($scope.resetFlags(),10000);
-			/*$('#box0').click();
-			$('#box0').trigger('change');*/
-		});
+			
+		});*/
 
 	$scope.server = {
 		connect : function() {
