@@ -5,9 +5,9 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "shellScriptMapping")
 public class ShellScriptMapping {
-	public final static String SCRIPT_ID_FIELD_NAME = "script_id";
-	public final static String PROJECT_ID_FIELD_NAME = "project_id";
-	public final static String MACHINE_ID_FIELD_NAME = "machine_id";
+	public final static String SCRIPT_ID_FIELD_NAME = "script_ID";
+	public final static String PROJECT_ID_FIELD_NAME = "project_ID";
+	public final static String MACHINE_ID_FIELD_NAME = "machine_ID";
 	public ShellScriptMapping(	MachineConfigurationBean machineConfig, ShellScriptBean script,
 			ProjectBean project) {
 		super();
@@ -17,7 +17,7 @@ public class ShellScriptMapping {
 	}
 
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
-	private Integer id;
+	private Integer ID;
 
 	@DatabaseField(foreign = true, columnName ="machinConfig_id")
 	private MachineConfigurationBean machineConfig;
@@ -28,12 +28,12 @@ public class ShellScriptMapping {
 	@DatabaseField(foreign = true, columnName ="project_id")
 	private ProjectBean project;
 	
-	public Integer getId() {
-		return id;
+	public Integer getID() {
+		return ID;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setID(Integer ID) {
+		this.ID = ID;
 	}
 	
 	

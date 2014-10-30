@@ -199,20 +199,20 @@ div#ctrlBarPlayArea div.sub-section-header {
 div#ctrlBarPlayArea div.ctrl-bar-sec-nav, div#ctrlBarPlayArea div.ctrl-bar-main-nav {
   height: 165px;
   border-right: 1px dashed #eee; }
-div#ctrlBarPlayArea div#ctrl-bar-play-area span.boxConfigTitles {
+div#ctrlBarPlayArea div#ctrl-bar-box-play-area span.boxConfigTitles, div#ctrlBarPlayArea div#ctrl-bar-script-play-area span.boxConfigTitles, div#ctrlBarPlayArea div#ctrl-bar-module-play-area span.boxConfigTitles {
   font-family: 'Open Sans', sans-serif;
   text-transform: uppercase;
   font-weight: 600;
   font-size: 12px;
   line-height: 11px; }
-div#ctrlBarPlayArea div#ctrl-bar-play-area div.boxConfig {
+div#ctrlBarPlayArea div#ctrl-bar-box-play-area div.boxConfig, div#ctrlBarPlayArea div#ctrl-bar-script-play-area div.boxConfig, div#ctrlBarPlayArea div#ctrl-bar-module-play-area div.boxConfig {
   margin-bottom: 10px; }
-  div#ctrlBarPlayArea div#ctrl-bar-play-area div.boxConfig input {
+  div#ctrlBarPlayArea div#ctrl-bar-box-play-area div.boxConfig input, div#ctrlBarPlayArea div#ctrl-bar-script-play-area div.boxConfig input, div#ctrlBarPlayArea div#ctrl-bar-module-play-area div.boxConfig input {
     -webkit-border-radius: 0px;
     border-radius: 0px;
     background: none;
     color: #FFF; }
-  div#ctrlBarPlayArea div#ctrl-bar-play-area div.boxConfig select {
+  div#ctrlBarPlayArea div#ctrl-bar-box-play-area div.boxConfig select, div#ctrlBarPlayArea div#ctrl-bar-script-play-area div.boxConfig select, div#ctrlBarPlayArea div#ctrl-bar-module-play-area div.boxConfig select {
     -webkit-border-radius: 0px;
     border-radius: 0px;
     background: none;

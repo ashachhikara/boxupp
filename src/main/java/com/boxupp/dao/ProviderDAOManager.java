@@ -48,10 +48,10 @@ public class ProviderDAOManager implements DAOImplInterface {
 	}
 	
 	@Override
-	public <T>T read(String providerId) {
+	public <T>T read(String providerID) {
 		ProviderBean providerBean= null;
 		try{
-			providerBean = providerDao.queryForId(Integer.parseInt(providerId));
+			providerBean = providerDao.queryForId(Integer.parseInt(providerID));
 		}catch(SQLException e){
 			logger.error("Error querying the providers list from DB : " + e.getMessage());
 		}

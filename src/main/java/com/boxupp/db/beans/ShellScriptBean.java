@@ -5,10 +5,10 @@ import java.sql.Date;
 import com.j256.ormlite.field.DatabaseField;
 
 public class ShellScriptBean {
-	public static final String ID_FIELD_NAME = "scriptId";
+	public static final String ID_FIELD_NAME = "scriptID";
 
 	@DatabaseField(canBeNull = false, generatedId=true, useGetSet = true, columnName=ID_FIELD_NAME)
-	private Integer scriptId;
+	private Integer scriptID;
 	
 	@DatabaseField(useGetSet = true)
 	private String scriptName;
@@ -20,7 +20,7 @@ public class ShellScriptBean {
 	private String scriptContent;
 	
 	@DatabaseField(useGetSet = true)
-	private Integer creatorUserId;
+	private Integer creatorUserID;
 	
 	@DatabaseField(useGetSet = true, format = "yyyy-MM-dd HH:mm:ss")
 	private Date creationTime;
@@ -28,12 +28,12 @@ public class ShellScriptBean {
 	@DatabaseField(useGetSet = true)
 	private String description;
 
-	public Integer getScriptId() {
-		return scriptId;
+	public Integer getScriptID() {
+		return scriptID;
 	}
 
-	public void setScriptId(Integer scriptId) {
-		this.scriptId = scriptId;
+	public void setScriptID(Integer scriptID) {
+		this.scriptID = scriptID;
 	}
 
 	public String getScriptName() {
@@ -60,12 +60,12 @@ public class ShellScriptBean {
 		this.scriptContent = scriptContent;
 	}
 
-	public Integer getCreatorUserId() {
-		return creatorUserId;
+	public Integer getCreatorUserID() {
+		return creatorUserID;
 	}
 
-	public void setCreatorUserId(Integer creatorUserId) {
-		this.creatorUserId = creatorUserId;
+	public void setCreatorUserID(Integer creatorUserID) {
+		this.creatorUserID = creatorUserID;
 	}
 
 	public Date getCreationTime() {

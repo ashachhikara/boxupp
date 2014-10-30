@@ -1,4 +1,4 @@
-angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,boxes,vagrantStatus,executeCommand,retrieveMappings){
+angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,boxes,vagrantStatus,executeCommand,retrieveMappings,MachineConfig){
 
 	$scope.boxuppMappings = {};
 	$scope.serverAddress = "http://"+window.location.host;
@@ -11,9 +11,18 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.outputConsole.boxuppExecuting = false;
 	$scope.outputConsole.boxuppOutputWindow = false;
 	$scope.providerValidation = false;
+	$scope.bodyStyle.applyDashBoardStyling = true;
 	$scope.quickBox = {};
 	
-	$scope.bodyStyle.applyDashBoardStyling = true;
+	$scope.resetCtrlBarSecNav = function(){
+		$('ul.ctrl-bar-sec-list li').removeClass('active');
+	}
+	$scope.createBoxes = function(boxData){
+		boxData.projectID = $routeParams.projectID;
+		MachineConfig.save(boxData,function(data){
+			$scope.boxesData.push(angular.copy(data.beanData));
+		});
+	}
 	
 	$scope.vagrantCommands = {
 		0:"Choose what's best"
@@ -482,15 +491,6 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 				configData.puppetChangeFlag || 
 				configData.cookbooksChangeFlag
 			);
-	}
-	$scope.createBoxes = function(){
-		$scope.quickBox.projectID = $routeParams.projectID;
-		Boxes.save($scope.quickBox,function(data){
-				$scope.quickBox.push(angular.copy(data.beanData));
-				$scope.quickBox = {};
-				//Reset form pristine state
-				//$scope.quickBoxData.$setPristine();
-			});
 	}
 	
 	$scope.pushNewVM = function(id,name,type,url,ip){

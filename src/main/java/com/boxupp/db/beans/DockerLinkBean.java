@@ -5,7 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "dockerLinks")
 public class DockerLinkBean {
-	public static final String MACHINE_ID_FIELD_NAME = "machine_id";
+	public static final String MACHINE_ID_FIELD_NAME = "machineID";
 	
 		@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = MACHINE_ID_FIELD_NAME)
 		MachineConfigurationBean machineConfig;

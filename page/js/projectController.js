@@ -16,9 +16,10 @@ angular.module("boxuppApp").controller('projectController',function($scope,Proje
 	});
 
 	$scope.selectProject = function(project){
+
 		//alert('Project ID :-' + project.id + ' Project ProviderType :- '+project.providerType);
 		//alert($routeParams.userID);
-		$location.path("/projects/" + $routeParams.userID + "/" + project.projectId + "/" + project.providerType);
+		$location.path("/projects/" + $routeParams.userID + "/" + project.projectID + "/" + project.providerType);
 	}
 
 

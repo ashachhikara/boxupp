@@ -1,7 +1,5 @@
 package com.boxupp.db.beans;
 
-import org.eclipse.jetty.util.security.Password;
-
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -9,13 +7,13 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "machineConfiguration")
 public class MachineConfigurationBean {
-	public static final String ID_FIELD_NAME = "machineId";
+	public static final String ID_FIELD_NAME = "machineID";
 
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true, columnName=ID_FIELD_NAME)
-	private Integer machineId;
+	private Integer machineID;
 
 	@DatabaseField(useGetSet = true)
-	private String vagrantId;
+	private String vagrantID;
 
 	@DatabaseField(useGetSet = true)
 	private String hostName;
@@ -76,20 +74,20 @@ public class MachineConfigurationBean {
 	@DatabaseField(useGetSet = true)
 	private String password;
 
-	public Integer getMachineId() {
-		return machineId;
+	public Integer getMachineID() {
+		return machineID;
 	}
 
-	public void setMachineId(Integer machineId) {
-		this.machineId = machineId;
+	public void setMachineID(Integer machineID) {
+		this.machineID = machineID;
 	}
 
-	public String getVagrantId() {
-		return vagrantId;
+	public String getVagrantID() {
+		return vagrantID;
 	}
 
-	public void setVagrantId(String vagrantId) {
-		this.vagrantId = vagrantId;
+	public void setVagrantID(String vagrantID) {
+		this.vagrantID = vagrantID;
 	}
 
 	public String getHostName() {

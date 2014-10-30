@@ -3,13 +3,11 @@ package com.boxupp.db.beans;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import org.eclipse.jetty.util.security.Password;
-
 @DatabaseTable(tableName = "git_repo_details")
 public class GitRepoBean {
 	
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
-	private Integer id;
+	private Integer gitRepoID;
 	
 	@DatabaseField(useGetSet = true)
 	private String userName;
@@ -29,12 +27,12 @@ public class GitRepoBean {
 	@DatabaseField(useGetSet = true)
 	private String comment;
 
-	public Integer getId() {
-		return id;
+	public Integer getGitRepoID() {
+		return gitRepoID;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setGitRepoID(Integer gitRepoID) {
+		this.gitRepoID = gitRepoID;
 	}
 
 	public String getUserName() {

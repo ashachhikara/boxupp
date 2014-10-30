@@ -1,7 +1,6 @@
 package com.boxupp.dao;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -63,14 +62,14 @@ public class GitRepoDAOManager implements DAOImplInterface {
 	}
 
 	@Override
-	public StatusBean delete(String id) {
+	public StatusBean delete(String ID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
-	public<T>T read(String id) {
+	public<T>T read(String ID) {
 		// TODO Auto-generated method stub
 		return null;
 	}

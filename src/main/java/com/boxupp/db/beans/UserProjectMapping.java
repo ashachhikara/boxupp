@@ -9,11 +9,11 @@ public class UserProjectMapping {
 		
 	}
 
-	public final static String USER_ID_FIELD_NAME = "user_id";
-	public final static String PROJECT_ID_FIELD_NAME = "project_id";
+	public final static String USER_ID_FIELD_NAME = "user_ID";
+	public final static String PROJECT_ID_FIELD_NAME = "project_ID";
 
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
-	private Integer id;
+	private Integer ID;
 
 	@DatabaseField(foreign = true, columnName = USER_ID_FIELD_NAME)
 	UserDetailBean user;
@@ -21,12 +21,12 @@ public class UserProjectMapping {
 	@DatabaseField(foreign = true, columnName = PROJECT_ID_FIELD_NAME)
 	ProjectBean project;
 
-	public Integer getId() {
-		return id;
+	public Integer getID() {
+		return ID;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setID(Integer ID) {
+		this.ID = ID;
 	}
 
 	public ProjectBean getProject() {

@@ -12,7 +12,7 @@ ngBoxuppApp.controller('loginController',function($scope,$http,$location,User){
 		$scope.checkLogin = true;
 		$scope.authError = false;
 		
-		User.login($scope.loginCredentials.loginId,$scope.loginCredentials.password).then(function(data){
+		User.login($scope.loginCredentials.loginID,$scope.loginCredentials.password).then(function(data){
 
 			if(data.statusCode === 0){
 				$scope.checkLogin = false;

@@ -5,10 +5,10 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "syncFolder")
 public class SyncFoldersBean {
-	public static final String MACHINE_ID_FIELD_NAME = "machine_id";
+	public static final String MACHINE_ID_FIELD_NAME = "machine_ID";
 	
 	@DatabaseField(canBeNull = false, generatedId= true, useGetSet = true)
-	private Integer syncFolderId;
+	private Integer syncFolderID;
 	
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = MACHINE_ID_FIELD_NAME)
 	MachineConfigurationBean machineConfig;
@@ -19,11 +19,11 @@ public class SyncFoldersBean {
 	@DatabaseField(useGetSet = true)
 	private String vmFolder;
 	
-	public Integer getSyncFolderId() {
-		return syncFolderId;
+	public Integer getSyncFolderID() {
+		return syncFolderID;
 	}
-	public void setSyncFolderId(Integer syncFolderId) {
-		this.syncFolderId = syncFolderId;
+	public void setSyncFolderID(Integer syncFolderID) {
+		this.syncFolderID = syncFolderID;
 	}
 	public String getHostFolder() {
 		return hostFolder;

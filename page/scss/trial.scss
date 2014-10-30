@@ -367,7 +367,7 @@ div#ctrlBarPlayArea{
 		height:165px;
 		border-right:1px dashed #eee;
 	}
-	div#ctrl-bar-play-area{
+	div#ctrl-bar-box-play-area, div#ctrl-bar-script-play-area, div#ctrl-bar-module-play-area{
 		span.boxConfigTitles{
 			@include box-config-titles();
 		}

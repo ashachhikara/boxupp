@@ -5,8 +5,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "machineProjectMapping")
 public class MachineProjectMapping {
-	public final static String MACHINE_ID_FIELD_NAME = "machine_id";
-	public final static String PROJECT_ID_FIELD_NAME = "project_id";
+	public final static String MACHINE_ID_FIELD_NAME = "machine_ID";
+	public final static String PROJECT_ID_FIELD_NAME = "project_ID";
 	public MachineProjectMapping( ProjectBean project,
 			MachineConfigurationBean machineConfig) {
 		super();
@@ -19,19 +19,19 @@ public class MachineProjectMapping {
 	}
 	
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
-	private Integer id;
+	private Integer ID;
 
 	@DatabaseField(foreign = true, useGetSet = true, columnName =PROJECT_ID_FIELD_NAME)
-	ProjectBean project;
+	private ProjectBean project;
 
 	@DatabaseField(foreign = true, useGetSet = true, columnName = MACHINE_ID_FIELD_NAME)
-	MachineConfigurationBean machineConfig;
+	private MachineConfigurationBean machineConfig;
 
-	public Integer getId() {
-		return id;
+	public Integer getID() {
+		return ID;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setID(Integer ID) {
+		this.ID = ID;
 	}
 	public ProjectBean getProject() {
 		return project;

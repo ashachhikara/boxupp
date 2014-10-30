@@ -11,7 +11,6 @@ import org.codehaus.jackson.JsonNode;
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.ProjectBean;
-import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.responseBeans.StatusBean;
@@ -53,7 +52,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		try {
 			Utilities.getInstance().writeScriptToDisk(shellScriptBean);
 			shellScriptDao.create(shellScriptBean);
-			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(newData.get("ProjectId").getTextValue()));
+			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(newData.get("ProjectID").getTextValue()));
 			ShellScriptMapping shellscriptMapping = new ShellScriptMapping(null, shellScriptBean, project);
 			shellScriptMappingDao.create(shellscriptMapping);
 		} catch (SQLException e) {
@@ -100,12 +99,12 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 	}
 */
 	
-	public StatusBean delete(String shellScriptId) {
+	public StatusBean delete(String shellScriptID) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			Utilities.getInstance().deleteScriptfileOnDisk(shellScriptDao.queryForId(Integer.parseInt(shellScriptId)).getScriptName());
-			shellScriptDao.deleteById(Integer.parseInt(shellScriptId));
-			List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq("script_id", Integer.parseInt(shellScriptId));
+			Utilities.getInstance().deleteScriptfileOnDisk(shellScriptDao.queryForId(Integer.parseInt(shellScriptID)).getScriptName());
+			shellScriptDao.deleteById(Integer.parseInt(shellScriptID));
+			List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq("script_ID", Integer.parseInt(shellScriptID));
 				for(ShellScriptMapping shellScript : shellscriptMappping){
 					shellScriptMappingDao.delete(shellScript);
 				}
@@ -120,10 +119,10 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		return statusBean;
 	}
 	@Override
-	public <T> T read(String scriptId) {
+	public <T> T read(String scriptID) {
 		ShellScriptBean shellScript = null;
 		try{
-			shellScript = shellScriptDao.queryForId(Integer.parseInt(scriptId));
+			shellScript = shellScriptDao.queryForId(Integer.parseInt(scriptID));
 		}catch(SQLException e){
 			logger.error("Error querying the script from DB : " + e.getMessage());
 		}
@@ -132,14 +131,14 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 	}
 
 	
-	public <E> List<E> retireveScriptsForProject(String projectId) {
+	public <E> List<E> retireveScriptsForProject(String projectID) {
 		List<ShellScriptBean> shellScriptList = new ArrayList<ShellScriptBean>();
 		try {
 		if (scriptForProjectQuery == null) {
 			scriptForProjectQuery = makeShellScriptForProjectQuery();
 		}
 		
-		scriptForProjectQuery.setArgumentHolderValue(0, ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectId)));
+		scriptForProjectQuery.setArgumentHolderValue(0, ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID)));
 		shellScriptList = shellScriptDao.query(scriptForProjectQuery);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -151,13 +150,13 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		return (List<E>)shellScriptList;
 	}
 
-	public StatusBean saveMachineMappingWithScript(String machineId, String scriptId, String projectId) {
+	public StatusBean saveMachineMappingWithScript(String machineID, String scriptID, String projectID) {
 		StatusBean statusBean =   new StatusBean();
 		try {
-		ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectId));
-		ShellScriptBean shellScript =  shellScriptDao.queryForId(Integer.parseInt(scriptId));
+		ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID));
+		ShellScriptBean shellScript =  shellScriptDao.queryForId(Integer.parseInt(scriptID));
 		
-		MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(Integer.parseInt(machineId));
+		MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(Integer.parseInt(machineID));
 		shellScriptMappingDao.updateBuilder().updateColumnValue(ShellScriptMapping.MACHINE_ID_FIELD_NAME, machineConfig).where().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project).and().eq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScript);
 
 		} catch (NumberFormatException e) {

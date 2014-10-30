@@ -3,16 +3,16 @@ package com.boxupp.db.beans;
 
 public class LoginBean {
 	
-	private String loginId;
+	private String loginID;
 	
 	private String password;
 
-	public String getLoginId() {
-		return loginId;
+	public String getLoginID() {
+		return loginID;
 	}
 
-	public void setLoginId(String loginId) {
-		this.loginId = loginId;
+	public void setLoginId(String loginID) {
+		this.loginID = loginID;
 	}
 
 	public String getPassword() {

@@ -1,7 +1,5 @@
 package com.boxupp.resources;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,7 +17,6 @@ import com.boxupp.responseBeans.StatusBean;
 @Path("/shellScript/")
 public class ShellScript {
 	@POST 
-	@Path("/shellScript")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes("application/json")
 	public StatusBean saveShellScript(JsonNode newShellScriptData) {

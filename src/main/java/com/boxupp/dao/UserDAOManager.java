@@ -48,7 +48,7 @@ public class UserDAOManager implements DAOImplInterface{
 		
 		try {
 			userDetailDao.create(userDetailBean);
-			System.out.println(userDetailBean.getUserId());
+			System.out.println(userDetailBean.getUserID());
 		} catch (SQLException e) {
 			logger.error("Error registering new user : " + e.getMessage());
 			response.setStatusCode(1);
@@ -56,7 +56,7 @@ public class UserDAOManager implements DAOImplInterface{
 		}
 		response.setStatusCode(0);
 		response.setStatusMessage("User created successfully");
-		response.setUserID(userDetailBean.getUserId());
+		response.setUserID(userDetailBean.getUserID());
 		return response;
 	}
 
@@ -87,7 +87,6 @@ public class UserDAOManager implements DAOImplInterface{
 
 		UserProjectMapping userProjectMappingBean = null;
 		try {
-			System.out.println(Integer.parseInt(userId));
 //			userProjectMappingBean = new UserProjectMapping(userDetailDao.queryForId(Integer.parseInt(ids[0])), (ProjectBean) mappingBean);
 			userProjectMappingBean = new UserProjectMapping(userDetailDao.queryForId(Integer.parseInt(userId)), (ProjectBean) mappingBean);
 			userProjectMappingDao.create(userProjectMappingBean);

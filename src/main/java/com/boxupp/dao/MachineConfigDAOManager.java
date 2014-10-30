@@ -43,21 +43,23 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 
 	@Override
 	public StatusBean create(JsonNode newData) {
+		System.out.println(newData.get("projectID").getTextValue());
 		MachineConfigurationBean machineConfigBean  = null;
+		System.out.println(newData.get("boxType"));
 		Gson machineConfigData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		machineConfigBean = machineConfigData.fromJson(newData.toString(),MachineConfigurationBean.class);
 		StatusBean statusBean = new StatusBean();
 		try {
 			machineConfigDao.create(machineConfigBean);
-			PortMappingDAOManager.getInstance().save(machineConfigBean, newData.get("portMappings"));
-			SyncFolderDAOManager.getInstance().save(machineConfigBean, newData.get("syncFolders"));
-			if(newData.get("dockerLinkContainers") != null){
+			if(newData.get("portMappings") != null)PortMappingDAOManager.getInstance().save(machineConfigBean, newData.get("portMappings"));
+			if(newData.get("portMappings") != null)SyncFolderDAOManager.getInstance().save(machineConfigBean, newData.get("syncFolders"));
+			if(newData.get("syncFolders") != null){
 				DockerLinkDAOManager.getInstance().save(machineConfigBean, newData.get("dockerLinkContainers"));
 			}
-			ProjectBean project = ProjectDAOManager.projectDao.queryForId(Integer.parseInt(newData.get("ProjectId").getTextValue()));
+			ProjectBean project = ProjectDAOManager.projectDao.queryForId(Integer.parseInt(newData.get("projectID").getTextValue()));
 			MachineProjectMapping machineProjectMApping = new MachineProjectMapping(project, machineConfigBean);
 			machineMappingDao.create(machineProjectMApping);
-			
+			statusBean.setData(machineConfigBean);
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
@@ -105,11 +107,11 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	}
 
 	@Override
-	public StatusBean delete(String id) {
+	public StatusBean delete(String ID) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			machineConfigDao.deleteById(Integer.parseInt(id));
-			List<MachineProjectMapping> machineMapping = DAOProvider.getInstance().fetchMachineMappingDao().queryForEq("machineId", Integer.parseInt(id));
+			machineConfigDao.deleteById(Integer.parseInt(ID));
+			List<MachineProjectMapping> machineMapping = DAOProvider.getInstance().fetchMachineMappingDao().queryForEq("machineId", Integer.parseInt(ID));
 			for(MachineProjectMapping mapping : machineMapping){
 				machineMappingDao.delete(mapping);
 			}
@@ -124,11 +126,11 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		return statusBean;
 	}
 	@Override
-	public <T>T read(String machineId) {
+	public <T>T read(String machineID) {
 		
 		MachineConfigurationBean machineConfig = null;
 		try{
-			machineConfig = machineConfigDao.queryForId(Integer.parseInt(machineId));
+			machineConfig = machineConfigDao.queryForId(Integer.parseInt(machineID));
 		}catch(SQLException e){
 			logger.error("Error querying the machineconfig from DB : " + e.getMessage());
 		}
@@ -136,26 +138,25 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	}
 	
 
-	public <E> List<E> retireveBoxesForProject(String projectId) {
+	public <E> List<E> retireveBoxesForProject(String projectID) {
 		List<MachineConfigurationBean> machineList = new ArrayList<MachineConfigurationBean>();
 		try {
 		if (machineForProjectQuery == null) {
 			machineForProjectQuery =  makeMachineForProjectQuery();
 		}
-		 machineForProjectQuery.setArgumentHolderValue(0, ProjectDAOManager.projectDao.queryForId(Integer.parseInt(projectId)));
+		 machineForProjectQuery.setArgumentHolderValue(0, ProjectDAOManager.projectDao.queryForId(Integer.parseInt(projectID)));
 		 machineList = machineConfigDao.query(machineForProjectQuery);
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in retireveing boxes for project : "+e.getMessage());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in retireveing boxes for project : "+e.getMessage());
 		}
+		if(machineList == null)return null;
 		return (List<E>)machineList;
 	}
 
 	
-	public  List<MachineConfigurationBean> fetchProjectMachines(String mappedId) {
+	/*public  List<MachineConfigurationBean> fetchProjectMachines(String mappedId) {
 		List<MachineConfigurationBean> machineList = new ArrayList<MachineConfigurationBean>();
 		try {
 		if (machineForProjectQuery == null) {
@@ -169,7 +170,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 			logger.error("Error in fetching Machine configuration is :"+e.getMessage());
 		}
 		return machineList;
-	}
+	}*/
 	
 	private PreparedQuery<MachineConfigurationBean> makeMachineForProjectQuery() throws SQLException {
 		
