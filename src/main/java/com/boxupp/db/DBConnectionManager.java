@@ -5,13 +5,11 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-<<<<<<< Updated upstream
+import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ProjectProviderMappingBean;
-=======
->>>>>>> Stashed changes
 import com.boxupp.db.beans.ProviderBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.ShellScriptBean;
@@ -66,6 +64,7 @@ public class DBConnectionManager {
 //			TableUtils.dropTable(connectionSource, UserDetailBean.class, true);
 //			
 			//TableUtils.D(connectionSource, UserDetailBean.class, false);
+			
 			TableUtils.dropTable(connectionSource, ShellScriptBean.class, true);
 			TableUtils.dropTable(connectionSource, ShellScriptMapping.class, true);
 			TableUtils.dropTable(connectionSource, PuppetModuleMapping.class, true);
@@ -78,7 +77,7 @@ public class DBConnectionManager {
 //			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
 			System.out.println("started creating tables");
 			//************* CREATE TABLES **************//
-<<<<<<< .mine
+
 			//TableUtils.createTable(connectionSource, ProviderBean.class);
 			TableUtils.createTableIfNotExists(connectionSource, ProjectBean.class);
 			TableUtils.createTable(connectionSource, UserDetailBean.class);
@@ -97,7 +96,7 @@ public class DBConnectionManager {
 			//TableUtils.createTableIfNotExists(connectionSource, ProviderBean.class);
 			//TableUtils.createTableIfNotExists(connectionSource, ProjectProviderMappingBean.class);
 
-=======
+
 //			TableUtils.createTable(connectionSource, ProjectBean.class);
 //			TableUtils.createTable(connectionSource, ProviderBean.class);
 //			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
@@ -105,11 +104,13 @@ public class DBConnectionManager {
 //			TableUtils.createTable(connectionSource, UserDetailBean.class);
 //			TableUtils.createTableIfNotExists(connectionSource, UserDetailBean.class);
 //			TableUtils.createTableIfNotExists(connectionSource, ProviderBean.class);
+			
 			TableUtils.createTable(connectionSource, ShellScriptBean.class);
 			TableUtils.createTable(connectionSource, ShellScriptMapping.class);
 			TableUtils.createTable(connectionSource, PuppetModuleMapping.class);
 			
 //			
+
 		//TableUtils.createTable(connectionSource, PuppetModuleBean.class);
 //			
 //			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
@@ -137,6 +138,7 @@ public class DBConnectionManager {
 			//**************CREATE_ENTRIES***********************//
 			
 			System.out.println("Created tables for mapping");
+		
 		}
 		}catch (SQLException e) {
 			System.out.println("Error creating table : " + e.getMessage());
