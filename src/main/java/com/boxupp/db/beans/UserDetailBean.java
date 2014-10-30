@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 public class UserDetailBean {
 
 	@DatabaseField(canBeNull = false, generatedId=true, useGetSet = true)
-	private Integer userId;
+	private Integer userID;
 	
 	@DatabaseField( useGetSet = true)
 	private String firstName;
@@ -15,8 +15,8 @@ public class UserDetailBean {
 	@DatabaseField( useGetSet = true)
 	private String lastName;
 	
-	@DatabaseField(useGetSet = true)
-	private String mailId;
+	@DatabaseField(useGetSet = true, unique = true )
+	private String mailID;
 	
 	@DatabaseField(useGetSet = true)
 	private String password;
@@ -24,12 +24,12 @@ public class UserDetailBean {
 	@DatabaseField(useGetSet = true)
 	private Integer userType;
 	
-	public Integer getUserId() {
-		return userId;
+	public Integer getUserID() {
+		return userID;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUserID(Integer userID) {
+		this.userID = userID;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -62,12 +62,12 @@ public class UserDetailBean {
 	public void setIsDisabled(Boolean isDisabled) {
 		this.isDisabled = isDisabled;
 	}
-	public String getMailId() {
-		return mailId;
+	public String getMailID() {
+		return mailID;
 	}
 
-	public void setMailId(String mailId) {
-		this.mailId = mailId;
+	public void setMailID(String mailID) {
+		this.mailID = mailID;
 	}
 
 	public String getPassword() {

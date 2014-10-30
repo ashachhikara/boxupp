@@ -35,12 +35,10 @@ public class User {
 		return UserDAOManager.getInstance().create(newUserDetail);
 	}
 	
-	
 	@GET
 	@Path("/getProjects/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProjectBean> getAllProjectsList(@PathParam("id") String userId){
-		
 		return ProjectDAOManager.getInstance().retireveProjectsForUser(userId);
 	}
 }

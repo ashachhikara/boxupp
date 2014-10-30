@@ -7,10 +7,10 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "puppetModule")
 public class PuppetModuleBean {
-	public static final String ID_FIELD_NAME = "puppetId";
+	public static final String ID_FIELD_NAME = "puppetID";
 
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true, columnName=ID_FIELD_NAME)
-	private Integer puppetId;
+	private Integer puppetID;
 	
 	
 	@DatabaseField(useGetSet = true)
@@ -20,7 +20,7 @@ public class PuppetModuleBean {
 	private Boolean isDisabled;
 	
 	@DatabaseField(useGetSet = true)
-	private Integer creatorUserId;
+	private Integer creatorUserID;
 	
 	@DatabaseField(useGetSet = true, format="yyyy-MM-dd HH:mm:ss")
 	private Date creationTime;
@@ -28,12 +28,12 @@ public class PuppetModuleBean {
 	@DatabaseField(useGetSet = true)
 	private String description;
 	
-	public Integer getPuppetId() {
-		return puppetId;
+	public Integer getPuppetID() {
+		return puppetID;
 	}
 
-	public void setPuppetId(Integer puppetId) {
-		this.puppetId = puppetId;
+	public void setPuppetID(Integer puppetID) {
+		this.puppetID = puppetID;
 	}
 
 	public String getModuleName() {
@@ -52,12 +52,12 @@ public class PuppetModuleBean {
 		this.isDisabled = isDisabled;
 	}
 
-	public Integer getCreatorUserId() {
-		return creatorUserId;
+	public Integer getCreatorUserID() {
+		return creatorUserID;
 	}
 
-	public void setCreatorUserId(Integer creatorUserId) {
-		this.creatorUserId = creatorUserId;
+	public void setCreatorUserID(Integer creatorUserID) {
+		this.creatorUserID = creatorUserID;
 	}
 
 	public Date getCreationTime() {

@@ -5,10 +5,12 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.boxupp.db.beans.MachineConfigurationBean;
+import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
+import com.boxupp.db.beans.ProjectProviderMappingBean;
 import com.boxupp.db.beans.ProviderBean;
 import com.boxupp.db.beans.PuppetModuleBean;
-import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.UserDetailBean;
 import com.boxupp.db.beans.UserProjectMapping;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -54,34 +56,37 @@ public class DBConnectionManager {
 			
 			//************* DELETE TABLES **************//
 			System.out.println("started deleting tables");
-//			TableUtils.dropTable(connectionSource, ProjectBean.class, true);
-//			TableUtils.dropTable(connectionSource, ProviderBean.class, true);
-//			TableUtils.dropTable(connectionSource, ProjectProviderMappingBean.class, true);
-//			TableUtils.dropTable(connectionSource, UserProjectMapping.class, true);
-//			TableUtils.dropTable(connectionSource, UserDetailBean.class, true);
-//			
-			//TableUtils.D(connectionSource, UserDetailBean.class, false);
-			TableUtils.dropTable(connectionSource, ShellScriptBean.class, false);
-			
-			//TableUtils.dropTable(connectionSource, PuppetModuleBean.class, false);
-//			
-//			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, true);
-//			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, true);
-//			
-//			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
+			TableUtils.dropTable(connectionSource, ProjectBean.class, false);
 
+			TableUtils.dropTable(connectionSource, UserDetailBean.class, false);
+			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, false);
+			TableUtils.dropTable(connectionSource, ProjectProviderMappingBean.class, false);
+			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, false);
+			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, false);
+			TableUtils.dropTable(connectionSource, UserProjectMapping.class, false);
+//			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
 			System.out.println("started creating tables");
 			//************* CREATE TABLES **************//
-//			TableUtils.createTable(connectionSource, ProjectBean.class);
-//			TableUtils.createTable(connectionSource, ProviderBean.class);
-//			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
-//			TableUtils.createTable(connectionSource, UserProjectMapping.class);
-//			TableUtils.createTable(connectionSource, UserDetailBean.class);
-//			TableUtils.createTableIfNotExists(connectionSource, UserDetailBean.class);
-//			TableUtils.createTableIfNotExists(connectionSource, ProviderBean.class);
-			TableUtils.createTableIfNotExists(connectionSource, ShellScriptBean.class);
+			//TableUtils.createTable(connectionSource, ProviderBean.class);
+			TableUtils.createTableIfNotExists(connectionSource, ProjectBean.class);
+			TableUtils.createTable(connectionSource, UserDetailBean.class);
+
+			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
+
+			
+			TableUtils.createTable(connectionSource, UserProjectMapping.class);
+			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
+			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
+			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
+			
+			//TableUtils.createTable(connectionSource, UserProjectMapping.class);
+			//TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
+			//TableUtils.createTable(connectionSource, MachineProjectMapping.class);
+			//TableUtils.createTableIfNotExists(connectionSource, ProviderBean.class);
+			//TableUtils.createTableIfNotExists(connectionSource, ProjectProviderMappingBean.class);
+
 //			
-//			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
+		//TableUtils.createTable(connectionSource, PuppetModuleBean.class);
 //			
 //			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
 //			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
@@ -108,8 +113,7 @@ public class DBConnectionManager {
 			//**************CREATE_ENTRIES***********************//
 			
 			System.out.println("Created tables for mapping");
-		} 
-		catch (SQLException e) {
+		}catch (SQLException e) {
 			System.out.println("Error creating table : " + e.getMessage());
 			e.printStackTrace();
 			logger.error("Error creating Tables on the database : "+e.getMessage());

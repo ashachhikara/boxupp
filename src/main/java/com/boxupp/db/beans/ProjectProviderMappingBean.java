@@ -7,36 +7,36 @@ import com.j256.ormlite.table.DatabaseTable;
 public class ProjectProviderMappingBean {
 	
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
-	private Integer id;
+	private Integer ID;
 	
 	@DatabaseField(canBeNull = false, useGetSet = true)
-	private Integer ProjectId;
+	private Integer ProjectID;
 	
 	@DatabaseField(canBeNull = false, useGetSet = true)
-	private Integer providerId;
+	private Integer providerID;
 
-	public Integer getId() {
-		return id;
+	public Integer getID() {
+		return ID;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setID(Integer ID) {
+		this.ID = ID;
 	}
 
-	public Integer getProjectId() {
-		return ProjectId;
+	public Integer getProjectID() {
+		return ProjectID;
 	}
 
-	public void setProjectId(Integer projectId) {
-		ProjectId = projectId;
+	public void setProjectID(Integer projectID) {
+		ProjectID = projectID;
 	}
 
-	public Integer getProviderId() {
-		return providerId;
+	public Integer getProviderID() {
+		return providerID;
 	}
 
-	public void setProviderId(Integer providerId) {
-		this.providerId = providerId;
+	public void setProviderID(Integer providerID) {
+		this.providerID = providerID;
 	}
 
 }

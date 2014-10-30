@@ -55,7 +55,7 @@ public class ProjectDAOManager implements DAOImplInterface  {
 		StatusBean statusBean = new StatusBean();
 		try{
 			int rowsUpdated = projectDao.create(projectBean);
-			System.out.println(projectBean.getProjectId());
+			System.out.println(projectBean.getProjectID());
 //			if(rowsUpdated == 1) Utilities.getInstance().changeActiveDirectory(projectBean.getProjectId());
 			UserDAOManager.getInstance().populateMappingBean(projectBean, newData.get("owner").getValueAsText());
 			statusBean.setStatusCode(0);
@@ -66,7 +66,7 @@ public class ProjectDAOManager implements DAOImplInterface  {
 			statusBean.setStatusMessage("Error creating project : "+e.getMessage());
 			e.printStackTrace();
 		}
-		System.out.println("Id assigned to new project : "+projectBean.getProjectId() + " creation time : "+projectBean.getCreationTime());
+		System.out.println("Id assigned to new project : "+projectBean.getProjectID() + " creation time : "+projectBean.getCreationTime());
 		return statusBean;
 	}
 
@@ -90,11 +90,11 @@ public class ProjectDAOManager implements DAOImplInterface  {
 	}
 
 	@Override
-	public <T>T read(String projectId) {
+	public <T>T read(String projectID) {
 		
 		ProjectBean project = null;
 		try{
-			project = projectDao.queryForId(Integer.parseInt(projectId));
+			project = projectDao.queryForId(Integer.parseInt(projectID));
 		}catch(SQLException e){
 			logger.error("Error querying the project from DB : " + e.getMessage());
 		}
@@ -102,12 +102,12 @@ public class ProjectDAOManager implements DAOImplInterface  {
 	}
 
 	@Override
-	public StatusBean delete(String projectId) {
+	public StatusBean delete(String projectID) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			Utilities.getInstance().deleteProjectFile(projectDao.queryForId(Integer.parseInt(projectId)).getName());
-			projectDao.deleteById(Integer.parseInt(projectId));
-			List<ProjectProviderMappingBean> projectMappping = projectProviderMappingDao.queryForEq("projectId", Integer.parseInt(projectId));
+			Utilities.getInstance().deleteProjectFile(projectDao.queryForId(Integer.parseInt(projectID)).getName());
+			projectDao.deleteById(Integer.parseInt(projectID));
+			List<ProjectProviderMappingBean> projectMappping = projectProviderMappingDao.queryForEq("projectID", Integer.parseInt(projectID));
 				for(ProjectProviderMappingBean shellScript : projectMappping){
 					projectProviderMappingDao.delete(shellScript);
 				}
@@ -130,7 +130,7 @@ public class ProjectDAOManager implements DAOImplInterface  {
 		StatusBean statusBean = new StatusBean();
 		try{
 			int rowsUpdated = projectDao.create(projectBean);
-			System.out.println(projectBean.getProjectId());
+			System.out.println(projectBean.getProjectID());
 //			if(rowsUpdated == 1) Utilities.getInstance().changeActiveDirectory(projectBean.getProjectId());
 			UserDAOManager.getInstance().populateMappingBean(projectBean, newData.get("owner").getValueAsText());
 			statusBean.setStatusCode(0);
@@ -140,22 +140,22 @@ public class ProjectDAOManager implements DAOImplInterface  {
 			statusBean.setStatusMessage("Error creating project : "+e.getMessage());
 			e.printStackTrace();
 		}
-		System.out.println("Id assigned to new project : "+projectBean.getProjectId() + " creation time : "+projectBean.getCreationTime());
+		System.out.println("Id assigned to new project : "+projectBean.getProjectID() + " creation time : "+projectBean.getCreationTime());
 		return statusBean;
 	}
 
-	public <E> List<E> retireveProjectsForUser(String UserId) {
+	public <E> List<E> retireveProjectsForUser(String UserID) {
 		List<ProjectBean> projectList = new ArrayList<ProjectBean>();
 		try {
 			
 			List<UserProjectMapping> users = userProjectMappingDao.queryForAll();
-			userProjectsQuery.setArgumentHolderValue(0,UserDAOManager.getInstance().userDetailDao.queryForId(Integer.parseInt(UserId)));
+			userProjectsQuery.setArgumentHolderValue(0,UserDAOManager.getInstance().userDetailDao.queryForId(Integer.parseInt(UserID)));
 			projectList = projectDao.query(userProjectsQuery);
 			
 		} catch (NumberFormatException e) {
 			logger.error("Error parsing user ID : "+e.getMessage());
 		} catch (SQLException e) {
-			logger.error("Error fetching projects for user "+UserId+ " : "+e.getMessage());
+			logger.error("Error fetching projects for user "+UserID+ " : "+e.getMessage());
 		}
 		return (List<E>)projectList;
 	}
@@ -178,10 +178,10 @@ public class ProjectDAOManager implements DAOImplInterface  {
 		}
 		return null;
 	}
-	public String getProviderForProject(String projectId){
+	public String getProviderForProject(String projectID){
 		String provider= null;
 		try {
-			Integer providerId = projectProviderMappingDao.queryForEq("projectId", Integer.parseInt(projectId)).get(0).getProjectId();
+			Integer providerId = projectProviderMappingDao.queryForEq("projectID", Integer.parseInt(projectID)).get(0).getProjectID();
 			 provider = ProviderDAOManager.getInstance().providerDao.queryForId(providerId).getName();
 		} catch (NumberFormatException e) {
 			logger.error("Error in finding provider for project :"+e.getMessage());

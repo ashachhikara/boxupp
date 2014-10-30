@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,boxes,vagrantStatus,executeCommand,retrieveMappings,MachineConfig){
+=======
 angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,ResourcesData,vagrantStatus,executeCommand,retrieveMappings){
+>>>>>>> 957315571257aa92b4976526f7069490c25f5309
 
 	$scope.boxuppMappings = {};
 	$scope.serverAddress = "http://"+window.location.host;
@@ -11,13 +15,19 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.outputConsole.boxuppExecuting = false;
 	$scope.outputConsole.boxuppOutputWindow = false;
 	$scope.providerValidation = false;
-	
 	$scope.bodyStyle.applyDashBoardStyling = true;
+	$scope.quickBox = {};
 	
 	$scope.resetCtrlBarSecNav = function(){
 		$('ul.ctrl-bar-sec-list li').removeClass('active');
 	}
-
+	$scope.createBoxes = function(boxData){
+		boxData.projectID = $routeParams.projectID;
+		MachineConfig.save(boxData,function(data){
+			$scope.boxesData.push(angular.copy(data.beanData));
+		});
+	}
+	
 	$scope.vagrantCommands = {
 		0:"Choose what's best"
 	};
@@ -30,6 +40,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		$scope.fetchScriptList();
 		$scope.fetchModuleList();
 	});
+
 
 	$scope.fetchBoxList = function(){
 		ResourcesData.fetchBoxList($routeParams.projectID).then(function(response){
@@ -297,12 +308,12 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		if(!$scope.vagrantSelection.vagrantID.$error.pattern && 
 			!$scope.vagrantSelection.vagrantID.$error.maxlength && 
 			!$scope.vagrantSelection.vagrantID.$error.required){
-		var vagrantID = "";
-		vagrantID = $scope.activeVM.vagrantID +"";
-		if(vagrantID.length>8){
-			vagrantID = vagrantID.substring(0,8);
-			$scope.activeVM.vagrantID = vagrantID;
-		}
+			var vagrantID = "";
+			vagrantID = $scope.activeVM.vagrantID +"";
+			if(vagrantID.length>8){
+				vagrantID = vagrantID.substring(0,8);
+				$scope.activeVM.vagrantID = vagrantID;
+			}
 		}
 	}
 	
@@ -504,7 +515,6 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 				configData.cookbooksChangeFlag
 			);
 	}
-	
 	
 	$scope.pushNewVM = function(id,name,type,url,ip){
 		/*var newVMProps = {};

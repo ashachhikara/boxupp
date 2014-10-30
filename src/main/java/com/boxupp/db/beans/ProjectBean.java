@@ -8,10 +8,10 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "project")
 public class ProjectBean  {
 	
-	public static final String ID_FIELD_NAME = "projectId";
+	public static final String ID_FIELD_NAME = "projectID";
 
 	@DatabaseField(canBeNull = false, generatedId=true, useGetSet = true, columnName=ID_FIELD_NAME)
-	private Integer projectId;
+	private Integer projectID;
 	
 	@DatabaseField(useGetSet = true)
 	private String name;
@@ -32,11 +32,11 @@ public class ProjectBean  {
 	private boolean disabled;
 
 	
-	public Integer getProjectId() {
-		return projectId;
+	public Integer getProjectID() {
+		return projectID;
 	}
-	public void setProjectId(Integer projectId) {
-		this.projectId = projectId;
+	public void setProjectID(Integer projectID) {
+		this.projectID = projectID;
 	}
 	public String getName() {
 		return name;

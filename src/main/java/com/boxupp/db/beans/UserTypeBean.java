@@ -6,8 +6,9 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "userType")
 public class UserTypeBean {
+	
 	@DatabaseField(canBeNull = false, generatedId=true, useGetSet = true)
-	private Integer id;
+	private Integer ID;
 	
 	@DatabaseField( useGetSet = true)
 	private Integer userTypeCode;
@@ -22,14 +23,14 @@ public class UserTypeBean {
 	private Date creationTime;
 	
 	@DatabaseField(useGetSet = true)
-	private Integer adminId;
+	private Integer adminID;
 
-	public Integer getId() {
-		return id;
+	public Integer getID() {
+		return ID;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setID(Integer ID) {
+		this.ID = ID;
 	}
 
 	public Integer getUserTypeCode() {
@@ -64,12 +65,12 @@ public class UserTypeBean {
 		this.creationTime = creationTime;
 	}
 
-	public Integer getAdminId() {
-		return adminId;
+	public Integer getAdminID() {
+		return adminID;
 	}
 
-	public void setAdminId(Integer adminId) {
-		this.adminId = adminId;
+	public void setAdminID(Integer adminID) {
+		this.adminID = adminID;
 	}
 	
 }

@@ -7,11 +7,11 @@ import com.boxupp.responseBeans.StatusBean;
 public interface DAOImplInterface {
 	public StatusBean create(JsonNode data);
 	
-	public <T>T read(String id);
+	public <T>T read(String ID);
 	
 	public StatusBean update(JsonNode updatedData);
 	
-	public StatusBean delete(String id);
+	public StatusBean delete(String ID);
 	
 	/*public StatusBean createMappedDB(String MappedId, JsonNode newData);
 	

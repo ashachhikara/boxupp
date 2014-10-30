@@ -7,21 +7,21 @@ import com.j256.ormlite.table.DatabaseTable;
 public class ProviderBean {
 	
 	@DatabaseField(canBeNull = false, generatedId=true, useGetSet = true)
-	private Integer providerId;
+	private Integer providerID;
 	
 
-	@DatabaseField(useGetSet = true)
+	@DatabaseField(useGetSet = true, unique = true)
 	private String name;
 	
 	@DatabaseField(useGetSet = true)
 	private boolean disabled;
 	
-	public Integer getProviderId() {
-		return providerId;
+	public Integer getProviderID() {
+		return providerID;
 	}
 
-	public void setProviderId(Integer providerId) {
-		this.providerId = providerId;
+	public void setProviderID(Integer providerID) {
+		this.providerID = providerID;
 	}
 
 	

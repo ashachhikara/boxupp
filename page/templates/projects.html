@@ -44,11 +44,10 @@
 					            	</div>
 					            	<div class="boxConfig col-sm-10"> 
 					            		<div class="boxConfigTitles">Select a provider type<sup>*</sup></div>
-						            	<select name="providerNames" ng-model="newProject.providerType" ng-options="provider.providerId as provider.name for provider in providers" class="form-control">
+						            	<select name="providerNames" ng-model="newProject.providerType" ng-options="provider.providerID as provider.name for provider in providers" class="form-control">
 
 		    								<option value="" >Select a provider</option>
 
-		    								<option value="">Select Provider type</option>
 
 										</select>
 					            	</div>
