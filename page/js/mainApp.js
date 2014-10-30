@@ -31,7 +31,6 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		$scope.providerValidation = true;
 	}
 
-
 	$scope.fetchBoxList = function(){
 		ResourcesData.fetchBoxList($routeParams.projectID).then(function(response){
 			console.log(response);

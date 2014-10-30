@@ -5,12 +5,16 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+<<<<<<< Updated upstream
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ProjectProviderMappingBean;
+=======
+>>>>>>> Stashed changes
 import com.boxupp.db.beans.ProviderBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
+import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
@@ -105,14 +109,6 @@ public class DBConnectionManager {
 			TableUtils.createTable(connectionSource, ShellScriptMapping.class);
 			TableUtils.createTable(connectionSource, PuppetModuleMapping.class);
 			
-
-
-
-
-
-
-
->>>>>>> .theirs
 //			
 		//TableUtils.createTable(connectionSource, PuppetModuleBean.class);
 //			
@@ -141,6 +137,7 @@ public class DBConnectionManager {
 			//**************CREATE_ENTRIES***********************//
 			
 			System.out.println("Created tables for mapping");
+		}
 		}catch (SQLException e) {
 			System.out.println("Error creating table : " + e.getMessage());
 			e.printStackTrace();
