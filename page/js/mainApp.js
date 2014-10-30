@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,boxes,vagrantStatus,executeCommand,retrieveMappings,MachineConfig){
-=======
 angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,ResourcesData,vagrantStatus,executeCommand,retrieveMappings){
->>>>>>> 957315571257aa92b4976526f7069490c25f5309
 
 	$scope.boxuppMappings = {};
 	$scope.serverAddress = "http://"+window.location.host;
@@ -35,12 +31,6 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		$scope.providerValidation = true;
 	}
 
-	(function(){
-		$scope.fetchBoxList();
-		$scope.fetchScriptList();
-		$scope.fetchModuleList();
-	});
-
 
 	$scope.fetchBoxList = function(){
 		ResourcesData.fetchBoxList($routeParams.projectID).then(function(response){
@@ -59,6 +49,10 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 			console.log(response);
 		});			
 	}
+
+	$scope.fetchBoxList();
+	$scope.fetchScriptList();
+	$scope.fetchModuleList();
 	
 	/*retrieveMappings.fetchMappings($scope.serverAddress,$scope).then(function(response){
 			if(response.data !== null){
@@ -308,12 +302,6 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		if(!$scope.vagrantSelection.vagrantID.$error.pattern && 
 			!$scope.vagrantSelection.vagrantID.$error.maxlength && 
 			!$scope.vagrantSelection.vagrantID.$error.required){
-			var vagrantID = "";
-			vagrantID = $scope.activeVM.vagrantID +"";
-			if(vagrantID.length>8){
-				vagrantID = vagrantID.substring(0,8);
-				$scope.activeVM.vagrantID = vagrantID;
-			}
 		}
 	}
 	
@@ -700,6 +688,8 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
             }
         }, 500);
 	}
+
+	
 
 });
 

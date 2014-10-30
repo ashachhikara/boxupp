@@ -39,7 +39,7 @@ angular.module("boxuppApp").controller('projectController',function($scope,Proje
 			$scope.newProject.owner=$routeParams.userID;
 			
 			$scope.newProject.creationTime = $filter('date')(new Date().getTime(), "yyyy'-'MM'-'dd HH':'mm':'ss");
-								 
+			$scope.newProject.creationTime = miscUtil.fetchCurrentTime();								 
 			Projects.save($scope.newProject,function(data){
 				$scope.projects.push(angular.copy(data.beanData));
 				//Reset New Project Modal Data

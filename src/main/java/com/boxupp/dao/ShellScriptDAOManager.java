@@ -63,6 +63,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		}
 		statusBean.setStatusCode(0);
 		statusBean.setStatusMessage("Shell script saved successfully");
+		statusBean.setData(shellScriptBean);
 		return statusBean;
 	}
 
@@ -82,6 +83,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		}
 		statusBean.setStatusCode(0);
 		statusBean.setStatusMessage("Shell script updated successfully");
+		statusBean.setData(shellScriptBean);
 		return statusBean;
 	}
 

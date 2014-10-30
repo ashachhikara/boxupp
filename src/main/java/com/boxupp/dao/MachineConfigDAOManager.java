@@ -141,11 +141,14 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	public <E> List<E> retireveBoxesForProject(String projectID) {
 		List<MachineConfigurationBean> machineList = new ArrayList<MachineConfigurationBean>();
 		try {
-		if (machineForProjectQuery == null) {
-			machineForProjectQuery =  makeMachineForProjectQuery();
-		}
-		 machineForProjectQuery.setArgumentHolderValue(0, ProjectDAOManager.projectDao.queryForId(Integer.parseInt(projectID)));
-		 machineList = machineConfigDao.query(machineForProjectQuery);
+			if (machineForProjectQuery == null) {
+				machineForProjectQuery =  makeMachineForProjectQuery();
+			}
+			ProjectBean projectBean = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectId));
+			if(projectBean != null){
+				machineForProjectQuery.setArgumentHolderValue(0, projectBean );
+				machineList = machineConfigDao.query(machineForProjectQuery);
+			}
 		} catch (NumberFormatException e) {
 			logger.error("Error in retireveing boxes for project : "+e.getMessage());
 		} catch (SQLException e) {
