@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,boxes,vagrantStatus,executeCommand,retrieveMappings,MachineConfig){
-=======
+
 angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,ResourcesData,vagrantStatus,executeCommand,retrieveMappings){
->>>>>>> 957315571257aa92b4976526f7069490c25f5309
 
 	$scope.boxuppMappings = {};
 	$scope.serverAddress = "http://"+window.location.host;
