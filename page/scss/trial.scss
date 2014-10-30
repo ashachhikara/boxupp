@@ -6,59 +6,6 @@ body.dashBoardStyling{
 	background : #FFF;
 }
 
-@mixin modal-header-footer{
-	
-	div.modal-body{
-		overflow : auto;
-
-		div.projectLogo{
-			height : 200px;
-			border-right : 1px solid #eee;
-			color : #71B1D1;
-			i{
-				font-size : 75px;	
-			}
-			
-		}
-		div.boxConfig{
-			margin-bottom : 15px;
-
-			div.boxConfigTitles{
-				@include nav-label-styling();
-				margin-bottom : 10px;
-			}
-
-			input, select{
-				border-radius : 0px;
-			}			
-		}
-	}
-	
-	div.modal-header, div.modal-footer{
-		color:#FFF;
-		background:#444546;
-		h4{
-			font-family: 'Roboto', sans-serif;		
-			font-size: 16px;
-			line-height: 11px;	
-			font-weight : 100;	
-		}
-		
-		a{
-			font-family: 'Roboto', sans-serif;		
-			font-size: 14px;
-			line-height: 11px;	
-			font-weight : 100;		
-		}
-	}
-}
-
-@mixin boxupp-modal-styling{
-	top:50px;
-	border-radius : 0px;
-	
-	@include modal-header-footer();		
-}
 
 $mainNavBackground : #71B1D1;
 $mainNavHoverBackground : #71B1D1;
@@ -70,14 +17,14 @@ div.ng-leave {
 div.ng-enter{
 	opacity : 1;
 }
-
+/*
 div{
 	
 	transition-property: all;
     transition-duration: 1.0s;
-     -webkit-transition-property: all; /* Safari */
-    -webkit-transition-duration: 0.5s; /* Safari */
-}
+     -webkit-transition-property: all; 
+    -webkit-transition-duration: 0.5s; 
+}*/
 
 .secondaryNavExpanded {
 	//width : 150px;
@@ -409,3 +356,5 @@ div.expandCtrlBar{
 
 @import './partials/login';
 @import './partials/projects';
+@import './partials/modals';
+
