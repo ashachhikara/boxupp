@@ -148,12 +148,11 @@
 					  		</div>
 					  		<div class="tab-pane fade" id="box-clone">
 					  			<div class="boxConfig"> <span class="boxConfigTitles">Select existing box<sup>*</sup></span> 
-					  				<select name="boxNames" ng-model="cloneBox" ng-options="box.ID as box.vagrantID for box in boxes" class="form-control">
-		    								
+					  				<select name="boxNames" ng-model="cloneBox" ng-options="box.ID as box.vagrantID for box in boxesData" class="form-control" >
 									</select>
 					  			</div>
 					  			<div class="boxConfig">
-								       	<a class="btn btn-success" ng-click="createBoxes(cloneBox)">Create Box</a>
+								       	<a class="btn btn-success" ng-click="cloneBoxData()" data-toggle="modal" data-target="#boxModal" >Create Box</a>
 								</div>
 					  		</div>
 					  		<div class="tab-pane fade" id="ctrl-bar-empty-play-area">

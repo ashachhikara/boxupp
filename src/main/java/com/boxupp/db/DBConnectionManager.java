@@ -56,19 +56,19 @@ public class DBConnectionManager {
 			
 			//************* DELETE TABLES **************//
 			System.out.println("started deleting tables");
-			TableUtils.dropTable(connectionSource, ProjectBean.class, false);
+			/*TableUtils.dropTable(connectionSource, ProjectBean.class, false);
 
 			TableUtils.dropTable(connectionSource, UserDetailBean.class, false);
 			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, false);
 			TableUtils.dropTable(connectionSource, ProjectProviderMappingBean.class, false);
 			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, false);
 			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, false);
-			TableUtils.dropTable(connectionSource, UserProjectMapping.class, false);
-//			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
+			TableUtils.dropTable(connectionSource, UserProjectMapping.class, false);*/
+			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, false);
+
 			System.out.println("started creating tables");
 			//************* CREATE TABLES **************//
-			//TableUtils.createTable(connectionSource, ProviderBean.class);
-			TableUtils.createTableIfNotExists(connectionSource, ProjectBean.class);
+			/*TableUtils.createTableIfNotExists(connectionSource, ProjectBean.class);
 			TableUtils.createTable(connectionSource, UserDetailBean.class);
 
 			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
@@ -77,8 +77,8 @@ public class DBConnectionManager {
 			TableUtils.createTable(connectionSource, UserProjectMapping.class);
 			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
 			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
+			TableUtils.createTable(connectionSource, PuppetModuleBean.class);*/
 			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
-			
 			//TableUtils.createTable(connectionSource, UserProjectMapping.class);
 			//TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
 			//TableUtils.createTable(connectionSource, MachineProjectMapping.class);
