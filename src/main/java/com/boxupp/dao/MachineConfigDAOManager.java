@@ -144,7 +144,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 			if (machineForProjectQuery == null) {
 				machineForProjectQuery =  makeMachineForProjectQuery();
 			}
-			ProjectBean projectBean = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectId));
+			ProjectBean projectBean = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID));
 			if(projectBean != null){
 				machineForProjectQuery.setArgumentHolderValue(0, projectBean );
 				machineList = machineConfigDao.query(machineForProjectQuery);

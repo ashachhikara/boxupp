@@ -1,4 +1,4 @@
-angular.module("boxuppApp").controller('projectController',function($scope,Projects,Providers,User,$routeParams,$filter,$location){
+angular.module("boxuppApp").controller('projectController',function($scope,Projects,Providers,User,$routeParams,$filter,$location,miscUtil){
 
 	/*$scope.projects = Projects.query(function(){
 		if($scope.projects.length === 0) $scope.noProjectsInfo = true;
