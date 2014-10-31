@@ -1,4 +1,5 @@
-angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,ResourcesData,vagrantStatus,executeCommand,retrieveMappings){
+
+angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings){
 
 	$scope.boxuppMappings = {};
 	$scope.serverAddress = "http://"+window.location.host;
@@ -13,6 +14,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.providerValidation = false;
 	$scope.bodyStyle.applyDashBoardStyling = true;
 	$scope.quickBox = {};
+	$scope.cloneBox = null;
 	
 	$scope.resetCtrlBarSecNav = function(){
 		$('ul.ctrl-bar-sec-list li').removeClass('active');
@@ -23,7 +25,11 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 			$scope.boxesData.push(angular.copy(data.beanData));
 		});
 	}
-	
+	$scope.cloneBoxData = function(){
+		$scope.cloneBox.networkIP = null;
+		$scope.cloneBox.vagrantID = null;
+		$scope.activeVM = $scope.cloneBox;
+	}
 	$scope.vagrantCommands = {
 		0:"Choose what's best"
 	};
@@ -33,7 +39,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 
 	$scope.fetchBoxList = function(){
 		ResourcesData.fetchBoxList($routeParams.projectID).then(function(response){
-			console.log(response);
+			$scope.boxesData.push(angular.copy(response));
 		});	
 	}
 

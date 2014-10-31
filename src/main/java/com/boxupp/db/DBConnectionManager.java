@@ -94,7 +94,6 @@ public class DBConnectionManager {
 			
 			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
 			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
-			
 			//***************CREATE_ENTRIES**********************//
 			
 			/*ProviderBean provider1 = new ProviderBean();

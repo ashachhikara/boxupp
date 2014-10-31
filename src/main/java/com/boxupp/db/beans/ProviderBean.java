@@ -24,8 +24,6 @@ public class ProviderBean {
 		this.providerID = providerID;
 	}
 
-	
-
 	public String getName() {
 		return name;
 	}
