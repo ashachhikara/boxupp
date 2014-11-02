@@ -44,9 +44,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 
 	@Override
 	public StatusBean create(JsonNode newData) {
-		System.out.println(newData.get("projectID").getTextValue());
 		MachineConfigurationBean machineConfigBean  = null;
-		System.out.println(newData.get("boxType"));
 		Gson machineConfigData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		ObjectNode object = (ObjectNode) newData;
 		JsonNode syncFolderMappings = object.remove("syncFolders");
@@ -72,7 +70,6 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 			statusBean.setStatusMessage("Error saving machine configuration : "+e.getMessage());
 			e.printStackTrace();
 		}
-		
 		statusBean.setStatusCode(0);
 		statusBean.setStatusMessage("Machine Congifuration saved successfully");
 		return statusBean;

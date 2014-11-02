@@ -17,6 +17,9 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.providerValidation = false;
 	$scope.bodyStyle.applyDashBoardStyling = true;
 	$scope.quickBox = {};
+	$scope.listOfSSHImages=[{
+			"name":"boxupp / centos-base",
+		}];
 	
 	$scope.searchNewModule = function(moduleSearchText){
 		alert(moduleSearchText);
@@ -33,12 +36,16 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		$('ul.ctrl-bar-sec-list li').removeClass('active');
 	}
 	$scope.createBoxes = function(boxData){
+		if(boxData.dockerImage){
+			boxData.dockerImage = boxData.dockerImage.name;
+		}
 		$scope.toBeCreatedBox = angular.copy(boxData);
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			$scope.boxesData.push(data.beanData);
 		});
 	}
+	
 	$scope.cloneBoxData = function(cloneBox){
 		$scope.toBeClonedBox = angular.copy(cloneBox);
 		$scope.toBeClonedBox.networkIP = null;

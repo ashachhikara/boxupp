@@ -47,5 +47,18 @@ public class ShellScript {
 	public StatusBean deleteShellScript(@PathParam("id") String shellScriptId) {
 		return ShellScriptDAOManager.getInstance().delete(shellScriptId);
 	}
-	
+	@PUT
+	@Path("linkScript")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes("application/json")
+	public StatusBean saveScriptMapping(JsonNode shellScriptMapping){
+		return ShellScriptDAOManager.getInstance().linkScriptMachine(shellScriptMapping);
+	}
+	@DELETE
+	@Path("dLinkScript")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes("application/json")
+	public StatusBean deleteScriptMapping(JsonNode shellScriptMapping){
+		return ShellScriptDAOManager.getInstance().dLinkScriptMachine(shellScriptMapping);
+	}
 }
