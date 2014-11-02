@@ -3,12 +3,12 @@ package com.boxupp.db.beans;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "forwordedPort")
+@DatabaseTable(tableName = "forwarded_port")
 public class ForwardedPortsBean {
 	
 	public static final String MACHINE_ID_FIELD_NAME = "machineID";
 	
-	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = MACHINE_ID_FIELD_NAME)
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = MACHINE_ID_FIELD_NAME)
 	MachineConfigurationBean machineConfig;
 	
 	@DatabaseField(useGetSet = true)

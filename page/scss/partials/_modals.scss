@@ -2,7 +2,7 @@
 	
 	div.modal-body{
 		overflow : auto;
-
+		color: black;
 		div.projectLogo{
 			height : 200px;
 			border-right : 1px solid #eee;
@@ -11,8 +11,8 @@
 				font-size : 75px;	
 			}
 			
-		}
-		div.boxConfig{
+		} 
+		div.boxConfig, div.moduleConfig{
 			margin-bottom : 15px;
 
 			div.editor{
@@ -20,7 +20,7 @@
 				-webkit-transition-duration: 0s;
 			}
 
-			span.boxConfigTitles{
+			span.boxConfigTitles, span.moduleConfigTitles{
 				@include modal-label-styling();
 				margin-bottom : 10px;
 				color : grey;
@@ -39,18 +39,15 @@
 			font-family: 'Roboto', sans-serif;		
 			font-size: 16px;
 			line-height: 11px;	
-			font-weight : 100;	
+			font-weight : 300;	
 		}
 		
 		a{
 			font-family: 'Roboto', sans-serif;		
 			font-size: 14px;
 			line-height: 11px;	
-			font-weight : 100;		
+			font-weight : 300;		
 		}
-	}
-	div.modal-body{
-		color: black;
 	}
 }
 

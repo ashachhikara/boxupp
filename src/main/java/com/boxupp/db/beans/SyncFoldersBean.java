@@ -3,14 +3,14 @@ package com.boxupp.db.beans;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "syncFolder")
+@DatabaseTable(tableName = "sync_folder")
 public class SyncFoldersBean {
-	public static final String MACHINE_ID_FIELD_NAME = "machine_ID";
+	public static final String MACHINE_ID_FIELD_NAME = "machineID";
 	
 	@DatabaseField(canBeNull = false, generatedId= true, useGetSet = true)
 	private Integer syncFolderID;
 	
-	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = MACHINE_ID_FIELD_NAME)
+	@DatabaseField(foreign = true, foreignAutoCreate=true, foreignAutoRefresh = true, columnName = MACHINE_ID_FIELD_NAME)
 	MachineConfigurationBean machineConfig;
 	
 	@DatabaseField(useGetSet = true)

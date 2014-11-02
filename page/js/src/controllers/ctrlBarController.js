@@ -14,6 +14,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 			if(data.statusCode === 0){
 				console.info('Shell Script has been saved successfully');
 				console.log(data);
+				$scope.shellScripts.push(data.beanData);
 			}
 			
 		});

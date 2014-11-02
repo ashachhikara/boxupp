@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
@@ -47,16 +48,21 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		MachineConfigurationBean machineConfigBean  = null;
 		System.out.println(newData.get("boxType"));
 		Gson machineConfigData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
+		ObjectNode object = (ObjectNode) newData;
+		JsonNode syncFolderMappings = object.remove("syncFolders");
+		JsonNode portForwardingMappings = object.remove("portMappings");
+		JsonNode dockerLinkContainerMappings = object.remove("dockerLinks");
+		newData = object;
 		machineConfigBean = machineConfigData.fromJson(newData.toString(),MachineConfigurationBean.class);
 		StatusBean statusBean = new StatusBean();
 		try {
 			machineConfigDao.create(machineConfigBean);
-			if(newData.get("portMappings") != null)PortMappingDAOManager.getInstance().save(machineConfigBean, newData.get("portMappings"));
-			if(newData.get("portMappings") != null)SyncFolderDAOManager.getInstance().save(machineConfigBean, newData.get("syncFolders"));
-			if(newData.get("syncFolders") != null){
-				DockerLinkDAOManager.getInstance().save(machineConfigBean, newData.get("dockerLinkContainers"));
+			if(portForwardingMappings!= null && portForwardingMappings.size()>0)PortMappingDAOManager.getInstance().save(machineConfigBean, portForwardingMappings);
+			if(syncFolderMappings!=null && syncFolderMappings.size()>0)SyncFolderDAOManager.getInstance().save(machineConfigBean, syncFolderMappings);
+			if(dockerLinkContainerMappings!=null && dockerLinkContainerMappings.size()>0){
+				DockerLinkDAOManager.getInstance().save(machineConfigBean, dockerLinkContainerMappings);
 			}
-			ProjectBean project = ProjectDAOManager.projectDao.queryForId(Integer.parseInt(newData.get("projectID").getTextValue()));
+			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(newData.get("projectID").getTextValue()));
 			MachineProjectMapping machineProjectMApping = new MachineProjectMapping(project, machineConfigBean);
 			machineMappingDao.create(machineProjectMApping);
 			statusBean.setData(machineConfigBean);
@@ -183,6 +189,8 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		machineProjectQb.where().eq(MachineProjectMapping.PROJECT_ID_FIELD_NAME, userSelectArg);
 		QueryBuilder<MachineConfigurationBean, Integer> machineConfigQb = machineConfigDao.queryBuilder();
 		machineConfigQb.where().in(MachineConfigurationBean.ID_FIELD_NAME, machineProjectQb);
+		System.out.println(machineConfigQb.prepareStatementString());
 		return machineConfigQb.prepare();
+		
 	}
 }

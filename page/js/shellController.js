@@ -74,11 +74,7 @@ angular.module("boxuppApp").
 		return scriptStatus;
 	}
 	
-	$scope.selectScript = function(num){
-		if($scope.nodeSelectionDisabled === true) animateArrow();
-		$scope.activeScript = $scope.shellScripts[num];
-		$scope.nodeSelectionDisabled = false;
-	}
+	
 	
 	$scope.deleteScript = function(num){
 		$scope.removeMappings($scope.shellScripts[num].scriptName);

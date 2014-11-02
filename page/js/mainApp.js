@@ -1,6 +1,7 @@
 
 angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings){
 
+	$scope.projectData = {};
 	$scope.boxuppMappings = {};
 	$scope.serverAddress = "http://"+window.location.host;
 	$scope.serverWSAddress = "ws://"+window.location.host;
@@ -8,27 +9,42 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.vagrantOptions = 0;
 	$scope.apiHitInterval = 500; //0.5 second
 	$scope.activeVM = null;
+	$scope.activeScript = null;
+	$scope.projectData.activeModule = null;
 	$scope.outputConsole = {};
 	$scope.outputConsole.boxuppExecuting = false;
 	$scope.outputConsole.boxuppOutputWindow = false;
 	$scope.providerValidation = false;
 	$scope.bodyStyle.applyDashBoardStyling = true;
 	$scope.quickBox = {};
-	$scope.cloneBox = null;
 	
+	$scope.searchNewModule = function(moduleSearchText){
+		alert(moduleSearchText);
+		puppetModule.searchPuppetModule(moduleSearchText);
+	}
+	$scope.selectScript = function(num){
+		// if($scope.nodeSelectionDisabled === true) animateArrow();
+		$scope.activeScript = $scope.shellScripts[num];
+		alert(num);
+		// $scope.nodeSelectionDisabled = false;
+	}
+
 	$scope.resetCtrlBarSecNav = function(){
 		$('ul.ctrl-bar-sec-list li').removeClass('active');
 	}
 	$scope.createBoxes = function(boxData){
-		boxData.projectID = $routeParams.projectID;
-		MachineConfig.save(boxData,function(data){
-			$scope.boxesData.push(angular.copy(data.beanData));
+		$scope.toBeCreatedBox = angular.copy(boxData);
+		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
+		MachineConfig.save($scope.toBeCreatedBox,function(data){
+			$scope.boxesData.push(data.beanData);
 		});
 	}
-	$scope.cloneBoxData = function(){
-		$scope.cloneBox.networkIP = null;
-		$scope.cloneBox.vagrantID = null;
-		$scope.activeVM = $scope.cloneBox;
+	$scope.cloneBoxData = function(cloneBox){
+		$scope.toBeClonedBox = angular.copy(cloneBox);
+		$scope.toBeClonedBox.networkIP = null;
+		$scope.toBeClonedBox.vagrantID = null;
+		$scope.activeVM = $scope.toBeClonedBox;
+		$('#boxModal').modal('show');
 	}
 	$scope.vagrantCommands = {
 		0:"Choose what's best"
@@ -39,13 +55,17 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 
 	$scope.fetchBoxList = function(){
 		ResourcesData.fetchBoxList($routeParams.projectID).then(function(response){
-			$scope.boxesData.push(angular.copy(response));
+			if(response.length > 0){
+				// $scope.boxesData.push(angular.copy(response));
+				$scope.boxesData = response;
+			}			
 		});	
 	}
 
 	$scope.fetchScriptList = function(){
 		ResourcesData.fetchScriptList($routeParams.projectID).then(function(response){
 			console.log(response);
+			$scope.shellScripts = response;
 		});		
 	}
 	
@@ -286,6 +306,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 							"bootTimeout":"300",
 							"guiMode":false
 						}*/
+	$scope.projectData.modules = [];
 	$scope.puppet = {
 		"manifests":[{"moFileName":"nodes.pp",
 					  "moFileSource":"# Sample nodes.pp file\n# Add master node \n# node \"puppet.vagrant.master.com\"\n# {\n# }\n# Add agent node \n# node \"puppet.vagrant.mysql.com\"\n# {\n    #Include modules to be added on the node in this format include module_name refer below e.g\n    #include haproxy\n# }",
@@ -579,7 +600,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	}
 	$scope.selectNode = function(num){
 		$scope.activeVM = $scope.boxesData[num];
-		$scope.resetBoxURLChangeStatus();
+		// $scope.resetBoxURLChangeStatus();
 	}
 
 	$scope.deleteFolderMapping = function(mappingNumber){

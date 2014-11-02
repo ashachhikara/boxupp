@@ -9,3 +9,31 @@
 			</div>
 	</div>
 </div>-->
+
+<div ng-show="boxesData.length == 0">
+	<span class="messageTitle">No Boxes found</span>
+</div>
+<div ng-show="boxesData.length >0 && activeVM === null">
+	<span class="messageTitle">Select a box to manage</span>
+</div>
+
+<div class="boxDetails" ng-show="boxesData.length>0 && activeVM !== null">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<td>VagrantID</td>
+				<td>Box Type</td>
+				<td>CPU Allocated</td>
+				<td>RAM Allocated</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><span ng-bind="activeVM.vagrantID"></span></td>
+				<td><span ng-bind="activeVM.boxType"></span></td>
+				<td><span ng-bind="activeVM.cpu"></span></td>
+				<td><span ng-bind="activeVM.ram"></span></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -10,6 +10,7 @@ import org.codehaus.jackson.JsonNode;
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.DockerLinkBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
+import com.boxupp.db.beans.SyncFoldersBean;
 import com.boxupp.responseBeans.StatusBean;
 import com.google.gson.Gson;
 import com.j256.ormlite.dao.Dao;
@@ -35,15 +36,15 @@ public class DockerLinkDAOManager {
 	public StatusBean save(MachineConfigurationBean machineConfig, JsonNode dockerLinkMapping) {
 		StatusBean statusBean = new StatusBean();
 		//DockerLinkBean dockerLink = new DockerLinkBean();
-		Gson portforwarded = new Gson();
-		List<DockerLinkBean> dockerLinks   = (List<DockerLinkBean>) portforwarded.fromJson(dockerLinkMapping.toString(), DockerLinkBean.class);
+		Gson dockerLink = new Gson();
+		
 		
 		try {
-			for(DockerLinkBean dockerLink : dockerLinks){
-				dockerLink.setMachineConfig(machineConfig);
-				dockerLinkDao.create(dockerLink);
+			for(JsonNode mapping : dockerLinkMapping){
+				DockerLinkBean dockerLinkBean = dockerLink.fromJson(mapping.toString(), DockerLinkBean.class);
+				dockerLinkBean.setMachineConfig(machineConfig);
+				dockerLinkDao.create(dockerLinkBean);
 			}
-			
 		} catch (SQLException e) {
 			logger.error("Error creating a new sync folder mapping : " + e.getMessage());
 			statusBean.setStatusCode(1);

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.db.DAOProvider;
+import com.boxupp.db.beans.ForwardedPortsBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.SyncFoldersBean;
 import com.boxupp.responseBeans.StatusBean;
@@ -31,17 +32,15 @@ public class SyncFolderDAOManager {
 	private  SyncFolderDAOManager() {
 		syncFolderDao = DAOProvider.getInstance().fetchDao(SyncFoldersBean.class);
 	}
-	public StatusBean save(MachineConfigurationBean machineConfig,
-			JsonNode syncFolderData) {
+	public StatusBean save(MachineConfigurationBean machineConfig, JsonNode syncFolderData) {
 		StatusBean statusBean = new StatusBean();
 		
-		Gson portforwarded = new Gson();
-		List<SyncFoldersBean> syncFolders  = (List<SyncFoldersBean>) portforwarded.fromJson(syncFolderData.toString(), SyncFoldersBean.class);
-		
+		Gson syncFolder = new Gson();
 		try {
-			for (SyncFoldersBean syncFolder: syncFolders){
-				syncFolder.setMachineConfig(machineConfig);
-				syncFolderDao.create(syncFolder);
+			for(JsonNode mapping : syncFolderData){
+				SyncFoldersBean syncFolderMapping = syncFolder.fromJson(mapping.toString(), SyncFoldersBean.class);
+				syncFolderMapping.setMachineConfig(machineConfig);
+				syncFolderDao.create(syncFolderMapping);
 			}
 		} catch (SQLException e) {
 			logger.error("Error creating a new sync folder mapping : " + e.getMessage());

@@ -3,7 +3,7 @@ package com.boxupp.db.beans;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "dockerLinks")
+@DatabaseTable(tableName = "container_link")
 public class DockerLinkBean {
 	public static final String MACHINE_ID_FIELD_NAME = "machineID";
 	

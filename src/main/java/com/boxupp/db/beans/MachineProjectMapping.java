@@ -5,8 +5,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "machineProjectMapping")
 public class MachineProjectMapping {
-	public final static String MACHINE_ID_FIELD_NAME = "machine_ID";
-	public final static String PROJECT_ID_FIELD_NAME = "project_ID";
+	public final static String MACHINE_ID_FIELD_NAME = "machineID";
+	public final static String PROJECT_ID_FIELD_NAME = "projectID";
 	public MachineProjectMapping( ProjectBean project,
 			MachineConfigurationBean machineConfig) {
 		super();

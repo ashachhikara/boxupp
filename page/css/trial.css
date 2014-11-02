@@ -170,6 +170,12 @@ div#controlBar ul.controlBarList li a.controlBarBtns {
 div#controlBar ul.controlBarList li a.controlBarBtns:hover {
   background: #FFF; }
 
+div#controlBar {
+  transition-property: all;
+  transition-duration: 0.5s;
+  -webkit-transition-property: all;
+  -webkit-transition-duration: 0.5s; }
+
 div .collapseCtrlBar {
   height: 0px; }
 div .normalCtrlBar {
@@ -364,5 +370,22 @@ div.modal-content {
       font-weight: 100; }
   div.modal-content div.modal-body {
     color: black; }
+
+span.messageTitle {
+  font-family: 'Roboto', sans-serif;
+  font-size: 35px;
+  line-height: 11px;
+  font-weight: 100;
+  color: grey;
+  margin-top: 20px;
+  position: relative;
+  top: 20px; }
+
+span.messageDescription {
+  font-family: 'Roboto', sans-serif;
+  font-size: 22px;
+  line-height: 11px;
+  font-weight: 100;
+  color: grey; }
 
 /*# sourceMappingURL=trial.css.map */

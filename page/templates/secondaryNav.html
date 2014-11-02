@@ -36,9 +36,15 @@
 
 			<!-- MODULES_LIST-->
 			<div class="tab-pane fade" id="modulesList">
-				<div>
-					Modules List
-				</div>
+				<ul class="nav nav-pills nav-stacked secondaryNavList">
+					<li ng-repeat="module in projectData.modules">
+						<a data-target="#" ng-click="selectModule($index)">
+							<div class="main-nav-icon"><i class="fa fa-code"></i></div>
+							<div class="main-nav-label">{{module.moduleName}}</div>
+							<div class="main-nav-description"></div>
+						</a>
+					</li>
+				</ul>
 			</div>
 			<!-- MODULES_LIST-->
 			  	

@@ -29,7 +29,8 @@ public class MachineConfigurationBean {
 
 	@ForeignCollectionField
 	private ForeignCollection<ForwardedPortsBean> portMappings;
-	@ForeignCollectionField
+	
+	@ForeignCollectionField(eager = true)
 	private ForeignCollection<SyncFoldersBean> syncFolders;
 	
 	@ForeignCollectionField
