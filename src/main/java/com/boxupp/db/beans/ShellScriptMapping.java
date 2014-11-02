@@ -15,6 +15,10 @@ public class ShellScriptMapping {
 		this.script = script;
 		this.project = project;
 	}
+	
+	public ShellScriptMapping(){
+		
+	}
 
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
 	private Integer ID;

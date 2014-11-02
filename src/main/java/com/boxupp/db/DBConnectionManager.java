@@ -11,6 +11,9 @@ import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ProjectProviderMappingBean;
 import com.boxupp.db.beans.ProviderBean;
 import com.boxupp.db.beans.PuppetModuleBean;
+import com.boxupp.db.beans.PuppetModuleMapping;
+import com.boxupp.db.beans.ShellScriptBean;
+import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.db.beans.UserDetailBean;
 import com.boxupp.db.beans.UserProjectMapping;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -56,44 +59,41 @@ public class DBConnectionManager {
 			
 			//************* DELETE TABLES **************//
 			System.out.println("started deleting tables");
-			/*TableUtils.dropTable(connectionSource, ProjectBean.class, false);
+			TableUtils.dropTable(connectionSource, ProjectBean.class, true);
+//			TableUtils.dropTable(connectionSource, ProviderBean.class, true);
+			TableUtils.dropTable(connectionSource, ProjectProviderMappingBean.class, true);
+			TableUtils.dropTable(connectionSource, UserProjectMapping.class, true);
+//			TableUtils.dropTable(connectionSource, UserDetailBean.class, true);
+//			
+			//TableUtils.D(connectionSource, UserDetailBean.class, false);
 
-			TableUtils.dropTable(connectionSource, UserDetailBean.class, false);
+			TableUtils.dropTable(connectionSource, ShellScriptBean.class, true);
+			TableUtils.dropTable(connectionSource, ShellScriptMapping.class, true);
+			TableUtils.dropTable(connectionSource, PuppetModuleMapping.class, true);
+			
 			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, false);
-			TableUtils.dropTable(connectionSource, ProjectProviderMappingBean.class, false);
-			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, false);
-			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, false);
-			TableUtils.dropTable(connectionSource, UserProjectMapping.class, false);*/
-			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, false);
-
+//			
+			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, true);
+			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, true);
+//			
+//			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
 			System.out.println("started creating tables");
 			//************* CREATE TABLES **************//
-			/*TableUtils.createTableIfNotExists(connectionSource, ProjectBean.class);
-			TableUtils.createTable(connectionSource, UserDetailBean.class);
 
+			TableUtils.createTable(connectionSource, ProjectBean.class);
+//			TableUtils.createTable(connectionSource, ProviderBean.class);
 			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
-
-			
 			TableUtils.createTable(connectionSource, UserProjectMapping.class);
+//			TableUtils.createTable(connectionSource, UserDetailBean.class);			
+
+			TableUtils.createTable(connectionSource, ShellScriptBean.class);
+			TableUtils.createTable(connectionSource, ShellScriptMapping.class);
+			TableUtils.createTable(connectionSource, PuppetModuleMapping.class);
+
+			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
+			
 			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
 			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
-			TableUtils.createTable(connectionSource, PuppetModuleBean.class);*/
-			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
-			//TableUtils.createTable(connectionSource, UserProjectMapping.class);
-			//TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
-			//TableUtils.createTable(connectionSource, MachineProjectMapping.class);
-			//TableUtils.createTableIfNotExists(connectionSource, ProviderBean.class);
-			//TableUtils.createTableIfNotExists(connectionSource, ProjectProviderMappingBean.class);
-
-//			
-		//TableUtils.createTable(connectionSource, PuppetModuleBean.class);
-//			
-//			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
-//			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
-//			
-//		
-//			TableUtils.createTable(connectionSource, GitRepoBean.class);
-			
 			//***************CREATE_ENTRIES**********************//
 			
 			/*ProviderBean provider1 = new ProviderBean();
@@ -113,6 +113,8 @@ public class DBConnectionManager {
 			//**************CREATE_ENTRIES***********************//
 			
 			System.out.println("Created tables for mapping");
+		
+		
 		}catch (SQLException e) {
 			System.out.println("Error creating table : " + e.getMessage());
 			e.printStackTrace();
