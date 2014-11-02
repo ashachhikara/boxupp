@@ -142,23 +142,20 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 					.getInstance().projectDao.queryForId(Integer.parseInt(projectID)));
 			puppetModuleList = puppetModuleDao.query(moduleForProjectQuery);
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in retireveing module :"+e.getMessage());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in retireveing module :"+e.getMessage());
 		}
 		return (List<E>) puppetModuleList;
 	}
-	public StatusBean saveMachineMappingWithModule(String machineID,
-			String moduleID, String projectID) {
+	public StatusBean linkModuleWithMachine(JsonNode moduleMachineMapping) {
 		StatusBean statusBean = new StatusBean();
 		try {
 			ProjectBean project = ProjectDAOManager.getInstance().projectDao
-					.queryForId(Integer.parseInt(projectID));
-			PuppetModuleBean puppetModule = puppetModuleDao.queryForId(Integer.parseInt(moduleID));
+					.queryForId(Integer.parseInt(moduleMachineMapping.get("projectID").toString()));
+			PuppetModuleBean puppetModule = puppetModuleDao.queryForId(Integer.parseInt(moduleMachineMapping.get("moduleID").toString()));
 			MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().
-					machineConfigDao.queryForId(Integer.parseInt(machineID));
+					machineConfigDao.queryForId(Integer.parseInt(moduleMachineMapping.get("machineID").toString()));
 			puppetModuleMappingDao.updateBuilder()
 			.updateColumnValue(PuppetModuleMapping.MACHINE_ID_FIELD_NAME,machineConfig)
 					.where().eq(PuppetModuleMapping.PROJECT_ID_FIELD_NAME, project)
@@ -175,6 +172,34 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 		}
 		statusBean.setStatusCode(0);
 		statusBean.setStatusMessage("Machine Mapping with  puppet Module saved successfully");
+
+		return statusBean;
+
+	}
+	public StatusBean dLinkModuleWithMachine(JsonNode moduleMachineMapping) {
+		StatusBean statusBean = new StatusBean();
+		try {
+			ProjectBean project = ProjectDAOManager.getInstance().projectDao
+					.queryForId(Integer.parseInt(moduleMachineMapping.get("projectID").toString()));
+			PuppetModuleBean puppetModule = puppetModuleDao.queryForId(Integer.parseInt(moduleMachineMapping.get("moduleID").toString()));
+			MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().
+					machineConfigDao.queryForId(Integer.parseInt(moduleMachineMapping.get("machineID").toString()));
+			puppetModuleMappingDao.updateBuilder().updateColumnValue(PuppetModuleMapping.MACHINE_ID_FIELD_NAME, null)
+					.where().eq(PuppetModuleMapping.PROJECT_ID_FIELD_NAME, project)
+					.and().eq(PuppetModuleMapping.MACHINE_ID_FIELD_NAME, machineConfig)
+					.and().eq(PuppetModuleMapping.MODULE_ID_FIELD_NAME,	puppetModule);
+
+		} catch (NumberFormatException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error in dLinking machine  with module : "+ e.getMessage());
+			e.printStackTrace();
+		} catch (SQLException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error in dLinking machine  with module : "+ e.getMessage());
+			e.printStackTrace();
+		}
+		statusBean.setStatusCode(0);
+		statusBean.setStatusMessage("DLink Module and machine successfully");
 
 		return statusBean;
 

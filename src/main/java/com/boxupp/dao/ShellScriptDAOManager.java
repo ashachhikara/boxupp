@@ -104,7 +104,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		try {
 			Utilities.getInstance().deleteScriptfileOnDisk(shellScriptDao.queryForId(Integer.parseInt(shellScriptID)).getScriptName());
 			shellScriptDao.deleteById(Integer.parseInt(shellScriptID));
-			List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq("script_ID", Integer.parseInt(shellScriptID));
+			List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, Integer.parseInt(shellScriptID));
 				for(ShellScriptMapping shellScript : shellscriptMappping){
 					shellScriptMappingDao.delete(shellScript);
 				}
@@ -150,14 +150,13 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		return (List<E>)shellScriptList;
 	}
 
-	public StatusBean saveMachineMappingWithScript(String machineID, String scriptID, String projectID) {
+	public StatusBean linkScriptMachine(JsonNode shellScriptMapping) {
 		StatusBean statusBean =   new StatusBean();
 		try {
-		ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID));
-		ShellScriptBean shellScript =  shellScriptDao.queryForId(Integer.parseInt(scriptID));
-		
-		MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(Integer.parseInt(machineID));
-		shellScriptMappingDao.updateBuilder().updateColumnValue(ShellScriptMapping.MACHINE_ID_FIELD_NAME, machineConfig).where().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project).and().eq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScript);
+			ShellScriptBean shellScript =  shellScriptDao.queryForId(Integer.parseInt(shellScriptMapping.get("scriptID").toString()));
+			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(shellScriptMapping.get("projectID").toString()));
+			MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(Integer.parseInt(shellScriptMapping.get("machineID").toString()));
+			shellScriptMappingDao.updateBuilder().updateColumnValue(ShellScriptMapping.MACHINE_ID_FIELD_NAME, machineConfig).where().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project).and().eq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScript);
 
 		} catch (NumberFormatException e) {
 			statusBean.setStatusCode(1);
@@ -166,6 +165,30 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		} catch (SQLException e) {
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error saving machine MApping with script : "+e.getMessage());
+			e.printStackTrace();
+		}
+		statusBean.setStatusCode(0);
+		statusBean.setStatusMessage("Machine MApping with  Shell script saved successfully");
+		
+		return statusBean;
+		
+	}
+	public StatusBean dLinkScriptMachine(JsonNode shellScriptMapping) {
+		StatusBean statusBean =   new StatusBean();
+		try {
+			ShellScriptBean shellScript =  shellScriptDao.queryForId(Integer.parseInt(shellScriptMapping.get("scriptID").toString()));
+			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(shellScriptMapping.get("projectID").toString()));
+			MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(Integer.parseInt(shellScriptMapping.get("machineID").toString()));
+			shellScriptMappingDao.updateBuilder().updateColumnValue(ShellScriptMapping.MACHINE_ID_FIELD_NAME, null).where().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project)
+			.and().eq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScript)
+			.and().eq(ShellScriptMapping.MACHINE_ID_FIELD_NAME, machineConfig);
+		} catch (NumberFormatException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error in dLinking machine  with script : "+e.getMessage());
+			e.printStackTrace();
+		} catch (SQLException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error in dLinking machine with script : "+e.getMessage());
 			e.printStackTrace();
 		}
 		statusBean.setStatusCode(0);

@@ -43,17 +43,15 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 
 	@Override
 	public StatusBean create(JsonNode newData) {
-		System.out.println(newData.get("projectID").getTextValue());
 		MachineConfigurationBean machineConfigBean  = null;
-		System.out.println(newData.get("boxType"));
 		Gson machineConfigData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		machineConfigBean = machineConfigData.fromJson(newData.toString(),MachineConfigurationBean.class);
 		StatusBean statusBean = new StatusBean();
 		try {
 			machineConfigDao.create(machineConfigBean);
 			if(newData.get("portMappings") != null)PortMappingDAOManager.getInstance().save(machineConfigBean, newData.get("portMappings"));
-			if(newData.get("portMappings") != null)SyncFolderDAOManager.getInstance().save(machineConfigBean, newData.get("syncFolders"));
-			if(newData.get("syncFolders") != null){
+			if(newData.get("syncFolders") != null)SyncFolderDAOManager.getInstance().save(machineConfigBean, newData.get("syncFolders"));
+			if(newData.get("dockerLinkContainers") != null){
 				DockerLinkDAOManager.getInstance().save(machineConfigBean, newData.get("dockerLinkContainers"));
 			}
 			ProjectBean project = ProjectDAOManager.projectDao.queryForId(Integer.parseInt(newData.get("projectID").getTextValue()));
@@ -66,7 +64,6 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 			statusBean.setStatusMessage("Error saving machine configuration : "+e.getMessage());
 			e.printStackTrace();
 		}
-		
 		statusBean.setStatusCode(0);
 		statusBean.setStatusMessage("Machine Congifuration saved successfully");
 		return statusBean;

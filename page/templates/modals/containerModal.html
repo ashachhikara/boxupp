@@ -1,0 +1,143 @@
+<div class="modal fade" id="boxModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		    	<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">Create/update your box configurations</h4>
+		        </div>
+		        <div class="modal-body">
+					<div class="boxConfigs">
+						<ul id="boxConfigTabs" class="nav nav-tabs" role="tablist">
+						  <li class="active"><a data-target="#machine" role="tab" data-toggle="tab">Box Settings</a></li>
+						  <li class=""><a data-target="#networking" role="tab" data-toggle="tab">Networking</a></li>
+						  <li class=""><a data-target="#folders" role="tab" data-toggle="tab">Folders</a></li>
+						  <li class=""><a data-target="#misc" role="tab" data-toggle="tab">Authentication</a></li>
+						  
+						</ul>
+						<div id="boxConfigContent" class="tab-content" style="position:relative;">
+						  <div class="tab-pane fade active in container-fluid" id="machine">
+								<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
+					              <input name="vagrantID" id="vagrantID" 
+									ng-model="activeVM.vagrantID"
+									ng-change="limitLength()"
+									ng-maxlength="9"
+									ng-pattern="/^[a-z0-9]{1,13}$/"
+									type="text" 
+									class="form-control" 
+									title="Machine's reference ID in Vagrant File"
+									required>
+					            </div>
+							  	<div class="boxConfig"> <span class="boxConfigTitles">Host-Name<sup>*</sup></span>
+					              <input name="hostName" id="hostName" type="text" data-placement="right" 
+									ng-model="activeVM.hostName"
+									class="form-control"
+									title="The hostname the machine should have"
+									required>
+					            </div>
+					            <div class="boxConfig" ><span class="boxConfigTitles">Docker Image<sup>* </sup></span>
+           							<select name="imageName" ng-model="activeVM.dockerImage" ng-options="sshImage.name for sshImage in listOfSSHImages" class="form-control">
+		    							<option value="" >Select a Image</option>
+									</select>
+            						
+          						</div>
+						  </div>
+						  <div class="tab-pane fade container-fluid" id="networking">
+						  		<div class="boxConfigFxdTop">
+						  			<div class="boxConfig"> <span class="boxConfigTitles">Docker Link</span>
+									<select  ng-model="dockerLinkContainers.linkContainer"  class="form-control ">
+           								<option ng-repeat="box in boxesData" value="">{{box.vagrantID}} : {{box.hostName}}</option>
+           						
+            						</select>
+					  		
+								</div>
+						  	  		<div ng-repeat="mapping in activeVM.portMappings">
+						  	  			<div class="row">
+						  	  				<div class="boxConfig col-sm-6">
+							  					<span class="boxConfigTitles">Host Port<sup>*</sup></span>
+							  				</div>	
+							  				<div class="boxConfig col-sm-6">
+							  					<span class="boxConfigTitles pull-right">VM Port<sup>*</sup></span>
+							  				</div>	
+						  	  			</div>
+							  			<div class="row">
+							  				<div class="col-sm-4 ">
+								  				<input name="hostPort" id="hostPort" type="text"
+													ng-model="mapping.hostPort" class="form-control"
+													ng-pattern="/^(6553[0-6]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{3}|[2-5]\d{3,4}|102[4-9]|10[3-9]\d|[2-9]\d{3}|1[1-9]\d{2,3}|1[0-0]\d{3})$/"/>
+							  				</div>	
+							  				<div class="col-sm-4  text-center">
+							  					<div>
+								  					<button type="button" ng-click="deletePortMapping($index)">
+														<i class="fa fa-close"></i>
+													</button>
+							  					</div>
+							  				</div>
+							  				<div class="col-sm-4 ">
+								  				<input name="vmPort" id="vmPort" type="text"
+													ng-model="mapping.vmPort" class="form-control"
+													ng-pattern="/^(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{3}|[1-5]\d{4}|[1-9]\d{0,3}|)$/"/>
+							  				</div>
+							  			</div>
+							  		</div>
+						  		</div>
+						  		<div class="boxConfigFxdBtm">
+									<a data-target="#" ng-click="addPortMapping()">
+										<span> <i class="fa fa-exchange"></i> Add Port Mapping </span>
+									</a>
+						  		</div>
+						  </div>
+						  <div class="tab-pane fade container-fluid" id="folders">
+						  		<div class="boxConfigFxdTop">
+						  			<div ng-repeat="mapping in activeVM.syncFolders">
+						  	  			<div class="row">
+						  	  				<div class="boxConfig col-sm-6">
+							  					<span class="boxConfigTitles">Host Folder<sup>*</sup></span>
+							  				</div>	
+							  				<div class="boxConfig col-sm-6">
+							  					<span class="boxConfigTitles pull-right">VM Folder<sup>*</sup></span>
+							  				</div>	
+						  	  			</div>
+							  			<div class="row">
+							  				<div class="col-sm-4 ">
+								  				<input name="hostFolder" id="hostFolder" type="text"
+													ng-model="mapping.hostFolder" class="form-control" />
+							  				</div>	
+							  				<div class="col-sm-4  text-center">
+							  					<div>
+								  					<button type="button" ng-click="deleteFolderMapping($index)">
+														<i class="fa fa-close"></i>
+													</button>
+							  					</div>
+							  				</div>
+							  				<div class="col-sm-4 ">
+								  				<input name="syncFolder" id="syncFolder" type="text" 
+													ng-model="mapping.vmFolder" class="form-control" />
+							  				</div>
+							  			</div>
+							  		</div>
+						  		</div>
+						  		<div class="boxConfigFxdBtm">
+						  			<a data-target="#" ng-click="addSyncFolderMapping()">
+										<span> <i class="fa fa-exchange"></i> Add Folder Mapping </span>
+									</a>
+						  		</div>
+						  </div>
+						  <div class="tab-pane fade container-fluid" id="misc">
+						  		<div class="boxConfig"> <span class="boxConfigTitles" >UserName</span>
+					              <input name="username" id="username" ng-model="activeVM.username" data-placement="bottom" title="User name For Docker Image" type="text" class="form-control">
+					            </div>
+					            <div class="boxConfig"> <span class="boxConfigTitles" >Password</span>
+					              <input name="password"  id="password" 
+									ng-model="activeVM.password"  type="text" 
+									data-placement="bottom" title="Password For Docker Image" class="form-control"/>
+					            </div>
+					        </div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" ng-disabled="checkBoxCreation()" ng-click="createBoxes(activeVM)">Create</button>
+				</div>
+			</div>
+		</div>
+	</div>

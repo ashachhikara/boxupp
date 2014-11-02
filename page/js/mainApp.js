@@ -15,11 +15,17 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.bodyStyle.applyDashBoardStyling = true;
 	$scope.quickBox = {};
 	$scope.cloneBox = null;
+	$scope.listOfSSHImages=[{
+			"name":"boxupp / centos-base",
+		}];
 	
 	$scope.resetCtrlBarSecNav = function(){
 		$('ul.ctrl-bar-sec-list li').removeClass('active');
 	}
 	$scope.createBoxes = function(boxData){
+		if(boxData.dockerImage){
+			boxData.dockerImage = boxData.dockerImage.name;
+		}
 		boxData.projectID = $routeParams.projectID;
 		MachineConfig.save(boxData,function(data){
 			$scope.boxesData.push(angular.copy(data.beanData));

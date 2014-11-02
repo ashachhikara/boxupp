@@ -8,7 +8,6 @@ public class ProviderBean {
 	
 	@DatabaseField(canBeNull = false, generatedId=true, useGetSet = true)
 	private Integer providerID;
-	
 
 	@DatabaseField(useGetSet = true, unique = true)
 	private String name;
