@@ -48,13 +48,14 @@ import com.boxupp.dao.ProjectDAOManager;
 import com.boxupp.dao.PuppetModuleDAOManager;
 import com.boxupp.dao.ShellScriptDAOManager;
 import com.boxupp.db.beans.MachineConfigurationBean;
+import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
+import com.boxupp.db.beans.SearchModuleBean;
 import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.responseBeans.BoxURLResponse;
 import com.boxupp.responseBeans.ProjectConfig;
-import com.boxupp.responseBeans.SearchModuleBean;
 import com.boxupp.responseBeans.SnapshotData;
 import com.boxupp.responseBeans.SnapshotStatus;
 import com.boxupp.responseBeans.StatusBean;
@@ -66,6 +67,8 @@ import com.boxupp.utilities.OSProperties;
 import com.boxupp.utilities.Utilities;
 import com.boxupp.windows.WindowsShellProcessor;
 import com.boxupp.ws.OutputConsole;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Path("/")
 public class BoxuppServices {
@@ -296,19 +299,27 @@ public class BoxuppServices {
 				JSONObject o = new JSONObject(response.toString());
 				JSONArray jsonArray = o.getJSONArray("results");
 					for(int i=0; i<jsonArray.length(); i++){
-						SearchModuleBean searchModule = new SearchModuleBean();
+						/*SearchModuleBean searchModule = new SearchModuleBean();
 						JSONObject currentRelease = (JSONObject) ((JSONObject) jsonArray.get(i)).get("current_release");
 						searchModule.setFileUri(currentRelease.get("file_uri").toString());
-						searchModule.setModuleName(((JSONObject)currentRelease.get("metadata")).get("name").toString());
+						if(((JSONObject)currentRelease.get("metadata")).has("name")){
+							searchModule.setModuleName(((JSONObject)currentRelease.get("metadata")).get("name").toString());
+						}*/
+						SearchModuleBean searchModule = new SearchModuleBean();
+						Gson moduleData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
+						searchModule = moduleData.fromJson(jsonArray.get(i).toString(),SearchModuleBean.class);
 						moduleList.add(searchModule);
 					}
 					
 			} catch (ProtocolException e) {
 				logger.error("Error in searching module :"+e.getMessage());
+				e.printStackTrace();
 			} catch (IOException e) {
 				logger.error("Error in searching module :"+e.getMessage());
+				e.printStackTrace();
 			} catch (JSONException e) {
 				logger.error("Error in searching module :"+e.getMessage());
+				e.printStackTrace();
 			}
 		return moduleList;
 	}

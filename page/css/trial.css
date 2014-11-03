@@ -329,48 +329,6 @@ div.project-container {
         div.project-container ul.projectsList li a:hover div.projectTitle span {
           color: #FFF; }
 
-div.modal-content {
-  top: 50px;
-  border-radius: 0px; }
-  div.modal-content div.modal-body {
-    overflow: auto; }
-    div.modal-content div.modal-body div.projectLogo {
-      height: 200px;
-      border-right: 1px solid #eee;
-      color: #71B1D1; }
-      div.modal-content div.modal-body div.projectLogo i {
-        font-size: 75px; }
-    div.modal-content div.modal-body div.boxConfig {
-      margin-bottom: 15px; }
-      div.modal-content div.modal-body div.boxConfig div.editor {
-        -webkit-transition-property: all;
-        -webkit-transition-duration: 0s; }
-      div.modal-content div.modal-body div.boxConfig span.boxConfigTitles {
-        font-family: 'Open Sans', sans-serif;
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: 11px;
-        line-height: 11px;
-        margin-bottom: 10px;
-        color: grey; }
-      div.modal-content div.modal-body div.boxConfig input, div.modal-content div.modal-body div.boxConfig select {
-        border-radius: 0px; }
-  div.modal-content div.modal-header, div.modal-content div.modal-footer {
-    color: #FFF;
-    background: #444546; }
-    div.modal-content div.modal-header h4, div.modal-content div.modal-footer h4 {
-      font-family: 'Roboto', sans-serif;
-      font-size: 16px;
-      line-height: 11px;
-      font-weight: 100; }
-    div.modal-content div.modal-header a, div.modal-content div.modal-footer a {
-      font-family: 'Roboto', sans-serif;
-      font-size: 14px;
-      line-height: 11px;
-      font-weight: 100; }
-  div.modal-content div.modal-body {
-    color: black; }
-
 span.messageTitle {
   font-family: 'Roboto', sans-serif;
   font-size: 35px;

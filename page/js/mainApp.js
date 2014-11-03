@@ -1,5 +1,5 @@
 
-angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings){
+angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule){
 
 	$scope.projectData = {};
 	$scope.boxuppMappings = {};
@@ -17,13 +17,15 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.providerValidation = false;
 	$scope.bodyStyle.applyDashBoardStyling = true;
 	$scope.quickBox = {};
+	$scope.moduleResults=[];
 	$scope.listOfSSHImages=[{
 			"name":"boxupp / centos-base",
 		}];
 	
 	$scope.searchNewModule = function(moduleSearchText){
-		alert(moduleSearchText);
-		puppetModule.searchPuppetModule(moduleSearchText);
+		puppetModule.searchPuppetModule($scope,moduleSearchText).then(function(response){
+			$scope.moduleResults = response;	
+		});
 	}
 	$scope.selectScript = function(num){
 		// if($scope.nodeSelectionDisabled === true) animateArrow();

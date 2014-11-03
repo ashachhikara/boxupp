@@ -70,3 +70,21 @@
 div.modal-content{
 	@include boxupp-modal-styling();
 }
+
+div#moduleSearchResults{
+	a.moduleLinks{
+		background:grey;
+		margin-bottom:5px;
+		text-decoration : none;
+		color:white;
+
+		div.moduleContent{
+			div.moduleOwnerGravatar{
+				position:relative;
+				top:0px;
+				left:0px;
+				background:white;
+			}
+		}
+	}
+}

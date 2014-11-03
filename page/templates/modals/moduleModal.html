@@ -18,11 +18,24 @@
 					</div>
 
 					<div id="moduleSearchResults" style="height:200px;">
-
+						<div class="container-fluid">
+							<div ng-repeat="module in moduleResults">
+								<a class="moduleLinks col-md-12" ng-click="" style="background:grey; margin-bottom:5px;">
+									<div class="moduleContent">
+										<div class="moduleName">{{module.name}}</div>
+										<div class="moduleDescription">{{module.description}}</div>
+										<div class="moduleOwnerName">{{module.owner.username}}</div>
+										<div class="moduleOwnerGravatar"><img ng-src="http://www.gravatar.com/avatar/{{module.owner.gravatar_id}}"></div>
+										<div class="moduleDownloads">{{module.downloads}}</div>
+										<div class="moduleCurrentReleaseVer">{{module.current_release.version}}</div>
+									</div>
+								</a>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" ng-click="searchNewModule(moduleSearchText)">Search</button>
+					<button class="btn btn-success" ng-click="searchNewModule('tomcat')">Search</button>
 				</div>
 			</div>
 		</div>
