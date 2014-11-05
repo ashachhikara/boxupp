@@ -14,11 +14,10 @@ import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.JsonNode;
 
-import com.boxupp.dao.ProjectDAOManager;
 import com.boxupp.dao.PuppetModuleDAOManager;
-import com.boxupp.dao.ShellScriptDAOManager;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.responseBeans.StatusBean;
+
 @Path("/puppetModule/")
 public class PuppetModule {
 	@POST 
@@ -50,18 +49,20 @@ public class PuppetModule {
 		return PuppetModuleDAOManager.getInstance().delete(puppetModuleId);
 	}
 	
-	@PUT
+	@POST
 	@Path("/linkModule")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes("application/json")
-	public StatusBean saveScriptMapping(JsonNode moduleMachineMapping){
+	public StatusBean savePuppetMapping(JsonNode moduleMachineMapping){
 		return PuppetModuleDAOManager.getInstance().linkModuleWithMachine(moduleMachineMapping);
 	}
 	
-	@DELETE 
-	@Path("/dlinkModule")
+	@POST
+	@Path("/deLinkModule")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StatusBean deleteModuleMapping(JsonNode moduleMachineMapping) {
-		return PuppetModuleDAOManager.getInstance().dLinkModuleWithMachine(moduleMachineMapping);
+		return PuppetModuleDAOManager.getInstance().deLinkModuleWithMachine(moduleMachineMapping);
 	}
+	
+
 }

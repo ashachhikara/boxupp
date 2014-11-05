@@ -27,7 +27,8 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 	protected static Dao<ShellScriptBean, Integer> shellScriptDao = null;
 	public static Dao<ShellScriptMapping, Integer> shellScriptMappingDao = null;
 	private static ShellScriptDAOManager shellScriptDAOManager = null;
-	private PreparedQuery<ShellScriptBean> scriptForProjectQuery = null;
+	private PreparedQuery<ShellScriptBean> queryForScriptsOfProject = null;
+	private PreparedQuery<ShellScriptBean> queryForScriptsOfbox = null;
 	
 	public static ShellScriptDAOManager getInstance(){
 		if(shellScriptDAOManager == null){
@@ -136,18 +137,16 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 	public <E> List<E> retireveScriptsForProject(String projectID) {
 		List<ShellScriptBean> shellScriptList = new ArrayList<ShellScriptBean>();
 		try {
-		if (scriptForProjectQuery == null) {
-			scriptForProjectQuery = makeShellScriptForProjectQuery();
+		if (queryForScriptsOfProject == null) {
+			queryForScriptsOfProject = makeQueryForScriptsOfProject();
 		}
 		
-		scriptForProjectQuery.setArgumentHolderValue(0, ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID)));
-		shellScriptList = shellScriptDao.query(scriptForProjectQuery);
+		queryForScriptsOfProject.setArgumentHolderValue(0, ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID)));
+		shellScriptList = shellScriptDao.query(queryForScriptsOfProject);
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in retireving scripts for project: "+e.getMessage());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in retireving scripts for project: "+e.getMessage());
 		}
 		return (List<E>)shellScriptList;
 	}
@@ -175,7 +174,8 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		return statusBean;
 		
 	}
-	public StatusBean dLinkScriptMachine(JsonNode shellScriptMapping) {
+	
+	public StatusBean deLinkScriptMachine(JsonNode shellScriptMapping) {
 		StatusBean statusBean =   new StatusBean();
 		try {
 			ShellScriptBean shellScript =  shellScriptDao.queryForId(Integer.parseInt(shellScriptMapping.get("scriptID").toString()));
@@ -199,8 +199,23 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		return statusBean;
 		
 	}
-
-private PreparedQuery<ShellScriptBean> makeShellScriptForProjectQuery() throws SQLException {
+	/*public <E> List<E> retireveScriptsForBoxes(String machineID) {
+		List<ShellScriptBean> shellScriptList = new ArrayList<ShellScriptBean>();
+		try {
+		if (queryForScriptsOfbox == null) {
+			queryForScriptsOfbox = makeQueryForScriptsOfbox();
+		}
+		
+		queryForScriptsOfbox.setArgumentHolderValue(0, MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(Integer.parseInt(machineID)));
+		shellScriptList = shellScriptDao.query(queryForScriptsOfbox);
+		} catch (NumberFormatException e) {
+			logger.error("Error in retireving scripts for box: "+e.getMessage());
+		} catch (SQLException e) {
+			logger.error("Error in retireving scripts for box: "+e.getMessage());
+		}
+		return (List<E>)shellScriptList;
+	}*/
+	private PreparedQuery<ShellScriptBean> makeQueryForScriptsOfProject() throws SQLException {
 		
 		QueryBuilder<ShellScriptMapping, Integer> scriptProjectQb = shellScriptMappingDao.queryBuilder();
 		// just select the post-id field
@@ -208,6 +223,21 @@ private PreparedQuery<ShellScriptBean> makeShellScriptForProjectQuery() throws S
 		SelectArg projectSelectArg = new SelectArg();
 		// you could also just pass in user1 here
 		scriptProjectQb.where().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, projectSelectArg);
+		// build our outer query for Post objects
+		QueryBuilder<ShellScriptBean, Integer> shellScriptQb = shellScriptDao.queryBuilder();
+		// where the id matches in the post-id from the inner query
+		shellScriptQb.where().in(ShellScriptBean.ID_FIELD_NAME, scriptProjectQb);
+		return shellScriptQb.prepare();
+	}
+	
+	/*private PreparedQuery<ShellScriptBean> makeQueryForScriptsOfbox() throws SQLException {
+
+		QueryBuilder<ShellScriptMapping, Integer> scriptProjectQb = shellScriptMappingDao.queryBuilder();
+		// just select the post-id field
+		scriptProjectQb.selectColumns(ShellScriptMapping.SCRIPT_ID_FIELD_NAME);
+		SelectArg projectSelectArg = new SelectArg();
+		// you could also just pass in user1 here
+		scriptProjectQb.where().eq(ShellScriptMapping.MACHINE_ID_FIELD_NAME, projectSelectArg);
 	
 		// build our outer query for Post objects
 		QueryBuilder<ShellScriptBean, Integer> shellScriptQb = shellScriptDao.queryBuilder();
@@ -215,6 +245,7 @@ private PreparedQuery<ShellScriptBean> makeShellScriptForProjectQuery() throws S
 		shellScriptQb.where().in(ShellScriptBean.ID_FIELD_NAME, scriptProjectQb);
 		return shellScriptQb.prepare();
 	}
+*/
 }
 
 

@@ -9,6 +9,7 @@ import org.codehaus.jackson.JsonNode;
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.GitRepoBean;
 import com.boxupp.db.beans.GitRepoMapping;
+import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.responseBeans.StatusBean;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,6 +50,7 @@ public class GitRepoDAOManager implements DAOImplInterface {
 			e.printStackTrace();
 		}
 		statusBean.setStatusCode(0);
+		statusBean.setData(gitRepoBean);
 		statusBean.setStatusMessage("git repo saved successfully");
 		return statusBean;
 	}
@@ -57,24 +59,49 @@ public class GitRepoDAOManager implements DAOImplInterface {
 
 	@Override
 	public StatusBean update(JsonNode updatedData) {
-		// TODO Auto-generated method stub
-		return null;
+		GitRepoBean gitRepoBean  = null;
+		Gson gitRepoData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
+		gitRepoBean = gitRepoData.fromJson(updatedData.toString(), GitRepoBean.class);
+		StatusBean statusBean = new StatusBean();
+		
+		try {
+			gitRepoDao.update(gitRepoBean);
+			statusBean.setStatusCode(0);
+		} catch (SQLException e) {
+			statusBean.setStatusMessage("Error updating  git repo : "+e.getMessage());
+			statusBean.setStatusCode(1);
+		}
+		statusBean.setStatusMessage("git repo updated successfully");
+		return statusBean;
 	}
 
 	@Override
-	public StatusBean delete(String ID) {
-		// TODO Auto-generated method stub
-		return null;
+	public StatusBean delete(String gitRepoID) {
+		StatusBean statusBean = new StatusBean();
+		try {
+			gitRepoDao.deleteById(Integer.parseInt(gitRepoID));
+			statusBean.setStatusCode(0);
+			statusBean.setStatusMessage("Git Repo data deleted successfully");
+		} catch (NumberFormatException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error in deleting git repo data : "+e.getMessage());
+		} catch (SQLException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error in deleting git repo data : "+e.getMessage());
+		}
+		return statusBean;
 	}
 
 
 	@Override
-	public<T>T read(String ID) {
-		// TODO Auto-generated method stub
-		return null;
+	public<T>T read(String gitRepoID) {
+		GitRepoBean gitRepo = null;
+		try{
+			gitRepo = gitRepoDao.queryForId(Integer.parseInt(gitRepoID));
+		}catch(SQLException e){
+			logger.error("Error querying the git repo from DB : " + e.getMessage());
+		}
+		return (T) gitRepo;
 	}
-
-	
-	
 
 }

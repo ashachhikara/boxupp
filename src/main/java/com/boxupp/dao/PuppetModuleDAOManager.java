@@ -28,7 +28,8 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 	protected static Dao<PuppetModuleBean, Integer> puppetModuleDao = null;
 	public static Dao<PuppetModuleMapping, Integer> puppetModuleMappingDao = null;
 	private static PuppetModuleDAOManager puppetModuleDBManager;
-	private PreparedQuery<PuppetModuleBean> moduleForProjectQuery = null;
+	
+
 
 	public static PuppetModuleDAOManager getInstance(){
 		if(puppetModuleDBManager == null){
@@ -50,10 +51,7 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 		StatusBean statusBean = new StatusBean();
 		try {
 			puppetModuleDao.create(puppetModuleBean);
-			ProjectBean project = ProjectDAOManager.getInstance().projectDao
-					.queryForId(Integer.parseInt(newData.get("ProjectId").getTextValue()));
-			PuppetModuleMapping moduleMapping = new PuppetModuleMapping(
-					null, project, puppetModuleBean);
+			PuppetModuleMapping moduleMapping = new PuppetModuleMapping(null, puppetModuleBean);
 			puppetModuleMappingDao.create(moduleMapping);
 
 		} catch (SQLException e) {
@@ -131,35 +129,34 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 	}
 	
 	
-	public <E>List <E> retireveModulesForProject(String projectID) {
+	
+	/*public <E>List <E> retireveModulesForBox(String machineID) {
 		List<PuppetModuleBean> puppetModuleList = new ArrayList<PuppetModuleBean>();
 		try {
-			if (moduleForProjectQuery == null) {
-				moduleForProjectQuery = prepareModuleForProjectQuery();
+			if (queryForModulesOfBox == null) {
+				queryForModulesOfBox = makeQueryForModulesOfBox();
 			}
 
-			moduleForProjectQuery.setArgumentHolderValue(0, ProjectDAOManager
-					.getInstance().projectDao.queryForId(Integer.parseInt(projectID)));
-			puppetModuleList = puppetModuleDao.query(moduleForProjectQuery);
+			queryForModulesOfBox.setArgumentHolderValue(0, ProjectDAOManager
+					.getInstance().projectDao.queryForId(Integer.parseInt(machineID)));
+			puppetModuleList = puppetModuleDao.query(queryForModulesOfBox);
 		} catch (NumberFormatException e) {
 			logger.error("Error in retireveing module :"+e.getMessage());
 		} catch (SQLException e) {
 			logger.error("Error in retireveing module :"+e.getMessage());
 		}
 		return (List<E>) puppetModuleList;
-	}
+	}*/
+	
 	public StatusBean linkModuleWithMachine(JsonNode moduleMachineMapping) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			ProjectBean project = ProjectDAOManager.getInstance().projectDao
-					.queryForId(Integer.parseInt(moduleMachineMapping.get("projectID").toString()));
+			/*ProjectBean project = ProjectDAOManager.getInstance().projectDao
+					.queryForId(Integer.parseInt(moduleMachineMapping.get("projectID").toString()));*/
 			PuppetModuleBean puppetModule = puppetModuleDao.queryForId(Integer.parseInt(moduleMachineMapping.get("moduleID").toString()));
-			MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().
-					machineConfigDao.queryForId(Integer.parseInt(moduleMachineMapping.get("machineID").toString()));
-			puppetModuleMappingDao.updateBuilder()
-			.updateColumnValue(PuppetModuleMapping.MACHINE_ID_FIELD_NAME,machineConfig)
-					.where().eq(PuppetModuleMapping.PROJECT_ID_FIELD_NAME, project)
-					.and().eq(PuppetModuleMapping.MODULE_ID_FIELD_NAME,	puppetModule);
+			MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(Integer.parseInt(moduleMachineMapping.get("machineID").toString()));
+			PuppetModuleMapping puppetModuleMapping = new PuppetModuleMapping(machineConfig, puppetModule);
+			puppetModuleMappingDao.create(puppetModuleMapping);
 
 		} catch (NumberFormatException e) {
 			statusBean.setStatusCode(1);
@@ -176,18 +173,14 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 		return statusBean;
 
 	}
-	public StatusBean dLinkModuleWithMachine(JsonNode moduleMachineMapping) {
+	public StatusBean deLinkModuleWithMachine(JsonNode moduleMachineMapping) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			ProjectBean project = ProjectDAOManager.getInstance().projectDao
-					.queryForId(Integer.parseInt(moduleMachineMapping.get("projectID").toString()));
 			PuppetModuleBean puppetModule = puppetModuleDao.queryForId(Integer.parseInt(moduleMachineMapping.get("moduleID").toString()));
 			MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().
 					machineConfigDao.queryForId(Integer.parseInt(moduleMachineMapping.get("machineID").toString()));
-			puppetModuleMappingDao.updateBuilder().updateColumnValue(PuppetModuleMapping.MACHINE_ID_FIELD_NAME, null)
-					.where().eq(PuppetModuleMapping.PROJECT_ID_FIELD_NAME, project)
-					.and().eq(PuppetModuleMapping.MACHINE_ID_FIELD_NAME, machineConfig)
-					.and().eq(PuppetModuleMapping.MODULE_ID_FIELD_NAME,	puppetModule);
+			PuppetModuleMapping puppetModuleMapping = new PuppetModuleMapping(machineConfig, puppetModule);
+			puppetModuleMappingDao.delete(puppetModuleMapping);
 
 		} catch (NumberFormatException e) {
 			statusBean.setStatusCode(1);
@@ -205,7 +198,7 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 
 	}
 
-	private PreparedQuery<PuppetModuleBean> prepareModuleForProjectQuery()	throws SQLException {
+	/*private PreparedQuery<PuppetModuleBean> makeQueryForModulesOfProject()	throws SQLException {
 
 		QueryBuilder<PuppetModuleMapping, Integer> moduleProjectQb = puppetModuleMappingDao.queryBuilder();
 		moduleProjectQb.selectColumns(PuppetModuleMapping.MODULE_ID_FIELD_NAME);
@@ -214,6 +207,17 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 		QueryBuilder<PuppetModuleBean, Integer> moduleQb = puppetModuleDao.queryBuilder();
 		moduleQb.where().in(PuppetModuleBean.ID_FIELD_NAME,moduleProjectQb);
 		return moduleQb.prepare();
-	}	
+	}	*/
+	
+	/*private PreparedQuery<PuppetModuleBean> makeQueryForModulesOfBox()	throws SQLException {
+
+		QueryBuilder<PuppetModuleMapping, Integer> moduleProjectQb = puppetModuleMappingDao.queryBuilder();
+		moduleProjectQb.selectColumns(PuppetModuleMapping.MODULE_ID_FIELD_NAME);
+		SelectArg projectSelectArg = new SelectArg();
+		moduleProjectQb.where().eq(	PuppetModuleMapping.MACHINE_ID_FIELD_NAME, projectSelectArg);
+		QueryBuilder<PuppetModuleBean, Integer> moduleQb = puppetModuleDao.queryBuilder();
+		moduleQb.where().in(PuppetModuleBean.ID_FIELD_NAME,moduleProjectQb);
+		return moduleQb.prepare();
+	}*/	
 
 }

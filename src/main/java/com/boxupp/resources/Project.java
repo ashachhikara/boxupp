@@ -15,12 +15,13 @@ import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.dao.MachineConfigDAOManager;
 import com.boxupp.dao.ProjectDAOManager;
-import com.boxupp.dao.PuppetModuleDAOManager;
 import com.boxupp.dao.ShellScriptDAOManager;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.PuppetModuleBean;
+import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.ShellScriptBean;
+import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.responseBeans.StatusBean;
 
 @Path("/project/")
@@ -61,11 +62,23 @@ public class Project {
 		return  MachineConfigDAOManager.getInstance().retireveBoxesForProject(projectId);
 	}
 	@GET
-	@Path("/getModules/{id}")
+	@Path("/getAllModules/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<PuppetModuleBean> getAllPuppetModulesList(@PathParam("id") String projectId){
-		return  PuppetModuleDAOManager.getInstance().retireveModulesForProject(projectId);
+	public List<PuppetModuleBean> getAllPuppetModulesList(){
+		return  ProjectDAOManager.getInstance().retireveModulesForProject();
 	}
 	
+	@GET
+	@Path("/getModuleMapping/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<PuppetModuleMapping> getAllModuleMapping() {
+		return ProjectDAOManager.getInstance().retireveModulesForBox();
+	}
+	@GET
+	@Path("/getShriptMappping/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ShellScriptMapping> getAllScriptMapping() {
+		return ProjectDAOManager.getInstance().retireveScriptsForBox();
+	}
 	
 }

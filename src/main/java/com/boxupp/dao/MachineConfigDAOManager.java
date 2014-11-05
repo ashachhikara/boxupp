@@ -90,8 +90,8 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	@Override
 	public StatusBean update(JsonNode updatedData){
 		MachineConfigurationBean machineConfigBean  = null;
-		Gson projectData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
-		machineConfigBean = projectData.fromJson(updatedData.toString(),MachineConfigurationBean.class);
+		Gson machineData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
+		machineConfigBean = machineData.fromJson(updatedData.toString(),MachineConfigurationBean.class);
 		StatusBean statusBean = new StatusBean();
 		try {
 			DockerLinkDAOManager.getInstance().update(machineConfigBean.getDockerLinks());
@@ -186,7 +186,6 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		machineProjectQb.where().eq(MachineProjectMapping.PROJECT_ID_FIELD_NAME, userSelectArg);
 		QueryBuilder<MachineConfigurationBean, Integer> machineConfigQb = machineConfigDao.queryBuilder();
 		machineConfigQb.where().in(MachineConfigurationBean.ID_FIELD_NAME, machineProjectQb);
-		System.out.println(machineConfigQb.prepareStatementString());
 		return machineConfigQb.prepare();
 		
 	}
