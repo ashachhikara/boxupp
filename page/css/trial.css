@@ -66,6 +66,16 @@ div.mainNavElements {
   div.mainNavElements .mainNavList {
     margin-left: -15px;
     margin-right: -15px; }
+    div.mainNavElements .mainNavList li.sectionTitle {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
+      div.mainNavElements .mainNavList li.sectionTitle div.sectionTitleText {
+        color: rgba(255, 255, 255, 0.62);
+        font-family: 'Open Sans', sans-serif;
+        text-transform: uppercase;
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 11px;
+        margin: 10px 10px; }
     div.mainNavElements .mainNavList li.active a {
       background: #FFFFFF;
       color: black; }
@@ -75,7 +85,7 @@ div.mainNavElements {
       border-radius: 0px;
       color: #FFFFFF; }
       div.mainNavElements .mainNavList li a .main-nav-icon i {
-        font-size: 28px;
+        font-size: 26px;
         position: relative;
         left: 4px; }
       div.mainNavElements .mainNavList li a .main-nav-label {
@@ -328,6 +338,94 @@ div.project-container {
         color: #FFF; }
         div.project-container ul.projectsList li a:hover div.projectTitle span {
           color: #FFF; }
+
+div.modal-content {
+  top: 50px;
+  border-radius: 0px; }
+  div.modal-content div.modal-body {
+    overflow: auto;
+    color: black; }
+    div.modal-content div.modal-body div.projectLogo {
+      height: 200px;
+      border-right: 1px solid #eee;
+      color: #71B1D1; }
+      div.modal-content div.modal-body div.projectLogo i {
+        font-size: 75px; }
+    div.modal-content div.modal-body div.boxConfig, div.modal-content div.modal-body div.moduleConfig {
+      margin-bottom: 15px; }
+      div.modal-content div.modal-body div.boxConfig div.editor, div.modal-content div.modal-body div.moduleConfig div.editor {
+        -webkit-transition-property: all;
+        -webkit-transition-duration: 0s; }
+      div.modal-content div.modal-body div.boxConfig span.boxConfigTitles, div.modal-content div.modal-body div.boxConfig span.moduleConfigTitles, div.modal-content div.modal-body div.moduleConfig span.boxConfigTitles, div.modal-content div.modal-body div.moduleConfig span.moduleConfigTitles {
+        font-family: 'Open Sans', sans-serif;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 11px;
+        line-height: 11px;
+        margin-bottom: 10px;
+        color: grey; }
+      div.modal-content div.modal-body div.boxConfig input, div.modal-content div.modal-body div.boxConfig select, div.modal-content div.modal-body div.moduleConfig input, div.modal-content div.modal-body div.moduleConfig select {
+        border-radius: 0px; }
+  div.modal-content div.modal-header, div.modal-content div.modal-footer {
+    color: #FFF;
+    background: #444546; }
+    div.modal-content div.modal-header h4, div.modal-content div.modal-footer h4 {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      line-height: 11px;
+      font-weight: 300; }
+    div.modal-content div.modal-header a, div.modal-content div.modal-footer a {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      line-height: 11px;
+      font-weight: 300; }
+
+div#moduleSearchResults {
+  overflow: auto; }
+  div#moduleSearchResults div.moduleOwnerGravatar {
+    position: absolute;
+    border-style: 1px solid grey; }
+    div#moduleSearchResults div.moduleOwnerGravatar img {
+      height: 30px;
+      width: 30px;
+      border-radius: 50%; }
+  div#moduleSearchResults a.moduleLinks {
+    /*background:grey;*/
+    margin-bottom: 5px;
+    text-decoration: none;
+    /*color:white;*/
+    border: 1px solid #C5BDBD; }
+    div#moduleSearchResults a.moduleLinks div.moduleContent div.moduleOwnerGravatar {
+      position: relative;
+      top: 0px;
+      left: 0px; }
+  div#moduleSearchResults div.moduleContent div.moduleMetaData, div#moduleSearchResults div.moduleContent div.moduleSearchDataFooter {
+    padding: 10px 0px 10px 0px;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 11px;
+    color: grey;
+    background: #E2F5FD; }
+
+div#moduleSearchResults.collapsed {
+  height: 0px; }
+
+div#moduleSearchResults.expanded {
+  height: 200px; }
+
+div#moduleSearchResultsLoader {
+  overflow: auto; }
+  div#moduleSearchResultsLoader span.searchLoader {
+    color: #444546;
+    font-size: 26px; }
+
+div#moduleSearchResultsLoader.collapsed {
+  height: 0px; }
+
+div#moduleSearchResultsLoader.expanded {
+  height: 200px; }
 
 span.messageTitle {
   font-family: 'Roboto', sans-serif;

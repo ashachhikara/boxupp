@@ -1,4 +1,4 @@
-angular.module("boxuppApp").controller('projectController',function($scope,Projects,Providers,User,$routeParams,$filter,$location,miscUtil){
+angular.module("boxuppApp").controller('projectController',function($scope,Projects,Providers,User,$routeParams,$filter,$location,miscUtil,$http){
 
 	/*$scope.projects = Projects.query(function(){
 		if($scope.projects.length === 0) $scope.noProjectsInfo = true;
@@ -19,6 +19,7 @@ angular.module("boxuppApp").controller('projectController',function($scope,Proje
 
 		//alert('Project ID :-' + project.id + ' Project ProviderType :- '+project.providerType);
 		//alert($routeParams.userID);
+		
 		$location.path("/projects/" + $routeParams.userID + "/" + project.projectID + "/" + project.providerType);
 	}
 

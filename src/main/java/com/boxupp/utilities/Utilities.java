@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,15 +26,17 @@ import com.boxupp.db.beans.SyncFoldersBean;
 import com.google.gson.Gson;
 import com.j256.ormlite.dao.ForeignCollection;
 
-public class Utilities {
+public class Utilities { 
 	
 	private static Logger logger = LogManager.getLogger(Utilities.class.getName());
 	private static Utilities utilities = null;
 	private String activeProjectDirectory = "";
 	public OSProperties osProperties = null;
+	private static HashMap<Integer,Integer> activeMappings = null;
 	
 	public Utilities(){
 		osProperties = OSProperties.getInstance();
+		activeMappings = new HashMap<Integer,Integer>();
 	}
 	
 	public static Utilities getInstance(){
@@ -80,10 +83,11 @@ public class Utilities {
 		return boxuppPuppetData;
 	}
 	
-	public void initializeDirectory(){
+	public void initializeDirectory(Integer projectID){
 		
 		String userHomeDir = osProperties.getUserHomeDirectory() + 
-							 osProperties.getOSFileSeparator() + "Boxupp";
+							 osProperties.getOSFileSeparator() + "Boxupp" + 
+							 osProperties.getOSFileSeparator() + projectID;
 		File projectDir = new File(userHomeDir);
 		if(projectDir.exists()){
 			logger.debug("Project Directory found at : "+userHomeDir);
@@ -102,7 +106,7 @@ public class Utilities {
 		}
 	}
 	*/
-	
+	/*
 	public void commitFoldersToDisk(BoxuppVMData vmData){
 		ArrayList<VMConfiguration> vmConfigurations = vmData.getVmData();
 		for(int counter=0; counter<vmConfigurations.size(); counter++){
@@ -111,18 +115,18 @@ public class Utilities {
 				createFolderOnDisk(folderMappings.get(folderCounter).getHostFolder());
 			}
 		}
-	}
-	public void commitSyncFoldersToDisk(List<MachineConfigurationBean> machineConfigs){
+	}*/
+	public void commitSyncFoldersToDisk(List<MachineConfigurationBean> machineConfigs, Integer userID){
 	
 		for(MachineConfigurationBean machineConfig : machineConfigs){
 			ForeignCollection<SyncFoldersBean> syncFolders = machineConfig.getSyncFolders();
 			for(SyncFoldersBean syncFolder : syncFolders){
-				createFolderOnDisk(syncFolder.getHostFolder());
+				createFolderOnDisk(syncFolder.getHostFolder(),userID);
 			}
 		}
 	}
-	public void createFolderOnDisk(String folderName){
-		String folderLocation = fetchActiveProjectDirectory() + osProperties.getOSFileSeparator() + folderName; 
+	public void createFolderOnDisk(String folderName, Integer userID){
+		String folderLocation = fetchActiveProjectDirectory(userID) + osProperties.getOSFileSeparator() + folderName; 
 		File directory = new File(folderLocation);
 		if(!directory.exists()){
 			directory.mkdir();
@@ -157,15 +161,23 @@ public class Utilities {
 		}
 	}
 	
-	public String fetchActiveProjectDirectory(){
-		if(activeProjectDirectory.isEmpty()){
+	public String fetchActiveProjectDirectory(Integer userID){
+		/*if(activeProjectDirectory.isEmpty()){
 			initializeDirectory();
 		}
-		return activeProjectDirectory;
+		return activeProjectDirectory;*/
+		return constructProjectDirectory(activeMappings.get(userID));
 	}
 	
-	public boolean changeActiveDirectory(Integer projectID){
-		OSProperties osProperties = OSProperties.getInstance();
+	public String constructProjectDirectory(Integer projectID){
+		return  osProperties.getUserHomeDirectory() + 
+				osProperties.getOSFileSeparator() +
+				"Boxupp" + osProperties.getOSFileSeparator() + projectID;
+	}
+	
+	public void changeActiveDirectory(Integer userID, Integer projectID){
+		activeMappings.put(userID, projectID);
+		/*OSProperties osProperties = OSProperties.getInstance();
 		try {
 			String projectName = DAOProvider.getInstance().fetchProjectDao().queryForId(projectID).getName();
 			activeProjectDirectory = osProperties.getUserHomeDirectory() + 
@@ -176,7 +188,7 @@ public class Utilities {
 			logger.error("Error setting the active project directory : "+e.getMessage());
 			return false;
 		}
-		return true;
+		return true;*/
 	}
 	
 	public void checkIfDirExists(File dirLocation){
@@ -185,8 +197,8 @@ public class Utilities {
 		}
 	}
 	
-	public void deleteScriptfileOnDisk(String fileName){
-		String scriptFilepath = fetchActiveProjectDirectory() + osProperties.getOSFileSeparator()
+	public void deleteScriptfileOnDisk(String fileName, Integer userID){
+		String scriptFilepath = fetchActiveProjectDirectory(userID) + osProperties.getOSFileSeparator()
 				+osProperties.getScriptsDirName()+osProperties.getOSFileSeparator()+fileName;
 		File file  = new File(scriptFilepath);
 		deleteFile(file);

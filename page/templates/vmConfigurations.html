@@ -1,14 +1,3 @@
-<!--<div style="container-fluid">
-	<div class="machineConfiguration">
-
-			<div class="row">
-				<div class="col-md-8" style="">-->
-				
-				
-				<!--</div>
-			</div>
-	</div>
-</div>-->
 
 <div ng-show="boxesData.length == 0">
 	<span class="messageTitle">No Boxes found</span>
@@ -18,7 +7,7 @@
 </div>
 
 <div class="boxDetails" ng-show="boxesData.length>0 && activeVM !== null">
-	<table class="table table-hover">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<td>VagrantID</td>
@@ -33,6 +22,24 @@
 				<td><span ng-bind="activeVM.boxType"></span></td>
 				<td><span ng-bind="activeVM.cpu"></span></td>
 				<td><span ng-bind="activeVM.ram"></span></td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<td>HostName</td>
+				<td>NetworkIP</td>
+				<td>Provider</td>
+				<td>Boot Timeout</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><span ng-bind="activeVM.hostName"></span></td>
+				<td><span ng-bind="activeVM.networkIP"></span></td>
+				<td><span ng-bind="activeVM.providerType"></span></td>
+				<td><span ng-bind="activeVM.bootTimeout"></span></td>
 			</tr>
 		</tbody>
 	</table>

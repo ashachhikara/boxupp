@@ -97,11 +97,11 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 		return statusBean;
 	}
 
-	@Override
-	public StatusBean delete(String puppetModuleID) {
+	
+	public StatusBean delete(Integer userID, String puppetModuleID) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			PuppetUtilities.getInstance().deletePuppetModule(puppetModuleDao.queryForId(Integer.parseInt(puppetModuleID)).getModuleName());
+			PuppetUtilities.getInstance().deletePuppetModule(userID, puppetModuleDao.queryForId(Integer.parseInt(puppetModuleID)).getModuleName());
 			puppetModuleDao.deleteById(Integer.parseInt(puppetModuleID));
 			List<PuppetModuleMapping> puppetModuleMappping = puppetModuleMappingDao.queryForEq("puppet_ID", Integer.parseInt(puppetModuleID));
 			for(PuppetModuleMapping puppetModule : puppetModuleMappping){
@@ -117,6 +117,7 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 		statusBean.setStatusMessage("Puppet module deleted successfully");
 		return statusBean;
 	}
+	
 	@Override
 	public <T>T read(String puppetModuleID) {
 		PuppetModuleBean puppetModule = null;
@@ -196,6 +197,12 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 
 		return statusBean;
 
+	}
+
+	@Override
+	public StatusBean delete(String ID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/*private PreparedQuery<PuppetModuleBean> makeQueryForModulesOfProject()	throws SQLException {

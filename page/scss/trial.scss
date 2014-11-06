@@ -114,6 +114,20 @@ div.mainNavElements{
 			margin-left: -15px;
 			margin-right: -15px;
 
+			li.sectionTitle {
+				border-bottom: 1px solid rgba(255, 255, 255, 0.40);
+
+				div.sectionTitleText {
+					color : rgba(255, 255, 255, 0.62);
+					font-family: 'Open Sans', sans-serif;
+					text-transform: uppercase;
+					font-weight: 400;
+					font-size: 13px;
+					line-height: 11px;	
+					margin: 10px 10px;
+				}
+			}
+
 			li.active{
 				a{
 					background:#FFFFFF;
@@ -132,7 +146,7 @@ div.mainNavElements{
 					color:#FFFFFF;
 					
 					.main-nav-icon i {
-						font-size:28px;
+						font-size:26px;
 						position:relative;
 						left:4px;
 					}

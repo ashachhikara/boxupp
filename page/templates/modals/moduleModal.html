@@ -16,18 +16,51 @@
 				            </div>
 						</div>
 					</div>
-
-					<div id="moduleSearchResults" style="height:200px;">
+					<div id="moduleSearchResultsLoader" ng-class="{'expanded' : searchingModules, 'collapsed' : !searchingModules}">
+						
+							<div class="col-md-12 text-center">
+								<span class="searchLoader">
+									<i class="fa fa-refresh fa-spin"></i>
+								</span>
+							</div>
+						
+					</div>
+					<div id="moduleSearchResults" ng-class="{'collapsed' : searchingModules, 'expanded' : !searchingModules}">
 						<div class="container-fluid">
 							<div ng-repeat="module in moduleResults">
-								<a class="moduleLinks col-md-12" ng-click="" style="background:grey; margin-bottom:5px;">
+								<a class="moduleLinks col-md-12" ng-click="">
 									<div class="moduleContent">
-										<div class="moduleName">{{module.name}}</div>
-										<div class="moduleDescription">{{module.description}}</div>
-										<div class="moduleOwnerName">{{module.owner.username}}</div>
-										<div class="moduleOwnerGravatar"><img ng-src="http://www.gravatar.com/avatar/{{module.owner.gravatar_id}}"></div>
-										<div class="moduleDownloads">{{module.downloads}}</div>
-										<div class="moduleCurrentReleaseVer">{{module.current_release.version}}</div>
+										<div class="moduleMetaData row">
+											<div class="moduleName col-md-2 pull-left">{{module.name}}</div>	
+											<div class="moduleCurrentReleaseVer col-md-2">
+												<span class="moduleCurrentVersion">
+													<i class="fa fa-file-o"></i>
+												</span> {{module.current_release.version}}
+											</div>
+											<div class="moduleSupport col-md-4">
+												<span class="moduleOfficialSupport">
+													officialy supported - 
+													<i ng-class="{'fa fa-check':module.supported, 'fa fa-close':!module.supported}"></i>
+												</span>
+											</div>
+											<div class="moduleOwnerDescription col-md-2 pull-right">
+												<div class="moduleOwnerGravatar"><img ng-src="http://www.gravatar.com/avatar/{{module.owner.gravatar_id}}"></div>
+												<div class="moduleOwnerName">{{module.owner.username}}</div>						
+											</div>											
+										</div>
+										
+										<div class="moduleDescription">
+											<a class="btn btn-info" ng-click="downloadNewModule(module.uri)">Download</a>
+										</div>
+										<div class="moduleSearchDataFooter row">
+											
+												<div class="moduleDownloads col-md-4">
+													<span class="totalModuleDownloads">
+														<i class="fa fa-download"></i>
+													</span>	{{module.downloads}}  downloads so far
+												</div>
+											
+										</div>
 									</div>
 								</a>
 							</div>
@@ -35,7 +68,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" ng-click="searchNewModule('tomcat')">Search</button>
+					<button class="btn btn-success" ng-click="searchNewModule(moduleSearchText)">Search</button>
 				</div>
 			</div>
 		</div>

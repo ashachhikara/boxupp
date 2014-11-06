@@ -22,9 +22,9 @@ import com.boxupp.utilities.Utilities;
 public class FileManager {
 	private static Logger logger = LogManager.getLogger(FileManager.class.getName());
 	
-	public VagrantFileStatus writeFileToDisk(String data){
+	public VagrantFileStatus writeFileToDisk(String data, Integer userID){
 		
-		String projectDir = Utilities.getInstance().fetchActiveProjectDirectory();
+		String projectDir = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		String fileOutputDir = projectDir + OSProperties.getInstance().getOSFileSeparator() + 
 								OSProperties.getInstance().getVagrantFileName();
 		VagrantFileStatus vagrantFileStatus = new VagrantFileStatus();
@@ -50,9 +50,9 @@ public class FileManager {
 		return vagrantFileStatus;
 	}
 	
-	public VagrantFile fetchVagrantFileData(){
+	public VagrantFile fetchVagrantFileData(Integer userID){
 		
-		String projectDir = Utilities.getInstance().fetchActiveProjectDirectory();
+		String projectDir = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		String fileLocation = projectDir + OSProperties.getInstance().getOSFileSeparator() + 
 								OSProperties.getInstance().getVagrantFileName();
 		File vagrantFile = new File(fileLocation);

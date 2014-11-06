@@ -72,19 +72,67 @@ div.modal-content{
 }
 
 div#moduleSearchResults{
+	overflow:auto;
+	div.moduleOwnerGravatar{
+		position:absolute;
+		border-style: 1px solid grey;
+		img{
+			height:30px;
+			width:30px;
+			border-radius:50%;
+		}
+	}
+
 	a.moduleLinks{
-		background:grey;
+		/*background:grey;*/
 		margin-bottom:5px;
 		text-decoration : none;
-		color:white;
+		/*color:white;*/
+		border: 1px solid #C5BDBD;
 
 		div.moduleContent{
 			div.moduleOwnerGravatar{
 				position:relative;
 				top:0px;
 				left:0px;
-				background:white;
 			}
 		}
 	}
+
+	div.moduleContent{
+		div.moduleMetaData, div.moduleSearchDataFooter{
+			padding: 10px 0px 10px 0px;
+			font-family: 'Open Sans', sans-serif;
+			text-transform: uppercase;
+			font-weight: 600;
+			font-size: 11px;
+			line-height: 11px;
+			color: grey;
+			background:#E2F5FD;
+		}
+
+	}
+}
+
+div#moduleSearchResults.collapsed{
+		height : 0px;
+}
+
+div#moduleSearchResults.expanded{
+	height : 200px;
+}
+
+div#moduleSearchResultsLoader{
+	overflow:auto;
+	span.searchLoader{
+		color:#444546;
+		font-size:26px;
+	}
+}
+div#moduleSearchResultsLoader.collapsed{
+		height : 0px;
+}
+
+div#moduleSearchResultsLoader.expanded{
+		height : 200px;
 }

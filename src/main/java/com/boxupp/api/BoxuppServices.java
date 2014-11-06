@@ -33,7 +33,6 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -42,13 +41,11 @@ import com.boxupp.ConfigurationGenerator;
 import com.boxupp.FileManager;
 import com.boxupp.PropertyReader;
 import com.boxupp.VagrantOutputStream;
-import com.boxupp.beans.SnapshotManager;
 import com.boxupp.dao.MachineConfigDAOManager;
 import com.boxupp.dao.ProjectDAOManager;
 import com.boxupp.dao.PuppetModuleDAOManager;
 import com.boxupp.dao.ShellScriptDAOManager;
 import com.boxupp.db.beans.MachineConfigurationBean;
-import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.SearchModuleBean;
@@ -56,10 +53,7 @@ import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.responseBeans.BoxURLResponse;
 import com.boxupp.responseBeans.ProjectConfig;
-import com.boxupp.responseBeans.SnapshotData;
-import com.boxupp.responseBeans.SnapshotStatus;
 import com.boxupp.responseBeans.StatusBean;
-import com.boxupp.responseBeans.VagrantFile;
 import com.boxupp.responseBeans.VagrantFileStatus;
 import com.boxupp.responseBeans.VagrantOutput;
 import com.boxupp.responseBeans.VagrantStatus;
@@ -81,15 +75,11 @@ public class BoxuppServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	public StatusBean activateProject(@Context HttpServletRequest request){
 		Integer projectID = Integer.parseInt(request.getParameter("projectID"));
+		Integer userID = Integer.parseInt(request.getParameter("userID"));
 		StatusBean statusBean = new StatusBean();
 		System.out.println("Call received for project ID : "+projectID);
-		if(Utilities.getInstance().changeActiveDirectory(projectID)){
-			statusBean.setStatusCode(0);
-		}else{
-			statusBean.setStatusCode(1);
-			statusBean.setStatusMessage("Project with ID "+projectID+" could not be made active;");
-			logger.debug("Project with ID "+projectID+" could not be made active;");
-		}
+		Utilities.getInstance().changeActiveDirectory(userID,projectID);
+		statusBean.setStatusCode(0);
 		return statusBean;
 	}
 	
@@ -100,26 +90,26 @@ public class BoxuppServices {
 		return VagrantOutputStream.pop();
 	}
 	
-	@GET
+	/*@GET
 	@Path("/getVagrantFile")
 	public VagrantFile getVagrantFile() throws IOException{
 		FileManager manager = new FileManager();
 		return manager.fetchVagrantFileData();
-	}
+	}*/
 	
-	@POST
+	/*@POST
 	@Path("/persistData")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public SnapshotStatus persistData(JsonNode boxuppMappings) throws IOException{
 		return SnapshotManager.persistBoxuppMappings(boxuppMappings);
-	}
+	}*/
 	
-	@GET
+	/*@GET
 	@Path("/retrieveData")
 	@Produces(MediaType.APPLICATION_JSON)
 	public SnapshotData retrieveFormSnapshot() throws ClassNotFoundException, IOException{
 		return SnapshotManager.retrieveBoxuppMappings();
-	}
+	}*/
 
 /*	@POST
 	@Path("/saveAsFile")
@@ -163,26 +153,27 @@ public class BoxuppServices {
 	@POST
 	@Path("/saveAsFile")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public VagrantFileStatus saveAsFile(String projectId) throws IOException
+	public VagrantFileStatus saveAsFile(@Context HttpServletRequest request) throws IOException
 	{
-		
-		List<MachineConfigurationBean>  machineConfigList = MachineConfigDAOManager.getInstance().read(projectId);
-		List<PuppetModuleBean>  puppetModuleList = PuppetModuleDAOManager.getInstance().read(projectId);
-		List<ShellScriptBean> shellScriptList = ShellScriptDAOManager.getInstance(). read(projectId);
+		String projectID = request.getParameter("projectID");
+		String userID = request.getParameter("userID");
+		List<MachineConfigurationBean>  machineConfigList = MachineConfigDAOManager.getInstance().read(projectID);
+		List<PuppetModuleBean>  puppetModuleList = PuppetModuleDAOManager.getInstance().read(projectID);
+		List<ShellScriptBean> shellScriptList = ShellScriptDAOManager.getInstance(). read(projectID);
 		List<ShellScriptMapping> shellScriptMappingList = null;
 		List<PuppetModuleMapping> puppetModuleMappingList = null;
 		try {
-			shellScriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryForEq("project", ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectId)));
+			shellScriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryForEq("project", ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID)));
 		
-			puppetModuleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryForEq("project",ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectId)));
+			puppetModuleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryForEq("project",ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID)));
 		} catch (NumberFormatException e) {
 			logger.error(e.getMessage());
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		}
-		String provider  = ProjectDAOManager.getInstance().getProviderForProject(projectId);
+		String provider  = ProjectDAOManager.getInstance().getProviderForProject(projectID);
 	
-		Utilities.getInstance().commitSyncFoldersToDisk(machineConfigList);
+		Utilities.getInstance().commitSyncFoldersToDisk(machineConfigList, Integer.parseInt(userID));
 		boolean configFileData = ConfigurationGenerator.generateConfig(machineConfigList, puppetModuleList,  shellScriptList, shellScriptMappingList, puppetModuleMappingList, provider );
 		VagrantFileStatus fileStatus = new VagrantFileStatus();
 		
@@ -190,7 +181,7 @@ public class BoxuppServices {
 			logger.info("Started saving vagrant file");
 			FileManager fileManager = new FileManager();
 			String renderedTemplate = ConfigurationGenerator.getVelocityFinalTemplate();
-			fileStatus = fileManager.writeFileToDisk(renderedTemplate);
+			fileStatus = fileManager.writeFileToDisk(renderedTemplate, Integer.parseInt(userID));
 			logger.info("Vagrant file save completed");
 		}
 		else{
@@ -203,11 +194,12 @@ public class BoxuppServices {
 	@GET
 	@Path("/boxupp")
 	public String runVagrantFile(@Context HttpServletRequest request) throws IOException, InterruptedException{
+		Integer userID = Integer.parseInt(request.getParameter("userID"));
 		WindowsShellProcessor shellProcessor = new WindowsShellProcessor();
-		String location = Utilities.getInstance().fetchActiveProjectDirectory();
+		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		String command = request.getParameter("command");
 		if(command.toLowerCase(Locale.ENGLISH).indexOf("vagrant")!= -1 ){
-			shellProcessor.executeVagrantFile(location,command, new VagrantOutputStream());
+			shellProcessor.executeVagrantFile(location,command,userID, new VagrantOutputStream());
 		}else{
 			OutputConsole console = new VagrantOutputStream();
 			console.pushError("Not a valid Vagrant command");
@@ -235,9 +227,10 @@ public class BoxuppServices {
 	@Path("/checkVagrantStatus")
 	@Produces(MediaType.APPLICATION_JSON)
 	
-	public VagrantStatus checkVagrantStatus(){
+	public VagrantStatus checkVagrantStatus(@Context HttpServletRequest request){
+		Integer userID = Integer.parseInt(request.getParameter("userID"));
 		WindowsShellProcessor shellProcessor = new WindowsShellProcessor();
-		String location = Utilities.getInstance().fetchActiveProjectDirectory();
+		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		return shellProcessor.checkVagrantStatus(location);
 		
 	}

@@ -1,4 +1,4 @@
-package com.boxupp.beans;
+/*package com.boxupp.beans;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -80,4 +80,4 @@ public class SnapshotManager{
 		}
 		return snapshotData;
 	}
-}
+}*/

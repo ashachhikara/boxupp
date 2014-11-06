@@ -1,5 +1,5 @@
 
-angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule){
+angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil){
 
 	$scope.projectData = {};
 	$scope.boxuppMappings = {};
@@ -13,6 +13,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.projectData.activeModule = null;
 	$scope.outputConsole = {};
 	$scope.outputConsole.boxuppExecuting = false;
+	$scope.searchingModules = false;
 	$scope.outputConsole.boxuppOutputWindow = false;
 	$scope.providerValidation = false;
 	$scope.bodyStyle.applyDashBoardStyling = true;
@@ -23,8 +24,16 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		}];
 	
 	$scope.searchNewModule = function(moduleSearchText){
+		$scope.searchingModules = true;
 		puppetModule.searchPuppetModule($scope,moduleSearchText).then(function(response){
 			$scope.moduleResults = response;	
+			$scope.searchingModules = false;
+		});
+	}
+
+	$scope.downloadNewModule = function(fileURI){
+		puppetModule.downloadPuppetModule(fileURI).then(function(response){
+			console.log('new module has been downloaded');
 		});
 	}
 	$scope.selectScript = function(num){
@@ -84,9 +93,16 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		});			
 	}
 
+	$scope.markActiveProject = function(){
+		miscUtil.selectActiveProject().then(function(response){
+			console.log(response);
+		});
+	}
+
 	$scope.fetchBoxList();
 	$scope.fetchScriptList();
 	$scope.fetchModuleList();
+	$scope.markActiveProject();
 	
 	/*retrieveMappings.fetchMappings($scope.serverAddress,$scope).then(function(response){
 			if(response.data !== null){

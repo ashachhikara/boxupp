@@ -59,6 +59,7 @@ public class GitRepoDAOManager implements DAOImplInterface {
 
 	@Override
 	public StatusBean update(JsonNode updatedData) {
+
 		GitRepoBean gitRepoBean  = null;
 		Gson gitRepoData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		gitRepoBean = gitRepoData.fromJson(updatedData.toString(), GitRepoBean.class);
@@ -91,7 +92,7 @@ public class GitRepoDAOManager implements DAOImplInterface {
 		}
 		return statusBean;
 	}
-
+	
 
 	@Override
 	public<T>T read(String gitRepoID) {

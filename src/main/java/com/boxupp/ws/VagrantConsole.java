@@ -35,11 +35,11 @@ public class VagrantConsole implements OutputConsole{
     }
 
 	@OnWebSocketMessage
-    public void onMessage(Session session,String command) throws IOException, InterruptedException {
+    public void onMessage(Session session,String command, Integer userID) throws IOException, InterruptedException {
         WindowsShellProcessor shellProcessor = new WindowsShellProcessor();
-		String location = Utilities.getInstance().fetchActiveProjectDirectory();
+		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
         if(command.toLowerCase(Locale.ENGLISH).indexOf("vagrant")!= -1 ){
-			shellProcessor.executeVagrantFile(location,command,this);
+			shellProcessor.executeVagrantFile(location,command,userID, this);
 		}else{
 			this.pushError("Not a valid Vagrant command");
 			this.pushDataTermination();
