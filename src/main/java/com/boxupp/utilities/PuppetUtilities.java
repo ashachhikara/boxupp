@@ -132,9 +132,9 @@ public class PuppetUtilities extends Utilities {
 		
 	}
 	
-	public StatusBean downloadModules(String fileURL){
+	public StatusBean downloadModule(String fileURL){
+		fileURL = CommonProerties.getInstance().getPuppetForgeDownloadAPIPath()+fileURL;
 		StatusBean statusBean = new StatusBean();
-
 		URL url = null;
 		int responseCode = 0;
 		HttpURLConnection httpConn = null;

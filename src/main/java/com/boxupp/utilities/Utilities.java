@@ -130,13 +130,26 @@ public class Utilities {
 	}
 	
 	public void writeScriptToDisk(ShellScriptBean scriptBean){
-		String scriptsDir = fetchActiveProjectDirectory() + osProperties.getOSFileSeparator()
+		String scriptsDir = osProperties.getUserHomeDirectory() + osProperties.getOSFileSeparator()
+							+osProperties.getPrimaryFolderName()+osProperties.getOSFileSeparator()
 							+osProperties.getScriptsDirName()+osProperties.getOSFileSeparator();
 		checkIfDirExists(new File(scriptsDir));
 		try{
-			BufferedWriter scriptWriter = new BufferedWriter(
-											new FileWriter(
-												new File(scriptsDir + scriptBean.getScriptName())));
+			BufferedWriter scriptWriter = new BufferedWriter(new FileWriter(new File(scriptsDir + scriptBean.getScriptName())));
+			scriptWriter.write(scriptBean.getScriptContent());
+			scriptWriter.close();
+		}
+		catch(IOException e){
+			logger.error("Error writing script : "+scriptBean.getScriptName() + " : "+e.getMessage());
+		}
+	}
+	public void updateScriptData(ShellScriptBean scriptBean){
+		String scriptsDir = osProperties.getUserHomeDirectory() + osProperties.getOSFileSeparator()
+				+osProperties.getPrimaryFolderName()+osProperties.getOSFileSeparator()
+				+osProperties.getScriptsDirName()+osProperties.getOSFileSeparator();
+		checkIfDirExists(new File(scriptsDir));
+		try{
+			BufferedWriter scriptWriter = new BufferedWriter(new FileWriter(new File(scriptsDir + scriptBean.getScriptName())));
 			scriptWriter.write(scriptBean.getScriptContent());
 			scriptWriter.close();
 		}
