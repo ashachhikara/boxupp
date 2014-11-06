@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.boxupp.db.beans.GitRepoBean;
 import com.boxupp.db.beans.ProviderBean;
+import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
@@ -62,6 +63,7 @@ public class DBConnectionManager {
 //			TableUtils.dropTable(connectionSource, ShellScriptBean.class, true);
 //			TableUtils.dropTable(connectionSource, ShellScriptMapping.class, true);
 			TableUtils.dropTable(connectionSource, PuppetModuleMapping.class, true);
+			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, true);
 			
 //			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, true);
 //			TableUtils.dropTable(connectionSource, ForwardedPortsBean.class, true);
@@ -83,6 +85,8 @@ public class DBConnectionManager {
 //			TableUtils.createTable(connectionSource, ShellScriptBean.class);
 //			TableUtils.createTable(connectionSource, ShellScriptMapping.class);
 			TableUtils.createTable(connectionSource, PuppetModuleMapping.class);
+			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
+
 
 //			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
 //			TableUtils.createTable(connectionSource, ForwardedPortsBean.class);

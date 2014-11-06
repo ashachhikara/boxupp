@@ -71,7 +71,7 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 		puppetModuleBean.setSummary(searchModuleBean.getCurrent_release().getMetadata().getSummary());
 		puppetModuleBean.setLicense(searchModuleBean.getCurrent_release().getMetadata().getLicense());
 		puppetModuleBean.setAuthor(searchModuleBean.getCurrent_release().getMetadata().getAuthor());
-		puppetModuleBean.setTags(searchModuleBean.getCurrent_release().getMetadata().getTags().toString());
+		puppetModuleBean.setTags(searchModuleBean.getCurrent_release().getMetadata().getTags() != null ? searchModuleBean.getCurrent_release().getMetadata().getTags().toString():null);
 		puppetModuleBean.setDescription(searchModuleBean.getCurrent_release().getMetadata().getDescription());
 		StatusBean statusBean = new StatusBean();
 		try {

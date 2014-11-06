@@ -1,1 +1,13 @@
-Shell provisioner
+<div class="row">
+	<div id="shellScriptsList" style="border-right : 1px dashed grey; height:200px;" class="col-md-5 col-md-offset-1">
+		<div class="shellScriptEntry col-md-3 text-center" ng-repeat="script in shellScripts" style="background:grey;">
+			{{script.scriptName}}
+		</div>
+	</div>
+
+	<div id="boxesList" style=" height:300px;" class="col-md-5">
+		<div class="boxEntry" ng-repeat="box in boxesData">
+			{{box.vagrantID}}
+		</div>
+	</div>
+</div>
