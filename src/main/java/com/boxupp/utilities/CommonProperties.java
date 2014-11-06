@@ -1,13 +1,13 @@
 package com.boxupp.utilities;
 
-public class CommonProerties {
-	private static CommonProerties commonProperties = null;
+public class CommonProperties {
+	private static CommonProperties commonProperties = null;
 
 	private String puppetForgeDownloadAPIPath = "https://forgeapi.puppetlabs.com:443";
 	
-	public static CommonProerties getInstance(){
+	public static CommonProperties getInstance(){
 		if(commonProperties == null){
-			commonProperties = new CommonProerties();
+			commonProperties = new CommonProperties();
 		}
 		return commonProperties;
 	}
