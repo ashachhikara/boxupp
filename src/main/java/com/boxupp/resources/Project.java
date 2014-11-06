@@ -75,7 +75,7 @@ public class Project {
 		return ProjectDAOManager.getInstance().retireveModulesForBox();
 	}
 	@GET
-	@Path("/getShriptMappping/")
+	@Path("/getScriptMappping/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ShellScriptMapping> getAllScriptMapping() {
 		return ProjectDAOManager.getInstance().retireveScriptsForBox();
