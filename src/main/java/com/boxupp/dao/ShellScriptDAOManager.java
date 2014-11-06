@@ -69,12 +69,13 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 	}
 
 	@Override
-	public StatusBean update(JsonNode updatedData) {
+	public StatusBean update(JsonNode updatedData){
 		ShellScriptBean shellScriptBean  = null;
 		Gson shellScriptData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		shellScriptBean = shellScriptData.fromJson(updatedData.toString(), ShellScriptBean.class);
 		StatusBean statusBean = new StatusBean();
 		try {
+			Utilities.getInstance().updateScriptData(shellScriptBean);
 			shellScriptDao.update(shellScriptBean);
 		} catch (SQLException e) {
 			logger.error("Error updating a shell script : " + e.getMessage());

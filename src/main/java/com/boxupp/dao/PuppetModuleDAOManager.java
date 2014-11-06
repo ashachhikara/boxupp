@@ -104,9 +104,9 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 			PuppetUtilities.getInstance().deletePuppetModule(puppetModuleDao.queryForId(Integer.parseInt(puppetModuleID)).getModuleName());
 			puppetModuleDao.deleteById(Integer.parseInt(puppetModuleID));
 			List<PuppetModuleMapping> puppetModuleMappping = puppetModuleMappingDao.queryForEq("puppet_ID", Integer.parseInt(puppetModuleID));
-				for(PuppetModuleMapping puppetModule : puppetModuleMappping){
-					puppetModuleMappingDao.delete(puppetModule);
-				}
+			for(PuppetModuleMapping puppetModule : puppetModuleMappping){
+				puppetModuleMappingDao.delete(puppetModule);
+			}
 		} catch (SQLException e) {
 			logger.error("Error deleting a puppet Module : " + e.getMessage());
 			statusBean.setStatusCode(1);
@@ -192,7 +192,7 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 			e.printStackTrace();
 		}
 		statusBean.setStatusCode(0);
-		statusBean.setStatusMessage("DLink Module and machine successfully");
+		statusBean.setStatusMessage("DeLink Module and machine successfully");
 
 		return statusBean;
 

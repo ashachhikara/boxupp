@@ -130,8 +130,7 @@ public class Utilities {
 	}
 	
 	public void writeScriptToDisk(ShellScriptBean scriptBean){
-		String scriptsDir = osProperties.getUserHomeDirectory() + osProperties.getOSFileSeparator()
-							+osProperties.getPrimaryFolderName()+osProperties.getOSFileSeparator()
+		String scriptsDir = fetchActiveProjectDirectory()+osProperties.getOSFileSeparator()
 							+osProperties.getScriptsDirName()+osProperties.getOSFileSeparator();
 		checkIfDirExists(new File(scriptsDir));
 		try{
@@ -144,11 +143,11 @@ public class Utilities {
 		}
 	}
 	public void updateScriptData(ShellScriptBean scriptBean){
-		String scriptsDir = osProperties.getUserHomeDirectory() + osProperties.getOSFileSeparator()
-				+osProperties.getPrimaryFolderName()+osProperties.getOSFileSeparator()
+		String scriptsDir = fetchActiveProjectDirectory() + osProperties.getOSFileSeparator()
 				+osProperties.getScriptsDirName()+osProperties.getOSFileSeparator();
 		checkIfDirExists(new File(scriptsDir));
 		try{
+			deleteFile(new File(scriptsDir + scriptBean.getScriptName()));
 			BufferedWriter scriptWriter = new BufferedWriter(new FileWriter(new File(scriptsDir + scriptBean.getScriptName())));
 			scriptWriter.write(scriptBean.getScriptContent());
 			scriptWriter.close();
@@ -171,7 +170,8 @@ public class Utilities {
 			String projectName = DAOProvider.getInstance().fetchProjectDao().queryForId(projectID).getName();
 			activeProjectDirectory = osProperties.getUserHomeDirectory() + 
 									 osProperties.getOSFileSeparator() +
-									 "Boxupp" + osProperties.getOSFileSeparator() + projectName;
+									osProperties.getPrimaryFolderName() +
+									osProperties.getOSFileSeparator() + projectName;
 		} catch (SQLException e) {
 			logger.error("Error setting the active project directory : "+e.getMessage());
 			return false;
