@@ -218,8 +218,7 @@ public class Utilities {
     		if(file.list().length==0){
  
     		   file.delete();
-    		   System.out.println("Directory is deleted : " 
-                                                 + file.getAbsolutePath());
+    		   System.out.println("Directory is deleted : " + file.getAbsolutePath());
  
     		}else{
  

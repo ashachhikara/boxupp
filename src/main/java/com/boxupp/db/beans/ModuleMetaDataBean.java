@@ -8,8 +8,6 @@ public class ModuleMetaDataBean {
 	private String license;
 	private String description;
 	private String author;
-	private Integer file_size;
-	private Integer downloads;
 	private String[] tags;
 	
 	public String getName() {
@@ -48,18 +46,7 @@ public class ModuleMetaDataBean {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	public Integer getFile_size() {
-		return file_size;
-	}
-	public void setFile_size(Integer file_size) {
-		this.file_size = file_size;
-	}
-	public Integer getDownloads() {
-		return downloads;
-	}
-	public void setDownloads(Integer downloads) {
-		this.downloads = downloads;
-	}
+	
 	public String[] getTags() {
 		return tags;
 	}

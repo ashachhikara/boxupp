@@ -2,6 +2,7 @@ package com.boxupp.utilities;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,22 +10,35 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import com.boxupp.beans.BoxuppPuppetData;
 import com.boxupp.beans.PuppetManifestFileBean;
 import com.boxupp.beans.PuppetModuleBean;
 import com.boxupp.beans.PuppetModuleFileBean;
 import com.boxupp.beans.PuppetModuleFolderBean;
+import com.boxupp.dao.PuppetModuleDAOManager;
+import com.boxupp.db.beans.SearchModuleBean;
 import com.boxupp.responseBeans.StatusBean;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 public class PuppetUtilities extends Utilities {
@@ -132,8 +146,10 @@ public class PuppetUtilities extends Utilities {
 		
 	}
 	
-	public StatusBean downloadModule(String fileURL){
-		fileURL = CommonProperties.getInstance().getPuppetForgeDownloadAPIPath()+fileURL;
+	public StatusBean downloadModule(JsonNode moduleData){
+		Gson searchModuleData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
+		SearchModuleBean searchModuleBean = searchModuleData.fromJson(moduleData.toString(), SearchModuleBean.class);
+		String fileURL = CommonProperties.getInstance().getPuppetForgeDownloadAPIPath()+searchModuleBean.getCurrent_release().getFile_uri();
 		StatusBean statusBean = new StatusBean();
 		URL url = null;
 		int responseCode = 0;
@@ -190,6 +206,7 @@ public class PuppetUtilities extends Utilities {
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error in loading module :" +e.getMessage());
 		}
+		statusBean =PuppetModuleDAOManager.getInstance().create(moduleData);
 		return statusBean;
 	}
 	
@@ -221,6 +238,60 @@ public class PuppetUtilities extends Utilities {
 		} catch (IOException e) {
 			logger.error("Error in unzip the module file :"+e.getMessage());
 		}
+	}
+	public List<SearchModuleBean> searchModule(HttpServletRequest request){
+		List <SearchModuleBean> moduleList = new ArrayList<SearchModuleBean>();
+		String module = request.getParameter("query");
+		String url = "https://forgeapi.puppetlabs.com:443/v3/modules?query="+module;
+		
+		try {
+			HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+			con.setRequestMethod("GET");
+			con.setRequestProperty("owner", request.getParameter("owner"));
+			con.setRequestProperty("tag", request.getParameter("tag"));
+			con.setRequestProperty("show+deleted", request.getParameter("show+deleted"));
+			con.setRequestProperty("sort_by", request.getParameter("sort_by"));
+			con.setRequestProperty("operatingsystem", request.getParameter("operatingsystem"));
+			con.setRequestProperty("supported", request.getParameter("supported"));
+			con.setRequestProperty("pe_requirement", request.getParameter("pe_requirement"));
+			con.setRequestProperty("puppet_requirement", request.getParameter("puppet_requirement"));
+			con.setRequestProperty("limit", request.getParameter("limit"));
+			con.setRequestProperty("offset", request.getParameter("offset"));
+			con.setRequestProperty("If-Modified-Since", request.getParameter("If-Modified-Since"));
+			con.setRequestProperty("Content-Type","application/json; charset=UTF-8");
+				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				String inputLine;
+				StringBuilder response = new StringBuilder();
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
+				JSONObject o = new JSONObject(response.toString());
+				JSONArray jsonArray = o.getJSONArray("results");
+					for(int i=0; i<jsonArray.length(); i++){
+						/*SearchModuleBean searchModule = new SearchModuleBean();
+						JSONObject currentRelease = (JSONObject) ((JSONObject) jsonArray.get(i)).get("current_release");
+						searchModule.setFileUri(currentRelease.get("file_uri").toString());
+						if(((JSONObject)currentRelease.get("metadata")).has("name")){
+							searchModule.setModuleName(((JSONObject)currentRelease.get("metadata")).get("name").toString());
+						}*/
+						SearchModuleBean searchModule = new SearchModuleBean();
+						Gson moduleData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
+						searchModule = moduleData.fromJson(jsonArray.get(i).toString(),SearchModuleBean.class);
+						moduleList.add(searchModule);
+					}
+					
+			} catch (ProtocolException e) {
+				logger.error("Error in searching module :"+e.getMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				logger.error("Error in searching module :"+e.getMessage());
+				e.printStackTrace();
+			} catch (JSONException e) {
+				logger.error("Error in searching module :"+e.getMessage());
+				e.printStackTrace();
+			}
+		return moduleList;
 	}
 }
 

@@ -4,10 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -18,7 +16,9 @@ import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.dao.PuppetModuleDAOManager;
 import com.boxupp.db.beans.PuppetModuleBean;
+import com.boxupp.db.beans.SearchModuleBean;
 import com.boxupp.responseBeans.StatusBean;
+import com.boxupp.utilities.PuppetUtilities;
 
 @Path("/puppetModule/")
 public class PuppetModule {
@@ -75,5 +75,20 @@ public class PuppetModule {
 		return PuppetModuleDAOManager.getInstance().deLinkModuleWithMachine(moduleMachineMapping);
 	}
 	
+	@GET
+	@Path("/searchPuppetModule")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<SearchModuleBean> searchPuppetModule(@Context HttpServletRequest request) {
+		return PuppetUtilities.getInstance().searchModule(request);
+	}
+
+	@POST
+	@Path("/downloadPuppetModule")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StatusBean downloadPuppetModule(JsonNode moduleData) {
+		return PuppetUtilities.getInstance().downloadModule(moduleData);
+		
+	}
+
 
 }

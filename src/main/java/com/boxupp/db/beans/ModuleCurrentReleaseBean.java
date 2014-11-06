@@ -4,6 +4,8 @@ public class ModuleCurrentReleaseBean {
 
 	private String uri;
 	private String version;
+	private String file_uri;
+	private Integer file_size;
 	private ModuleMetaDataBean metadata;
 	
 	public String getUri() {
@@ -24,6 +26,16 @@ public class ModuleCurrentReleaseBean {
 	public void setMetadata(ModuleMetaDataBean metadata) {
 		this.metadata = metadata;
 	}
-	
-	
+	public String getFile_uri() {
+		return file_uri;
+	}
+	public void setFile_uri(String file_uri) {
+		this.file_uri = file_uri;
+	}
+	public Integer getFile_size() {
+		return file_size;
+	}
+	public void setFile_size(Integer file_size) {
+		this.file_size = file_size;
+	}
 }
