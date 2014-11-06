@@ -64,6 +64,7 @@ import com.boxupp.responseBeans.VagrantFileStatus;
 import com.boxupp.responseBeans.VagrantOutput;
 import com.boxupp.responseBeans.VagrantStatus;
 import com.boxupp.utilities.OSProperties;
+import com.boxupp.utilities.PuppetUtilities;
 import com.boxupp.utilities.Utilities;
 import com.boxupp.windows.WindowsShellProcessor;
 import com.boxupp.ws.OutputConsole;
@@ -328,106 +329,9 @@ public class BoxuppServices {
 	@Path("/downloadPuppetModule")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StatusBean dowunloadPuppetModule(@Context HttpServletRequest request) {
-		StatusBean statusBean = new StatusBean();
-		String fileURL = request.getParameter("fileUrl");
-		URL url = null;
-		int responseCode = 0;
-		HttpURLConnection httpConn = null;
-		String fileSeparator = OSProperties.getInstance().getOSFileSeparator();
-		String saveDir = Utilities.getInstance().fetchActiveProjectDirectory()
-				+ fileSeparator + request.getParameter("loc") + fileSeparator;
-		try {
-			url = new URL(fileURL);
-			httpConn = (HttpURLConnection) url.openConnection();
-			responseCode = httpConn.getResponseCode();
-
-			// always check HTTP response code first
-			if (responseCode == HttpURLConnection.HTTP_OK) {
-				String fileName = "";
-				String disposition = httpConn.getHeaderField("Content-Disposition");
-				
-				if (disposition != null) {
-					// extracts file name from header field
-					int index = disposition.indexOf("filename=");
-					if (index > 0) {
-						fileName = disposition.substring(index + 9,	disposition.length());
-					}
-				} else {
-					// extracts file name from URL
-					fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1, fileURL.length());
-				}
-
-				// opens input stream from the HTTP connection
-				InputStream inputStream = httpConn.getInputStream();
-				String saveFilePath = saveDir + fileName;
-
-				// opens an output stream to save into file
-				FileOutputStream outputStream = new FileOutputStream(
-						saveFilePath);
-
-				int bytesRead = -1;
-				byte[] buffer = new byte[4096];
-				while ((bytesRead = inputStream.read(buffer)) != -1) {
-					outputStream.write(buffer, 0, bytesRead);
-				}
-
-				outputStream.close();
-				inputStream.close();
-				logger.info("File downloaded");
-				extrectFile(saveFilePath, saveDir);
-				File file = new File(saveFilePath);
-				file.delete();
-			
-			} else {
-				logger.info("No file to download. Server replied HTTP code: "+ responseCode);
-			}
-			httpConn.disconnect();
-			statusBean.setStatusCode(0);
-			statusBean.setStatusMessage(" Module Downloaded successfully ");
-			
-		} catch (IOException e) {
-			logger.error("Error in loading module :" +e.getMessage());
-			statusBean.setStatusCode(1);
-			statusBean.setStatusMessage("Error in loading module :" +e.getMessage());
-		}
-		return statusBean;
-
-	}
-
-	private void extrectFile(String saveFilePath, String saveDir) {
-		/** create a TarArchiveInputStream object. **/
-		try {
-			File file = new File(saveFilePath);
-			FileInputStream fin = new FileInputStream(file);
-			BufferedInputStream in = new BufferedInputStream(fin);
-			GzipCompressorInputStream gzIn = new GzipCompressorInputStream(in);
-			TarArchiveInputStream tarIn = new TarArchiveInputStream(gzIn);
-			TarArchiveEntry entry = null;
-
-			while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
-
-				/** If the entry is a directory, create the directory. **/
-				if (entry.isDirectory()) {
-					File f = new File(saveDir + entry.getName());
-					f.mkdirs();
-				} else {
-					int count;
-					byte data[] = new byte[4096];
-					FileOutputStream fos = new FileOutputStream(saveDir + entry.getName());
-					BufferedOutputStream dest = new BufferedOutputStream(fos, 4096);
-					while ((count = tarIn.read(data, 0, 4096)) != -1) {
-						dest.write(data, 0, count);
-					}
-					dest.close();
-					/** Close the input stream **/
-				}
-			}
-			tarIn.close();
-		} catch (IOException e) {
-			logger.error("Error in unzip the module file :"+e.getMessage());
-		}
-		logger.info("untar completed successfully!!");
-
+		String fileURL = "https://forgeapi.puppetlabs.com:443"+request.getParameter("fileURL");
+		return PuppetUtilities.getInstance().downloadModules(fileURL);
+		
 	}
 
 }
