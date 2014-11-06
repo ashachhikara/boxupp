@@ -38,13 +38,13 @@ public class PuppetUtilities extends Utilities {
 		return puppetUtilities;
 	}
 	
-	public void commitPuppetDataToDisk(BoxuppPuppetData puppetData){
+	/*public void commitPuppetDataToDisk(BoxuppPuppetData puppetData){
 		commitManifestsToDisk(puppetData.getManifests());
 		commitModulesToDisk(puppetData.getModules());
 		createFilesFolderOnDisk();
-	}
+	}*/
 	
-	public void commitManifestsToDisk(ArrayList<PuppetManifestFileBean> manifestBeansList){
+	/*public void commitManifestsToDisk(ArrayList<PuppetManifestFileBean> manifestBeansList){
 //		String fileSeparator = OSProperties.getInstance().getOSFileSeparator();
 		String manifestsDir = fetchActiveProjectDirectory() + OSFileSeparator +"manifests" + OSFileSeparator;
 		checkIfDirExists(new File(manifestsDir));
@@ -62,17 +62,17 @@ public class PuppetUtilities extends Utilities {
 			e.printStackTrace();
 			logger.error("Error writing manifests : " + manifestFile.getMoFileName() + " : "+e.getMessage());
 		}
-	}
+	}*/
 	
-	public void createFilesFolderOnDisk(){
+	/*public void createFilesFolderOnDisk(){
 		String filesDir = fetchActiveProjectDirectory() + OSFileSeparator + "files" + OSFileSeparator;
 		File directory = new File(filesDir);
 		if(!directory.exists()){
 			directory.mkdir();
 		}
-	}
+	}*/
 	
-	public void commitModulesToDisk(ArrayList<PuppetModuleBean> modulesList){
+	/*public void commitModulesToDisk(ArrayList<PuppetModuleBean> modulesList){
 		String modulesDir = fetchActiveProjectDirectory() + OSFileSeparator + "modules" + OSFileSeparator;
 		checkIfDirExists(new File(modulesDir));
 		PuppetModuleBean moduleBean = null;
@@ -89,7 +89,7 @@ public class PuppetUtilities extends Utilities {
 		catch(IOException e){
 			logger.error("Error writing modules : " + moduleBean.getMoName() + " : "+e.getMessage());
 		}
-	}
+	}*/
 	
 	public void commitModuleFolderToDisk(String parentFolder,ArrayList<PuppetModuleFolderBean> folderBeanList) throws IOException{
 		
@@ -114,8 +114,8 @@ public class PuppetUtilities extends Utilities {
 		}
 	}
 	
-	public void deletePuppetModule(String puppetModuleName){
-		String modulesDir = fetchActiveProjectDirectory() + OSFileSeparator + "modules" + OSFileSeparator;
+	public void deletePuppetModule(Integer userID, String puppetModuleName){
+		String modulesDir = fetchActiveProjectDirectory(userID) + OSFileSeparator + "modules" + OSFileSeparator;
 		File file  = new File(modulesDir+puppetModuleName);
 		Utilities.getInstance().deleteFile(file);
 		

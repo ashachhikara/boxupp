@@ -41,10 +41,10 @@ public class WindowsShellExecutor {
 		cmdExecDir = dir;
 	}
 	
-	public void bootVagrantMachine(OutputConsole console, String... commands ) throws IOException, InterruptedException{
+	public void bootVagrantMachine(OutputConsole console, Integer userID, String... commands ) throws IOException, InterruptedException{
 		
 		StringBuffer vagrantCommand = new StringBuffer();
-		File vagrantFile = new File(Utilities.getInstance().fetchActiveProjectDirectory() 
+		File vagrantFile = new File(Utilities.getInstance().fetchActiveProjectDirectory(userID) 
 						   +OSProperties.getInstance().getOSFileSeparator()+
 						   OSProperties.getInstance().getVagrantFileName());
 		for(int counter=0; counter<commands.length; counter++){

@@ -48,7 +48,7 @@ public class UploadHandler {
 		}
 	}
 	
-	@POST
+	/*@POST
 	@Path("/upload")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response uploadFile(@FormDataParam("file") InputStream inputStream,
@@ -82,7 +82,7 @@ public class UploadHandler {
 		  e.printStackTrace();
 		}
 	  return Response.status(200).entity(response).build();
-	}
+	}*/
 
 	/*@POST
 	@Path("/parseVagrantFile")

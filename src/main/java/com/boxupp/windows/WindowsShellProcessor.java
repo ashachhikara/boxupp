@@ -17,12 +17,12 @@ public class WindowsShellProcessor {
 		return shellParser.parseVagrantStatusCMD(cmdOutput);
 	}
 	
-	public String executeVagrantFile(String location, String command, OutputConsole consoleType) throws IOException, InterruptedException{
+	public String executeVagrantFile(String location, String command, Integer userID,OutputConsole consoleType) throws IOException, InterruptedException{
 		
 //		VagrantOutputStream.flushData();
 		command = filterCommand(command);
 		shellExec.setCMDExecDir(location);
-		shellExec.bootVagrantMachine(consoleType, command.split(" "));
+		shellExec.bootVagrantMachine(consoleType, userID, command.split(" "));
 		return "";
 		
 	}

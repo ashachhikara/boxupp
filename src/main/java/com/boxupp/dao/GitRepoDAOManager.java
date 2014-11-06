@@ -62,11 +62,15 @@ public class GitRepoDAOManager implements DAOImplInterface {
 	}
 
 	@Override
-	public StatusBean delete(String ID) {
+	public StatusBean delete(String ID){
+		return null;
+	}
+	
+	public StatusBean delete(Integer userID, String ID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 
 	@Override
 	public<T>T read(String ID) {

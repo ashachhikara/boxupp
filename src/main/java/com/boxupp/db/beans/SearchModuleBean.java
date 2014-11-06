@@ -7,8 +7,10 @@ public class SearchModuleBean {
 	private Integer downloads;
 	private String created_at;
 	private String updated_at;
+	private Boolean supported;
 	private ModuleOwnerBean owner;
 	private ModuleCurrentReleaseBean current_release;
+	
 	
 	public String getFileUri() {
 		return uri;
@@ -52,6 +54,13 @@ public class SearchModuleBean {
 	}
 	public void setUpdated_at(String updated_at) {
 		this.updated_at = updated_at;
+	}
+	
+	public Boolean getSupported() {
+		return supported;
+	}
+	public void setSupported(Boolean supported) {
+		this.supported = supported;
 	}
 	public ModuleOwnerBean getOwner() {
 		return owner;

@@ -48,9 +48,10 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		ShellScriptBean shellScriptBean  = null;
 		Gson shellScriptData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		shellScriptBean = shellScriptData.fromJson(newData.toString(), ShellScriptBean.class);
+		Integer userID = Integer.parseInt(newData.get("userID").getTextValue());
 		StatusBean statusBean = new StatusBean();
 		try {
-			Utilities.getInstance().writeScriptToDisk(shellScriptBean);
+			Utilities.getInstance().writeScriptToDisk(userID, shellScriptBean);
 			shellScriptDao.create(shellScriptBean);
 			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(newData.get("ProjectID").getTextValue()));
 			ShellScriptMapping shellscriptMapping = new ShellScriptMapping(null, shellScriptBean, project);
@@ -101,10 +102,10 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 	}
 */
 	
-	public StatusBean delete(String shellScriptID) {
+	public StatusBean delete(Integer userID, String shellScriptID) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			Utilities.getInstance().deleteScriptfileOnDisk(shellScriptDao.queryForId(Integer.parseInt(shellScriptID)).getScriptName());
+			Utilities.getInstance().deleteScriptfileOnDisk(shellScriptDao.queryForId(Integer.parseInt(shellScriptID)).getScriptName(), userID);
 			shellScriptDao.deleteById(Integer.parseInt(shellScriptID));
 			List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, Integer.parseInt(shellScriptID));
 				for(ShellScriptMapping shellScript : shellscriptMappping){
@@ -215,6 +216,12 @@ private PreparedQuery<ShellScriptBean> makeShellScriptForProjectQuery() throws S
 		shellScriptQb.where().in(ShellScriptBean.ID_FIELD_NAME, scriptProjectQb);
 		return shellScriptQb.prepare();
 	}
+
+@Override
+public StatusBean delete(String ID) {
+	// TODO Auto-generated method stub
+	return null;
+}
 }
 
 
