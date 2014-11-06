@@ -321,9 +321,8 @@ public class BoxuppServices {
 	@GET
 	@Path("/downloadPuppetModule")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StatusBean dowunloadPuppetModule(@Context HttpServletRequest request) {
-		String fileURL = "https://forgeapi.puppetlabs.com:443"+request.getParameter("fileURL");
-		return PuppetUtilities.getInstance().downloadModules(fileURL);
+	public StatusBean downloadPuppetModule(@Context HttpServletRequest request) {
+		return PuppetUtilities.getInstance().downloadModule(request.getParameter("fileURL"));
 		
 	}
 

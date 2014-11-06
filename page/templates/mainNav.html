@@ -1,7 +1,7 @@
 <div class="mainNavElements col-md-2" style="position:absolute; top:51px; bottom:0px; ">
 	<ul class="nav nav-pills nav-stacked mainNavList">
 
-		<li>
+		<li class="active">
 			<a data-target="#dashboardList , #dashboardPlayArea" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true" ng-nit="$parent.collapseSecNav = true">
 						<div class="main-nav-icon"><i class="fa fa-desktop"></i></div>
 						<div class="main-nav-label">Dashboard</div>
@@ -45,16 +45,16 @@
 				Provision
 			</div>
 		</li>
-		<li>
+		<li ng-mouseenter="shellHover = true" ng-mouseleave = "shellHover = false" ng-init="shellHover = false">
 			<a data-target="#shellProvPlayArea" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true">
-				<div class="main-nav-icon"><i class="fa fa-th"></i></div>
+				<div class="main-nav-icon"><i class="fa fa-cog" ng-class="{'fa-spin' : shellHover}"></i></div>
 				<div class="main-nav-label">Shell Provisioner</div>
 				<div class="main-nav-description"></div>
 			</a>
 		</li>
-		<li>
+		<li ng-mouseenter="puppetHover = true" ng-mouseleave = "puppetHover = false" ng-init="puppetHover = false">
 			<a data-target="#puppetProvPlayArea" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true">
-				<div class="main-nav-icon"><i class="fa fa-th"></i></div>
+				<div class="main-nav-icon"><i class="fa fa-cog" ng-class="{'fa-spin' : puppetHover}"></i></div>
 				<div class="main-nav-label">Puppet Provisioner</div>
 				<div class="main-nav-description"></div>
 			</a>

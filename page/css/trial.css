@@ -67,7 +67,7 @@ div.mainNavElements {
     margin-left: -15px;
     margin-right: -15px; }
     div.mainNavElements .mainNavList li.sectionTitle {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.18); }
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
       div.mainNavElements .mainNavList li.sectionTitle div.sectionTitleText {
         color: rgba(255, 255, 255, 0.62);
         font-family: 'Open Sans', sans-serif;
@@ -85,7 +85,7 @@ div.mainNavElements {
       border-radius: 0px;
       color: #FFFFFF; }
       div.mainNavElements .mainNavList li a .main-nav-icon i {
-        font-size: 28px;
+        font-size: 26px;
         position: relative;
         left: 4px; }
       div.mainNavElements .mainNavList li a .main-nav-label {
