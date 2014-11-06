@@ -11,7 +11,7 @@ public class OSProperties {
 	private String scriptsDirName = "scripts";
 	private String primaryFolderName="Boxupp";
 	private String serializedFileName = "serData";
-	private String moduleDirName = "module";
+	private String moduleDirName = "modules";
 			
 	private OSProperties(){
 			OSFileSeparator = System.getProperty("file.separator");
@@ -82,6 +82,6 @@ public class OSProperties {
 	public void setModuleDirName(String moduleDirName) {
 		this.moduleDirName = moduleDirName;
 	}
-	
+
 	
 }
