@@ -12,6 +12,62 @@ public class PuppetModuleBean {
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true, columnName=ID_FIELD_NAME)
 	private Integer puppetID;
 	
+	@DatabaseField(useGetSet = true)
+	private String comman_Uri;
+	
+	@DatabaseField(useGetSet = true)
+	private Integer downloads;
+	
+	@DatabaseField(useGetSet = true)
+	private String created_at;
+	
+	@DatabaseField(useGetSet = true)
+	private String updated_at;
+	
+	@DatabaseField(useGetSet = true)
+	private Boolean supported;
+	
+	@DatabaseField(useGetSet = true)
+	private String metaData_name;
+	
+	@DatabaseField(useGetSet = true)
+	private String version;
+	
+	@DatabaseField(useGetSet = true)
+	private String summary;
+	
+	@DatabaseField(useGetSet = true)
+	private String license;
+	
+	@DatabaseField(useGetSet = true)
+	private String author;
+	
+	@DatabaseField(useGetSet = true)
+	private String tags;
+	
+	@DatabaseField(useGetSet = true)
+	private String currentRelease_uri;
+	
+	@DatabaseField(useGetSet = true)
+	private String currentRelease_version;
+	
+	@DatabaseField(useGetSet = true)
+	private String file_uri;
+	
+	@DatabaseField(useGetSet = true)
+	private Integer currentRelease_downloads;
+	
+	@DatabaseField(useGetSet = true)
+	private Integer file_size;
+	
+	@DatabaseField(useGetSet = true)
+	private String owner_uri;
+	
+	@DatabaseField(useGetSet = true)
+	private String owner_username;
+	
+	@DatabaseField(useGetSet = true)
+	private String gravatar_id;
 	
 	@DatabaseField(useGetSet = true)
 	private String moduleName;
@@ -34,6 +90,158 @@ public class PuppetModuleBean {
 
 	public void setPuppetID(Integer puppetID) {
 		this.puppetID = puppetID;
+	}
+
+	public String getComman_Uri() {
+		return comman_Uri;
+	}
+
+	public void setComman_Uri(String comman_Uri) {
+		this.comman_Uri = comman_Uri;
+	}
+
+	public Integer getDownloads() {
+		return downloads;
+	}
+
+	public void setDownloads(Integer downloads) {
+		this.downloads = downloads;
+	}
+
+	public String getCreated_at() {
+		return created_at;
+	}
+
+	public void setCreated_at(String created_at) {
+		this.created_at = created_at;
+	}
+
+	public String getUpdated_at() {
+		return updated_at;
+	}
+
+	public void setUpdated_at(String updated_at) {
+		this.updated_at = updated_at;
+	}
+
+	public Boolean getSupported() {
+		return supported;
+	}
+
+	public void setSupported(Boolean supported) {
+		this.supported = supported;
+	}
+
+	public String getMetaData_name() {
+		return metaData_name;
+	}
+
+	public void setMetaData_name(String metaData_name) {
+		this.metaData_name = metaData_name;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	public String getLicense() {
+		return license;
+	}
+
+	public void setLicense(String license) {
+		this.license = license;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public String getCurrentRelease_uri() {
+		return currentRelease_uri;
+	}
+
+	public void setCurrentRelease_uri(String currentRelease_uri) {
+		this.currentRelease_uri = currentRelease_uri;
+	}
+
+	public String getCurrentRelease_version() {
+		return currentRelease_version;
+	}
+
+	public void setCurrentRelease_version(String currentRelease_version) {
+		this.currentRelease_version = currentRelease_version;
+	}
+
+	public String getFile_uri() {
+		return file_uri;
+	}
+
+	public void setFile_uri(String file_uri) {
+		this.file_uri = file_uri;
+	}
+
+	public Integer getCurrentRelease_downloads() {
+		return currentRelease_downloads;
+	}
+
+	public void setCurrentRelease_downloads(Integer currentRelease_downloads) {
+		this.currentRelease_downloads = currentRelease_downloads;
+	}
+
+	public Integer getFile_size() {
+		return file_size;
+	}
+
+	public void setFile_size(Integer file_size) {
+		this.file_size = file_size;
+	}
+
+	public String getOwner_uri() {
+		return owner_uri;
+	}
+
+	public void setOwner_uri(String owner_uri) {
+		this.owner_uri = owner_uri;
+	}
+
+	public String getOwner_username() {
+		return owner_username;
+	}
+
+	public void setOwner_username(String owner_username) {
+		this.owner_username = owner_username;
+	}
+
+	public String getGravatar_id() {
+		return gravatar_id;
+	}
+
+	public void setGravatar_id(String gravatar_id) {
+		this.gravatar_id = gravatar_id;
 	}
 
 	public String getModuleName() {
@@ -76,5 +284,6 @@ public class PuppetModuleBean {
 		this.description = description;
 	}
 
-
+	
+	
 }

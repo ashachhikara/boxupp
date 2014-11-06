@@ -1,5 +1,6 @@
 package com.boxupp.dao;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +14,13 @@ import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
+import com.boxupp.db.beans.SearchModuleBean;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.PuppetUtilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
@@ -46,14 +49,33 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 	@Override
 	public StatusBean create(JsonNode newData) {
 		PuppetModuleBean puppetModuleBean = null;
+		Gson searchModuleData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
+		SearchModuleBean searchModuleBean = searchModuleData.fromJson(newData.toString(), SearchModuleBean.class);
 		Gson puppetModuleData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
-		puppetModuleBean = puppetModuleData.fromJson(newData.toString(),PuppetModuleBean.class);
+		puppetModuleBean =  puppetModuleData.fromJson(newData.toString(), PuppetModuleBean.class);
+		puppetModuleBean.setModuleName(searchModuleBean.getName());
+		puppetModuleBean.setComman_Uri(searchModuleBean.getUri());
+		puppetModuleBean.setDownloads(searchModuleBean.getDownloads());
+		puppetModuleBean.setCreated_at(searchModuleBean.getCreated_at());
+		puppetModuleBean.setUpdated_at(searchModuleBean.getUpdated_at());
+		puppetModuleBean.setSupported(searchModuleBean.getSupported());
+		puppetModuleBean.setCurrentRelease_uri(searchModuleBean.getCurrent_release().getUri());
+		puppetModuleBean.setCurrentRelease_version(searchModuleBean.getCurrent_release().getVersion());
+		puppetModuleBean.setFile_uri(searchModuleBean.getCurrent_release().getFile_uri());
+		puppetModuleBean.setFile_size(searchModuleBean.getCurrent_release().getFile_size());
+		puppetModuleBean.setOwner_uri(searchModuleBean.getOwner().getUri());
+		puppetModuleBean.setOwner_username(searchModuleBean.getOwner().getUsername());
+		puppetModuleBean.setGravatar_id(searchModuleBean.getOwner().getGravatar_id());
+		puppetModuleBean.setMetaData_name(searchModuleBean.getCurrent_release().getMetadata().getName());
+		puppetModuleBean.setVersion(searchModuleBean.getCurrent_release().getMetadata().getVersion());
+		puppetModuleBean.setSummary(searchModuleBean.getCurrent_release().getMetadata().getSummary());
+		puppetModuleBean.setLicense(searchModuleBean.getCurrent_release().getMetadata().getLicense());
+		puppetModuleBean.setAuthor(searchModuleBean.getCurrent_release().getMetadata().getAuthor());
+		puppetModuleBean.setTags(searchModuleBean.getCurrent_release().getMetadata().getTags() != null ? searchModuleBean.getCurrent_release().getMetadata().getTags().toString():null);
+		puppetModuleBean.setDescription(searchModuleBean.getCurrent_release().getMetadata().getDescription());
 		StatusBean statusBean = new StatusBean();
 		try {
 			puppetModuleDao.create(puppetModuleBean);
-			PuppetModuleMapping moduleMapping = new PuppetModuleMapping(null, puppetModuleBean);
-			puppetModuleMappingDao.create(moduleMapping);
-
 		} catch (SQLException e) {
 			logger.error("Error saving a new puppet module : " + e.getMessage());
 			statusBean.setStatusCode(1);
@@ -61,6 +83,7 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 			e.printStackTrace();
 		}
 		statusBean.setStatusCode(0);
+		statusBean.setData(puppetModuleBean);
 		statusBean.setStatusMessage("Puppet module saved successfully");
 		return statusBean;
 	}
@@ -93,6 +116,7 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 			e.printStackTrace();
 		}
 		statusBean.setStatusCode(0);
+		statusBean.setData(puppetModuleBean);
 		statusBean.setStatusMessage("Puppet module updated successfully");
 		return statusBean;
 	}
@@ -103,7 +127,7 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 		try {
 			PuppetUtilities.getInstance().deletePuppetModule(userID, puppetModuleDao.queryForId(Integer.parseInt(puppetModuleID)).getModuleName());
 			puppetModuleDao.deleteById(Integer.parseInt(puppetModuleID));
-			List<PuppetModuleMapping> puppetModuleMappping = puppetModuleMappingDao.queryForEq("puppet_ID", Integer.parseInt(puppetModuleID));
+			List<PuppetModuleMapping> puppetModuleMappping = puppetModuleMappingDao.queryForEq(PuppetModuleMapping.MODULE_ID_FIELD_NAME, Integer.parseInt(puppetModuleID));
 			for(PuppetModuleMapping puppetModule : puppetModuleMappping){
 				puppetModuleMappingDao.delete(puppetModule);
 			}
