@@ -4,8 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,9 +14,6 @@ import org.codehaus.jackson.JsonNode;
 import com.boxupp.beans.BoxuppPuppetData;
 import com.boxupp.beans.BoxuppScriptsData;
 import com.boxupp.beans.BoxuppVMData;
-import com.boxupp.beans.SyncFolderMapping;
-import com.boxupp.beans.VMConfiguration;
-import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ShellScriptBean;
@@ -133,8 +128,8 @@ public class Utilities {
 		}
 	}
 	
-	public void writeScriptToDisk(ShellScriptBean scriptBean){
-		String scriptsDir = fetchActiveProjectDirectory()+osProperties.getOSFileSeparator()
+	public void writeScriptToDisk(ShellScriptBean scriptBean, Integer userID){
+		String scriptsDir = fetchActiveProjectDirectory(userID)+osProperties.getOSFileSeparator()
 							+osProperties.getScriptsDirName()+osProperties.getOSFileSeparator();
 		checkIfDirExists(new File(scriptsDir));
 		try{
@@ -146,8 +141,8 @@ public class Utilities {
 			logger.error("Error writing script : "+scriptBean.getScriptName() + " : "+e.getMessage());
 		}
 	}
-	public void updateScriptData(ShellScriptBean scriptBean){
-		String scriptsDir = fetchActiveProjectDirectory() + osProperties.getOSFileSeparator()
+	public void updateScriptData(ShellScriptBean scriptBean, Integer userID){
+		String scriptsDir = fetchActiveProjectDirectory(userID) + osProperties.getOSFileSeparator()
 				+osProperties.getScriptsDirName()+osProperties.getOSFileSeparator();
 		checkIfDirExists(new File(scriptsDir));
 		try{
@@ -157,7 +152,7 @@ public class Utilities {
 			scriptWriter.close();
 		}
 		catch(IOException e){
-			logger.error("Error writing script : "+scriptBean.getScriptName() + " : "+e.getMessage());
+			logger.error("Error updating script : "+scriptBean.getScriptName() + " : "+e.getMessage());
 		}
 	}
 	

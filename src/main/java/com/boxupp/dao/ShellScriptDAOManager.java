@@ -52,7 +52,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		Integer userID = Integer.parseInt(newData.get("userID").getTextValue());
 		StatusBean statusBean = new StatusBean();
 		try {
-			Utilities.getInstance().writeScriptToDisk(userID, shellScriptBean);
+			Utilities.getInstance().writeScriptToDisk(shellScriptBean, userID);
 			shellScriptDao.create(shellScriptBean);
 			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(newData.get("ProjectID").getTextValue()));
 			ShellScriptMapping shellscriptMapping = new ShellScriptMapping(null, shellScriptBean, project);
@@ -75,8 +75,9 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		Gson shellScriptData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		shellScriptBean = shellScriptData.fromJson(updatedData.toString(), ShellScriptBean.class);
 		StatusBean statusBean = new StatusBean();
+		Integer userID = Integer.parseInt(updatedData.get("userID").getTextValue());
 		try {
-			Utilities.getInstance().updateScriptData(shellScriptBean);
+			Utilities.getInstance().updateScriptData(shellScriptBean, userID);
 			shellScriptDao.update(shellScriptBean);
 		} catch (SQLException e) {
 			logger.error("Error updating a shell script : " + e.getMessage());
