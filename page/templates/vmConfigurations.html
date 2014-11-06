@@ -28,19 +28,20 @@
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<td>HostName</td>
 				<td>NetworkIP</td>
 				<td>Provider</td>
 				<td>Boot Timeout</td>
+				<td>HostName</td>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td><span ng-bind="activeVM.hostName"></span></td>
 				<td><span ng-bind="activeVM.networkIP"></span></td>
 				<td><span ng-bind="activeVM.providerType"></span></td>
 				<td><span ng-bind="activeVM.bootTimeout"></span></td>
+				<td><span ng-bind="activeVM.hostName"></span></td>
 			</tr>
 		</tbody>
 	</table>
+	
 </div>

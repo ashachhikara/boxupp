@@ -444,4 +444,12 @@ span.messageDescription {
   font-weight: 100;
   color: grey; }
 
+div.boxDetails table thead tr td {
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 11px;
+  color: grey; }
+
 /*# sourceMappingURL=trial.css.map */

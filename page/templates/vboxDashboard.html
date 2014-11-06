@@ -13,24 +13,27 @@
 		  	<div ng-include="'templates/secondaryNav.html'"></div>
 		  	<!--SecondaryNavBarVertical v0.0.1-->
 
-
-			<div class="tab-content col-md-8 col-md-offset-4" id="playArea" style="position:absolute; top:51px; bottom:30px;">
+		  	<!--<div class="tab-content " id="playArea" style="position:absolute; top:51px; bottom:30px;">-->
+			<div class="tab-content " id="playArea" style="top:51px; bottom:30px;">
 				
-				<div class="tab-pane fade active in" id="dashboardPlayArea">
+				<div class="tab-pane fade col-md-10 col-md-offset-2 active in" id="dashboardPlayArea">
 					<div ng-include="'templates/vmDashboard.html'"></div>
 				</div>
-				<div class="tab-pane fade" id="boxesPlayArea">
-
+				<div class="tab-pane fade col-md-8 col-md-offset-4" id="boxesPlayArea">
 				  	<div ng-include="'templates/vmConfigurations.html'"></div>
-
 		  		</div>
-		  		<div class="tab-pane fade" id="scriptsPlayArea" >
+		  		<div class="tab-pane fade col-md-8 col-md-offset-4" id="scriptsPlayArea">
 		  			<div ng-include="'templates/scripts/scriptConfigurations.html'"></div>
 		  		</div>
-		  		<div class="tab-pane fade" id="modulesPlayArea">
+		  		<div class="tab-pane fade col-md-8 col-md-offset-4" id="modulesPlayArea">
 		  			<div ng-include="'templates/modules/moduleConfigurations.html'"></div>
 		  		</div>
-
+		  		<div class="tab-pane fade col-md-10 col-md-offset-2" id="shellProvPlayArea">
+		  			<div ng-include="'templates/provisioners/shellProvisioner.html'"></div>
+		  		</div>
+		  		<div class="tab-pane fade col-md-10 col-md-offset-2" id="puppetProvPlayArea">
+		  			<div ng-include="'templates/provisioners/puppetProvisioner.html'"></div>
+		  		</div>
 			</div>
 			<div id="controlBar">
 				<div ng-include="'templates/controlBar.html'"></div>
