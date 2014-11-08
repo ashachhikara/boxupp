@@ -140,7 +140,7 @@ public class Utilities {
 		catch(IOException e){
 			logger.error("Error writing script : "+scriptBean.getScriptName() + " : "+e.getMessage());
 		}
-	}
+	}    
 	public void updateScriptData(ShellScriptBean scriptBean, Integer userID){
 		String scriptsDir = fetchActiveProjectDirectory(userID) + osProperties.getOSFileSeparator()
 				+osProperties.getScriptsDirName()+osProperties.getOSFileSeparator();

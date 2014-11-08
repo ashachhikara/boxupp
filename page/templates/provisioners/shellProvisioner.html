@@ -1,13 +1,73 @@
-<div class="row">
-	<div id="shellScriptsList" style="border-right : 1px dashed grey; height:200px;" class="col-md-5 col-md-offset-1">
+<div class="row" ng-controller="shellController">
+	<!-- BOXES LIST -->
+	{{shellProvMappings}}
+	<!--Data - {{shellControllerData}}-->
+	<!--{{selectedProvMachine}}-->
+	<div id="boxesProvisionList" style="border-right : 1px dashed grey; height:300px;"  class="col-md-5 col-md-offset-1">
+		<div class="sectionTitle col-md-12 text-center">
+			Choose a machine 
+		</div>
+		<div class="row">
+			<div class="searchBox col-md-12">
+				<input type="text" class="form-control">
+				<span class="searchGlass">
+					<i class="fa fa-search"></i>
+				</span>
+			</div>
+		</div>
+		<div class="boxEntries">
+			<ul class="nav nav-pills" role="tablist">
+				<li ng-repeat="box in boxesData" class="col-md-4" role="presentation">
+
+					<a role="tab" data-toggle="tab" ng-click="$parent.selectedProvMachine = box">
+						<input type="radio" ng-value="box" ng-model="$parent.selectedProvMachine"/>
+						<div class="boxEntry text-center">
+							<div class="boxLogo">
+								<span><i class="fa fa-cube"></i></span>
+							</div>
+							<div class="boxTitle">
+								<span ng-bind="box.vagrantID"></span>
+							</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+	</div>
+	<!-- BOXES LIST -->
+
+	<!-- SCRIPTS LIST -->
+	<div id="scriptsProvisionList" class="col-md-5">
+		<div class="sectionTitle col-md-12 text-center">
+			Choose from your scripts
+		</div>
+		<div class="row">
+			<div class="searchBox col-md-12">
+				<input type="text" class="form-control">
+				<span class="searchGlass">
+					<i class="fa fa-search"></i>
+				</span>
+			</div>
+		</div>
+		
 		<div class="shellScriptEntry col-md-3 text-center" ng-repeat="script in shellScripts" style="background:grey;">
-			{{script.scriptName}}
+			<ul>
+				<li ng-repeat="script in shellScripts" class="col-md-4">
+					<input type="checkbox" ng-model="script.shellProvChecked" ng-change="updateShellProvMapping($parent.selectedProvMachine)" />
+				</li>
+			</ul>
+			<div class="shellScriptEntryLogo">
+				<span class="codeLogo"><i class="fa fa-code"></i></span>
+			</div>
+			<div class="shellScriptEntryName">
+				<span class="scriptName">{{script.scriptName}}</span>
+			</div>
 		</div>
 	</div>
+	<!-- SCRIPTS LIST -->	
 
-	<div id="boxesList" style=" height:300px;" class="col-md-5">
-		<div class="boxEntry" ng-repeat="box in boxesData">
-			{{box.vagrantID}}
-		</div>
+	<div class="shellProvisionControls col-md-12 text-center">
+		<a class="btn btn-success">APPLY</a>
 	</div>
 </div>

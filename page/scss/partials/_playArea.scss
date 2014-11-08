@@ -7,7 +7,7 @@ span.messageTitle{
 	margin-top : 20px;
 	position:relative;
 	top:20px;
-}
+} 
 
 span.messageDescription{
 	font-family: 'Roboto', sans-serif;		
@@ -30,6 +30,44 @@ div.boxDetails{
 					color:grey;
 				}
 			}
+		}
+	}
+}
+
+div#scriptsProvisionList, div#boxesProvisionList{
+
+	div.boxEntries{
+		.nav-pills>li>a{
+			border-radius : 0px;
+			background:#eee;
+			cursor : pointer;
+		}
+		.nav-pills>li.active>a{
+			background:#88D2F7;
+		}
+	}
+
+
+	div.sectionTitle{
+		background: #D7D9DA;
+		padding : 10px 10px;
+		margin-bottom : 20px;
+
+		font-family: 'Roboto', sans-serif;		
+		font-size: 18px;
+		color : #8B8888;
+	}
+
+	div.searchBox{
+		margin-bottom : 20px;
+		span.searchGlass{
+			position: absolute;
+			top: 7px;
+			right: 20px;
+			color: grey;
+		}
+		input{
+			border-radius : 0px;
 		}
 	}
 }

@@ -50,7 +50,9 @@
 										</div>
 										
 										<div class="moduleDescription">
-											<a class="btn btn-info" ng-click="downloadNewModule(module)">Download</a>
+											<a class="btn btn-info" ng-click="downloadNewModule(module)" ng-disabled="module.downloading" ng-init="module.downloadButtonText = 'Download'">
+												{{module.downloadButtonText}}
+											</a>
 										</div>
 										<div class="moduleSearchDataFooter row">
 											

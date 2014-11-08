@@ -62,8 +62,8 @@ public class DBConnectionManager {
 
 //			TableUtils.dropTable(connectionSource, ShellScriptBean.class, true);
 //			TableUtils.dropTable(connectionSource, ShellScriptMapping.class, true);
-			TableUtils.dropTable(connectionSource, PuppetModuleMapping.class, true);
-			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, true);
+//			TableUtils.dropTable(connectionSource, PuppetModuleMapping.class, true);
+//			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, true);
 			
 //			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, true);
 //			TableUtils.dropTable(connectionSource, ForwardedPortsBean.class, true);
@@ -84,8 +84,8 @@ public class DBConnectionManager {
 
 //			TableUtils.createTable(connectionSource, ShellScriptBean.class);
 //			TableUtils.createTable(connectionSource, ShellScriptMapping.class);
-			TableUtils.createTable(connectionSource, PuppetModuleMapping.class);
-			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
+//			TableUtils.createTable(connectionSource, PuppetModuleMapping.class);
+//			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
 
 
 //			TableUtils.createTable(connectionSource, PuppetModuleBean.class);

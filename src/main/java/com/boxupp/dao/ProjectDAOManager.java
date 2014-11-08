@@ -261,11 +261,20 @@ public class ProjectDAOManager implements DAOImplInterface {
 
 		try {
 			moduleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryForAll();
+			for(PuppetModuleMapping mapping : moduleMappingList){
+				MachineConfigDAOManager.getInstance().machineConfigDao.refresh(mapping.getMachineConfig());
+				PuppetModuleDAOManager.getInstance().puppetModuleDao.refresh(mapping.getPuppetModule());
+			}			
 		} catch (SQLException e) {
 			logger.error("Error in retireving module mapping: "	+ e.getMessage());
 		}
 
 		return (List<E>) moduleMappingList;
+	}
+	
+	public static void main(String args[]){
+		ProjectDAOManager daoManager = new ProjectDAOManager();
+		daoManager.retireveModulesForBox();
 	}
 
 }

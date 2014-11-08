@@ -1,6 +1,44 @@
 angular.module("boxuppApp").
 	controller('shellController',function($scope){
+	$scope.shellControllerData = 'Hello';
+	
+	$scope.selectedProvMachine = {};
+
+
+	$scope.shellProvMappings = {};
+
+	$scope.updateShellProvMapping = function(selectedProvMachine){
+
 		
+			var checkedScripts = [];
+			angular.forEach($scope.shellScripts, function(value){
+				if(value.shellProvChecked){
+					checkedScripts.push(value.scriptID);
+				}
+			});
+			// $scope.shellProvMappings.put(selectedProvMachine.machineID,checkedScripts);
+			var selectedMachine = selectedProvMachine.machineID;
+			$scope.shellProvMappings[selectedProvMachine.machineID] = checkedScripts;
+	}
+
+	$scope.shellProvMachineSelectedList = [];
+
+	$scope.$watch('selectedProvMachine',function(newVal,oldVal){
+		angular.forEach($scope.shellScripts,function(value){
+			value.shellProvChecked = false;
+		});
+		var selectedArray = $scope.shellProvMappings[$scope.selectedProvMachine.machineID];
+		if(!angular.isUndefined(selectedArray)){
+			angular.forEach($scope.shellScripts,function(value){
+				var scriptID = value.scriptID;
+				if(selectedArray.indexOf(scriptID) !== -1){
+					value.shellProvChecked = true;
+				}
+			});	
+		}
+		
+	});
+
 	$scope.activeScript = {};
 	$scope.nodeSelectionDisabled = true;
 	$scope.invokeShellConsole = function(){

@@ -19,6 +19,8 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.bodyStyle.applyDashBoardStyling = true;
 	$scope.quickBox = {};
 	$scope.moduleResults=[];
+	// $scope.selectedProvMachine = {};
+
 	$scope.listOfSSHImages=[{
 			"name":"boxupp / centos-base",
 		}];
@@ -31,8 +33,12 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		});
 	}
 
-	$scope.downloadNewModule = function(fileURI){
-		puppetModule.downloadPuppetModule(fileURI).then(function(response){
+	$scope.downloadNewModule = function(toBeDownloadedModule){
+		toBeDownloadedModule.downloadButtonText = 'Downloading';
+		toBeDownloadedModule.downloading = true;
+		puppetModule.downloadPuppetModule(toBeDownloadedModule).then(function(response){
+			toBeDownloadedModule.downloadButtonText = 'Download';
+			toBeDownloadedModule.downloading = false;
 			console.log('new module has been downloaded');
 		});
 	}
@@ -52,6 +58,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		}
 		$scope.toBeCreatedBox = angular.copy(boxData);
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
+		$scope.toBeCreatedBox.isDisabled = false;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			$scope.boxesData.push(data.beanData);
 		});
@@ -89,7 +96,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	
 	$scope.fetchModuleList = function(){
 		ResourcesData.fetchModuleList($routeParams.projectID).then(function(response){
-			console.log(response);
+			$scope.projectData.modules = response;
 		});			
 	}
 
