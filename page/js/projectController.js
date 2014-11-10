@@ -35,12 +35,11 @@ angular.module("boxuppApp").controller('projectController',function($scope,Proje
 		     		  && !$scope.newProjectData.projectDesc.$pristine && $scope.newProjectData.projectDesc.$valid);
 	}
 
-	$scope.submitNewMachineData = function(){
+	$scope.submitNewProjectData = function(){
 			
 			$scope.newProject.owner=$routeParams.userID;
-			
-			$scope.newProject.creationTime = $filter('date')(new Date().getTime(), "yyyy'-'MM'-'dd HH':'mm':'ss");
 			$scope.newProject.creationTime = miscUtil.fetchCurrentTime();								 
+			$scope.newProject.isDisabled = false;
 			Projects.save($scope.newProject,function(data){
 				$scope.projects.push(angular.copy(data.beanData));
 				//Reset New Project Modal Data

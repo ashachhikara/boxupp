@@ -1,5 +1,6 @@
 package com.boxupp.dao;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,6 @@ import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ProjectProviderMappingBean;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
-import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.db.beans.UserProjectMapping;
 import com.boxupp.responseBeans.StatusBean;
@@ -61,14 +61,13 @@ public class ProjectDAOManager implements DAOImplInterface {
 				ProjectBean.class);
 		StatusBean statusBean = new StatusBean();
 		try {
-			int rowsUpdated = projectDao.create(projectBean);
-			System.out.println(projectBean.getProjectID());
-			// if(rowsUpdated == 1)
-			// Utilities.getInstance().changeActiveDirectory(projectBean.getProjectId());
+			int rowsUpdated = projectDao.create(projectBean);			
 			UserDAOManager.getInstance().populateMappingBean(projectBean,
-					newData.get("owner").getValueAsText());
+					newData.get("owner").getTextValue());
 			statusBean.setStatusCode(0);
 			statusBean.setData(projectBean);
+			String projectDirectoryPath = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID());
+			Utilities.getInstance().checkIfDirExists(new File(projectDirectoryPath));
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
@@ -76,9 +75,6 @@ public class ProjectDAOManager implements DAOImplInterface {
 					+ e.getMessage());
 			e.printStackTrace();
 		}
-		System.out.println("Id assigned to new project : "
-				+ projectBean.getProjectID() + " creation time : "
-				+ projectBean.getCreationTime());
 		return statusBean;
 	}
 

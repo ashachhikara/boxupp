@@ -35,7 +35,29 @@ div.boxDetails{
 }
 
 div#scriptsProvisionList, div#boxesProvisionList{
-
+	ul.shellScriptsList{
+		list-style:none;
+		li{
+			div.scriptSelector{
+				padding : 0px;
+			}
+		}
+		li.odd{
+			background:aliceblue;
+		}
+		li.even{
+			background:ghostwhite;
+		}
+		div.shellScriptEntryName{
+			margin-left : -15px;
+			padding-top:2px;
+			font-family: 'Open Sans', sans-serif;
+			text-transform: uppercase;
+			font-weight: 400;
+			font-size: 13px;
+			color : #888484;
+		}
+	}
 	div.boxEntries{
 		.nav-pills>li>a{
 			border-radius : 0px;
@@ -44,6 +66,23 @@ div#scriptsProvisionList, div#boxesProvisionList{
 		}
 		.nav-pills>li.active>a{
 			background:#88D2F7;
+			color : #FFF;
+		}
+		div.boxEntry{
+			div.boxLogo{
+				margin-bottom : 10px;
+				span i{
+					font-size:28px;
+				}
+			}
+			div.boxTitle{
+				font-family: 'Open Sans', sans-serif;
+				text-transform: uppercase;
+				font-weight: 400;
+				font-size: 13px;
+				line-height: 11px;
+				/*color:grey;*/
+			}
 		}
 	}
 

@@ -10,7 +10,7 @@
 			<div class="tab-pane fade" id="boxesList">
 				<ul class="nav nav-pills nav-stacked secondaryNavList">
 				  	<li ng-repeat="box in boxesData">
-						<a data-target="#" ng-click="selectNode($index)">
+						<a data-target="#" ng-click="selectNode($index)" role="tab" data-toggle="tab">
 							<div class="main-nav-icon"><i class="fa fa-cube"></i></div>
 							<div class="main-nav-label">{{box.vagrantID}}</div>
 							<div class="main-nav-description"></div>
@@ -48,7 +48,13 @@
 			</div>
 			<!-- MODULES_LIST-->
 			  	
-	  		
+	  		<div class="tab-pane fade" id="scriptsProvList">
+
+	  		</div>
+
+	  		<div class="tab-pane fade" id="modulesProvList">
+
+	  		</div>
 			<!--<div class="tab-pane fade" id="shell">
 				<div ng-include="'templates/shellProvisioner.html'"></div>
 		  	</div>-->

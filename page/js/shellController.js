@@ -4,6 +4,13 @@ angular.module("boxuppApp").
 	
 	$scope.selectedProvMachine = {};
 
+	$scope.checkProvState = function(){
+		return _.isEmpty($scope.shellProvMappings);
+	}
+
+	$scope.commitShellScriptProvisioning = function(){
+		
+	}
 
 	$scope.shellProvMappings = {};
 
