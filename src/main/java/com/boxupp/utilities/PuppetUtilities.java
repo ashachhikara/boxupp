@@ -194,7 +194,7 @@ public class PuppetUtilities extends Utilities {
 					fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1, fileURL.length());
 				}
 				InputStream inputStream = httpConn.getInputStream();
-				String saveFilePath = moduleDirPath + fileName;
+				String saveFilePath = moduleDirPath+osProperties.getOSFileSeparator() + fileName;
 				FileOutputStream outputStream = new FileOutputStream(saveFilePath);
 
 				int bytesRead = -1;

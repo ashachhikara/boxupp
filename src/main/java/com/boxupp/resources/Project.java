@@ -64,14 +64,14 @@ public class Project {
 	@GET
 	@Path("/getScripts/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ShellScriptBean> getAllShellScriptsList(@PathParam("id") String projectId){
-		return ShellScriptDAOManager.getInstance().retireveScriptsForProject(projectId);
+	public List<ShellScriptBean> getAllShellScriptsList(@PathParam("id") String projectID){
+		return ShellScriptDAOManager.getInstance().retireveScriptsForProject(projectID);
 	}
 	@GET
 	@Path("/getBoxes/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<MachineConfigurationBean> getAllMachinConfigsList(@PathParam("id") String projectId){
-		return  MachineConfigDAOManager.getInstance().retireveBoxesForProject(projectId);
+	public List<MachineConfigurationBean> getAllMachinConfigsList(@PathParam("id") String projectID){
+		return  MachineConfigDAOManager.getInstance().retireveBoxesForProject(projectID);
 	}
 	@GET
 	@Path("/getAllModules/")
@@ -83,14 +83,14 @@ public class Project {
 	@GET
 	@Path("/getModuleMapping/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<PuppetModuleMapping> getAllModuleMapping() {
-		return ProjectDAOManager.getInstance().retireveModulesMapping();
+	public List<PuppetModuleMapping> getAllModuleMapping(@PathParam("id") String projectID) {
+		return ProjectDAOManager.getInstance().retireveModulesMapping(projectID);
 	}
 	@GET
 	@Path("/getScriptMappping/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ShellScriptMapping> getAllScriptMapping() {
-		return ProjectDAOManager.getInstance().retireveScriptsMapping();
+	public List<ShellScriptMapping> getAllScriptMapping(@PathParam("id") String projectID) {
+		return ProjectDAOManager.getInstance().retireveScriptsMapping(projectID);
 	}
 	@POST
 	@Path("/saveAsFile")

@@ -71,7 +71,7 @@ public class ProjectBean  {
 	public boolean getIsDisabled() {
 		return isDisabled;
 	}
-	public void setDisabled(boolean isDisabled) {
+	public void setIsDisabled(boolean isDisabled) {
 		this.isDisabled = isDisabled;
 	}
 	

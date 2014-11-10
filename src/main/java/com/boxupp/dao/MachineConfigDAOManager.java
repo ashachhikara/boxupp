@@ -182,7 +182,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		SelectArg userSelectArg = new SelectArg();
 		machineProjectQb.where().eq(MachineProjectMapping.PROJECT_ID_FIELD_NAME, userSelectArg);
 		QueryBuilder<MachineConfigurationBean, Integer> machineConfigQb = machineConfigDao.queryBuilder();
-		machineConfigQb.where().eq("isDisabled", false).in(MachineConfigurationBean.ID_FIELD_NAME, machineProjectQb);
+		machineConfigQb.where().eq("isDisabled", false).and().in(MachineConfigurationBean.ID_FIELD_NAME, machineProjectQb);
 		return machineConfigQb.prepare();
 		
 	}

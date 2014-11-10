@@ -34,11 +34,13 @@ div.boxDetails{
 	}
 }
 
+
 div.modulesProvisionList,div.scriptsProvisionList, div.boxesProvisionList{
 	ul.shellScriptsList, ul.modulesList{
 		list-style:none;
 		li{
 			div.scriptSelector, div.modulesSelector{
+
 				padding : 0px;
 			}
 		}

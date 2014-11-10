@@ -452,6 +452,7 @@ div.boxDetails table thead tr td {
   line-height: 11px;
   color: grey; }
 
+
 div.modulesProvisionList ul.shellScriptsList, div.modulesProvisionList ul.modulesList, div.scriptsProvisionList ul.shellScriptsList, div.scriptsProvisionList ul.modulesList, div.boxesProvisionList ul.shellScriptsList, div.boxesProvisionList ul.modulesList {
   list-style: none; }
   div.modulesProvisionList ul.shellScriptsList li div.scriptSelector, div.modulesProvisionList ul.shellScriptsList li div.modulesSelector, div.modulesProvisionList ul.modulesList li div.scriptSelector, div.modulesProvisionList ul.modulesList li div.modulesSelector, div.scriptsProvisionList ul.shellScriptsList li div.scriptSelector, div.scriptsProvisionList ul.shellScriptsList li div.modulesSelector, div.scriptsProvisionList ul.modulesList li div.scriptSelector, div.scriptsProvisionList ul.modulesList li div.modulesSelector, div.boxesProvisionList ul.shellScriptsList li div.scriptSelector, div.boxesProvisionList ul.shellScriptsList li div.modulesSelector, div.boxesProvisionList ul.modulesList li div.scriptSelector, div.boxesProvisionList ul.modulesList li div.modulesSelector {
@@ -461,6 +462,7 @@ div.modulesProvisionList ul.shellScriptsList, div.modulesProvisionList ul.module
   div.modulesProvisionList ul.shellScriptsList li.even, div.modulesProvisionList ul.modulesList li.even, div.scriptsProvisionList ul.shellScriptsList li.even, div.scriptsProvisionList ul.modulesList li.even, div.boxesProvisionList ul.shellScriptsList li.even, div.boxesProvisionList ul.modulesList li.even {
     background: ghostwhite; }
   div.modulesProvisionList ul.shellScriptsList div.shellScriptEntryName, div.modulesProvisionList ul.modulesList div.shellScriptEntryName, div.scriptsProvisionList ul.shellScriptsList div.shellScriptEntryName, div.scriptsProvisionList ul.modulesList div.shellScriptEntryName, div.boxesProvisionList ul.shellScriptsList div.shellScriptEntryName, div.boxesProvisionList ul.modulesList div.shellScriptEntryName {
+
     margin-left: -15px;
     padding-top: 2px;
     font-family: 'Open Sans', sans-serif;
@@ -468,6 +470,7 @@ div.modulesProvisionList ul.shellScriptsList, div.modulesProvisionList ul.module
     font-weight: 400;
     font-size: 13px;
     color: #888484; }
+<<<<<<< Updated upstream
 div.modulesProvisionList div.boxEntries .nav-pills > li > a, div.scriptsProvisionList div.boxEntries .nav-pills > li > a, div.boxesProvisionList div.boxEntries .nav-pills > li > a {
   border-radius: 0px;
   background: #eee;
@@ -480,13 +483,31 @@ div.modulesProvisionList div.boxEntries div.boxEntry div.boxLogo, div.scriptsPro
   div.modulesProvisionList div.boxEntries div.boxEntry div.boxLogo span i, div.scriptsProvisionList div.boxEntries div.boxEntry div.boxLogo span i, div.boxesProvisionList div.boxEntries div.boxEntry div.boxLogo span i {
     font-size: 28px; }
 div.modulesProvisionList div.boxEntries div.boxEntry div.boxTitle, div.scriptsProvisionList div.boxEntries div.boxEntry div.boxTitle, div.boxesProvisionList div.boxEntries div.boxEntry div.boxTitle {
+=======
+div#scriptsProvisionList div.boxEntries .nav-pills > li > a, div#boxesProvisionList div.boxEntries .nav-pills > li > a {
+  border-radius: 0px;
+  background: #eee;
+  cursor: pointer; }
+div#scriptsProvisionList div.boxEntries .nav-pills > li.active > a, div#boxesProvisionList div.boxEntries .nav-pills > li.active > a {
+  background: #88D2F7;
+  color: #FFF; }
+div#scriptsProvisionList div.boxEntries div.boxEntry div.boxLogo, div#boxesProvisionList div.boxEntries div.boxEntry div.boxLogo {
+  margin-bottom: 10px; }
+  div#scriptsProvisionList div.boxEntries div.boxEntry div.boxLogo span i, div#boxesProvisionList div.boxEntries div.boxEntry div.boxLogo span i {
+    font-size: 28px; }
+div#scriptsProvisionList div.boxEntries div.boxEntry div.boxTitle, div#boxesProvisionList div.boxEntries div.boxEntry div.boxTitle {
+>>>>>>> Stashed changes
   font-family: 'Open Sans', sans-serif;
   text-transform: uppercase;
   font-weight: 400;
   font-size: 13px;
   line-height: 11px;
   /*color:grey;*/ }
+<<<<<<< Updated upstream
 div.modulesProvisionList div.sectionTitle, div.scriptsProvisionList div.sectionTitle, div.boxesProvisionList div.sectionTitle {
+=======
+div#scriptsProvisionList div.sectionTitle, div#boxesProvisionList div.sectionTitle {
+>>>>>>> Stashed changes
   background: #D7D9DA;
   padding: 10px 10px;
   margin-bottom: 20px;

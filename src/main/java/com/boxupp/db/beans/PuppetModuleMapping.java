@@ -7,9 +7,13 @@ import com.j256.ormlite.field.DatabaseField;
 public class PuppetModuleMapping {
 	public final static String MODULE_ID_FIELD_NAME = "moduleID";
 	public final static String MACHINE_ID_FIELD_NAME = "machineID";
-	public PuppetModuleMapping(	MachineConfigurationBean machineConfig,	PuppetModuleBean puppetModule) {
+	public final static String PROJECT_ID_FIELD_NAME = "projectID";
+
+	public PuppetModuleMapping(	MachineConfigurationBean machineConfig,	PuppetModuleBean puppetModule, ProjectBean project) {
 		this.machineConfig = machineConfig;
 		this.puppetModule = puppetModule;
+		this.project = project;
+
 	}
 
 	public PuppetModuleMapping(){
@@ -24,7 +28,9 @@ public class PuppetModuleMapping {
 
 	@DatabaseField(foreign = true, useGetSet= true, columnName = MODULE_ID_FIELD_NAME, foreignAutoRefresh=true, foreignAutoCreate=true)
 	private PuppetModuleBean puppetModule;
-
+	
+	@DatabaseField(foreign = true, columnName =PROJECT_ID_FIELD_NAME, foreignAutoRefresh=true, foreignAutoCreate=true)
+	private ProjectBean project;
 	public Integer getID() {
 		return ID;
 	}
@@ -48,6 +54,10 @@ public class PuppetModuleMapping {
 	public void setPuppetModule(PuppetModuleBean puppetModule) {
 		this.puppetModule = puppetModule;
 	}
-	
-	
+	public ProjectBean getProject() {
+		return project;
+	}
+	public void setProject(ProjectBean project) {
+		this.project = project;
+	}
 }

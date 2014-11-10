@@ -1,6 +1,5 @@
 package com.boxupp.dao;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,6 @@ import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
-import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ProjectProviderMappingBean;
 import com.boxupp.db.beans.PuppetModuleBean;
@@ -61,6 +59,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 		projectBean = projectData.fromJson(newData.toString(), ProjectBean.class);
 		StatusBean statusBean = new StatusBean();
 		try {
+
 			int rowsUpdated = projectDao.create(projectBean);
 			System.out.println(projectBean.getProjectID());
 			// if(rowsUpdated == 1)
