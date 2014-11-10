@@ -60,9 +60,10 @@ public class ShellScript {
 	public StatusBean deleteScriptMapping(JsonNode shellScriptMapping){
 		return ShellScriptDAOManager.getInstance().deLinkScriptMachine(shellScriptMapping);
 	}*/
+	
 	@POST
 	@Path("/updateScriptMappings")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@Consumes("application/json")
 	public StatusBean updateShellScriptMappings(JsonNode shellScriptMapping){
 		return ShellScriptDAOManager.getInstance().updateScriptMapping(shellScriptMapping);
