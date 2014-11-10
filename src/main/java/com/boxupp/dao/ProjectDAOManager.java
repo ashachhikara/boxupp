@@ -1,5 +1,6 @@
 package com.boxupp.dao;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,12 +69,14 @@ public class ProjectDAOManager implements DAOImplInterface {
 			statusBean.setStatusCode(0);
 			statusBean.setData(projectBean);
 			Utilities.getInstance().initializeDirectory(projectBean.getProjectID());
+
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error creating project : "+ e.getMessage());
 			
 		}
+
 		System.out.println("Id assigned to new project : "+ projectBean.getProjectID() + " creation time : "
 				+ projectBean.getCreationTime());
 		return statusBean;

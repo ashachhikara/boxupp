@@ -6,7 +6,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 			console.log('Shell Script saved');
 		});*/
 		newShellScriptData.isDisabled = false;
-		newShellScriptData.creatorUserID = $routeParams.userID;
+		newShellScriptData.userID = $routeParams.userID;
 		newShellScriptData.description = "v1 script";
 		newShellScriptData.creationTime = miscUtil.fetchCurrentTime();
 		newShellScriptData.ProjectID = $routeParams.projectID;

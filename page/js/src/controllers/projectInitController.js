@@ -1,6 +1,6 @@
 var ngBoxuppApp = angular.module('boxuppApp');
 
-ngBoxuppApp.controller('projectInitController',function($scope,$routeParams,Providers,$location,$http){
+ngBoxuppApp.controller('projectInitController',function($scope,$routeParams,Providers,$location,$http,$timeout){
 
 
     $scope.$watch('selectedProvider',function(newVal, oldVal){
@@ -11,7 +11,6 @@ ngBoxuppApp.controller('projectInitController',function($scope,$routeParams,Prov
             var userID = $routeParams.userID;
             var projectID = $routeParams.projectID;
             var providerID = $routeParams.providerType;
-            
             $location.path("/projects/" + userID + "/" + projectID + "/" + providerID +"/docker/");
         }else{
 
@@ -19,7 +18,10 @@ ngBoxuppApp.controller('projectInitController',function($scope,$routeParams,Prov
             var projectID = $routeParams.projectID;
             var providerID = $routeParams.providerType;
             
-            $location.path("/projects/" + userID + "/" + projectID + "/" + providerID +"/virtualbox/");
+            $timeout(function(){
+                $location.path("/projects/" + userID + "/" + projectID + "/" + providerID +"/virtualbox/");    
+            },3000);
+            
         }
     },true);
     /*

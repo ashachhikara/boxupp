@@ -183,7 +183,7 @@ public class Utilities {
 	
 	public void checkIfDirExists(File dirLocation){
 		if(!dirLocation.isDirectory()){
-			dirLocation.mkdir();
+			dirLocation.mkdirs();
 		}
 	}
 	
