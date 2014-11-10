@@ -15,7 +15,6 @@ import com.boxupp.AppContextBuilder;
 import com.boxupp.JettyServer;
 import com.boxupp.ToolConfigurationReader;
 import com.boxupp.beans.Config;
-import com.boxupp.db.DBConnectionManager;
 import com.boxupp.ws.VagrantConsole;
 
 public class Boxupp {
