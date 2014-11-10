@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -306,14 +307,27 @@ public class PuppetUtilities extends Utilities {
 			}
 		return moduleList;
 	}
-	public StatusBean refreshNodeTemplate( List<PuppetModuleMapping> puppetModuleData){
-		boolean configFileData = ConfigurationGenerator.generateNodeConfig(puppetModuleData);
+	public StatusBean refreshNodeTemplate( List<PuppetModuleMapping> puppetModuleData, String ProjectID){
+		ArrayList<String > moduleNameList = new ArrayList<String>();
+		HashMap<String, ArrayList<String>> nodeConfigMap = new HashMap<String, ArrayList<String>>();
+		for(PuppetModuleMapping puppetModule : puppetModuleData){
+			if(puppetModule.getMachineConfig().getIsDisabled() == false && puppetModule.getPuppetModule().getIsDisabled() == false){
+				if(nodeConfigMap.containsKey(puppetModule.getMachineConfig().getHostName())){
+					nodeConfigMap.get(puppetModule.getMachineConfig().getHostName()).add(puppetModule.getPuppetModule().getFile_uri().split("/")[2].split(".")[0]);
+				}else{
+					moduleNameList.add(puppetModule.getPuppetModule().getFile_uri().split("/")[2].split(".")[0]);
+					nodeConfigMap.put(puppetModule.getMachineConfig().getHostName(), moduleNameList);
+				}
+			}
+		}
+		
+		boolean configFileData = ConfigurationGenerator.generateNodeConfig(nodeConfigMap);
 		StatusBean statusBean = new StatusBean();
 		if(configFileData){
 			logger.info("Started saving Nodes.pp file");
 			FileManager fileManager = new FileManager();
 			String renderedTemplate = ConfigurationGenerator.getVelocityFinalTemplate();
-			statusBean = fileManager.writeNodeFileToDisk(renderedTemplate);
+			statusBean = fileManager.writeNodeFileToDisk(renderedTemplate, ProjectID);
 			logger.info("Nodes.pp file save completed");
 		}
 		else{

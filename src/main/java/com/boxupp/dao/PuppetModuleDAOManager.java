@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
@@ -171,12 +173,21 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 					.queryForId(Integer.parseInt(moduleMachineMapping.get("projectID").toString()));
 			PuppetModuleBean puppetModule = puppetModuleDao.queryForId(Integer.parseInt(moduleMachineMapping.get("moduleID").toString()));
 			MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(Integer.parseInt(moduleMachineMapping.get("machineID").toString()));
+<<<<<<< Updated upstream
 			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID));
 
 			PuppetModuleMapping puppetModuleMapping = new PuppetModuleMapping(machineConfig, puppetModule, project);
 			puppetModuleMappingDao.create(puppetModuleMapping);
 			List<PuppetModuleMapping> puppetModuleMappingList = ProjectDAOManager.getInstance().retireveModulesMapping(projectID);
 			PuppetUtilities.getInstance().refreshNodeTemplate(puppetModuleMappingList);
+=======
+			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(moduleMachineMapping.get("projectID").getTextValue()));
+
+			PuppetModuleMapping puppetModuleMapping = new PuppetModuleMapping(machineConfig, puppetModule, project);
+			puppetModuleMappingDao.create(puppetModuleMapping);
+			List<PuppetModuleMapping> puppetModuleMappingList = ProjectDAOManager.getInstance().retireveModulesMapping(moduleMachineMapping.get("projectID").getTextValue());
+			PuppetUtilities.getInstance().refreshNodeTemplate(puppetModuleMappingList, moduleMachineMapping.get("projectID").toString());
+>>>>>>> Stashed changes
 		} catch (NumberFormatException e) {
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error saving machine Mapping with module : "+ e.getMessage());
@@ -197,28 +208,20 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 			PuppetModuleBean puppetModule = puppetModuleDao.queryForId(Integer.parseInt(moduleMachineMapping.get("moduleID").toString()));
 			MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().
 					machineConfigDao.queryForId(Integer.parseInt(moduleMachineMapping.get("machineID").toString()));
+<<<<<<< Updated upstream
 			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID));
 			PuppetModuleMapping puppetModuleMapping = new PuppetModuleMapping(machineConfig, puppetModule, project);
 			puppetModuleMappingDao.delete(puppetModuleMapping);
 			List<PuppetModuleMapping> puppetModuleMappingList = ProjectDAOManager.getInstance().retireveModulesMapping(projectID);
 			PuppetUtilities.getInstance().refreshNodeTemplate(puppetModuleMappingList);
-		} catch (NumberFormatException e) {
-			statusBean.setStatusCode(1);
-			statusBean.setStatusMessage("Error in DeLinking machine  with module : "+ e.getMessage());
-			e.printStackTrace();
-		} catch (SQLException e) {
-			statusBean.setStatusCode(1);
-			statusBean.setStatusMessage("Error in DeLinking machine  with module : "+ e.getMessage());
-			e.printStackTrace();
-		}
-		statusBean.setStatusCode(0);
-		statusBean.setStatusMessage("DeLink Module and machine successfully");
+=======
+			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(moduleMachineMapping.get("projectID").getTextValue()));
+			PuppetModuleMapping puppetModuleMapping = new PuppetModuleMapping(machineConfig, puppetModule,project);
+			puppetModuleMappingDao.delete(puppetModuleMapping);
+			List<PuppetModuleMapping> puppetModuleMappingList = ProjectDAOManager.getInstance().retireveModulesMapping(moduleMachineMapping.get("projectID").getTextValue());
+			PuppetUtilities.getInstance().refreshNodeTemplate(puppetModuleMappingList, moduleMachineMapping.get("projectID").toString());
 
-		return statusBean;
 
-	}
-*/
-	
 
 	/*private PreparedQuery<PuppetModuleBean> makeQueryForModulesOfProject()	throws SQLException {
 
@@ -253,7 +256,7 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 			PuppetModuleMapping puppetModuleMapping = new PuppetModuleMapping(machineConfig, puppetModule, project);
 			puppetModuleMappingDao.create(puppetModuleMapping);
 			List<PuppetModuleMapping> puppetModuleMappingList = ProjectDAOManager.getInstance().retireveModulesMapping(projectID);
-			PuppetUtilities.getInstance().refreshNodeTemplate(puppetModuleMappingList);
+			//PuppetUtilities.getInstance().refreshNodeTemplate(puppetModuleMappingList);
 		} catch (NumberFormatException e) {
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error saving machine Mapping with module : "+ e.getMessage());

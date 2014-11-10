@@ -52,11 +52,10 @@ public class FileManager {
 		return vagrantFileStatus;
 	}
 	
-	public StatusBean writeNodeFileToDisk(String data){
+	public StatusBean writeNodeFileToDisk(String data, String projectID ){
 		StatusBean statusBean = new StatusBean();
 		String fileOutputPath = PuppetUtilities.getInstance().constructManifestsDirectory()+
-				OSProperties.getInstance().getOSFileSeparator()+
-				OSProperties.getInstance().getNodeFileName();
+				OSProperties.getInstance().getOSFileSeparator()+projectID+".pp";
 		VagrantFileStatus vagrantFileStatus = new VagrantFileStatus();
 		
 		File file = new File(fileOutputPath);

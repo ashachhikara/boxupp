@@ -1,6 +1,8 @@
 package com.boxupp;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -73,8 +75,7 @@ public class ConfigurationGenerator {
 		}
 		return configurationGenerated;
 	}
-	 public static boolean generateNodeConfig(List<PuppetModuleMapping> nodeConfigList){
-			
+	 public static boolean generateNodeConfig(HashMap<String, ArrayList<String>> nodeConfigList){
 			VelocityEngine ve = VelocityInit.getVelocityInstance();
 			Template template = VelocityInit.getNodeTemplate(ve);
 			VelocityContext context = new VelocityContext();

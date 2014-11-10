@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
+import org.json.JSONObject;
 
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
@@ -17,6 +18,7 @@ import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -270,13 +272,8 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 			statusBean.setStatusMessage("Error in dLinking machine with script : "+e.getMessage());
 			e.printStackTrace();
 		}*/
-		statusBean.setStatusCode(0);
-		statusBean.setStatusMessage("Machine MApping with  Shell script saved successfully");
-		
-		return statusBean;
-		
-	}
-
+		return null;
+     }
 }
 
 
