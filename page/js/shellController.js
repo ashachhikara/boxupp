@@ -11,7 +11,7 @@ angular.module("boxuppApp").
 	$scope.commitShellScriptProvisioning = function(){
 
 		provision.commitShellMappings($scope.shellProvMappings).then(function(){
-			console.log('Mappings have been committed');
+			console.log('Shell Script Mappings have been committed');
 		});
 
 	}
