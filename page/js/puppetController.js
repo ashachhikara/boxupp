@@ -1,8 +1,29 @@
-angular.module("boxuppApp").controller('puppetController',function($scope,$rootScope,retrieveMappings,$timeout,validator,fileUpload){
-		alert('Hello, Puppet Controller has been called');
+angular.module("boxuppApp").controller('puppetController',function($scope,$rootScope,retrieveMappings,$timeout,validator,fileUpload,provision){
 
 		$scope.selectedProvMachine = {};
-		
+		$scope.moduleProvMappings = {};
+
+		$scope.checkProvState = function(){
+			return _.isEmpty($scope.moduleProvMappings);
+		}
+
+		$scope.commitModulesProvisioning = function(){
+			provision.commitModuleMappings($scope.moduleProvMappings).then(function(){
+				console.log('Puppet Mappings have been committed');
+			});
+		}
+		$scope.updateModuleProvMapping = function(selectedProvMachine){
+			var checkedModules = [];
+			angular.forEach($scope.projectData.modules, function(value){
+				if(value.moduleProvChecked){
+					checkedModules.push(value.puppetID);
+				}
+			});
+			// $scope.shellProvMappings.put(selectedProvMachine.machineID,checkedScripts);
+			var selectedMachine = selectedProvMachine.machineID;
+			$scope.moduleProvMappings[selectedProvMachine.machineID] = checkedModules;
+		}
+
 		$scope.checkManifest = function(){
 			$scope.outputConsole.boxuppExecuting = true;
 			$scope.outputConsole.boxuppOutputWindow = true;

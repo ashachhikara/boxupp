@@ -460,7 +460,7 @@ div.modulesProvisionList ul.shellScriptsList, div.modulesProvisionList ul.module
     background: aliceblue; }
   div.modulesProvisionList ul.shellScriptsList li.even, div.modulesProvisionList ul.modulesList li.even, div.scriptsProvisionList ul.shellScriptsList li.even, div.scriptsProvisionList ul.modulesList li.even, div.boxesProvisionList ul.shellScriptsList li.even, div.boxesProvisionList ul.modulesList li.even {
     background: ghostwhite; }
-  div.modulesProvisionList ul.shellScriptsList div.shellScriptEntryName, div.modulesProvisionList ul.modulesList div.shellScriptEntryName, div.scriptsProvisionList ul.shellScriptsList div.shellScriptEntryName, div.scriptsProvisionList ul.modulesList div.shellScriptEntryName, div.boxesProvisionList ul.shellScriptsList div.shellScriptEntryName, div.boxesProvisionList ul.modulesList div.shellScriptEntryName {
+  div.modulesProvisionList ul.shellScriptsList div.shellScriptEntryName, div.modulesProvisionList ul.shellScriptsList div.moduleEntryName, div.modulesProvisionList ul.modulesList div.shellScriptEntryName, div.modulesProvisionList ul.modulesList div.moduleEntryName, div.scriptsProvisionList ul.shellScriptsList div.shellScriptEntryName, div.scriptsProvisionList ul.shellScriptsList div.moduleEntryName, div.scriptsProvisionList ul.modulesList div.shellScriptEntryName, div.scriptsProvisionList ul.modulesList div.moduleEntryName, div.boxesProvisionList ul.shellScriptsList div.shellScriptEntryName, div.boxesProvisionList ul.shellScriptsList div.moduleEntryName, div.boxesProvisionList ul.modulesList div.shellScriptEntryName, div.boxesProvisionList ul.modulesList div.moduleEntryName {
     margin-left: -15px;
     padding-top: 2px;
     font-family: 'Open Sans', sans-serif;

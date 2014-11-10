@@ -1,5 +1,5 @@
 angular.module("boxuppApp").
-	controller('shellController',function($scope){
+	controller('shellController',function($scope,provision){
 	$scope.shellControllerData = 'Hello';
 	
 	$scope.selectedProvMachine = {};
@@ -10,7 +10,7 @@ angular.module("boxuppApp").
 
 	$scope.commitShellScriptProvisioning = function(){
 		provision.commitShellMappings($scope.shellProvMappings).then(function(){
-			console.log('Mappings have been committed');
+			console.log('Shell Script Mappings have been committed');
 		});
 	}
 

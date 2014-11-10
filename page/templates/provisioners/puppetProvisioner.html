@@ -49,13 +49,13 @@
 			<ul class="modulesList col-md-12">
 				<li ng-repeat="module in projectData.modules" class="col-md-12" ng-class-even="'even'" ng-class-odd="'odd'">
 					<div class="modulesSelector col-md-1">
-						<input type="checkbox" ng-model="script.shellProvChecked" ng-change="updateShellProvMapping($parent.selectedProvMachine)" />
+						<input type="checkbox" ng-model="module.moduleProvChecked" ng-change="updateModuleProvMapping($parent.selectedProvMachine)" />
 					</div>
 					<!--<div class="shellScriptEntryLogo col-md-1">
 						<span class="codeLogo"><i class="fa fa-code"></i></span>
 					</div>-->
-					<div class="shellScriptEntryName col-md-10">
-						<span class="scriptName">Apply Script <b>{{script.scriptName}}</b> to {{$parent.selectedProvMachine.vagrantID}}</span>
+					<div class="moduleEntryName col-md-10">
+						<span class="moduleName">Apply Module <b>{{module.moduleName}}</b> to {{$parent.selectedProvMachine.vagrantID}}</span>
 					</div>
 				</li>
 			</ul>
@@ -64,7 +64,7 @@
 	</div>
 	<!-- SCRIPTS LIST -->	
 
-	<div class="shellProvisionControls col-md-12 text-center">
-		<a class="btn btn-success" ng-disabled="checkProvState()" ng-click="commitShellScriptProvisioning()">APPLY</a>
+	<div class="moduleProvisionControls col-md-12 text-center">
+		<a class="btn btn-success" ng-disabled="checkProvState()" ng-click="commitModulesProvisioning()">APPLY</a>
 	</div>
 </div>
