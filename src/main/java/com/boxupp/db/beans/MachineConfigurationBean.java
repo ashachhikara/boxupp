@@ -7,6 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "machineConfiguration")
 public class MachineConfigurationBean {
+	
 	public static final String ID_FIELD_NAME = "machineID";
 
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true, columnName=ID_FIELD_NAME)
@@ -27,13 +28,13 @@ public class MachineConfigurationBean {
 	@DatabaseField(useGetSet = true)
 	private String networkIP;
 
-	@ForeignCollectionField
+	@ForeignCollectionField(eager=true)
 	private ForeignCollection<ForwardedPortsBean> portMappings;
 	
 	@ForeignCollectionField(eager = true)
 	private ForeignCollection<SyncFoldersBean> syncFolders;
 	
-	@ForeignCollectionField
+	@ForeignCollectionField(eager=true)
 	private ForeignCollection<DockerLinkBean> dockerLinks;
 
 	@DatabaseField(useGetSet = true)
@@ -74,7 +75,10 @@ public class MachineConfigurationBean {
 
 	@DatabaseField(useGetSet = true)
 	private String password;
-
+	
+	@DatabaseField(useGetSet = true)
+	private Boolean isDisabled;
+	
 	public Integer getMachineID() {
 		return machineID;
 	}
@@ -250,7 +254,12 @@ public class MachineConfigurationBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public Boolean getIsDisabled() {
+		return isDisabled;
+	}
 
-	
+	public void setIsDisabled(Boolean isDisabled) {
+		this.isDisabled = isDisabled;
+	}
 
 }

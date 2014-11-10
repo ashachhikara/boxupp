@@ -9,7 +9,7 @@ public class ForwardedPortsBean {
 	public static final String MACHINE_ID_FIELD_NAME = "machineID";
 	
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true, columnName = MACHINE_ID_FIELD_NAME)
-	MachineConfigurationBean machineConfig;
+	private MachineConfigurationBean machineConfig;
 	
 	@DatabaseField(useGetSet = true)
 	private String hostPort;

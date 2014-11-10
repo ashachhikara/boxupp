@@ -104,16 +104,15 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		
 	}
 */
-	
-	public StatusBean delete(Integer userID, String shellScriptID) {
+	@Override
+	public StatusBean delete(String shellScriptID) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			Utilities.getInstance().deleteScriptfileOnDisk(shellScriptDao.queryForId(Integer.parseInt(shellScriptID)).getScriptName(), userID);
-			shellScriptDao.deleteById(Integer.parseInt(shellScriptID));
-			List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, Integer.parseInt(shellScriptID));
+			shellScriptDao.updateBuilder().updateColumnValue("isDisabled", true).where().idEq(Integer.parseInt(shellScriptID));
+			/*List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, Integer.parseInt(shellScriptID));
 				for(ShellScriptMapping shellScript : shellscriptMappping){
 					shellScriptMappingDao.delete(shellScript);
-				}
+				}*/
 		} catch (SQLException e) {
 			logger.error("Error updating a shell script : " + e.getMessage());
 			statusBean.setStatusCode(1);
@@ -137,7 +136,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 	}
 
 	
-	public <E> List<E> retireveScriptsForProject(String projectID) {
+	public <E> List<E> retireveScriptsForProject(String projectID){
 		List<ShellScriptBean> shellScriptList = new ArrayList<ShellScriptBean>();
 		try {
 		if (queryForScriptsOfProject == null) {
@@ -229,15 +228,10 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		// build our outer query for Post objects
 		QueryBuilder<ShellScriptBean, Integer> shellScriptQb = shellScriptDao.queryBuilder();
 		// where the id matches in the post-id from the inner query
-		shellScriptQb.where().in(ShellScriptBean.ID_FIELD_NAME, scriptProjectQb);
+		shellScriptQb.where().eq("isDisabled", true).in(ShellScriptBean.ID_FIELD_NAME, scriptProjectQb);
 		return shellScriptQb.prepare();
 	}
 
-	@Override
-	public StatusBean delete(String ID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	/*private PreparedQuery<ShellScriptBean> makeQueryForScriptsOfbox() throws SQLException {
 

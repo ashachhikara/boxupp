@@ -1,7 +1,10 @@
 package com.boxupp.resources;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -9,12 +12,18 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 
+import com.boxupp.ConfigurationGenerator;
+import com.boxupp.FileManager;
 import com.boxupp.dao.MachineConfigDAOManager;
 import com.boxupp.dao.ProjectDAOManager;
+import com.boxupp.dao.PuppetModuleDAOManager;
 import com.boxupp.dao.ShellScriptDAOManager;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.ProjectBean;
@@ -23,10 +32,13 @@ import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.responseBeans.StatusBean;
+import com.boxupp.responseBeans.VagrantFileStatus;
+import com.boxupp.utilities.Utilities;
 
 @Path("/project/")
 public class Project {
-	
+	private static Logger logger = LogManager.getLogger(Project.class.getName());
+
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -65,20 +77,61 @@ public class Project {
 	@Path("/getAllModules/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<PuppetModuleBean> getAllPuppetModulesList(){
-		return  ProjectDAOManager.getInstance().retireveModulesForProject();
+		return  ProjectDAOManager.getInstance().retireveAllModules();
 	}
 	
 	@GET
 	@Path("/getModuleMapping/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<PuppetModuleMapping> getAllModuleMapping() {
-		return ProjectDAOManager.getInstance().retireveModulesForBox();
+		return ProjectDAOManager.getInstance().retireveModulesMapping();
 	}
 	@GET
 	@Path("/getScriptMappping/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ShellScriptMapping> getAllScriptMapping() {
-		return ProjectDAOManager.getInstance().retireveScriptsForBox();
+		return ProjectDAOManager.getInstance().retireveScriptsMapping();
+	}
+	@POST
+	@Path("/saveAsFile")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public VagrantFileStatus saveAsFile(@Context HttpServletRequest request) throws IOException
+	{
+		String projectID = request.getParameter("projectID");
+		String userID = request.getParameter("userID");
+		List<MachineConfigurationBean>  machineConfigList = MachineConfigDAOManager.getInstance().read(projectID);
+		List<PuppetModuleBean>  puppetModuleList = PuppetModuleDAOManager.getInstance().read(projectID);
+		List<ShellScriptBean> shellScriptList = ShellScriptDAOManager.getInstance(). read(projectID);
+		List<ShellScriptMapping> shellScriptMappingList = null;
+		List<PuppetModuleMapping> puppetModuleMappingList = null;
+		try {
+			shellScriptMappingList = ShellScriptDAOManager.getInstance().retireveScriptsForProject(projectID);
+		for(MachineConfigurationBean machineConfig : machineConfigList){
+			puppetModuleMappingList.addAll( PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryForEq("machineConfig", MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(machineConfig.getMachineID())));
+		}
+		} catch (NumberFormatException e) {
+			logger.error(e.getMessage());
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+		}
+		String provider  = ProjectDAOManager.getInstance().getProviderForProject(projectID);
+	
+		Utilities.getInstance().commitSyncFoldersToDisk(machineConfigList, Integer.parseInt(userID));
+		boolean configFileData = ConfigurationGenerator.generateConfig(machineConfigList, puppetModuleList,  shellScriptList, shellScriptMappingList, puppetModuleMappingList, provider );
+		VagrantFileStatus fileStatus = new VagrantFileStatus();
+		
+		if(configFileData){
+			logger.info("Started saving vagrant file");
+			FileManager fileManager = new FileManager();
+			String renderedTemplate = ConfigurationGenerator.getVelocityFinalTemplate();
+			fileStatus = fileManager.writeFileToDisk(renderedTemplate, Integer.parseInt(userID));
+			logger.info("Vagrant file save completed");
+		}
+		else{
+			logger.info("Failed to save vagrant file !!");
+		}
+		//persistData(mappings);
+		return fileStatus;
 	}
 	
 }

@@ -15,10 +15,10 @@ public class UserProjectMapping {
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
 	private Integer ID;
 
-	@DatabaseField(foreign = true, columnName = USER_ID_FIELD_NAME)
+	@DatabaseField(foreign = true, columnName = USER_ID_FIELD_NAME, foreignAutoRefresh=true, foreignAutoCreate=true)
 	UserDetailBean user;
 
-	@DatabaseField(foreign = true, columnName = PROJECT_ID_FIELD_NAME)
+	@DatabaseField(foreign = true, columnName = PROJECT_ID_FIELD_NAME, foreignAutoRefresh=true, foreignAutoCreate=true)
 	ProjectBean project;
 
 	public Integer getID() {

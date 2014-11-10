@@ -1,8 +1,6 @@
 package com.boxupp.dao;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +9,6 @@ import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
-import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.SearchModuleBean;
@@ -20,10 +17,6 @@ import com.boxupp.utilities.PuppetUtilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.SelectArg;
 
 public class PuppetModuleDAOManager  implements DAOImplInterface{
 	private static Logger logger = LogManager.getLogger(PuppetModuleDAOManager.class.getName());
@@ -31,8 +24,6 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 	protected static Dao<PuppetModuleBean, Integer> puppetModuleDao = null;
 	public static Dao<PuppetModuleMapping, Integer> puppetModuleMappingDao = null;
 	private static PuppetModuleDAOManager puppetModuleDBManager;
-	
-
 
 	public static PuppetModuleDAOManager getInstance(){
 		if(puppetModuleDBManager == null){
@@ -121,16 +112,15 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 		return statusBean;
 	}
 
-	
-	public StatusBean delete(Integer userID, String puppetModuleID) {
+	@Override
+	public StatusBean delete(String puppetModuleID) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			PuppetUtilities.getInstance().deletePuppetModule(userID, puppetModuleDao.queryForId(Integer.parseInt(puppetModuleID)).getModuleName());
-			puppetModuleDao.deleteById(Integer.parseInt(puppetModuleID));
-			List<PuppetModuleMapping> puppetModuleMappping = puppetModuleMappingDao.queryForEq(PuppetModuleMapping.MODULE_ID_FIELD_NAME, Integer.parseInt(puppetModuleID));
-			for(PuppetModuleMapping puppetModule : puppetModuleMappping){
-				puppetModuleMappingDao.delete(puppetModule);
-			}
+			puppetModuleDao.updateBuilder().updateColumnValue("isDisabled", true).where().idEq(Integer.parseInt(puppetModuleID));
+			/*List<PuppetModuleMapping> puppetModuleMappping = puppetModuleMappingDao.queryForEq(PuppetModuleMapping.MODULE_ID_FIELD_NAME, Integer.parseInt(puppetModuleID));
+				for(PuppetModuleMapping puppetModule : puppetModuleMappping){
+					puppetModuleMappingDao.delete(puppetModule);
+				}*/
 		} catch (SQLException e) {
 			logger.error("Error deleting a puppet Module : " + e.getMessage());
 			statusBean.setStatusCode(1);
@@ -182,7 +172,8 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 			MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(Integer.parseInt(moduleMachineMapping.get("machineID").toString()));
 			PuppetModuleMapping puppetModuleMapping = new PuppetModuleMapping(machineConfig, puppetModule);
 			puppetModuleMappingDao.create(puppetModuleMapping);
-
+			List<PuppetModuleMapping> puppetModuleMappingList = ProjectDAOManager.getInstance().retireveModulesMapping();
+			PuppetUtilities.getInstance().refreshNodeTemplate(puppetModuleMappingList);
 		} catch (NumberFormatException e) {
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error saving machine Mapping with module : "+ e.getMessage());
@@ -193,8 +184,7 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 			e.printStackTrace();
 		}
 		statusBean.setStatusCode(0);
-		statusBean.setStatusMessage("Machine Mapping with  puppet Module saved successfully");
-
+		statusBean.setStatusMessage("Machine Mapping with puppet Module saved successfully");
 		return statusBean;
 
 	}
@@ -206,14 +196,15 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 					machineConfigDao.queryForId(Integer.parseInt(moduleMachineMapping.get("machineID").toString()));
 			PuppetModuleMapping puppetModuleMapping = new PuppetModuleMapping(machineConfig, puppetModule);
 			puppetModuleMappingDao.delete(puppetModuleMapping);
-
+			List<PuppetModuleMapping> puppetModuleMappingList = ProjectDAOManager.getInstance().retireveModulesMapping();
+			PuppetUtilities.getInstance().refreshNodeTemplate(puppetModuleMappingList);
 		} catch (NumberFormatException e) {
 			statusBean.setStatusCode(1);
-			statusBean.setStatusMessage("Error in dLinking machine  with module : "+ e.getMessage());
+			statusBean.setStatusMessage("Error in DeLinking machine  with module : "+ e.getMessage());
 			e.printStackTrace();
 		} catch (SQLException e) {
 			statusBean.setStatusCode(1);
-			statusBean.setStatusMessage("Error in dLinking machine  with module : "+ e.getMessage());
+			statusBean.setStatusMessage("Error in DeLinking machine  with module : "+ e.getMessage());
 			e.printStackTrace();
 		}
 		statusBean.setStatusCode(0);
@@ -223,11 +214,7 @@ public class PuppetModuleDAOManager  implements DAOImplInterface{
 
 	}
 
-	@Override
-	public StatusBean delete(String ID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	/*private PreparedQuery<PuppetModuleBean> makeQueryForModulesOfProject()	throws SQLException {
 

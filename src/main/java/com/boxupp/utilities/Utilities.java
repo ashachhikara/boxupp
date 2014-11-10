@@ -66,11 +66,6 @@ public class Utilities {
 		return boxuppScriptsData;
 	}
 	
-	public boolean createProjectDirectory(ProjectBean projectBean){
-//		File projectDirectory = new File()
-		return true;
-	}
-	
 	public BoxuppPuppetData populatePuppetData (JsonNode mappings){
 		Gson puppetConfigurations = new Gson();
 		BoxuppPuppetData boxuppPuppetData = new BoxuppPuppetData();
@@ -200,13 +195,10 @@ public class Utilities {
     
 	}
 	
-	public void deleteProjectFile(String projectName){
-		String projectDir = osProperties.getUserHomeDirectory() + 
-				 osProperties.getOSFileSeparator() +
-				 "Boxupp" + osProperties.getOSFileSeparator() + projectName;
+	public void deleteProjectFile(Integer projectID){
+		String projectDir = constructProjectDirectory(projectID);
 		File file  = new File(projectDir);
 		deleteFile(file);
-		
 	}
 	
 	

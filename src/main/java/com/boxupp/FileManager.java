@@ -10,9 +10,11 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.responseBeans.VagrantFile;
 import com.boxupp.responseBeans.VagrantFileStatus;
 import com.boxupp.utilities.OSProperties;
+import com.boxupp.utilities.PuppetUtilities;
 import com.boxupp.utilities.Utilities;
 
 
@@ -48,6 +50,33 @@ public class FileManager {
 		}
 		
 		return vagrantFileStatus;
+	}
+	
+	public StatusBean writeNodeFileToDisk(String data){
+		StatusBean statusBean = new StatusBean();
+		String fileOutputPath = PuppetUtilities.getInstance().constructManifestsDirectory()+
+				OSProperties.getInstance().getOSFileSeparator()+
+				OSProperties.getInstance().getNodeFileName();
+		VagrantFileStatus vagrantFileStatus = new VagrantFileStatus();
+		
+		File file = new File(fileOutputPath);
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+		try {
+			file.createNewFile();
+			fw = new FileWriter(file.getAbsoluteFile());
+			bw = new BufferedWriter(fw);
+			bw.write(data);
+			bw.close();
+			statusBean.setStatusCode(0);
+			statusBean.setStatusMessage("Nodes.pp File Saved Successfully");
+		} catch (IOException e) {
+			logger.error("Error writing to the Nodes.pp File : "+e.getMessage());
+			file.delete();
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error in Saving nodes.pp file :"+e.getMessage());
+		}
+		return statusBean;
 	}
 	
 	public VagrantFile fetchVagrantFileData(Integer userID){

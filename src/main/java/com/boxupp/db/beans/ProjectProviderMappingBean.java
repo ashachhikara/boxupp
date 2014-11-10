@@ -6,11 +6,12 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "projectProviderMapping")
 public class ProjectProviderMappingBean {
 	
+
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
 	private Integer ID;
 	
 	@DatabaseField(canBeNull = false, useGetSet = true)
-	private Integer ProjectID;
+	private Integer projectID;
 	
 	@DatabaseField(canBeNull = false, useGetSet = true)
 	private Integer providerID;
@@ -22,15 +23,13 @@ public class ProjectProviderMappingBean {
 	public void setID(Integer ID) {
 		this.ID = ID;
 	}
-
 	public Integer getProjectID() {
-		return ProjectID;
+		return projectID;
 	}
 
 	public void setProjectID(Integer projectID) {
-		ProjectID = projectID;
+		this.projectID = projectID;
 	}
-
 	public Integer getProviderID() {
 		return providerID;
 	}

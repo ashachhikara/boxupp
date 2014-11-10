@@ -19,11 +19,11 @@ public class PuppetModuleMapping {
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
 	private Integer ID;
 
-	@DatabaseField(foreign = true, useGetSet= true, columnName = MACHINE_ID_FIELD_NAME)
-	MachineConfigurationBean machineConfig;
+	@DatabaseField(foreign = true, useGetSet= true, columnName = MACHINE_ID_FIELD_NAME, foreignAutoRefresh=true, foreignAutoCreate=true)
+	private MachineConfigurationBean machineConfig;
 
-	@DatabaseField(foreign = true, useGetSet= true, columnName = MODULE_ID_FIELD_NAME)
-	PuppetModuleBean puppetModule;
+	@DatabaseField(foreign = true, useGetSet= true, columnName = MODULE_ID_FIELD_NAME, foreignAutoRefresh=true, foreignAutoCreate=true)
+	private PuppetModuleBean puppetModule;
 
 	public Integer getID() {
 		return ID;

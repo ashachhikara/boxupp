@@ -29,14 +29,18 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import com.boxupp.ConfigurationGenerator;
+import com.boxupp.FileManager;
 import com.boxupp.beans.BoxuppPuppetData;
 import com.boxupp.beans.PuppetManifestFileBean;
 import com.boxupp.beans.PuppetModuleBean;
 import com.boxupp.beans.PuppetModuleFileBean;
 import com.boxupp.beans.PuppetModuleFolderBean;
 import com.boxupp.dao.PuppetModuleDAOManager;
+import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.SearchModuleBean;
 import com.boxupp.responseBeans.StatusBean;
+import com.boxupp.responseBeans.VagrantFileStatus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -145,7 +149,17 @@ public class PuppetUtilities extends Utilities {
 		Utilities.getInstance().deleteFile(file);
 		
 	}
+	public String constructModuleDirectory(){
+		return  osProperties.getUserHomeDirectory() + 
+				osProperties.getOSFileSeparator() +
+				"Boxupp" + osProperties.getOSFileSeparator()+osProperties.getModuleDirName();
+	}
 	
+	public String constructManifestsDirectory(){
+		return  osProperties.getUserHomeDirectory() + 
+				osProperties.getOSFileSeparator() +
+				"Boxupp" + osProperties.getOSFileSeparator()+osProperties.getManifestsDirName();
+	}
 	public StatusBean downloadModule(JsonNode moduleData){
 		Gson searchModuleData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		SearchModuleBean searchModuleBean = searchModuleData.fromJson(moduleData.toString(), SearchModuleBean.class);
@@ -155,9 +169,8 @@ public class PuppetUtilities extends Utilities {
 		int responseCode = 0;
 		HttpURLConnection httpConn = null;
 		String fileSeparator = OSProperties.getInstance().getOSFileSeparator();
-		String moduleDirPath = OSProperties.getInstance().getUserHomeDirectory()+fileSeparator
-				+OSProperties.getInstance().getPrimaryFolderName()+fileSeparator
-				+OSProperties.getInstance().getModuleDirName()+fileSeparator;
+		String moduleDirPath = constructModuleDirectory();
+		checkIfDirExists(new File(constructManifestsDirectory()));
 		checkIfDirExists(new File(moduleDirPath));
 		try {
 			url = new URL(fileURL);
@@ -292,6 +305,23 @@ public class PuppetUtilities extends Utilities {
 				e.printStackTrace();
 			}
 		return moduleList;
+	}
+	public StatusBean refreshNodeTemplate( List<PuppetModuleMapping> puppetModuleData){
+		boolean configFileData = ConfigurationGenerator.generateNodeConfig(puppetModuleData);
+		StatusBean statusBean = new StatusBean();
+		if(configFileData){
+			logger.info("Started saving Nodes.pp file");
+			FileManager fileManager = new FileManager();
+			String renderedTemplate = ConfigurationGenerator.getVelocityFinalTemplate();
+			statusBean = fileManager.writeNodeFileToDisk(renderedTemplate);
+			logger.info("Nodes.pp file save completed");
+		}
+		else{
+			logger.info("Failed to save Nodes.pp file !!");
+		}
+		
+		return statusBean;
+		
 	}
 }
 

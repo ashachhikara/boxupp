@@ -23,13 +23,13 @@ public class ShellScriptMapping {
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
 	private Integer ID;
 
-	@DatabaseField(foreign = true, columnName ="machineID")
+	@DatabaseField(foreign = true, columnName =MACHINE_ID_FIELD_NAME, foreignAutoRefresh=true, foreignAutoCreate=true)
 	private MachineConfigurationBean machineConfig;
 	
-	@DatabaseField(foreign = true, columnName ="scriptID")
+	@DatabaseField(foreign = true, columnName = SCRIPT_ID_FIELD_NAME, foreignAutoRefresh=true, foreignAutoCreate=true)
 	private ShellScriptBean script ;
 	
-	@DatabaseField(foreign = true, columnName ="projectID")
+	@DatabaseField(foreign = true, columnName =PROJECT_ID_FIELD_NAME, foreignAutoRefresh=true, foreignAutoCreate=true)
 	private ProjectBean project;
 	
 	public Integer getID() {
@@ -40,5 +40,22 @@ public class ShellScriptMapping {
 		this.ID = ID;
 	}
 	
-	
+	public MachineConfigurationBean getMachineConfig() {
+		return machineConfig;
+	}
+	public void setMachineConfig(MachineConfigurationBean machineConfig) {
+		this.machineConfig = machineConfig;
+	}
+	public ShellScriptBean getScript() {
+		return script;
+	}
+	public void setScript(ShellScriptBean script) {
+		this.script = script;
+	}
+	public ProjectBean getProject() {
+		return project;
+	}
+	public void setProject(ProjectBean project) {
+		this.project = project;
+	}
 }

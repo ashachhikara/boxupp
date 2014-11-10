@@ -21,10 +21,10 @@ public class MachineProjectMapping {
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
 	private Integer ID;
 
-	@DatabaseField(foreign = true, useGetSet = true, columnName =PROJECT_ID_FIELD_NAME)
+	@DatabaseField(foreign = true, useGetSet = true, columnName =PROJECT_ID_FIELD_NAME, foreignAutoRefresh=true, foreignAutoCreate=true)
 	private ProjectBean project;
 
-	@DatabaseField(foreign = true, useGetSet = true, columnName = MACHINE_ID_FIELD_NAME)
+	@DatabaseField(foreign = true, useGetSet = true, columnName = MACHINE_ID_FIELD_NAME, foreignAutoRefresh=true, foreignAutoCreate=true)
 	private MachineConfigurationBean machineConfig;
 
 	public Integer getID() {
