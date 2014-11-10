@@ -32,5 +32,8 @@ public class VelocityInit {
 		return template;
 	}
 	
+	public static Template getNodeTemplate(VelocityEngine ve){
+		return ve.getTemplate("node.vm");
+	}
 }
 

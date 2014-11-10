@@ -73,6 +73,29 @@ public class ConfigurationGenerator {
 		}
 		return configurationGenerated;
 	}
+	 public static boolean generateNodeConfig(List<PuppetModuleMapping> nodeConfigList){
+			
+			VelocityEngine ve = VelocityInit.getVelocityInstance();
+			Template template = VelocityInit.getNodeTemplate(ve);
+			VelocityContext context = new VelocityContext();
+			context.put("puppetModules", nodeConfigList);
+			try{
+				StringWriter stringWriter = new StringWriter();
+				template.merge(context, stringWriter);
+				velocityFinalTemplate = stringWriter.toString();
+				setConfigurationGenerated(true);
+			}
+			catch(ResourceNotFoundException e){
+				logger.error("Node Template not found");
+				setConfigurationGenerated(false);
+			} 
+			catch(ParseErrorException e){
+				logger.error("Error parsing Node template");
+				setConfigurationGenerated(false);
+			}
+			return configurationGenerated;
+		}
+	 
 
 	
 }

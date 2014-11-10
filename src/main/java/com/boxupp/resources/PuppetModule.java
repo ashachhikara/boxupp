@@ -57,10 +57,10 @@ public class PuppetModule {
 	public StatusBean deletePuppetModule(@Context HttpServletRequest request) {
 		String puppetModuleID = request.getParameter("moduleID");
 		Integer userID = Integer.parseInt(request.getParameter("userID"));
-		return PuppetModuleDAOManager.getInstance().delete(userID, puppetModuleID);
+		return PuppetModuleDAOManager.getInstance().delete(puppetModuleID);
 	}
 	
-	@POST
+	/*@POST
 	@Path("/linkModule")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes("application/json")
@@ -73,8 +73,13 @@ public class PuppetModule {
 	@Produces(MediaType.APPLICATION_JSON)
 	public StatusBean deleteModuleMapping(JsonNode moduleMachineMapping) {
 		return PuppetModuleDAOManager.getInstance().deLinkModuleWithMachine(moduleMachineMapping);
+	}*/
+	@POST
+	@Path("/updateModuleMapping/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StatusBean deleteModuleMapping(@PathParam("id") String projectID, JsonNode moduleMachineMapping) {
+		return PuppetModuleDAOManager.getInstance().updateModuleMapping(projectID, moduleMachineMapping);
 	}
-	
 	@GET
 	@Path("/searchPuppetModule")
 	@Produces(MediaType.APPLICATION_JSON)

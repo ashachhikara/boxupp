@@ -104,16 +104,15 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		
 	}
 */
-	
-	public StatusBean delete(Integer userID, String shellScriptID) {
+	@Override
+	public StatusBean delete(String shellScriptID) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			Utilities.getInstance().deleteScriptfileOnDisk(shellScriptDao.queryForId(Integer.parseInt(shellScriptID)).getScriptName(), userID);
-			shellScriptDao.deleteById(Integer.parseInt(shellScriptID));
-			List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, Integer.parseInt(shellScriptID));
+			shellScriptDao.updateBuilder().updateColumnValue("isDisabled", true).where().idEq(Integer.parseInt(shellScriptID));
+			/*List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, Integer.parseInt(shellScriptID));
 				for(ShellScriptMapping shellScript : shellscriptMappping){
 					shellScriptMappingDao.delete(shellScript);
-				}
+				}*/
 		} catch (SQLException e) {
 			logger.error("Error updating a shell script : " + e.getMessage());
 			statusBean.setStatusCode(1);
@@ -137,7 +136,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 	}
 
 	
-	public <E> List<E> retireveScriptsForProject(String projectID) {
+	public <E> List<E> retireveScriptsForProject(String projectID){
 		List<ShellScriptBean> shellScriptList = new ArrayList<ShellScriptBean>();
 		try {
 		if (queryForScriptsOfProject == null) {
@@ -151,6 +150,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		} catch (SQLException e) {
 			logger.error("Error in retireving scripts for project: "+e.getMessage());
 		}
+		System.out.println(shellScriptList);
 		return (List<E>)shellScriptList;
 	}
 
@@ -229,15 +229,10 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		// build our outer query for Post objects
 		QueryBuilder<ShellScriptBean, Integer> shellScriptQb = shellScriptDao.queryBuilder();
 		// where the id matches in the post-id from the inner query
-		shellScriptQb.where().in(ShellScriptBean.ID_FIELD_NAME, scriptProjectQb);
+		shellScriptQb.where().eq("isDisabled", false).and().in(ShellScriptBean.ID_FIELD_NAME, scriptProjectQb);
 		return shellScriptQb.prepare();
 	}
 
-	@Override
-	public StatusBean delete(String ID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	/*private PreparedQuery<ShellScriptBean> makeQueryForScriptsOfbox() throws SQLException {
 
@@ -255,6 +250,33 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		return shellScriptQb.prepare();
 	}
 */
+	public StatusBean updateScriptMapping(JsonNode  shellScriptMapping) {
+		System.out.println("****************"+shellScriptMapping);
+		Integer projectID = Integer.parseInt(shellScriptMapping.get("projectID").getTextValue());
+		StatusBean statusBean =   new StatusBean();
+		
+		/*	ShellScriptBean shellScript =  shellScriptDao.queryForId(Integer.parseInt(shellScriptMapping.get("scriptID").toString()));
+			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(shellScriptMapping.get("projectID").toString()));
+			MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(Integer.parseInt(shellScriptMapping.get("machineID").toString()));
+			shellScriptMappingDao.updateBuilder().updateColumnValue(ShellScriptMapping.MACHINE_ID_FIELD_NAME, null).where().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project)
+			.and().eq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScript)
+			.and().eq(ShellScriptMapping.MACHINE_ID_FIELD_NAME, machineConfig);
+		} catch (NumberFormatException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error in dLinking machine  with script : "+e.getMessage());
+			e.printStackTrace();
+		} catch (SQLException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error in dLinking machine with script : "+e.getMessage());
+			e.printStackTrace();
+		}*/
+		statusBean.setStatusCode(0);
+		statusBean.setStatusMessage("Machine MApping with  Shell script saved successfully");
+		
+		return statusBean;
+		
+	}
+
 }
 
 

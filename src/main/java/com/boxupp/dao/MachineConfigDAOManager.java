@@ -23,10 +23,10 @@ import com.j256.ormlite.stmt.SelectArg;
 
 public class MachineConfigDAOManager implements DAOImplInterface {
 	private static Logger logger = LogManager.getLogger(MachineConfigDAOManager.class.getName());
-	protected static Dao<MachineConfigurationBean, Integer>machineConfigDao = null;
+	public static Dao<MachineConfigurationBean, Integer>machineConfigDao = null;
 	protected static Dao<MachineProjectMapping, Integer> machineMappingDao = null;
 	private static MachineConfigDAOManager machineConfigDBManager = null;
-	private PreparedQuery<MachineConfigurationBean> machineForProjectQuery = null;
+	private PreparedQuery<MachineConfigurationBean> queryForBoxesOfProject = null;
 	
 	public static MachineConfigDAOManager getInstance(){
 		if(machineConfigDao == null){
@@ -110,14 +110,11 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	}
 
 	@Override
-	public StatusBean delete(String ID) {
+	public StatusBean delete(String machineID) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			machineConfigDao.deleteById(Integer.parseInt(ID));
-			List<MachineProjectMapping> machineMapping = DAOProvider.getInstance().fetchMachineMappingDao().queryForEq("machineId", Integer.parseInt(ID));
-			for(MachineProjectMapping mapping : machineMapping){
-				machineMappingDao.delete(mapping);
-			}
+			machineConfigDao.updateBuilder().updateColumnValue("isDisabled", true).where().idEq(Integer.parseInt(machineID));
+	
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
@@ -144,13 +141,13 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	public <E> List<E> retireveBoxesForProject(String projectID) {
 		List<MachineConfigurationBean> machineList = new ArrayList<MachineConfigurationBean>();
 		try {
-			if (machineForProjectQuery == null) {
-				machineForProjectQuery =  makeMachineForProjectQuery();
+			if (queryForBoxesOfProject == null) {
+				queryForBoxesOfProject =  makeQueryForBoxesOfProject();
 			}
 			ProjectBean projectBean = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID));
 			if(projectBean != null){
-				machineForProjectQuery.setArgumentHolderValue(0, projectBean );
-				machineList = machineConfigDao.query(machineForProjectQuery);
+				queryForBoxesOfProject.setArgumentHolderValue(0, projectBean );
+				machineList = machineConfigDao.query(queryForBoxesOfProject);
 			}
 		} catch (NumberFormatException e) {
 			logger.error("Error in retireveing boxes for project : "+e.getMessage());
@@ -178,15 +175,16 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		return machineList;
 	}*/
 	
-	private PreparedQuery<MachineConfigurationBean> makeMachineForProjectQuery() throws SQLException {
+	private PreparedQuery<MachineConfigurationBean> makeQueryForBoxesOfProject() throws SQLException {
 		
 		QueryBuilder<MachineProjectMapping, Integer> machineProjectQb = machineMappingDao.queryBuilder();
 		machineProjectQb.selectColumns(MachineProjectMapping.MACHINE_ID_FIELD_NAME);
 		SelectArg userSelectArg = new SelectArg();
 		machineProjectQb.where().eq(MachineProjectMapping.PROJECT_ID_FIELD_NAME, userSelectArg);
 		QueryBuilder<MachineConfigurationBean, Integer> machineConfigQb = machineConfigDao.queryBuilder();
-		machineConfigQb.where().in(MachineConfigurationBean.ID_FIELD_NAME, machineProjectQb);
+		machineConfigQb.where().eq("isDisabled", false).and().in(MachineConfigurationBean.ID_FIELD_NAME, machineProjectQb);
 		return machineConfigQb.prepare();
 		
 	}
+	
 }

@@ -37,7 +37,7 @@ public class UserDAOManager implements DAOImplInterface{
 	}
 	
 	@Override
-	public StatusBean create(JsonNode newData) {
+	public StatusBean create(JsonNode newData){
 		
 		UserAuthenticationResponse response = new UserAuthenticationResponse();
 		UserDetailBean userDetailBean  = null;

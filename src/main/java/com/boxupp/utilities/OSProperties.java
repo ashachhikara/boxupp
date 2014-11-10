@@ -12,6 +12,8 @@ public class OSProperties {
 	private String primaryFolderName="Boxupp";
 	private String serializedFileName = "serData";
 	private String moduleDirName = "modules";
+	private String manifestsDirName = "manifests";
+	private String nodeFileName = "nodes.pp";
 			
 	private OSProperties(){
 			OSFileSeparator = System.getProperty("file.separator");
@@ -81,6 +83,21 @@ public class OSProperties {
 
 	public void setModuleDirName(String moduleDirName) {
 		this.moduleDirName = moduleDirName;
+	}
+
+	public String getManifestsDirName() {
+		return manifestsDirName;
+	}
+
+	public void setManifestsDirName(String manifestsDirName) {
+		this.manifestsDirName = manifestsDirName;
+	}
+	public String getNodeFileName() {
+		return nodeFileName;
+	}
+
+	public void setNodeFileName(String nodeFileName) {
+		this.nodeFileName = nodeFileName;
 	}
 
 	

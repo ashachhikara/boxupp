@@ -3,7 +3,6 @@ package com.boxupp.resources;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.HttpMethod;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -54,11 +53,18 @@ public class ShellScript {
 	public StatusBean saveScriptMapping(JsonNode shellScriptMapping){
 		return ShellScriptDAOManager.getInstance().linkScriptMachine(shellScriptMapping);
 	}
-	@POST
+	/*@POST
 	@Path("/deLinkScript")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes("application/json")
 	public StatusBean deleteScriptMapping(JsonNode shellScriptMapping){
 		return ShellScriptDAOManager.getInstance().deLinkScriptMachine(shellScriptMapping);
+	}*/
+	@POST
+	@Path("/updateScriptMappings")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes("application/json")
+	public StatusBean updateShellScriptMappings(JsonNode shellScriptMapping){
+		return ShellScriptDAOManager.getInstance().updateScriptMapping(shellScriptMapping);
 	}
 }

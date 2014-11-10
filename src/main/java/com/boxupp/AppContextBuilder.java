@@ -18,7 +18,6 @@ public class AppContextBuilder {
 		webAppContext.setContextPath("/boxupp/*");
 		webAppContext.setDescriptor("/web.xml");
 		logger.debug("webApp contextPath Initialized");
-	
 		
 		return webAppContext;
 	}

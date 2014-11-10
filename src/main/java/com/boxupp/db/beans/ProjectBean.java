@@ -29,7 +29,7 @@ public class ProjectBean  {
 	private Integer providerType;
 	
 	@DatabaseField(useGetSet = true)
-	private boolean disabled;
+	private boolean isDisabled;
 
 	
 	public Integer getProjectID() {
@@ -68,11 +68,11 @@ public class ProjectBean  {
 	public void setProviderType(Integer providerType) {
 		this.providerType = providerType;
 	}
-	public boolean getDisabled() {
-		return disabled;
+	public boolean getIsDisabled() {
+		return isDisabled;
 	}
-	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
+	public void setIsDisabled(boolean isDisabled) {
+		this.isDisabled = isDisabled;
 	}
 	
 }

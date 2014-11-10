@@ -101,7 +101,7 @@ public class BoxuppServices {
 		return SnapshotManager.retrieveBoxuppMappings();
 	}*/
 
-/*	@POST
+	/*@POST
 	@Path("/saveAsFile")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public VagrantFileStatus saveAsFile(JsonNode mappings) throws IOException
@@ -138,7 +138,8 @@ public class BoxuppServices {
 		}
 		persistData(mappings);
 		return fileStatus;
-	}*/
+	}
+	*/
 	
 	@POST
 	@Path("/saveAsFile")
