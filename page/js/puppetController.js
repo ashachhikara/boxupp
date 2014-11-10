@@ -1,14 +1,7 @@
-var boxuppApp = angular.module("boxuppApp");
-
-boxuppApp.
-		controller('puppetController',function($scope,$rootScope,retrieveMappings,$timeout,validator,fileUpload){
+angular.module("boxuppApp").controller('puppetController',function($scope,$rootScope,retrieveMappings,$timeout,validator,fileUpload){
 		alert('Hello, Puppet Controller has been called');
 
-		$scope.readThisMessage = function(){
-
-			alert('Hello world');
-		}
-		
+		$scope.selectedProvMachine = {};
 		
 		$scope.checkManifest = function(){
 			$scope.outputConsole.boxuppExecuting = true;
@@ -28,11 +21,6 @@ boxuppApp.
 		}
 		
 		$scope.checkManifestVisibility = function(fileName){
-			/*if(fileName === 'nodes.pp' || fileName === 'site.pp'){
-				return false;
-			}else{
-				return true;
-			}*/
 			var restrictedFileNames = ['nodes.pp','site.pp'];
 			if(restrictedFileNames.indexOf(fileName) > -1){
 				return false;
