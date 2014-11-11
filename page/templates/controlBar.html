@@ -11,14 +11,54 @@
 					</a>
 				</div>
 				<div class="col-md-6">
-					<a data-target="#" class="pull-right" style="font-size:26px; color:#FFF;">
+
+					<div class="tab-content">
+						<div class="trashIcon tab-pane fade" id="boxTrash">
+							<a class="pull-right" ng-click="deleteActiveBox()">
+								<span ng-hide="expandedCtrlBar">
+									<i class="fa fa-trash-o"></i>
+								</span>
+							</a>
+							<a class="pull-right">
+								<span ng-show="expandedCtrlBar">
+									<i class="fa fa-minus-circle" ng-click="expandedCtrlBar = false;"></i>
+								</span>
+							</a>
+						</div>
+						<div class="trashIcon tab-pane fade" id="scriptTrash">
+							<a class="pull-right" ng-click="deleteActiveScript()">
+								<span ng-hide="expandedCtrlBar">
+									<i class="fa fa-trash-o"></i>
+								</span>
+							</a>
+							<a class="pull-right">
+								<span ng-show="expandedCtrlBar">
+									<i class="fa fa-minus-circle" ng-click="expandedCtrlBar = false;"></i>
+								</span>
+							</a>
+						</div>
+						<div class="trashIcon tab-pane fade" id="moduleTrash">
+							<a class="pull-right" ng-click="deleteActiveModule()">
+								<span ng-hide="expandedCtrlBar">
+									<i class="fa fa-trash-o"></i>
+								</span>
+							</a>
+							<a class="pull-right">
+								<span ng-show="expandedCtrlBar">
+									<i class="fa fa-minus-circle" ng-click="expandedCtrlBar = false;"></i>
+								</span>
+							</a>
+						</div>
+					</div>
+
+					<!--<a data-target="#" class="pull-right" style="font-size:26px; color:#FFF;">
 						<span ng-hide="expandedCtrlBar">
 							<i class="fa fa-trash-o"></i>
 						</span>
 						<span ng-show="expandedCtrlBar">
 							<i class="fa fa-minus-circle" ng-click="expandedCtrlBar = false;"></i>
 						</span>
-					</a>
+					</a>-->
 				</div>
 			</div>
 		</div>

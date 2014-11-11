@@ -285,9 +285,13 @@ div#controlBar{
 			}
 		}
 	}
-}
+	div.trashIcon{
+		a{
+			font-size:26px; 
+			color:#FFF;
+		}
+	}
 
-div#controlBar{
 	transition-property : all;
 	transition-duration : 0.5s;
 	-webkit-transition-property: all;

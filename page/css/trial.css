@@ -173,18 +173,20 @@ div.boxConfigs {
 div.panel {
   background: none; }
 
-div#controlBar ul.controlBarList li a.controlBarBtns {
-  color: #FFF;
-  width: 100%;
-  cursor: pointer; }
-div#controlBar ul.controlBarList li a.controlBarBtns:hover {
-  background: #FFF; }
-
 div#controlBar {
   transition-property: all;
   transition-duration: 0.5s;
   -webkit-transition-property: all;
   -webkit-transition-duration: 0.5s; }
+  div#controlBar ul.controlBarList li a.controlBarBtns {
+    color: #FFF;
+    width: 100%;
+    cursor: pointer; }
+  div#controlBar ul.controlBarList li a.controlBarBtns:hover {
+    background: #FFF; }
+  div#controlBar div.trashIcon a {
+    font-size: 26px;
+    color: #FFF; }
 
 div .collapseCtrlBar {
   height: 0px; }
@@ -452,7 +454,6 @@ div.boxDetails table thead tr td {
   line-height: 11px;
   color: grey; }
 
-
 div.modulesProvisionList ul.shellScriptsList, div.modulesProvisionList ul.modulesList, div.scriptsProvisionList ul.shellScriptsList, div.scriptsProvisionList ul.modulesList, div.boxesProvisionList ul.shellScriptsList, div.boxesProvisionList ul.modulesList {
   list-style: none; }
   div.modulesProvisionList ul.shellScriptsList li div.scriptSelector, div.modulesProvisionList ul.shellScriptsList li div.modulesSelector, div.modulesProvisionList ul.modulesList li div.scriptSelector, div.modulesProvisionList ul.modulesList li div.modulesSelector, div.scriptsProvisionList ul.shellScriptsList li div.scriptSelector, div.scriptsProvisionList ul.shellScriptsList li div.modulesSelector, div.scriptsProvisionList ul.modulesList li div.scriptSelector, div.scriptsProvisionList ul.modulesList li div.modulesSelector, div.boxesProvisionList ul.shellScriptsList li div.scriptSelector, div.boxesProvisionList ul.shellScriptsList li div.modulesSelector, div.boxesProvisionList ul.modulesList li div.scriptSelector, div.boxesProvisionList ul.modulesList li div.modulesSelector {
@@ -461,10 +462,7 @@ div.modulesProvisionList ul.shellScriptsList, div.modulesProvisionList ul.module
     background: aliceblue; }
   div.modulesProvisionList ul.shellScriptsList li.even, div.modulesProvisionList ul.modulesList li.even, div.scriptsProvisionList ul.shellScriptsList li.even, div.scriptsProvisionList ul.modulesList li.even, div.boxesProvisionList ul.shellScriptsList li.even, div.boxesProvisionList ul.modulesList li.even {
     background: ghostwhite; }
-
-  div.modulesProvisionList ul.shellScriptsList div.shellScriptEntryName, div.modulesProvisionList ul.modulesList div.shellScriptEntryName, div.scriptsProvisionList ul.shellScriptsList div.shellScriptEntryName, div.scriptsProvisionList ul.modulesList div.shellScriptEntryName, div.boxesProvisionList ul.shellScriptsList div.shellScriptEntryName, div.boxesProvisionList ul.modulesList div.shellScriptEntryName {
-
-
+  div.modulesProvisionList ul.shellScriptsList div.shellScriptEntryName, div.modulesProvisionList ul.shellScriptsList div.moduleEntryName, div.modulesProvisionList ul.modulesList div.shellScriptEntryName, div.modulesProvisionList ul.modulesList div.moduleEntryName, div.scriptsProvisionList ul.shellScriptsList div.shellScriptEntryName, div.scriptsProvisionList ul.shellScriptsList div.moduleEntryName, div.scriptsProvisionList ul.modulesList div.shellScriptEntryName, div.scriptsProvisionList ul.modulesList div.moduleEntryName, div.boxesProvisionList ul.shellScriptsList div.shellScriptEntryName, div.boxesProvisionList ul.shellScriptsList div.moduleEntryName, div.boxesProvisionList ul.modulesList div.shellScriptEntryName, div.boxesProvisionList ul.modulesList div.moduleEntryName {
     margin-left: -15px;
     padding-top: 2px;
     font-family: 'Open Sans', sans-serif;
@@ -484,7 +482,6 @@ div.modulesProvisionList div.boxEntries div.boxEntry div.boxLogo, div.scriptsPro
   div.modulesProvisionList div.boxEntries div.boxEntry div.boxLogo span i, div.scriptsProvisionList div.boxEntries div.boxEntry div.boxLogo span i, div.boxesProvisionList div.boxEntries div.boxEntry div.boxLogo span i {
     font-size: 28px; }
 div.modulesProvisionList div.boxEntries div.boxEntry div.boxTitle, div.scriptsProvisionList div.boxEntries div.boxEntry div.boxTitle, div.boxesProvisionList div.boxEntries div.boxEntry div.boxTitle {
-
   font-family: 'Open Sans', sans-serif;
   text-transform: uppercase;
   font-weight: 400;
@@ -492,7 +489,6 @@ div.modulesProvisionList div.boxEntries div.boxEntry div.boxTitle, div.scriptsPr
   line-height: 11px;
   /*color:grey;*/ }
 div.modulesProvisionList div.sectionTitle, div.scriptsProvisionList div.sectionTitle, div.boxesProvisionList div.sectionTitle {
-
   background: #D7D9DA;
   padding: 10px 10px;
   margin-bottom: 20px;

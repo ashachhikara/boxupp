@@ -1,33 +1,26 @@
 angular.module("boxuppApp").
-	controller('shellController',function($scope,provision){
-	$scope.shellControllerData = 'Hello';
+	controller('shellController',function($scope,provision){	
 	
 	$scope.selectedProvMachine = {};
+	$scope.shellProvMappings = {};
 
 	$scope.checkProvState = function(){
 		return _.isEmpty($scope.shellProvMappings);
 	}
 
 	$scope.commitShellScriptProvisioning = function(){
-
 		provision.commitShellMappings($scope.shellProvMappings).then(function(){
 			console.log('Shell Script Mappings have been committed');
 		});
-
 	}
 
-	$scope.shellProvMappings = {};
-
 	$scope.updateShellProvMapping = function(selectedProvMachine){
-
-		
 			var checkedScripts = [];
 			angular.forEach($scope.shellScripts, function(value){
 				if(value.shellProvChecked){
 					checkedScripts.push(value.scriptID);
 				}
 			});
-			// $scope.shellProvMappings.put(selectedProvMachine.machineID,checkedScripts);
 			var selectedMachine = selectedProvMachine.machineID;
 			$scope.shellProvMappings[selectedProvMachine.machineID] = checkedScripts;
 	}

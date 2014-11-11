@@ -12,6 +12,7 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 				console.log('Puppet Mappings have been committed');
 			});
 		}
+
 		$scope.updateModuleProvMapping = function(selectedProvMachine){
 			var checkedModules = [];
 			angular.forEach($scope.projectData.modules, function(value){
@@ -19,10 +20,24 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 					checkedModules.push(value.puppetID);
 				}
 			});
-			// $scope.shellProvMappings.put(selectedProvMachine.machineID,checkedScripts);
 			var selectedMachine = selectedProvMachine.machineID;
 			$scope.moduleProvMappings[selectedProvMachine.machineID] = checkedModules;
 		}
+
+		$scope.$watch('selectedProvMachine',function(newVal,oldVal){
+			angular.forEach($scope.projectData.modules,function(value){
+				value.moduleProvChecked = false;
+			});
+			var selectedArray = $scope.moduleProvMappings[$scope.selectedProvMachine.machineID];
+			if(!angular.isUndefined(selectedArray)){
+				angular.forEach($scope.projectData.modules,function(value){
+					var puppetID = value.puppetID;
+					if(selectedArray.indexOf(puppetID) !== -1){
+						value.moduleProvChecked = true;
+					}
+				});	
+			}
+		});
 
 		$scope.checkManifest = function(){
 			$scope.outputConsole.boxuppExecuting = true;

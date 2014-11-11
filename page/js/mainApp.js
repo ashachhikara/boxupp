@@ -19,6 +19,13 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.bodyStyle.applyDashBoardStyling = true;
 	$scope.quickBox = {};
 	$scope.moduleResults=[];
+	$scope.deleteActiveBox = function(){
+		alert('Box deleted');
+	}
+
+	$scope.deleteActiveScript = function(){
+		alert('Script deleted');
+	}
 	// $scope.selectedProvMachine = {};
 
 	$scope.listOfSSHImages=[{
