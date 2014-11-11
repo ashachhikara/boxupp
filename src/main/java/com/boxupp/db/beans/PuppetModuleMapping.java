@@ -16,6 +16,10 @@ public class PuppetModuleMapping {
 		this.puppetModule = puppetModule;
 		this.project = project;
 	}
+	
+	public PuppetModuleMapping(){
+		
+	}
 
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
 	private Integer ID;
