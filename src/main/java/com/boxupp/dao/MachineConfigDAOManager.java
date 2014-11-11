@@ -148,6 +148,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 			if(projectBean != null){
 				queryForBoxesOfProject.setArgumentHolderValue(0, projectBean );
 				machineList = machineConfigDao.query(queryForBoxesOfProject);
+				
 			}
 		} catch (NumberFormatException e) {
 			logger.error("Error in retireveing boxes for project : "+e.getMessage());

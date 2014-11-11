@@ -28,13 +28,13 @@ public class MachineConfigurationBean {
 	@DatabaseField(useGetSet = true)
 	private String networkIP;
 
-	@ForeignCollectionField(eager=true)
+	@ForeignCollectionField
 	private ForeignCollection<ForwardedPortsBean> portMappings;
 	
-	@ForeignCollectionField(eager = true)
+	@ForeignCollectionField
 	private ForeignCollection<SyncFoldersBean> syncFolders;
 	
-	@ForeignCollectionField(eager=true)
+	@ForeignCollectionField
 	private ForeignCollection<DockerLinkBean> dockerLinks;
 
 	@DatabaseField(useGetSet = true)

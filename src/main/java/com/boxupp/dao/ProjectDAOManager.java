@@ -242,6 +242,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 		} catch (SQLException e) {
 			logger.error("Error in retireving scripts mapping: "+ e.getMessage());
 		}
+		System.out.println(scriptMappingList);
 		return (List<E>) scriptMappingList;
 	}
 	

@@ -81,13 +81,14 @@ public class Project {
 	}
 	
 	@GET
-	@Path("/getModuleMapping/")
+	@Path("/getModuleMapping/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
+
 	public List<PuppetModuleMapping> getAllModuleMapping(@PathParam("id") String projectID) {
 		return ProjectDAOManager.getInstance().retireveModulesMapping(projectID);
 	}
 	@GET
-	@Path("/getScriptMappping/")
+	@Path("/getScriptMappping/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ShellScriptMapping> getAllScriptMapping(@PathParam("id") String projectID) {
 		return ProjectDAOManager.getInstance().retireveScriptsMapping(projectID);

@@ -75,10 +75,10 @@ public class PuppetModule {
 		return PuppetModuleDAOManager.getInstance().deLinkModuleWithMachine(moduleMachineMapping);
 	}*/
 	@POST
-	@Path("/updateModuleMapping/{id}")
+	@Path("/updateModuleMappings")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StatusBean deleteModuleMapping(@PathParam("id") String projectID, JsonNode moduleMachineMapping) {
-		return PuppetModuleDAOManager.getInstance().updateModuleMapping(projectID, moduleMachineMapping);
+	public StatusBean deleteModuleMapping(JsonNode moduleMachineMapping) {
+		return PuppetModuleDAOManager.getInstance().updateModuleMapping(moduleMachineMapping);
 	}
 	@GET
 	@Path("/searchPuppetModule")
@@ -88,7 +88,7 @@ public class PuppetModule {
 	}
 
 	@POST
-	@Path("/downloadPuppetModule")
+	@Path("/downloadPuppetModule")              
 	@Produces(MediaType.APPLICATION_JSON)
 	public StatusBean downloadPuppetModule(JsonNode moduleData) {
 		return PuppetUtilities.getInstance().downloadModule(moduleData);
