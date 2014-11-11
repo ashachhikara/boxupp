@@ -60,4 +60,13 @@ public class PuppetModuleMapping {
 	public void setProject(ProjectBean project) {
 		this.project = project;
 	}
+	public PuppetModuleBean getPuppetModule() {
+		return puppetModule;
+	}
+
+	public void setPuppetModule(PuppetModuleBean puppetModule) {
+		this.puppetModule = puppetModule;
+	}
+	
+	
 }
