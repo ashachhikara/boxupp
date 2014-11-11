@@ -170,7 +170,7 @@ public class PuppetUtilities extends Utilities {
 		int responseCode = 0;
 		HttpURLConnection httpConn = null;
 		String fileSeparator = OSProperties.getInstance().getOSFileSeparator();
-		String moduleDirPath = constructModuleDirectory();
+		String moduleDirPath = constructModuleDirectory()+osProperties.getOSFileSeparator();
 		checkIfDirExists(new File(constructManifestsDirectory()));
 		checkIfDirExists(new File(moduleDirPath));
 		try {
@@ -313,9 +313,10 @@ public class PuppetUtilities extends Utilities {
 		for(PuppetModuleMapping puppetModule : puppetModuleData){
 			if(puppetModule.getMachineConfig().getIsDisabled() == false && puppetModule.getPuppetModule().getIsDisabled() == false){
 				if(nodeConfigMap.containsKey(puppetModule.getMachineConfig().getHostName())){
-					nodeConfigMap.get(puppetModule.getMachineConfig().getHostName()).add(puppetModule.getPuppetModule().getFile_uri().split("/")[2].split(".")[0]);
+					nodeConfigMap.get(puppetModule.getMachineConfig().getHostName()).add(puppetModule.getPuppetModule().getFile_uri().split("/")[3].split(".tar.gz")[0]);
 				}else{
-					moduleNameList.add(puppetModule.getPuppetModule().getFile_uri().split("/")[2].split(".")[0]);
+					String name = puppetModule.getPuppetModule().getFile_uri().split("/")[2];
+					moduleNameList.add(puppetModule.getPuppetModule().getFile_uri().split("/")[3].split(".tar.gz")[0]);
 					nodeConfigMap.put(puppetModule.getMachineConfig().getHostName(), moduleNameList);
 				}
 			}

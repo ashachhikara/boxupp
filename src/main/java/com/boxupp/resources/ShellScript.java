@@ -56,7 +56,7 @@ public class ShellScript {
 	
 	@POST
 	@Path("/updateScriptMappings")
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes("application/json")
 	public StatusBean updateShellScriptMappings(JsonNode shellScriptMapping){
 		return ShellScriptDAOManager.getInstance().updateScriptMapping(shellScriptMapping);

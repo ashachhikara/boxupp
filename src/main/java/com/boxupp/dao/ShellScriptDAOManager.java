@@ -2,12 +2,13 @@ package com.boxupp.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
-import org.json.JSONObject;
 
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
@@ -18,8 +19,8 @@ import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
@@ -253,27 +254,43 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 	}
 */
 	public StatusBean updateScriptMapping(JsonNode  shellScriptMapping) {
-		System.out.println("****************"+shellScriptMapping);
-		Integer projectID = Integer.parseInt(shellScriptMapping.get("projectID").getTextValue());
 		StatusBean statusBean =   new StatusBean();
-		
-		/*	ShellScriptBean shellScript =  shellScriptDao.queryForId(Integer.parseInt(shellScriptMapping.get("scriptID").toString()));
-			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(shellScriptMapping.get("projectID").toString()));
-			MachineConfigurationBean machineConfig = MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(Integer.parseInt(shellScriptMapping.get("machineID").toString()));
-			shellScriptMappingDao.updateBuilder().updateColumnValue(ShellScriptMapping.MACHINE_ID_FIELD_NAME, null).where().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project)
-			.and().eq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScript)
-			.and().eq(ShellScriptMapping.MACHINE_ID_FIELD_NAME, machineConfig);
-		} catch (NumberFormatException e) {
-			statusBean.setStatusCode(1);
-			statusBean.setStatusMessage("Error in dLinking machine  with script : "+e.getMessage());
-			e.printStackTrace();
+		Integer projectID = Integer.parseInt(shellScriptMapping.get("projectID").getTextValue());
+		ProjectBean project = null;
+		try {
+			 project = ProjectDAOManager.projectDao.queryForId(projectID);
+			 DeleteBuilder<ShellScriptMapping, Integer> deleteBuilder = shellScriptMappingDao.deleteBuilder();
+			 deleteBuilder.where().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project);
+			 deleteBuilder.delete();
+			 JsonNode scriptMappings = shellScriptMapping.get("scriptMappings");
+			   Iterator<Map.Entry<String,JsonNode>> fieldsIterator = scriptMappings.getFields();
+		       while (fieldsIterator.hasNext()) {
+		    	   Map.Entry<String,JsonNode> field = fieldsIterator.next();
+		    	   String machineID = field.getKey().toString();
+		    	   MachineConfigurationBean machineConfig = MachineConfigDAOManager.machineConfigDao.queryForId(Integer.parseInt(machineID));
+		    	   Iterator<JsonNode> scriptValues = field.getValue().iterator();
+		    	   while(scriptValues.hasNext()){
+		    		   String scriptMappingValue = scriptValues.next().toString();
+		    		   ShellScriptBean script = shellScriptDao.queryForId(Integer.parseInt(scriptMappingValue));
+		    		   ShellScriptMapping scriptMapping = new ShellScriptMapping(machineConfig, script, project);
+		    		   shellScriptMappingDao.create(scriptMapping);
+		        	
+		    	   }
+		         
+		         }
 		} catch (SQLException e) {
 			statusBean.setStatusCode(1);
-			statusBean.setStatusMessage("Error in dLinking machine with script : "+e.getMessage());
-			e.printStackTrace();
-		}*/
-		return null;
-     }
+			statusBean.setStatusMessage("Error in ScriptMapping :"+e.getMessage());
+			
+		}
+		statusBean.setStatusCode(0);
+		statusBean.setStatusMessage("Machine MApping with  Shell script saved successfully");
+		
+		return statusBean;
+		
+	}
+
+
 }
 
 
