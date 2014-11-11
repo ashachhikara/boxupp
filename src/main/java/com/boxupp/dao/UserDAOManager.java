@@ -48,7 +48,6 @@ public class UserDAOManager implements DAOImplInterface{
 		
 		try {
 			userDetailDao.create(userDetailBean);
-			System.out.println(userDetailBean.getUserID());
 		} catch (SQLException e) {
 			logger.error("Error registering new user : " + e.getMessage());
 			response.setStatusCode(1);
