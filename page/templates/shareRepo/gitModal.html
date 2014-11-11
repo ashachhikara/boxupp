@@ -1,5 +1,5 @@
-<div class="modal fade" id="gitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="gitController">
-  <div class="modal-dialog">
+<div class="row" ng-controller="gitController">
+ 
     <div class="modal-content" >
       <div class="formLoader" ng-show="loaderValid"><img  src="img/formLoader.GIF" ></img></div>
       <div class="modal-header">
@@ -10,32 +10,35 @@
          Invalid Username or Password.
       </div>
       <div class="modal-body">
+       
         <div id="gitAccountFields" class="row">
-          <div class="input-group input-group-sm col-lg-6"> <span  class="input-group-addon">Username</span>
-            <input type="text" id="gitUsername"  class="form-control centerText" ng-model="githubConfig.username"  placeholder="Enter your github account username" required="required" />
-          </div>
+           <div class="boxConfig"> <span class="boxConfigTitles"><sup>Username</sup></span>
+                         <input type="text" id="gitUsername"  class="form-control centerText" ng-model="githubConfig.username"  placeholder="Enter your github account username" required="required" />
+                      </div>
+            <div class="boxConfig"> <span class="boxConfigTitles"><sup>Password</sup></span>
             
-            <div class="input-group input-group-sm col-lg-6"> <span  class="input-group-addon">Password</span>
             <input type="password" id="gitPassword"  ng-pattern="/^.*(?=.{6})(?=.*[a-z])(?=.*\d)[a-zA-Z0-9]+$/"class="form-control centerText" ng-model="githubConfig.password"  placeholder="Enter your github account password" required="required"  ng-blur="getGitRepoList();"/>
           </div>
-          
-          <div  class="input-group input-group-sm dropdown col-lg-6" > <span class="input-group-addon">Repo Name</span>
+
+          <div class="boxConfig"> <span class="boxConfigTitles"><sup>Repo Name</sup></span>
+         
             <select ng-model="githubConfig.repoName"  class="form-control" ng-change="getGitBranchList();">
               <option ng-repeat="repo in githubConfig.gitRepoList ">{{repo.name}}</option>
             </select>
           </div>
           <div ng-show="repoValid">
-          <div class="input-group input-group-sm dropdown col-lg-6"> <span class="input-group-addon">Branch</span>
+            <div class="boxConfig"> <span class="boxConfigTitles"><sup>Branch</sup></span>
+        
             <select ng-model="githubConfig.repoBranch" class="form-control" ng-change="branchValidity();">
                  <option ng-repeat="branch in githubConfig.gitBranchList ">{{branch}}</option>
             </select>
           </div>
           <div ng-show="branchValid">
-          <div class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Path</span>
+           <div class="boxConfig"> <span class="boxConfigTitles"><sup>Path</sup></span>
            <input type="text" id="gitPath" class="form-control centerText" ng-model="githubConfig.path"/>
           </div>
-
-          <div class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Comment</span>
+ <div class="boxConfig"> <span class="boxConfigTitles"><sup>Comment</sup></span>
+         
             <input type="text" id="gitCommitMessage" class="form-control centerText" ng-model="githubConfig.comment" />
           </div>
     		  <div style="visibility:hidden" class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Content</span>
@@ -55,6 +58,6 @@
       </div>
     </div>
     <!-- /.modal-content --> 
-  </div>
+
   <!-- /.modal-dialog --> 
 </div>

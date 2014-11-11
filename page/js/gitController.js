@@ -39,7 +39,9 @@ angular.module("boxuppApp").controller('gitController', [ '$scope',  'fetchVagra
 				$scope.loginValid = false;
 				$scope.loaderValid = false;
 				gC.gitRepoList = response;
-			
+				for(resp in response){
+				console.log("**************"+resp);
+			}
 			}
 		});
 		

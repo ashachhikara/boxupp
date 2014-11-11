@@ -231,8 +231,8 @@ public class PuppetUtilities extends Utilities {
 			BufferedInputStream in = new BufferedInputStream(fin);
 			GzipCompressorInputStream gzIn = new GzipCompressorInputStream(in);
 			TarArchiveInputStream tarIn = new TarArchiveInputStream(gzIn);
-			TarArchiveEntry entry = null;
-			while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
+			TarArchiveEntry entry = tarIn.getCurrentEntry();
+			//while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
 				if (entry.isDirectory()) {
 					File f = new File(moduleDirPath + entry.getName());
 					f.mkdirs();
@@ -247,7 +247,7 @@ public class PuppetUtilities extends Utilities {
 					}
 					dest.close();
 				}
-			}
+			//}
 			tarIn.close();
 		} catch (IOException e) {
 			logger.error("Error in unzip the module file :"+e.getMessage());
