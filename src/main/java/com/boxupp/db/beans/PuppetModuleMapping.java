@@ -8,7 +8,7 @@ public class PuppetModuleMapping {
 	public final static String MODULE_ID_FIELD_NAME = "moduleID";
 	public final static String PROJECT_ID_FIELD_NAME = "projectID";
 	public final static String MACHINE_ID_FIELD_NAME = "machineID";
-
+	
 	public PuppetModuleMapping(	MachineConfigurationBean machineConfig,	PuppetModuleBean puppetModule, ProjectBean project) {
 		this.machineConfig = machineConfig;
 		this.puppetModule = puppetModule;

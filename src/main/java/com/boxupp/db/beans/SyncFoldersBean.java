@@ -10,7 +10,7 @@ public class SyncFoldersBean {
 	@DatabaseField(canBeNull = false, generatedId= true, useGetSet = true)
 	private Integer syncFolderID;
 	
-	@DatabaseField(foreign = true, foreignAutoCreate=true, foreignAutoRefresh = true, columnName = MACHINE_ID_FIELD_NAME)
+	@DatabaseField(foreign = true,  columnName = MACHINE_ID_FIELD_NAME)
 	MachineConfigurationBean machineConfig;
 	
 	@DatabaseField(useGetSet = true)

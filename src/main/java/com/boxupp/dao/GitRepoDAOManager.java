@@ -1,6 +1,10 @@
 package com.boxupp.dao;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,7 +13,6 @@ import org.codehaus.jackson.JsonNode;
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.GitRepoBean;
 import com.boxupp.db.beans.GitRepoMapping;
-import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.responseBeans.StatusBean;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -104,5 +107,6 @@ public class GitRepoDAOManager implements DAOImplInterface {
 		}
 		return (T) gitRepo;
 	}
-
+	
+	
 }

@@ -13,7 +13,7 @@ public class MachineConfigurationBean {
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true, columnName=ID_FIELD_NAME)
 	private Integer machineID;
 
-	@DatabaseField(useGetSet = true)
+	@DatabaseField(useGetSet = true, canBeNull=false)
 	private String vagrantID;
 
 	@DatabaseField(useGetSet = true)
