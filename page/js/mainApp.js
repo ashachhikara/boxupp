@@ -19,6 +19,8 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.bodyStyle.applyDashBoardStyling = true;
 	$scope.quickBox = {};
 	$scope.moduleResults=[];
+	$scope.rawBox = {};
+
 	$scope.deleteActiveBox = function(){
 		alert('Box deleted');
 	}
@@ -59,25 +61,9 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.resetCtrlBarSecNav = function(){
 		$('ul.ctrl-bar-sec-list li').removeClass('active');
 	}
-	$scope.createBoxes = function(boxData){
-		if(boxData.dockerImage){
-			boxData.dockerImage = boxData.dockerImage.name;
-		}
-		$scope.toBeCreatedBox = angular.copy(boxData);
-		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
-		$scope.toBeCreatedBox.isDisabled = false;
-		MachineConfig.save($scope.toBeCreatedBox,function(data){
-			$scope.boxesData.push(data.beanData);
-		});
-	}
 	
-	$scope.cloneBoxData = function(cloneBox){
-		$scope.toBeClonedBox = angular.copy(cloneBox);
-		$scope.toBeClonedBox.networkIP = null;
-		$scope.toBeClonedBox.vagrantID = null;
-		$scope.activeVM = $scope.toBeClonedBox;
-		$('#boxModal').modal('show');
-	}
+	
+	
 	$scope.vagrantCommands = {
 		0:"Choose what's best"
 	};
@@ -643,7 +629,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	}
 
 	$scope.deleteFolderMapping = function(mappingNumber){
-		$scope.activeVM.syncFolders.splice(mappingNumber,1);
+		$scope.rawBox.syncFolders.splice(mappingNumber,1);
 	}
 	
 	$scope.delDefaultFolderMapping = function(mappingNumber){
@@ -651,15 +637,18 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	}
 	
 	$scope.deletePortMapping = function(mappingNumber){
-		$scope.activeVM.portMappings.splice(mappingNumber,1);
+		$scope.rawBox.portMappings.splice(mappingNumber,1);
 	}
 	$scope.pushSyncFolderMapping = function(hostFolder,vmFolder){
 		var syncFolderMapping = {hostFolder:"",
 								 vmFolder:""};
 		syncFolderMapping.hostFolder = hostFolder;
 		syncFolderMapping.vmFolder = vmFolder;
-		if($scope.activeVM !== null){
-			$scope.activeVM.syncFolders.push(syncFolderMapping);
+		if($scope.rawBox !== null){
+			if(!angular.isArray($scope.rawBox.syncFolders)){
+				$scope.rawBox.syncFolders = [];
+			}
+			$scope.rawBox.syncFolders.push(syncFolderMapping);
 		}
 	}
 	$scope.pushDefaultSyncFolderMapping = function(hostFolder,vmFolder){
@@ -679,7 +668,10 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	}
 	$scope.addPortMapping = function(){
 		var portMapping = {hostPort:"",vmPort:""};
-		$scope.activeVM.portMappings.push(portMapping);
+		if(!angular.isArray($scope.rawBox.portMappings)){
+			$scope.rawBox.portMappings = [];
+		}
+		$scope.rawBox.portMappings.push(portMapping);
 	}
 	
 	$scope.pushCustomMessage = function(){

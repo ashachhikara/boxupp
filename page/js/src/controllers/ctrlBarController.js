@@ -1,10 +1,8 @@
-angular.module('boxuppApp').controller('ctrlBarController',function($scope,shellScript,$routeParams,miscUtil){
+angular.module('boxuppApp').controller('ctrlBarController',function($scope,shellScript,$routeParams,miscUtil,MachineConfig){
+
+	
 
 	$scope.saveNewScript = function(newShellScriptData){
-		/*$scope.shellObj = new shellScript();
-		$scope.shellObj.$save(newShellScriptData).then(function(data){
-			console.log('Shell Script saved');
-		});*/
 		newShellScriptData.isDisabled = false;
 		newShellScriptData.userID = $routeParams.userID;
 		newShellScriptData.description = "v1 script";
@@ -18,5 +16,37 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 			}
 			
 		});
+	}
+
+	$scope.createBoxes = function(boxData){
+		$scope.quickBoxCommitLoader = true;
+		if(boxData.dockerImage){
+			boxData.dockerImage = boxData.dockerImage.name;
+		}
+		$scope.toBeCreatedBox = angular.copy(boxData);
+		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
+		$scope.toBeCreatedBox.isDisabled = false;
+		MachineConfig.save($scope.toBeCreatedBox,function(data){
+			$scope.boxesData.push(data.beanData);
+			$scope.quickBox = {};
+			$scope.quickBoxForm.$setPristine();
+		});
+		$scope.quickBoxCommitLoader = false;
+	}
+
+	$scope.cloneBoxData = function(cloneBox){
+		$scope.toBeClonedBox = angular.copy(cloneBox);
+		$scope.toBeClonedBox.networkIP = null;
+		$scope.toBeClonedBox.vagrantID = null;
+		$scope.activeVM = $scope.toBeClonedBox;
+		$('#boxModal').modal('show');
+	}
+
+	$scope.checkQuickBoxFormState = function(){
+
+		return !(!$scope.quickBoxForm.vagrantID.$pristine && $scope.quickBoxForm.vagrantID.$valid &&
+			    !$scope.quickBoxForm.hostName.$pristine && $scope.quickBoxForm.hostName.$valid &&
+			    !$scope.quickBoxForm.boxType.$pristine && $scope.quickBoxForm.boxType.$valid &&
+			    !$scope.quickBoxForm.boxUrl.$pristine && $scope.quickBoxForm.boxUrl.$valid);
 	}
 });

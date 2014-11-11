@@ -309,67 +309,7 @@ div{
 		height:400px;
 	}
 }
-div#ctrlBarPlayArea{
 
-	ul.ctrl-bar-sec-list, ul.ctrl-bar-main-list{
-		li{
-			overflow:auto;
-			a{
-				color:#FFF;
-				font-size:26px;
-				border-radius : 0px;
-				height:50px;
-				cursor:pointer;
-			}
-			a:hover{
-				background-color: #46505C;
-				height:50px;
-			}
-		}
-		li.active{
-			a{
-				background-color: #46505C;	
-			}			
-		}
-	}
-	div.sub-section-header{
-		@include sub-section-header-styling();
-	}
-	div.ctrl-bar-sec-nav, div.ctrl-bar-main-nav{
-		height:165px;
-		border-right:1px dashed #eee;
-	}
-	div#ctrl-bar-box-play-area, div#ctrl-bar-script-play-area, div#ctrl-bar-module-play-area{
-		span.boxConfigTitles{
-			@include box-config-titles();
-		}
-		div.boxConfig{
-			margin-bottom:10px; 
-
-			input{
-				-webkit-border-radius : 0px;
-				border-radius : 0px;
-				background:none;
-				color:#FFF;
-			}
-			select{
-				-webkit-border-radius : 0px;
-				border-radius : 0px;
-				background:none;
-				color:#FFF;
-			}
-		}
-	}
-	div.main-nav-label{
-		@include nav-label-styling();
-		position:absolute;
-		top:20px;
-		left: 54px;
-	}
-	div.main-nav-icon{
-		float:left;
-	}
-}
 /*
 div.collapseCtrlBar{
 	height:0px;
@@ -383,4 +323,5 @@ div.expandCtrlBar{
 @import './partials/projects';
 @import './partials/modals';
 @import './partials/playArea';
+@import './partials/controlBar';
 

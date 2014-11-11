@@ -16,72 +16,79 @@
 						</ul>
 						<div id="boxConfigContent" class="tab-content" style="position:relative;">
 						  <div class="tab-pane fade active in container-fluid" id="machine">
-								<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
-					              <input name="vagrantID" id="vagrantID" 
-									ng-model="activeVM.vagrantID"
-									ng-change="limitLength()"
-									ng-maxlength="9"
-									ng-pattern="/^[a-z0-9]{1,13}$/"
-									type="text" 
-									class="form-control" 
-									title="Machine's reference ID in Vagrant File"
-									required>
+								<div class="boxConfig"> 
+									<span class="boxConfigTitles">
+										Vagrant ID<sup>*</sup>
+									</span>
+					              	<input name="vagrantID"
+										 ng-model="rawBox.vagrantID"
+									     type="text" 
+										 class="form-control" 
+										 required>
 					            </div>
-							  	<div class="boxConfig"> <span class="boxConfigTitles">Host-Name<sup>*</sup></span>
-					              <input name="hostName" id="hostName" type="text" data-placement="right" 
-									ng-model="activeVM.hostName"
-									class="form-control"
-									title="The hostname the machine should have"
-									required>
+							  	<div class="boxConfig"> 
+							  		<span class="boxConfigTitles">
+							  			Host-Name<sup>*</sup>
+							  		</span>
+					              	<input name="hostName" 
+					              		 ng-model="rawBox.hostName"
+					              		 type="text"
+										 class="form-control"
+										 required>
 					            </div>
 					            <div class="boxConfig">
-									<span class="boxConfigTitles">Box Type<sup>*</sup></span>
-									<input type="text"
-											ng-model="activeVM.boxType" 
-											typeahead="state for state in states | filter:$viewValue | limitTo:12" 
-											typeahead-on-select="alertUser()"
-											data-placement="right"
-											title="Box type for this VM"
+									<span class="boxConfigTitles">
+										Box Type<sup>*</sup>
+									</span>
+									<input 	name="boxType"
+											ng-model="rawBox.boxType" 
+											type="text"
 											class="form-control"
-											name="activeVMBoxType"
 											required>
 								</div>
-								<div class="boxConfig"> <span class="boxConfigTitles">Box URL<sup>*</sup></span>
-					              <input name="boxUrl" 
-										id="boxUrl" 
-										type="url" 
-										ng-model="activeVM.boxUrl" 
-										ng-blur="updateURLInformation()" 
-										class="form-control" 
-										required/>
+								<div class="boxConfig"> 
+									<span class="boxConfigTitles">
+										Box URL<sup>*</sup>
+									</span>
+					              	<input 	name="boxUrl" 
+											ng-model="rawBox.boxUrl" 
+											type="url" 
+											class="form-control" 
+											required/>
 					            </div>
 						  </div>
 						  <div class="tab-pane fade container-fluid" id="networking">
-						  		<div class="boxConfigFxdTop">
-						  			<div class="boxConfig"> <span class="boxConfigTitles">Network IP<sup>*</sup></span>
+						  		<div class="boxConfigFxdTop" >
+						  			<div class="boxConfig"> 
+						  				<span class="boxConfigTitles">
+						  					Network IP<sup>*</sup>
+						  				</span>
 						  			
-						              <input name="networkIP" 
-											id="networkIP" 
-											type="text"
-											ng-model="activeVM.networkIP" 
-											ng-pattern="/^(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))$/"
-											class="form-control"
-											required>
+						              	<input 	name="networkIP" 
+						              			ng-model="rawBox.networkIP" 
+						              			type="text"
+						              			class="form-control"
+												required>
 						            </div>
-						  	  		<div ng-repeat="mapping in activeVM.portMappings">
+						  	  		<div ng-repeat="mapping in rawBox.portMappings">
 						  	  			<div class="row">
 						  	  				<div class="boxConfig col-sm-6">
-							  					<span class="boxConfigTitles">Host Port<sup>*</sup></span>
+							  					<span class="boxConfigTitles">	Host Port<sup>*</sup>
+							  					</span>
 							  				</div>	
 							  				<div class="boxConfig col-sm-6">
-							  					<span class="boxConfigTitles pull-right">VM Port<sup>*</sup></span>
+							  					<span class="boxConfigTitles pull-right">
+							  						VM Port<sup>*</sup>
+							  					</span>
 							  				</div>	
 						  	  			</div>
 							  			<div class="row">
 							  				<div class="col-sm-4 ">
-								  				<input name="hostPort" id="hostPort" type="text"
-													ng-model="mapping.hostPort" class="form-control"
-													ng-pattern="/^(6553[0-6]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{3}|[2-5]\d{3,4}|102[4-9]|10[3-9]\d|[2-9]\d{3}|1[1-9]\d{2,3}|1[0-0]\d{3})$/"/>
+								  				<input 	name="hostPort" 
+								  						ng-model="mapping.hostPort" 
+								  						type="text"
+													 	class="form-control"
+												/>
 							  				</div>	
 							  				<div class="col-sm-4  text-center">
 							  					<div>
@@ -91,9 +98,11 @@
 							  					</div>
 							  				</div>
 							  				<div class="col-sm-4 ">
-								  				<input name="vmPort" id="vmPort" type="text"
-													ng-model="mapping.vmPort" class="form-control"
-													ng-pattern="/^(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{3}|[1-5]\d{4}|[1-9]\d{0,3}|)$/"/>
+								  				<input 	name="vmPort" 
+								  						ng-model="mapping.vmPort" 
+								  						type="text"
+														class="form-control"
+												/>
 							  				</div>
 							  			</div>
 							  		</div>
@@ -106,7 +115,7 @@
 						  </div>
 						  <div class="tab-pane fade container-fluid" id="folders">
 						  		<div class="boxConfigFxdTop">
-						  			<div ng-repeat="mapping in activeVM.syncFolders">
+						  			<div ng-repeat="mapping in rawBox.syncFolders">
 						  	  			<div class="row">
 						  	  				<div class="boxConfig col-sm-6">
 							  					<span class="boxConfigTitles">Host Folder<sup>*</sup></span>
@@ -117,8 +126,9 @@
 						  	  			</div>
 							  			<div class="row">
 							  				<div class="col-sm-4 ">
-								  				<input name="hostFolder" id="hostFolder" type="text"
-													ng-model="mapping.hostFolder" class="form-control" />
+								  				<input 	name="hostFolder" 			type="text"
+														ng-model="mapping.hostFolder" 
+														class="form-control" />
 							  				</div>	
 							  				<div class="col-sm-4  text-center">
 							  					<div>
@@ -128,8 +138,9 @@
 							  					</div>
 							  				</div>
 							  				<div class="col-sm-4 ">
-								  				<input name="syncFolder" id="syncFolder" type="text" 
-													ng-model="mapping.vmFolder" class="form-control" />
+								  				<input 	name="syncFolder" 			type="text" 
+														ng-model="mapping.vmFolder" 
+														class="form-control" />
 							  				</div>
 							  			</div>
 							  		</div>
@@ -142,36 +153,42 @@
 						  </div>
 						  <div class="tab-pane fade container-fluid" id="misc">
 						  		<div class="boxConfig"> <span class="boxConfigTitles" >Virtual Box Name</span>
-					              <input name="vboxName" id="vboxName" ng-model="activeVM.provisionerName" data-placement="bottom" title="Machine Name to set in VirtualBox GUI" type="text" class="form-control">
+					              <input 	name="vboxName" 
+					              			ng-model="rawBox.provisionerName"  type="text" 
+					              			class="form-control">
 					            </div>
 					            <div class="boxConfig"> <span class="boxConfigTitles" >CPU Exec CAP (%)</span>
-					              <input name="cpuExecCap" ng-pattern="/^(4[0-9]|[1-3]\d)$/" id="cpuExecCap" 
-									ng-model="activeVM.cpuExecCap"  type="text" 
-									data-placement="bottom" title="Host Machine CPU usage in %age" class="form-control"/>
+					              <input 	name="cpuExecCap" 
+											ng-model="rawBox.cpuExecCap"  
+											type="text" 
+											class="form-control"/>
 					            </div>
 								
 								<div class="boxConfig"> <span class="boxConfigTitles" >Memory (RAM)</span>
-					              <input name="memory" id="memory" type="text" ng-model="activeVM.memory" ng-pattern="/^(409[0-6]|40[1-8]\d|4[00][0-8]\d|[1-3](\d){3}|51[2-9]|5[2-9][1-9]|[6-9]\d{2})$/" class="form-control">
+					              <input 	name="memory" 
+					              			type="text" 
+					              			ng-model="rawBox.memory" 
+					              			class="form-control">
 					            </div>
 					  			
 					  			<div class="boxConfig"> <span class="boxConfigTitles" >Boot Timeout</span>
-					              <input name="bootTimeout" 
-									id="bootTimeout" type="text" ng-model="activeVM.bootTimeout" 
-									class="form-control"/>
+					              <input 	name="bootTimeout" 
+											type="text" 
+											ng-model="rawBox.bootTimeout" 
+											class="form-control"/>
 					            </div>
 					  			
 					  			<div class="boxConfig"> <span class="boxConfigTitles" >GUI required</span>
-					              <input name="guiMode" 
-									id="guiMode" ng-model="activeVM.guiMode" 
-									data-placement="bottom" title="If unselected, the machine will start in headless mode" 
-									type="checkbox">
+					              <input 	name="guiMode" 
+											ng-model="rawBox.guiMode" 
+											type="checkbox">
 					            </div>
 					        </div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" ng-disabled="checkBoxCreation()" ng-click="createBoxes(activeVM)">Create</button>
+					<button class="btn btn-success" ng-disabled="checkBoxCreation()" ng-click="createBoxes(rawBox)">Create</button>
 				</div>
 			</div>
 		</div>

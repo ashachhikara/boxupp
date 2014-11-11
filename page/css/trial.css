@@ -195,58 +195,6 @@ div .normalCtrlBar {
 div .expandCtrlBar {
   height: 400px; }
 
-div#ctrlBarPlayArea ul.ctrl-bar-sec-list li, div#ctrlBarPlayArea ul.ctrl-bar-main-list li {
-  overflow: auto; }
-  div#ctrlBarPlayArea ul.ctrl-bar-sec-list li a, div#ctrlBarPlayArea ul.ctrl-bar-main-list li a {
-    color: #FFF;
-    font-size: 26px;
-    border-radius: 0px;
-    height: 50px;
-    cursor: pointer; }
-  div#ctrlBarPlayArea ul.ctrl-bar-sec-list li a:hover, div#ctrlBarPlayArea ul.ctrl-bar-main-list li a:hover {
-    background-color: #46505C;
-    height: 50px; }
-div#ctrlBarPlayArea ul.ctrl-bar-sec-list li.active a, div#ctrlBarPlayArea ul.ctrl-bar-main-list li.active a {
-  background-color: #46505C; }
-div#ctrlBarPlayArea div.sub-section-header {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 100;
-  font-size: 22px;
-  line-height: 11px;
-  margin-bottom: 30px; }
-div#ctrlBarPlayArea div.ctrl-bar-sec-nav, div#ctrlBarPlayArea div.ctrl-bar-main-nav {
-  height: 165px;
-  border-right: 1px dashed #eee; }
-div#ctrlBarPlayArea div#ctrl-bar-box-play-area span.boxConfigTitles, div#ctrlBarPlayArea div#ctrl-bar-script-play-area span.boxConfigTitles, div#ctrlBarPlayArea div#ctrl-bar-module-play-area span.boxConfigTitles {
-  font-family: 'Open Sans', sans-serif;
-  text-transform: uppercase;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 11px; }
-div#ctrlBarPlayArea div#ctrl-bar-box-play-area div.boxConfig, div#ctrlBarPlayArea div#ctrl-bar-script-play-area div.boxConfig, div#ctrlBarPlayArea div#ctrl-bar-module-play-area div.boxConfig {
-  margin-bottom: 10px; }
-  div#ctrlBarPlayArea div#ctrl-bar-box-play-area div.boxConfig input, div#ctrlBarPlayArea div#ctrl-bar-script-play-area div.boxConfig input, div#ctrlBarPlayArea div#ctrl-bar-module-play-area div.boxConfig input {
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
-    background: none;
-    color: #FFF; }
-  div#ctrlBarPlayArea div#ctrl-bar-box-play-area div.boxConfig select, div#ctrlBarPlayArea div#ctrl-bar-script-play-area div.boxConfig select, div#ctrlBarPlayArea div#ctrl-bar-module-play-area div.boxConfig select {
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
-    background: none;
-    color: #FFF; }
-div#ctrlBarPlayArea div.main-nav-label {
-  font-family: 'Open Sans', sans-serif;
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 11px;
-  line-height: 11px;
-  position: absolute;
-  top: 20px;
-  left: 54px; }
-div#ctrlBarPlayArea div.main-nav-icon {
-  float: left; }
-
 /*
 div.collapseCtrlBar{
 	height:0px;
@@ -504,5 +452,58 @@ div.modulesProvisionList div.searchBox, div.scriptsProvisionList div.searchBox, 
     color: grey; }
   div.modulesProvisionList div.searchBox input, div.scriptsProvisionList div.searchBox input, div.boxesProvisionList div.searchBox input {
     border-radius: 0px; }
+
+div#ctrlBarPlayArea ul.ctrl-bar-sec-list li, div#ctrlBarPlayArea ul.ctrl-bar-main-list li {
+  overflow: auto; }
+  div#ctrlBarPlayArea ul.ctrl-bar-sec-list li a, div#ctrlBarPlayArea ul.ctrl-bar-main-list li a {
+    color: #FFF;
+    font-size: 26px;
+    border-radius: 0px;
+    height: 50px;
+    cursor: pointer; }
+  div#ctrlBarPlayArea ul.ctrl-bar-sec-list li a:hover, div#ctrlBarPlayArea ul.ctrl-bar-main-list li a:hover {
+    background-color: #46505C;
+    height: 50px; }
+div#ctrlBarPlayArea ul.ctrl-bar-sec-list li.active a, div#ctrlBarPlayArea ul.ctrl-bar-main-list li.active a {
+  background-color: #46505C; }
+div#ctrlBarPlayArea div.sub-section-header {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 100;
+  font-size: 22px;
+  line-height: 11px;
+  margin-bottom: 30px; }
+div#ctrlBarPlayArea div.ctrl-bar-sec-nav, div#ctrlBarPlayArea div.ctrl-bar-main-nav {
+  height: 165px;
+  border-right: 1px dashed #eee; }
+div#ctrlBarPlayArea div#ctrl-bar-box-play-area span.boxConfigTitles, div#ctrlBarPlayArea div#ctrl-bar-script-play-area span.boxConfigTitles, div#ctrlBarPlayArea div#ctrl-bar-module-play-area span.boxConfigTitles {
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 11px; }
+div#ctrlBarPlayArea div#ctrl-bar-box-play-area div.boxConfig, div#ctrlBarPlayArea div#ctrl-bar-script-play-area div.boxConfig, div#ctrlBarPlayArea div#ctrl-bar-module-play-area div.boxConfig {
+  margin-bottom: 10px; }
+  div#ctrlBarPlayArea div#ctrl-bar-box-play-area div.boxConfig input, div#ctrlBarPlayArea div#ctrl-bar-script-play-area div.boxConfig input, div#ctrlBarPlayArea div#ctrl-bar-module-play-area div.boxConfig input {
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    background: none;
+    color: #FFF;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 200;
+    font-size: 12px; }
+  div#ctrlBarPlayArea div#ctrl-bar-box-play-area div.boxConfig select, div#ctrlBarPlayArea div#ctrl-bar-script-play-area div.boxConfig select, div#ctrlBarPlayArea div#ctrl-bar-module-play-area div.boxConfig select {
+    -webkit-border-radius: 0px;
+    border-radius: 0px; }
+div#ctrlBarPlayArea div.main-nav-label {
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 11px;
+  position: absolute;
+  top: 20px;
+  left: 54px; }
+div#ctrlBarPlayArea div.main-nav-icon {
+  float: left; }
 
 /*# sourceMappingURL=trial.css.map */
