@@ -1,5 +1,12 @@
 package com.boxupp.db.beans;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.boxupp.dao.MachineConfigDAOManager;
+import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -29,14 +36,20 @@ public class MachineConfigurationBean {
 	private String networkIP;
 
 	@ForeignCollectionField
-	private ForeignCollection<ForwardedPortsBean> portMappings;
+	private ForeignCollection<ForwardedPortsBean> ormPortMappings;
+	
+	private ArrayList<ForwardedPortsBean> portMappings;
+	
+	@ForeignCollectionField(eager = true, maxEagerLevel =1)
+	private ForeignCollection<SyncFoldersBean> ormSyncFolders;
+	
+	private ArrayList<SyncFoldersBean> syncFolders;
 	
 	@ForeignCollectionField
-	private ForeignCollection<SyncFoldersBean> syncFolders;
-	
-	@ForeignCollectionField
-	private ForeignCollection<DockerLinkBean> dockerLinks;
+	private ForeignCollection<DockerLinkBean> ormDockerLinks;
 
+	private ArrayList<DockerLinkBean> dockerLinks;
+	
 	@DatabaseField(useGetSet = true)
 	private String provisionerName;
 
@@ -127,29 +140,100 @@ public class MachineConfigurationBean {
 		this.networkIP = networkIP;
 	}
 
-	public ForeignCollection<ForwardedPortsBean> getPortMappings() {
-		return portMappings;
+	@JsonIgnore
+	public ForeignCollection<ForwardedPortsBean> getOrmPortMappings() {
+		return ormPortMappings;
 	}
 
-	public void setPortMappings(
-			ForeignCollection<ForwardedPortsBean> portMappings) {
+	/*public void setOrmPortMappings(ForeignCollection<ForwardedPortsBean> ormPortMappings) {
+		this.ormPortMappings = ormPortMappings;
+		this.portMappings = new ArrayList<ForwardedPortsBean>(ormPortMappings);
+	}*/
+
+	public void setPortMappings(ArrayList<ForwardedPortsBean> portMappings) {
 		this.portMappings = portMappings;
+		this.ormPortMappings.addAll(portMappings);
+	}
+	
+	public ArrayList<ForwardedPortsBean> getPortMappings() throws SQLException {
+		if(this.portMappings !=null){return this.portMappings;}
+		else{
+			ArrayList<ForwardedPortsBean> newList = new ArrayList<ForwardedPortsBean>();
+			CloseableIterator<ForwardedPortsBean> iterator = this.ormPortMappings.closeableIterator();
+			while(iterator.hasNext()){
+				ForwardedPortsBean forwardedPortBean = iterator.next();
+				forwardedPortBean.setMachineConfig(null);
+				newList.add(forwardedPortBean);
+			}
+			iterator.close();
+			return newList;
+		}
 	}
 
-	public ForeignCollection<SyncFoldersBean> getSyncFolders() {
-		return syncFolders;
+	@JsonIgnore
+	public ForeignCollection<SyncFoldersBean> getOrmSyncFolders() {
+		return ormSyncFolders;
 	}
 
-	public void setSyncFolders(ForeignCollection<SyncFoldersBean> syncFolders) {
+	/*public void setOrmSyncFolders(ForeignCollection<SyncFoldersBean> ormSyncFolders) {
+		this.ormSyncFolders = ormSyncFolders;
+		this.syncFolders = new ArrayList<SyncFoldersBean>(ormSyncFolders);
+	}*/
+
+	public ArrayList<SyncFoldersBean> getSyncFolders() throws SQLException {
+		if(this.syncFolders !=null){return this.syncFolders;}
+		else{
+			ArrayList<SyncFoldersBean> newList = new ArrayList<SyncFoldersBean>();
+			CloseableIterator<SyncFoldersBean> iterator = this.ormSyncFolders.closeableIterator();
+			while(iterator.hasNext()){
+				SyncFoldersBean syncFolderBean = iterator.next();
+				syncFolderBean.setMachineConfig(null);
+				syncFolderBean.setSyncFolderID(null);
+				newList.add(syncFolderBean);
+			}
+			iterator.close();
+			return newList;
+		}
+	}
+
+	public void setSyncFolders(ArrayList<SyncFoldersBean> syncFolders) throws SQLException {
+		System.out.println("sync folders called");
 		this.syncFolders = syncFolders;
+		MachineConfigDAOManager.getInstance().machineConfigDao.assignEmptyForeignCollection(this, "ormSyncFolders");
+		this.ormSyncFolders.addAll(syncFolders);
+		this.ormSyncFolders.updateAll();
 	}
-	public ForeignCollection<DockerLinkBean> getDockerLinks() {
-		return dockerLinks;
+	
+	@JsonIgnore
+	public ForeignCollection<DockerLinkBean> getOrmDockerLinks() {
+		return ormDockerLinks;
 	}
 
-	public void setDockerLinks(ForeignCollection<DockerLinkBean> dockerLinks) {
-		this.dockerLinks = dockerLinks;
+	/*public void setOrmDockerLinks(ForeignCollection<DockerLinkBean> ormDockerLinks) {
+		this.ormDockerLinks = ormDockerLinks;
+		this.dockerLinks = new ArrayList<DockerLinkBean>(ormDockerLinks);
+	}*/
+
+	public ArrayList<DockerLinkBean> getDockerLinks() throws SQLException {
+		if(this.dockerLinks !=null){return this.dockerLinks;}
+		else{
+			ArrayList<DockerLinkBean> newList = new ArrayList<DockerLinkBean>();
+			CloseableIterator<DockerLinkBean> iterator = this.ormDockerLinks.closeableIterator();
+			while(iterator.hasNext()){
+				DockerLinkBean dockerLinkBean = iterator.next();
+				dockerLinkBean.setMachineConfig(null);
+				newList.add(dockerLinkBean);
+			}
+			iterator.close();
+			return newList;
+		}
 	}
+
+	public void setDockerLinks(ArrayList<DockerLinkBean> dockerLinks) {
+		this.dockerLinks = dockerLinks;
+		this.ormDockerLinks.addAll(dockerLinks);
+	}
+
 	public String getProvisionerName() {
 		return provisionerName;
 	}

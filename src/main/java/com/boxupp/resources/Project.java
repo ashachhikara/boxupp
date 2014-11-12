@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.boxupp.ConfigurationGenerator;
 import com.boxupp.FileManager;
@@ -69,6 +70,7 @@ public class Project {
 	}
 	@GET
 	@Path("/getBoxes/{id}")
+	@JsonIgnore
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<MachineConfigurationBean> getAllMachinConfigsList(@PathParam("id") String projectID){
 		return  MachineConfigDAOManager.getInstance().retireveBoxesForProject(projectID);

@@ -46,11 +46,10 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	public StatusBean create(JsonNode newData) {
 		MachineConfigurationBean machineConfigBean  = null;
 		Gson machineConfigData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
-		ObjectNode object = (ObjectNode) newData;
-		JsonNode syncFolderMappings = object.remove("syncFolders");
-		JsonNode portForwardingMappings = object.remove("portMappings");
-		JsonNode dockerLinkContainerMappings = object.remove("dockerLinks");
-		newData = object;
+		JsonNode syncFolderMappings = newData.get("syncFolders");
+		JsonNode portForwardingMappings = newData.get("portMappings");
+		JsonNode dockerLinkContainerMappings = newData.get("dockerLinks");
+
 		machineConfigBean = machineConfigData.fromJson(newData.toString(),MachineConfigurationBean.class);
 		StatusBean statusBean = new StatusBean();
 		try {
@@ -63,6 +62,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 			ProjectBean project = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(newData.get("projectID").getTextValue()));
 			MachineProjectMapping machineProjectMApping = new MachineProjectMapping(project, machineConfigBean);
 			machineMappingDao.create(machineProjectMApping);
+			machineConfigDao.refresh(machineConfigBean);
 			statusBean.setData(machineConfigBean);
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
@@ -94,9 +94,9 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		machineConfigBean = machineData.fromJson(updatedData.toString(),MachineConfigurationBean.class);
 		StatusBean statusBean = new StatusBean();
 		try {
-			DockerLinkDAOManager.getInstance().update(machineConfigBean.getDockerLinks());
-			PortMappingDAOManager.getInstance().update(machineConfigBean.getPortMappings());
-			SyncFolderDAOManager.getInstance().update(machineConfigBean.getSyncFolders());
+//			DockerLinkDAOManager.getInstance().update(machineConfigBean.getDockerLinks());
+//			PortMappingDAOManager.getInstance().update(machineConfigBean.getPortMappings());
+//			SyncFolderDAOManager.getInstance().update(machineConfigBean.getSyncFolders());
 			machineConfigDao.update(machineConfigBean);
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());

@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,11 +17,9 @@ import com.boxupp.beans.BoxuppPuppetData;
 import com.boxupp.beans.BoxuppScriptsData;
 import com.boxupp.beans.BoxuppVMData;
 import com.boxupp.db.beans.MachineConfigurationBean;
-import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.SyncFoldersBean;
 import com.google.gson.Gson;
-import com.j256.ormlite.dao.ForeignCollection;
 
 public class Utilities { 
 	
@@ -109,7 +109,12 @@ public class Utilities {
 	public void commitSyncFoldersToDisk(List<MachineConfigurationBean> machineConfigs, Integer userID){
 	
 		for(MachineConfigurationBean machineConfig : machineConfigs){
-			ForeignCollection<SyncFoldersBean> syncFolders = machineConfig.getSyncFolders();
+			ArrayList<SyncFoldersBean> syncFolders = null;
+			try {
+				syncFolders = machineConfig.getSyncFolders();
+			} catch (SQLException e) {
+				logger.error("Error getting syncFolders : "+e.getMessage());
+			}
 			for(SyncFoldersBean syncFolder : syncFolders){
 				createFolderOnDisk(syncFolder.getHostFolder(),userID);
 			}
