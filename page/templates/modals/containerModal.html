@@ -18,7 +18,7 @@
 						  <div class="tab-pane fade active in container-fluid" id="machine">
 								<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
 					              <input name="vagrantID" id="vagrantID" 
-									ng-model="activeVM.vagrantID"
+									ng-model="rawBox.vagrantID"
 									ng-change="limitLength()"
 									ng-maxlength="9"
 									ng-pattern="/^[a-z0-9]{1,13}$/"
@@ -29,13 +29,13 @@
 					            </div>
 							  	<div class="boxConfig"> <span class="boxConfigTitles">Host-Name<sup>*</sup></span>
 					              <input name="hostName" id="hostName" type="text" data-placement="right" 
-									ng-model="activeVM.hostName"
+									ng-model="rawBox.hostName"
 									class="form-control"
 									title="The hostname the machine should have"
 									required>
 					            </div>
 					            <div class="boxConfig" ><span class="boxConfigTitles">Docker Image<sup>* </sup></span>
-           							<select name="imageName" ng-model="activeVM.dockerImage" ng-options="sshImage.name for sshImage in listOfSSHImages" class="form-control">
+           							<select name="imageName" ng-model="rawBox.dockerImage" ng-options="sshImage.name for sshImage in listOfSSHImages" class="form-control">
 		    							<option value="" >Select a Image</option>
 									</select>
             						
@@ -43,14 +43,23 @@
 						  </div>
 						  <div class="tab-pane fade container-fluid" id="networking">
 						  		<div class="boxConfigFxdTop">
-						  			<div class="boxConfig"> <span class="boxConfigTitles">Docker Link</span>
-									<select  ng-model="dockerLinkContainers.linkContainer"  class="form-control ">
-           								<option ng-repeat="box in boxesData" value="">{{box.vagrantID}} : {{box.hostName}}</option>
-           						
-            						</select>
-					  		
-								</div>
-						  	  		<div ng-repeat="mapping in activeVM.portMappings">
+						  			<div ng-repeat="link in rawBox.dockerLinks">
+						  	  			<div class="row">
+						  					<div class="boxConfig col-sm-8"> <span class="boxConfigTitles">Docker Link</span>
+												<select  ng-model="link.linkContainer"  class="form-control ">
+           											<option ng-repeat="box in boxesData" value="">{{box.vagrantID}} : {{box.hostName}}</option>
+            									</select>
+            									<span>
+								  					<button type="button" ng-click="deleteDockerLink($index)">
+														<i class="fa fa-close"></i>
+													</button>
+							  					</div>
+            								</span>
+            								
+							  				
+            							</div>
+					  				</div>
+						  	  		<div ng-repeat="mapping in rawBox.portMappings">
 						  	  			<div class="row">
 						  	  				<div class="boxConfig col-sm-6">
 							  					<span class="boxConfigTitles">Host Port<sup>*</sup></span>
@@ -80,15 +89,23 @@
 							  			</div>
 							  		</div>
 						  		</div>
+						  		
 						  		<div class="boxConfigFxdBtm">
 									<a data-target="#" ng-click="addPortMapping()">
 										<span> <i class="fa fa-exchange"></i> Add Port Mapping </span>
 									</a>
 						  		</div>
+						  		<span>
+						  		<div class="boxConfigFxdBtm">
+									<a data-target="#" ng-click="addDockerLink()">
+										<span> <i class="fa fa-exchange"></i> Add dockerLink </span>
+									</a>
+						  		</div>
+						  		</span>
 						  </div>
 						  <div class="tab-pane fade container-fluid" id="folders">
 						  		<div class="boxConfigFxdTop">
-						  			<div ng-repeat="mapping in activeVM.syncFolders">
+						  			<div ng-repeat="mapping in rawBox.syncFolders">
 						  	  			<div class="row">
 						  	  				<div class="boxConfig col-sm-6">
 							  					<span class="boxConfigTitles">Host Folder<sup>*</sup></span>
@@ -124,11 +141,11 @@
 						  </div>
 						  <div class="tab-pane fade container-fluid" id="misc">
 						  		<div class="boxConfig"> <span class="boxConfigTitles" >UserName</span>
-					              <input name="username" id="username" ng-model="activeVM.username" data-placement="bottom" title="User name For Docker Image" type="text" class="form-control">
+					              <input name="username" id="username" ng-model="rawBox.username" data-placement="bottom" title="User name For Docker Image" type="text" class="form-control">
 					            </div>
 					            <div class="boxConfig"> <span class="boxConfigTitles" >Password</span>
 					              <input name="password"  id="password" 
-									ng-model="activeVM.password"  type="text" 
+									ng-model="rawBox.password"  type="text" 
 									data-placement="bottom" title="Password For Docker Image" class="form-control"/>
 					            </div>
 					        </div>
@@ -136,7 +153,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" ng-disabled="checkBoxCreation()" ng-click="createBoxes(activeVM)">Create</button>
+					<button class="btn btn-success" ng-disabled="checkBoxCreation()" ng-click="createBoxes(rawBox)">Create</button>
 				</div>
 			</div>
 		</div>

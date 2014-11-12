@@ -1,63 +1,61 @@
 <div class="row" ng-controller="gitController">
- 
-    <div class="modal-content" >
       <div class="formLoader" ng-show="loaderValid"><img  src="img/formLoader.GIF" ></img></div>
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">GIT Share</h4>
-      </div>
-      <div class="error" ng-show="loginValid" ng-init="loginValid=false">
-         Invalid Username or Password.
-      </div>
-      <div class="modal-body">
+      <div style="border-center : 1px dashed grey; height:300px;"  class=" boxesProvisionList col-md-5 col-md-offset-1">
+        <div class="sectionTitle col-md-12 text-center">GIT SHARE  </div>
+      
+        <div class="error" ng-show="loginValid" ng-init="loginValid=false">Invalid Username or Password.</div>
+        <div class="modal-body">
        
-        <div id="gitAccountFields" class="row">
-           <div class="boxConfig"> <span class="boxConfigTitles"><sup>Username</sup></span>
-                         <input type="text" id="gitUsername"  class="form-control centerText" ng-model="githubConfig.username"  placeholder="Enter your github account username" required="required" />
-                      </div>
-            <div class="boxConfig"> <span class="boxConfigTitles"><sup>Password</sup></span>
-            
-            <input type="password" id="gitPassword"  ng-pattern="/^.*(?=.{6})(?=.*[a-z])(?=.*\d)[a-zA-Z0-9]+$/"class="form-control centerText" ng-model="githubConfig.password"  placeholder="Enter your github account password" required="required"  ng-blur="getGitRepoList();"/>
-          </div>
+          <div id="gitAccountFields" class="row" style="position:relative;">
+            <div class="boxConfig" col-sm-6>
+              <span class="boxConfigTitles"><sup>Username</sup></span>
+              <input type="text" id="gitUsername"  class="form-control centerText" ng-model="githubConfig.username"  placeholder="Enter your github account username" required="required" />
+            </div>  
 
-          <div class="boxConfig"> <span class="boxConfigTitles"><sup>Repo Name</sup></span>
-         
-            <select ng-model="githubConfig.repoName"  class="form-control" ng-change="getGitBranchList();">
-              <option ng-repeat="repo in githubConfig.gitRepoList ">{{repo.name}}</option>
-            </select>
-          </div>
-          <div ng-show="repoValid">
-            <div class="boxConfig"> <span class="boxConfigTitles"><sup>Branch</sup></span>
-        
-            <select ng-model="githubConfig.repoBranch" class="form-control" ng-change="branchValidity();">
-                 <option ng-repeat="branch in githubConfig.gitBranchList ">{{branch}}</option>
-            </select>
-          </div>
-          <div ng-show="branchValid">
-           <div class="boxConfig"> <span class="boxConfigTitles"><sup>Path</sup></span>
-           <input type="text" id="gitPath" class="form-control centerText" ng-model="githubConfig.path"/>
-          </div>
- <div class="boxConfig"> <span class="boxConfigTitles"><sup>Comment</sup></span>
-         
-            <input type="text" id="gitCommitMessage" class="form-control centerText" ng-model="githubConfig.comment" />
-          </div>
-    		  <div style="visibility:hidden" class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Content</span>
-            <input type="text" id="gitContent" class="form-control centerText" />
-          </div>
-        	<span class="trans-arrow"></span>
-          </div>
-          </div>
+            <div class="boxConfig col-sm-6">
+              <span class="boxConfigTitles"><sup>Password</sup></span>
+              <input type="password" id="gitPassword"  ng-pattern="/^.*(?=.{6})(?=.*[a-z])(?=.*\d)[a-zA-Z0-9]+$/"class="form-control centerText" ng-model="githubConfig.password"  placeholder="Enter your github account password" required="required"  ng-blur="getGitRepoList();"/>
+            </div>
+
+            <div class="boxConfig col-sm-6">
+              <span class="boxConfigTitles"><sup>Repo Name</sup></span>
+              <select ng-model="githubConfig.repoName"  class="form-control" ng-change="getGitBranchList();">
+               <option ng-repeat="repo in githubConfig.gitRepoList ">{{repo.name}}</option>
+              </select>
+            </div>
+
+            <div ng-show="repoValid">
+              <div class="boxConfig col-sm-6">
+                <span class="boxConfigTitles"><sup>Branch</sup></span>
+                <select ng-model="githubConfig.repoBranch" class="form-control" ng-change="branchValidity();">
+                  <option ng-repeat="branch in githubConfig.gitBranchList ">{{branch}}</option>
+                </select>
+              </div>
+              <div ng-show="branchValid">
+                <div class="boxConfig col-sm-6">
+                  <span class="boxConfigTitles"><sup>Path</sup></span>
+                  <input type="text" id="gitPath" class="form-control centerText" ng-model="githubConfig.path"/>
+                </div>
+                <div class="boxConfig col-sm-6 ">
+                  <span class="boxConfigTitles"><sup>Comment</sup></span>
+                    <input type="text" id="gitCommitMessage" class="form-control centerText" ng-model="githubConfig.comment" />
+                </div>
+    		        <div style="visibility:hidden" class="input-group input-group-sm col-lg-6">
+                  <span class="input-group-addon">Content</span>
+                  <input type="text" id="gitContent" class="form-control centerText" />
+                </div>
+        	      <span class="trans-arrow"></span>
+              </div>
+            </div>
           
-        </div>
+          </div>
         <!-- /. modal-body -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-        <button ng-show="branchValid" type="button" class="btn btn-primary gitCommit btn-sm" ng-click="commitToGithub()">Commit</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+          <button ng-show="branchValid" type="button" class="btn btn-primary gitCommit btn-sm" ng-click="commitToGithub()">Commit</button>
         
+        </div>
       </div>
     </div>
-    <!-- /.modal-content --> 
-
-  <!-- /.modal-dialog --> 
 </div>

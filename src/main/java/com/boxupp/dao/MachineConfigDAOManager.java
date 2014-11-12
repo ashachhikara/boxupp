@@ -10,6 +10,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 
 import com.boxupp.db.DAOProvider;
+import com.boxupp.db.beans.ForwardedPortsBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
@@ -51,6 +52,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		JsonNode dockerLinkContainerMappings = newData.get("dockerLinks");
 
 		machineConfigBean = machineConfigData.fromJson(newData.toString(),MachineConfigurationBean.class);
+
 		StatusBean statusBean = new StatusBean();
 		try {
 			machineConfigDao.create(machineConfigBean);
@@ -147,10 +149,9 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 			ProjectBean projectBean = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID));
 			if(projectBean != null){
 				queryForBoxesOfProject.setArgumentHolderValue(0, projectBean );
-				
 				machineList = machineConfigDao.query(queryForBoxesOfProject);
-				
 			}
+			
 		} catch (NumberFormatException e) {
 			logger.error("Error in retireveing boxes for project : "+e.getMessage());
 		} catch (SQLException e) {
