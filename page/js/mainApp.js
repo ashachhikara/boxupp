@@ -673,7 +673,17 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		}
 		$scope.rawBox.portMappings.push(portMapping);
 	}
-	
+	$scope.addDockerLink=function(){
+		console.log("***************")
+		var dockerLink ={linkContainer:""};
+		if(!angular.isArray($scope.rawBox.dockerLinks)){
+			$scope.rawBox.dockerLinks=[];
+		}
+		$scope.rawBox.dockerLinks.push(dockerLink);
+	}
+	$scope.deleteDockerLink = function(mappingNumber){
+		$scope.rawBox.dockerLinks.splice(mappingNumber,1);
+	}
 	$scope.pushCustomMessage = function(){
 		$scope.activeOutputSnippet = {};
 		$scope.activeOutputSnippet.dataEnd = false;

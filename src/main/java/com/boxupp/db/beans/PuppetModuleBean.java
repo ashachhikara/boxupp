@@ -2,6 +2,7 @@ package com.boxupp.db.beans;
 
 import java.sql.Date;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -33,7 +34,7 @@ public class PuppetModuleBean {
 	@DatabaseField(useGetSet = true)
 	private String version;
 	
-	@DatabaseField(useGetSet = true)
+	@DatabaseField(useGetSet = true, dataType=DataType.LONG_STRING)
 	private String summary;
 	
 	@DatabaseField(useGetSet = true)
@@ -81,7 +82,7 @@ public class PuppetModuleBean {
 	@DatabaseField(useGetSet = true, format="yyyy-MM-dd HH:mm:ss")
 	private Date creationTime;
 	
-	@DatabaseField(useGetSet = true)
+	@DatabaseField(useGetSet = true, dataType =DataType.LONG_STRING)
 	private String description;
 	
 	public Integer getPuppetID() {

@@ -170,7 +170,7 @@ public class PuppetUtilities extends Utilities {
 		int responseCode = 0;
 		HttpURLConnection httpConn = null;
 		String fileSeparator = OSProperties.getInstance().getOSFileSeparator();
-		String moduleDirPath = constructModuleDirectory()+osProperties.getOSFileSeparator();
+		String moduleDirPath = constructModuleDirectory()+fileSeparator;
 		checkIfDirExists(new File(constructManifestsDirectory()));
 		checkIfDirExists(new File(moduleDirPath));
 		try {
@@ -195,7 +195,7 @@ public class PuppetUtilities extends Utilities {
 					fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1, fileURL.length());
 				}
 				InputStream inputStream = httpConn.getInputStream();
-				String saveFilePath = moduleDirPath+osProperties.getOSFileSeparator() + fileName;
+				String saveFilePath = moduleDirPath + fileName;
 				FileOutputStream outputStream = new FileOutputStream(saveFilePath);
 
 				int bytesRead = -1;
@@ -231,8 +231,8 @@ public class PuppetUtilities extends Utilities {
 			BufferedInputStream in = new BufferedInputStream(fin);
 			GzipCompressorInputStream gzIn = new GzipCompressorInputStream(in);
 			TarArchiveInputStream tarIn = new TarArchiveInputStream(gzIn);
-			TarArchiveEntry entry = tarIn.getCurrentEntry();
-			//while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
+			TarArchiveEntry entry = null;
+			while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
 				if (entry.isDirectory()) {
 					File f = new File(moduleDirPath + entry.getName());
 					f.mkdirs();
@@ -247,7 +247,7 @@ public class PuppetUtilities extends Utilities {
 					}
 					dest.close();
 				}
-			//}
+			}
 			tarIn.close();
 		} catch (IOException e) {
 			logger.error("Error in unzip the module file :"+e.getMessage());

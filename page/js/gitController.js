@@ -83,7 +83,13 @@ angular.module("boxuppApp").controller('gitController', [ '$scope',  'fetchVagra
 		var repo = github.getRepo(gC.username, gC.repoName);
 		var gitBranch = gC.repoBranch;
 		var gitCommitMessage = gC.comment;
-	
+		Projects.save($scope.newProject,function(data){
+				$scope.projects.push(angular.copy(data.beanData));
+				//Reset New Project Modal Data
+				$scope.newProject = {};
+				//Reset form pristine state
+				$scope.newProjectData.$setPristine();
+			});
 		fetchVagrantFile.content($scope.serverAddress).then(function(response){
 			var gitContent;
 			if(response.statusCode === 0){

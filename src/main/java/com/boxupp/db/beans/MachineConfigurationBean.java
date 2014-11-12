@@ -14,8 +14,12 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "machineConfiguration")
 public class MachineConfigurationBean {
+	/*public MachineConfigurationBean(ForwardedPortsBean portMappings, SyncFoldersBean syncFolders, DockerLinkBean dockerLinks){
+		
+	}*/
 	
 	public static final String ID_FIELD_NAME = "machineID";
+
 
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true, columnName=ID_FIELD_NAME)
 	private Integer machineID;
@@ -35,7 +39,7 @@ public class MachineConfigurationBean {
 	@DatabaseField(useGetSet = true)
 	private String networkIP;
 
-	@ForeignCollectionField
+	@ForeignCollectionField(eager = true, maxEagerLevel =1)
 	private ForeignCollection<ForwardedPortsBean> ormPortMappings;
 	
 	private ArrayList<ForwardedPortsBean> portMappings;
@@ -45,7 +49,7 @@ public class MachineConfigurationBean {
 	
 	private ArrayList<SyncFoldersBean> syncFolders;
 	
-	@ForeignCollectionField
+	@ForeignCollectionField(eager = true, maxEagerLevel =1)
 	private ForeignCollection<DockerLinkBean> ormDockerLinks;
 
 	private ArrayList<DockerLinkBean> dockerLinks;
