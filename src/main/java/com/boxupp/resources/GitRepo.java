@@ -11,7 +11,7 @@ import org.codehaus.jackson.JsonNode;
 import com.boxupp.dao.GitRepoDAOManager;
 import com.boxupp.responseBeans.StatusBean;
 
-@Path("/machineConfig/")
+@Path("/gitRepo/")
 public class GitRepo {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
