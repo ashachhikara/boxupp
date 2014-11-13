@@ -172,7 +172,7 @@
 						            </div>
 						        </form>
 					            <div class="boxConfig">
-								       	<a class="btn btn-success" ng-disabled="checkQuickBoxFormState()" ng-click="createBoxes(quickBox)">
+								       	<a class="btn btn-success" ng-disabled="checkFormStates.vmQuickBox()" ng-click="createBoxes(quickBox)">
 								       		<span ng-show="quickBoxCommitLoader" ng-init="quickBoxCommitLoader = false"><i class="fa fa-spin fa-refresh"></i></span>
 								       		<span ng-show="!quickBoxCommitLoader">
 								       			Create Box

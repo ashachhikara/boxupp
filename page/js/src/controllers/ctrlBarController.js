@@ -24,9 +24,9 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 			console.log("%"+link[0]);
 		}
 		$scope.quickBoxCommitLoader = true;
-		if(boxData.dockerImage){
+		/*if(boxData.dockerImage){
 			boxData.dockerImage = boxData.dockerImage.name;
-		}
+		}*/
 		$scope.toBeCreatedBox = angular.copy(boxData);
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
 		$scope.toBeCreatedBox.isDisabled = false;
@@ -46,11 +46,20 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$('#boxModal').modal('show');
 	}
 
-	$scope.checkQuickBoxFormState = function(){
+	$scope.checkFormStates = {
 
-		return !(!$scope.quickBoxForm.vagrantID.$pristine && $scope.quickBoxForm.vagrantID.$valid &&
-			    !$scope.quickBoxForm.hostName.$pristine && $scope.quickBoxForm.hostName.$valid &&
-			    !$scope.quickBoxForm.boxType.$pristine && $scope.quickBoxForm.boxType.$valid &&
-			    !$scope.quickBoxForm.boxUrl.$pristine && $scope.quickBoxForm.boxUrl.$valid);
-	}
+		vmQuickBox : function(){
+
+				return !(!$scope.quickBoxForm.vagrantID.$pristine && $scope.quickBoxForm.vagrantID.$valid &&
+				    !$scope.quickBoxForm.hostName.$pristine && $scope.quickBoxForm.hostName.$valid &&
+				    !$scope.quickBoxForm.boxType.$pristine && $scope.quickBoxForm.boxType.$valid &&
+				    !$scope.quickBoxForm.boxUrl.$pristine && $scope.quickBoxForm.boxUrl.$valid);
+		},
+		containerQuickBox : function(){
+				return !(!$scope.containerQuickBoxForm.vagrantID.$pristine && $scope.containerQuickBoxForm.vagrantID.$valid &&
+				    !$scope.containerQuickBoxForm.hostName.$pristine && $scope.containerQuickBoxForm.hostName.$valid &&
+				    $scope.containerQuickBoxForm.imageName.$valid);								
+				// !$scope.containerQuickBoxForm.imageName.$pristine &&
+		}
+	}				
 });

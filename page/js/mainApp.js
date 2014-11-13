@@ -21,6 +21,10 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.moduleResults=[];
 	$scope.rawBox = {};
 
+	$scope.userSignout = function(){
+		alert("Signout triggered");
+	}
+
 	$scope.deleteActiveBox = function(){
 		alert('Box deleted');
 	}
@@ -30,9 +34,24 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	}
 	// $scope.selectedProvMachine = {};
 
-	$scope.listOfSSHImages=[{
-			"name":"boxupp / centos-base",
-		}];
+	$scope.listOfSSHImages=[
+		{
+			"path":"boxupp / centos-base",
+			"iconSrc":"img/centos-32.png"
+		},
+		{
+			"path":"boxupp / redhat-base",
+			"iconSrc" : "img/redhat-32.png"
+		},
+		{
+			"path":"boxupp / debian-base",
+			"iconSrc" : "img/debian-32.png"
+		},
+		{
+			"path":"boxupp / ubuntu-base",
+			"iconSrc" : "img/ubuntu-32.png"
+		}
+	];
 	
 	$scope.searchNewModule = function(moduleSearchText){
 		$scope.searchingModules = true;

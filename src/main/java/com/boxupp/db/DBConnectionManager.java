@@ -65,47 +65,41 @@ public class DBConnectionManager {
 			System.out.println("started deleting tables");
 
 //			TableUtils.dropTable(connectionSource, ProviderBean.class, true);
-			TableUtils.dropTable(connectionSource, UserDetailBean.class, true);
-			TableUtils.dropTable(connectionSource, ProjectBean.class, true);
+//			TableUtils.dropTable(connectionSource, UserDetailBean.class, true);
+//			TableUtils.dropTable(connectionSource, ProjectBean.class, true);
 //			TableUtils.dropTable(connectionSource, ProjectProviderMappingBean.class, true);
-			TableUtils.dropTable(connectionSource, UserProjectMapping.class, true);
+//			TableUtils.dropTable(connectionSource, UserProjectMapping.class, true);
 		
-			TableUtils.dropTable(connectionSource, ShellScriptBean.class, true);
-			TableUtils.dropTable(connectionSource, ShellScriptMapping.class, true);
-			TableUtils.dropTable(connectionSource, PuppetModuleMapping.class, true);
-			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, true);
+//			TableUtils.dropTable(connectionSource, ShellScriptBean.class, true);
+//			TableUtils.dropTable(connectionSource, ShellScriptMapping.class, true);
+//			TableUtils.dropTable(connectionSource, PuppetModuleMapping.class, true);
+//			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, true);
+//			TableUtils.dropTable(connectionSource, ForwardedPortsBean.class, true);
+//			TableUtils.dropTable(connectionSource, SyncFoldersBean.class, true);
+//			TableUtils.dropTable(connectionSource, DockerLinkBean.class, true);
+//			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, true);
+//			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, true);
 
-			TableUtils.dropTable(connectionSource, ForwardedPortsBean.class, true);
-			TableUtils.dropTable(connectionSource, SyncFoldersBean.class, true);
-			TableUtils.dropTable(connectionSource, DockerLinkBean.class, true);
-			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, true);
-			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, true);
-
-
-//			
-		TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
+			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
 
 			System.out.println("started creating tables");
 			//************* CREATE TABLES **************//
 
 
 //			TableUtils.createTable(connectionSource, ProviderBean.class);
-			TableUtils.createTable(connectionSource, UserDetailBean.class);			
-			TableUtils.createTable(connectionSource, ProjectBean.class);
+//			TableUtils.createTable(connectionSource, UserDetailBean.class);			
+//			TableUtils.createTable(connectionSource, ProjectBean.class);
 //			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
-			TableUtils.createTable(connectionSource, UserProjectMapping.class);
-			TableUtils.createTable(connectionSource, ShellScriptBean.class);
-			TableUtils.createTable(connectionSource, ShellScriptMapping.class);
-			TableUtils.createTable(connectionSource, PuppetModuleMapping.class);
-
-			
-			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
-			TableUtils.createTable(connectionSource, ForwardedPortsBean.class);
-			TableUtils.createTable(connectionSource, SyncFoldersBean.class);
-			TableUtils.createTable(connectionSource, DockerLinkBean.class);
-			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
-			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
-//			
+//			TableUtils.createTable(connectionSource, UserProjectMapping.class);
+//			TableUtils.createTable(connectionSource, ShellScriptBean.class);
+//			TableUtils.createTable(connectionSource, ShellScriptMapping.class);
+//			TableUtils.createTable(connectionSource, PuppetModuleMapping.class);
+//			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
+//			TableUtils.createTable(connectionSource, ForwardedPortsBean.class);
+//			TableUtils.createTable(connectionSource, SyncFoldersBean.class);
+//			TableUtils.createTable(connectionSource, DockerLinkBean.class);
+//			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
+//			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
 
 			TableUtils.createTable(connectionSource, GitRepoBean.class);
 			//***************CREATE_ENTRIES**********************//

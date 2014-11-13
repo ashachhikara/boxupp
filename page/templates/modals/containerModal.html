@@ -19,12 +19,8 @@
 								<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
 					              <input name="vagrantID" id="vagrantID" 
 									ng-model="rawBox.vagrantID"
-									ng-change="limitLength()"
-									ng-maxlength="9"
-									ng-pattern="/^[a-z0-9]{1,13}$/"
 									type="text" 
-									class="form-control" 
-									title="Machine's reference ID in Vagrant File"
+									class="form-control"
 									required>
 					            </div>
 							  	<div class="boxConfig"> <span class="boxConfigTitles">Host-Name<sup>*</sup></span>
@@ -35,30 +31,41 @@
 									required>
 					            </div>
 					            <div class="boxConfig" ><span class="boxConfigTitles">Docker Image<sup>* </sup></span>
-           							<select name="imageName" ng-model="rawBox.dockerImage" ng-options="sshImage.name for sshImage in listOfSSHImages" class="form-control">
-		    							<option value="" >Select a Image</option>
+           							<!--<select name="imageName" ng-model="rawBox.dockerImage" class="form-control">
+           								<option value="">Select an image</option>
+		    							<option ng-repeat="sshImage in listOfSSHImages" value="{{listOfSSHImages[$index]}}" ></option>
+									</select>-->
+									<select name="imageName" ng-model="rawBox.dockerImage" ng-options="image.path as image.path for image in listOfSSHImages" class="form-control" required>
+										<option value="">Select an image</option>
 									</select>
+									<ul style="list-style:none; margin-left:-15px; margin-top:10px;" class="col-md-12">
+										<li ng-repeat="image in listOfSSHImages" style="float:left; margin-right:10px;">
+											<a ng-href="" ng-click="rawBox.dockerImage = image.path">
+												<img ng-src="{{image.iconSrc}}"/>
+											</a>
+										</li>
+									</ul>
             						
           						</div>
 						  </div>
 						  <div class="tab-pane fade container-fluid" id="networking">
 						  		<div class="boxConfigFxdTop">
-						  			<div ng-repeat="link in rawBox.dockerLinks">
+						  			
 						  	  			<div class="row">
 						  					<div class="boxConfig col-sm-8"> <span class="boxConfigTitles">Docker Link</span>
-												<select  ng-model="link.linkContainer"  class="form-control ">
-           											<option ng-repeat="box in boxesData" value="">{{box.vagrantID}} : {{box.hostName}}</option>
+						  						<span class="infoMessage" ng-show="boxesData.length === 0">
+					            					No Boxes exist in your project yet !
+					            				</span>
+												<select multiple 
+														ng-model="rawBox.dockerLinks"
+														ng-options="box.vagrantID for box in boxesData"
+														class="form-control "
+														ng-hide="boxesData.length === 0">
+
             									</select>
-            									<span>
-								  					<button type="button" ng-click="deleteDockerLink($index)">
-														<i class="fa fa-close"></i>
-													</button>
-							  					</div>
-            								</span>
-            								
-							  				
+						  					</div>
             							</div>
-					  				</div>
+					  				
 						  	  		<div ng-repeat="mapping in rawBox.portMappings">
 						  	  			<div class="row">
 						  	  				<div class="boxConfig col-sm-6">
@@ -95,13 +102,13 @@
 										<span> <i class="fa fa-exchange"></i> Add Port Mapping </span>
 									</a>
 						  		</div>
-						  		<span>
+						  		<!--<span>
 						  		<div class="boxConfigFxdBtm">
 									<a data-target="#" ng-click="addDockerLink()">
 										<span> <i class="fa fa-exchange"></i> Add dockerLink </span>
 									</a>
 						  		</div>
-						  		</span>
+						  		</span>-->
 						  </div>
 						  <div class="tab-pane fade container-fluid" id="folders">
 						  		<div class="boxConfigFxdTop">

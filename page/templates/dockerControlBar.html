@@ -108,30 +108,35 @@
 						</div>
 						<div class="col-md-6 tab-content" id="ctrl-bar-box-play-area">				
 							<div class="tab-pane fade" id="box-quick">
-					  			<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
-					              <input name="vagrantID" id="vagrantID" 
-									ng-model="quickBox.vagrantID"
-									
-									ng-maxlength="9"
-									ng-pattern="/^[a-z0-9]{1,13}$/"
-									type="text" 
-									class="form-control" 
-									required>
-					            </div>
-							  	<div class="boxConfig"> <span class="boxConfigTitles">Host-Name<sup>*</sup></span>
-					              <input name="hostName" id="hostName" type="text"
-									ng-model="quickBox.hostName"
-									class="form-control"
-									required>
-					            </div>
-								 <div class="boxConfig" ><span class="boxConfigTitles">Docker Image<sup>* </sup></span>
-           							<select name="imageName" ng-model="quickBox.dockerImage" ng-options="sshImage.name for sshImage  in listOfSSHImages" class="form-control">
-		    							<option value="" >Select a image</option>
-									</select>
-            						
-          						</div>
+								<form name="containerQuickBoxForm">
+						  			<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
+						              <input name="vagrantID" id="vagrantID" 
+										ng-model="quickBox.vagrantID"
+										type="text" 
+										class="form-control" 
+										required>
+						            </div>
+								  	<div class="boxConfig"> <span class="boxConfigTitles">Host-Name<sup>*</sup></span>
+						              <input name="hostName" id="hostName" type="text"
+										ng-model="quickBox.hostName"
+										class="form-control"
+										required>
+						            </div>
+									<div class="boxConfig" ><span class="boxConfigTitles">Docker Image<sup>* </sup></span>
+										<select name="imageName" ng-model="quickBox.dockerImage" ng-options="image.path as image.path for image in listOfSSHImages" class="form-control" required>
+											<option value="">Select an image</option>
+										</select>
+										<ul style="list-style:none; margin-left:-15px; margin-top:10px;" class="col-md-12">
+											<li ng-repeat="image in listOfSSHImages" style="float:left; margin-right:10px;">
+												<a ng-href="" ng-click="quickBox.dockerImage = image.path">
+													<img ng-src="{{image.iconSrc}}"/>
+												</a>
+											</li>
+										</ul>
+	          						</div>
+          						</form>
 					            <div class="boxConfig">
-								       	<a class="btn btn-success" ng-click="createBoxes(quickBox)">Create Box</a>
+								       	<a class="btn btn-success" ng-disabled="checkFormStates.containerQuickBox()" ng-click="createBoxes(quickBox)">Create Box</a>
 								</div>
 					  		</div>
 					  		<div class="tab-pane fade" id="box-clone">
