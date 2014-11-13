@@ -5,14 +5,14 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "gitRepoMapping")
 public class GitRepoMapping {
+	public final static String PROJECT_ID_FIELD_NAME = "projectID";
+
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
 	private Integer ID;
 	
-	@DatabaseField(canBeNull = false, useGetSet = true)
-	private Integer userID;
+	@DatabaseField(foreign = true, useGetSet = true, columnName =PROJECT_ID_FIELD_NAME, foreignAutoRefresh=true, foreignAutoCreate=true)
+	private ProjectBean project;
 	
-	@DatabaseField(canBeNull = false, useGetSet = true)
-	private Integer projectID;
 	public Integer getID() {
 		return ID;
 	}
@@ -21,23 +21,11 @@ public class GitRepoMapping {
 		this.ID = ID;
 	}
 
-	public Integer getUserID() {
-		return userID;
+	public ProjectBean getProject() {
+		return project;
 	}
 
-	public void setUserID(Integer userID) {
-		this.userID = userID;
+	public void setProject(ProjectBean project) {
+		this.project = project;
 	}
-
-	public Integer getProjectID() {
-		return projectID;
-	}
-
-	public void setProjectID(Integer projectID) {
-		this.projectID = projectID;
-	}
-
-	
-	
-
 }

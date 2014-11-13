@@ -98,7 +98,7 @@ public class FileManager {
 				fileResponse.setFileContent(fileData.toString());
 				fileResponse.setStatusCode(0);
 			}else{
-				fileResponse.setStatusCode(0);
+				fileResponse.setStatusCode(1);
 				fileResponse.setFileContent("Vagrant file does not exist");
 				fileResponse.setFileExists(false);
 			}

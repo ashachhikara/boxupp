@@ -693,7 +693,6 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		$scope.rawBox.portMappings.push(portMapping);
 	}
 	$scope.addDockerLink=function(){
-		console.log("***************")
 		var dockerLink ={linkContainer:""};
 		if(!angular.isArray($scope.rawBox.dockerLinks)){
 			$scope.rawBox.dockerLinks=[];

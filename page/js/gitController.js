@@ -1,4 +1,4 @@
-angular.module("boxuppApp").controller('gitController', [ '$scope',  'fetchVagrantFile', 'fetchListOfgitRepo', function($scope, fetchVagrantFile, fetchListOfgitRepo){
+angular.module("boxuppApp").controller('gitController', [ '$scope', '$routeParams','fetchVagrantFile','fetchListOfgitRepo',function($scope, $routeParams, fetchVagrantFile, fetchListOfgitRepo){
 	$scope.githubConfig = {
 		username:"",
 		password:"",
@@ -39,9 +39,6 @@ angular.module("boxuppApp").controller('gitController', [ '$scope',  'fetchVagra
 				$scope.loginValid = false;
 				$scope.loaderValid = false;
 				gC.gitRepoList = response;
-				for(resp in response){
-				console.log("**************"+resp);
-			}
 			}
 		});
 		
@@ -83,17 +80,18 @@ angular.module("boxuppApp").controller('gitController', [ '$scope',  'fetchVagra
 		var repo = github.getRepo(gC.username, gC.repoName);
 		var gitBranch = gC.repoBranch;
 		var gitCommitMessage = gC.comment;
-		Projects.save($scope.newProject,function(data){
+		/*GitRepo.save($scope.githubConfig,function(data){
 				$scope.projects.push(angular.copy(data.beanData));
 				//Reset New Project Modal Data
 				$scope.newProject = {};
 				//Reset form pristine state
 				$scope.newProjectData.$setPristine();
-			});
-		fetchVagrantFile.content($scope.serverAddress).then(function(response){
+			});*/
+		fetchVagrantFile.content($routeParams.userID).then(function(response){
+			
 			var gitContent;
 			if(response.statusCode === 0){
-				gitContent = response.fileContent;
+			gitContent = response.fileContent;
 				repo.write(gitBranch, gitPath, gitContent, gitCommitMessage, function(err) {
 					if(err !== null){
 						var responseObj = JSON.parse(err.request.response);
@@ -111,8 +109,8 @@ angular.module("boxuppApp").controller('gitController', [ '$scope',  'fetchVagra
 	}
 }]).factory('fetchVagrantFile',function($http,$q){
 		return{
-			content : function(serverLocation){
-				var completeURL = serverLocation + "/services/getVagrantFile";
+			content : function(userID){
+				var completeURL = '/boxupp/getVagrantFile/'+ userID + '/';
 				var deferred = $q.defer();
 				$http({	
 					method:'GET',

@@ -19,7 +19,6 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 	}
 
 	$scope.createBoxes = function(boxData){
-		console.log("**********"+boxData.dockerLinks);
 		for(link in  boxData.dockerLinks){
 			console.log("%"+link[0]);
 		}

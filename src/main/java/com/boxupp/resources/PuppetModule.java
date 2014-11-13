@@ -77,7 +77,7 @@ public class PuppetModule {
 	@POST
 	@Path("/updateModuleMappings")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StatusBean deleteModuleMapping(JsonNode moduleMachineMapping) {
+	public StatusBean updateModuleMapping(JsonNode moduleMachineMapping) {
 		return PuppetModuleDAOManager.getInstance().updateModuleMapping(moduleMachineMapping);
 	}
 	@GET

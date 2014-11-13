@@ -54,16 +54,21 @@ public class SyncFolderDAOManager {
 	}
 
 
-	public StatusBean update(ForeignCollection<SyncFoldersBean> syncFolders) {
+	public StatusBean update(MachineConfigurationBean machineConfig, JsonNode syncFolderData) {
 		StatusBean statusBean = new StatusBean();
-		for(SyncFoldersBean syncFolder : syncFolders){
-			try {
-				syncFolderDao.update(syncFolder);
-			} catch (SQLException e) {
-				statusBean.setStatusCode(1);
-				statusBean.setStatusMessage("Error in updating sync Folder  : "+e.getMessage());
-			}
+		Gson syncFolder = new Gson();
+		try {
+				for(JsonNode mapping : syncFolderData){
+					SyncFoldersBean syncFolderMapping = syncFolder.fromJson(mapping.toString(), SyncFoldersBean.class);
+					syncFolderMapping.setMachineConfig(machineConfig);
+					syncFolderDao.update(syncFolderMapping);
+				}
+			
+		} catch (SQLException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error in updating sync Folder  : "+e.getMessage());
 		}
+		
 		statusBean.setStatusCode(0);
 		statusBean.setStatusMessage("Sync Folder upadte successfully");
 		return statusBean;

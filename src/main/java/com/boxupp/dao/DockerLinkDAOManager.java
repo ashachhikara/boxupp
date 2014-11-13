@@ -38,7 +38,6 @@ public class DockerLinkDAOManager {
 		//DockerLinkBean dockerLink = new DockerLinkBean();
 		Gson dockerLink = new Gson();
 		
-		
 		try {
 			for(JsonNode mapping : dockerLinkMapping){
 				DockerLinkBean dockerLinkBean = dockerLink.fromJson(mapping.toString(), DockerLinkBean.class);
@@ -55,12 +54,14 @@ public class DockerLinkDAOManager {
 		statusBean.setStatusMessage("sync folder mapping create successfully");
 		return statusBean;
 	}
-	public StatusBean update(ForeignCollection<DockerLinkBean> dockerLinks) {
+	public StatusBean update(MachineConfigurationBean machineConfig, JsonNode dockerLinkMapping) {
 		StatusBean statusBean = new StatusBean();
-		
+		Gson dockerLink = new Gson();
 			try {
-				for(DockerLinkBean dockerLink : dockerLinks){
-					dockerLinkDao.update(dockerLink);
+				for(JsonNode mapping : dockerLinkMapping){
+					DockerLinkBean dockerLinkBean = dockerLink.fromJson(mapping.toString(), DockerLinkBean.class);
+					dockerLinkBean.setMachineConfig(machineConfig);
+					dockerLinkDao.update(dockerLinkBean);
 				}
 			} catch (SQLException e) {
 				statusBean.setStatusCode(1);
@@ -71,4 +72,5 @@ public class DockerLinkDAOManager {
 		statusBean.setStatusMessage("Docker link  update successfully");
 		return statusBean;
 	}
+	
 }

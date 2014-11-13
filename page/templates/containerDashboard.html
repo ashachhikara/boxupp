@@ -11,18 +11,16 @@
 				<tr>
 					<td>#</td>
 					<td>VagrantID</td>
-					<td>Box Type</td>
-					<td>CPU Allocated</td>
-					<td>RAM Allocated</td>
+					<td>HostName</td>
+					<td>DockerImage</td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="box in boxesData">
 					<td>{{$index + 1}}</td>
 					<td><span ng-bind="box.vagrantID"></span></td>
-					<td><span ng-bind="box.boxType"></span></td>
-					<td><span ng-bind="box.cpu"></span></td>
-					<td><span ng-bind="box.ram"></span></td>
+					<td><span ng-bind="box.hostName"></span></td>
+					<td><span ng-bind="box.dockerImage"></span></td>
 				</tr>
 			</tbody>
 		</table>

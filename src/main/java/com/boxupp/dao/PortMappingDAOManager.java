@@ -68,16 +68,20 @@ public class PortMappingDAOManager {
 		return statusBean;
 		
 	}
-	public  StatusBean update(ForeignCollection<ForwardedPortsBean> forwordedPorts) {
+	public  StatusBean update(MachineConfigurationBean machineConfig, JsonNode portForwardData) {
 		StatusBean statusBean = new StatusBean();
-		for(ForwardedPortsBean forwordedPort : forwordedPorts){
+		Gson portForwarded = new Gson();
 			try {
-				forwardedPortDao.update((ForwardedPortsBean) forwordedPort);
+				for(JsonNode mapping : portForwardData){
+					ForwardedPortsBean forwardedPort = portForwarded.fromJson(mapping.toString(), ForwardedPortsBean.class);
+					forwardedPort.setMachineConfig(machineConfig);
+					forwardedPortDao.update(forwardedPort);
+				}
 			} catch (SQLException e) {
 				statusBean.setStatusCode(1);
 				statusBean.setStatusMessage("Error in updating forwarded Port  : "+e.getMessage());
 			}
-		}
+		
 		statusBean.setStatusCode(0);
 		statusBean.setStatusMessage("forwarded port  update successfully");
 		return statusBean;

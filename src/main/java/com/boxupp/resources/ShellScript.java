@@ -50,7 +50,7 @@ public class ShellScript {
 	@Path("/updateScriptMapping/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes("application/json")
-	public StatusBean saveScriptMapping(JsonNode shellScriptMapping){
+	public StatusBean updateScriptMapping(JsonNode shellScriptMapping){
 		return ShellScriptDAOManager.getInstance().linkScriptMachine(shellScriptMapping);
 	}
 	

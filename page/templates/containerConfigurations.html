@@ -11,35 +11,32 @@
 		<thead>
 			<tr>
 				<td>VagrantID</td>
-				<td>Box Type</td>
-				<td>CPU Allocated</td>
-				<td>RAM Allocated</td>
+				<td>HostName</td>
+				<td>DockerImage</td>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<td><span ng-bind="activeVM.vagrantID"></span></td>
-				<td><span ng-bind="activeVM.boxType"></span></td>
-				<td><span ng-bind="activeVM.cpuExecCap"></span></td>
-				<td><span ng-bind="activeVM.memory"></span></td>
+				<td><span ng-bind="activeVM.hostName"></span></td>
+				<td><span ng-bind="activeVM.dockerImage"></span></td>
 			</tr>
 		</tbody>
 	</table>
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<td>NetworkIP</td>
+				<td>UserName</td>
+				<td>Password</td>
 				<td>Provider</td>
-				<td>Boot Timeout</td>
-				<td>HostName</td>
+				
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td><span ng-bind="activeVM.networkIP"></span></td>
-				<td><span ng-bind="activeVM.providerType"></span></td>
-				<td><span ng-bind="activeVM.bootTimeout"></span></td>
-				<td><span ng-bind="activeVM.hostName"></span></td>
+				<td><span ng-bind="activeVM.username"></span></td>
+				<td><span ng-bind="activeVM.password"></span></td>
+				<td><span ng-bind="activeVM.provider"></span></td>
 			</tr>
 		</tbody>
 	</table>

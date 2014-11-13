@@ -7,10 +7,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.ObjectNode;
 
 import com.boxupp.db.DAOProvider;
-import com.boxupp.db.beans.ForwardedPortsBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
@@ -50,9 +48,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		JsonNode syncFolderMappings = newData.get("syncFolders");
 		JsonNode portForwardingMappings = newData.get("portMappings");
 		JsonNode dockerLinkContainerMappings = newData.get("dockerLinks");
-
 		machineConfigBean = machineConfigData.fromJson(newData.toString(),MachineConfigurationBean.class);
-
 		StatusBean statusBean = new StatusBean();
 		try {
 			machineConfigDao.create(machineConfigBean);
@@ -93,19 +89,25 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	public StatusBean update(JsonNode updatedData){
 		MachineConfigurationBean machineConfigBean  = null;
 		Gson machineData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
+		JsonNode syncFolderMappings = updatedData.get("syncFolders");
+		JsonNode portForwardingMappings = updatedData.get("portMappings");
+		JsonNode dockerLinkContainerMappings = updatedData.get("dockerLinks");
 		machineConfigBean = machineData.fromJson(updatedData.toString(),MachineConfigurationBean.class);
 		StatusBean statusBean = new StatusBean();
 		try {
-//			DockerLinkDAOManager.getInstance().update(machineConfigBean.getDockerLinks());
-//			PortMappingDAOManager.getInstance().update(machineConfigBean.getPortMappings());
-//			SyncFolderDAOManager.getInstance().update(machineConfigBean.getSyncFolders());
 			machineConfigDao.update(machineConfigBean);
+			if(portForwardingMappings!= null && portForwardingMappings.size()>0)PortMappingDAOManager.getInstance().update(machineConfigBean, portForwardingMappings);
+			if(syncFolderMappings!=null && syncFolderMappings.size()>0)SyncFolderDAOManager.getInstance().update(machineConfigBean, syncFolderMappings);
+			if(dockerLinkContainerMappings!=null && dockerLinkContainerMappings.size()>0){
+				DockerLinkDAOManager.getInstance().update(machineConfigBean, dockerLinkContainerMappings);
+			}
+			machineConfigDao.refresh(machineConfigBean);
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error updating machine configuration : "+e.getMessage());
-			e.printStackTrace();
 		}
+		statusBean.setData(machineConfigBean);
 		statusBean.setStatusCode(0);
 		statusBean.setStatusMessage("Machine Congifuration updated successfully");
 		return statusBean;
@@ -116,7 +118,6 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		StatusBean statusBean = new StatusBean();
 		try {
 			machineConfigDao.updateBuilder().updateColumnValue("isDisabled", true).where().idEq(Integer.parseInt(machineID));
-	
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
@@ -139,7 +140,6 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		return (T) machineConfig;
 	}
 	
-
 	public <E> List<E> retireveBoxesForProject(String projectID) {
 		List<MachineConfigurationBean> machineList = new ArrayList<MachineConfigurationBean>();
 		try {
@@ -151,7 +151,6 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 				queryForBoxesOfProject.setArgumentHolderValue(0, projectBean );
 				machineList = machineConfigDao.query(queryForBoxesOfProject);
 			}
-			
 		} catch (NumberFormatException e) {
 			logger.error("Error in retireveing boxes for project : "+e.getMessage());
 		} catch (SQLException e) {

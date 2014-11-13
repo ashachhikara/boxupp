@@ -18,6 +18,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -45,6 +46,7 @@ import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.responseBeans.BoxURLResponse;
 import com.boxupp.responseBeans.ProjectConfig;
 import com.boxupp.responseBeans.StatusBean;
+import com.boxupp.responseBeans.VagrantFile;
 import com.boxupp.responseBeans.VagrantFileStatus;
 import com.boxupp.responseBeans.VagrantOutput;
 import com.boxupp.responseBeans.VagrantStatus;
@@ -80,12 +82,13 @@ public class BoxuppServices {
 		return VagrantOutputStream.pop();
 	}
 	
-	/*@GET
-	@Path("/getVagrantFile")
-	public VagrantFile getVagrantFile() throws IOException{
+	@GET
+	@Path("/getVagrantFile/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public VagrantFile getVagrantFile(@PathParam("id") String userID) throws IOException{
 		FileManager manager = new FileManager();
-		return manager.fetchVagrantFileData();
-	}*/
+		return manager.fetchVagrantFileData(Integer.parseInt(userID));
+	}
 	
 	/*@POST
 	@Path("/persistData")
