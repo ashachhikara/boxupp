@@ -1,5 +1,6 @@
 package com.boxupp.dao;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 
+import com.boxupp.VagrantOutputStream;
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.ProjectBean;
@@ -19,6 +21,7 @@ import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.db.beans.UserProjectMapping;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.Utilities;
+import com.boxupp.windows.WindowsShellProcessor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.j256.ormlite.dao.Dao;
@@ -120,8 +123,46 @@ public class ProjectDAOManager implements DAOImplInterface {
 		try {
 			projectDao.updateBuilder().updateColumnValue("isDisabled", true).where().idEq(Integer.parseInt(projectID));
 			List<MachineConfigurationBean> machineConfigList = MachineConfigDAOManager.getInstance().retireveBoxesForProject(projectID);
+			
 			for(MachineConfigurationBean machineConfig : machineConfigList){
 				MachineConfigDAOManager.getInstance().delete(machineConfig.getMachineID().toString());
+			}
+			
+		} catch (SQLException e) {
+			logger.error("Error deleting a project : " + e.getMessage());
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error deleting  a project : "+ e.getMessage());
+			e.printStackTrace();
+		}
+		statusBean.setStatusCode(0);
+		statusBean.setStatusMessage("Project deleted successfully");
+		return statusBean;
+	}
+	public StatusBean delete(JsonNode projectData) {
+		StatusBean statusBean = new StatusBean();
+		Integer userID = Integer.parseInt(projectData.get("userID").getTextValue());
+		Integer projectID = Integer.parseInt(projectData.get("projectID").getTextValue());
+		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
+		
+		try {
+			ProjectBean project = projectDao.queryForId(projectID);
+			project.setIsDisabled(true);
+			projectDao.update(project);
+			List<MachineConfigurationBean> machineConfigList = MachineConfigDAOManager.getInstance().retireveBoxesForProject(projectID.toString());
+			
+			for(MachineConfigurationBean machineConfig : machineConfigList){
+				MachineConfigDAOManager.getInstance().delete(machineConfig.getMachineID().toString());
+				String vagrantCommand = "vagrant destroy "+machineConfig.getVagrantID();
+				WindowsShellProcessor shellProcessor = new WindowsShellProcessor();
+				try {
+					shellProcessor.executeVagrantFile(location,vagrantCommand, userID, new VagrantOutputStream());
+				} catch (IOException e) {
+					statusBean.setStatusCode(1);
+					statusBean.setStatusMessage("error in destroting box"+e.getMessage());
+				} catch (InterruptedException e) {
+					statusBean.setStatusCode(1);
+					statusBean.setStatusMessage("error in destroting box"+e.getMessage());
+				}
 			}
 			
 		} catch (SQLException e) {

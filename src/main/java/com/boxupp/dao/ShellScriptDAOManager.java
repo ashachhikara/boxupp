@@ -111,7 +111,9 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 	public StatusBean delete(String shellScriptID) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			shellScriptDao.updateBuilder().updateColumnValue("isDisabled", true).where().idEq(Integer.parseInt(shellScriptID));
+			ShellScriptBean scriptBean = shellScriptDao.queryForId(Integer.parseInt(shellScriptID));
+			scriptBean.setIsDisabled(true);
+			shellScriptDao.update(scriptBean);
 			/*List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, Integer.parseInt(shellScriptID));
 				for(ShellScriptMapping shellScript : shellscriptMappping){
 					shellScriptMappingDao.delete(shellScript);
