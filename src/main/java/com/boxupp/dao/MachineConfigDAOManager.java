@@ -1,5 +1,6 @@
 package com.boxupp.dao;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,18 +9,23 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 
+import com.boxupp.VagrantOutputStream;
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.responseBeans.StatusBean;
+import com.boxupp.utilities.Utilities;
+import com.boxupp.windows.WindowsShellExecutor;
+import com.boxupp.windows.WindowsShellProcessor;
+import com.boxupp.ws.VagrantConsole;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
-import com.j256.ormlite.stmt.UpdateBuilder;
+import com.j256.ormlite.stmt.query.In;
 
 public class MachineConfigDAOManager implements DAOImplInterface {
 	private static Logger logger = LogManager.getLogger(MachineConfigDAOManager.class.getName());
@@ -117,11 +123,44 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	@Override
 	public StatusBean delete(String machineID) {
 		StatusBean statusBean = new StatusBean();
+		MachineConfigurationBean machineConfig= new MachineConfigurationBean(); 
 		try {
-			machineConfigDao.updateBuilder().updateColumnValue("isDisabled", true).where().idEq(Integer.parseInt(machineID));
+			machineConfig = machineConfigDao.queryForId(Integer.parseInt(machineID));
+			machineConfig.setIsDisabled(true);
+			machineConfigDao.update(machineConfig);
 
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error deleting machine configuration : "+e.getMessage());
+			e.printStackTrace();
+		}
+		statusBean.setStatusCode(0);
+		statusBean.setStatusMessage("Machine Congifuration delete successfully");
+		return statusBean;
+	}
+
+	public StatusBean delete(JsonNode machineData) {
+		StatusBean statusBean = new StatusBean();
+		Integer machineID = Integer.parseInt(machineData.get("machineID").getTextValue());
+		Integer userID = Integer.parseInt(machineData.get("userID").getTextValue());
+		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
+		MachineConfigurationBean machinConfig= new MachineConfigurationBean(); 
+		try {
+			machineConfigDao.updateBuilder().updateColumnValue("isDisabled", true).where().idEq(machineID);
+			machinConfig = machineConfigDao.queryForId(machineID);
+			String vagrantCommand = "vagrant destroy "+machinConfig.getVagrantID();
+			WindowsShellProcessor shellProcessor = new WindowsShellProcessor();
+			try {
+				shellProcessor.executeVagrantFile(location,vagrantCommand, userID, new VagrantOutputStream());
+			} catch (IOException e) {
+				statusBean.setStatusCode(1);
+				statusBean.setStatusMessage("error in destroting box"+e.getMessage());
+			} catch (InterruptedException e) {
+				statusBean.setStatusCode(1);
+				statusBean.setStatusMessage("error in destroting box"+e.getMessage());
+			}
+		} catch (SQLException e) {
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error deleting machine configuration : "+e.getMessage());
 			e.printStackTrace();
@@ -191,5 +230,4 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		return machineConfigQb.prepare();
 		
 	}
-	
 }

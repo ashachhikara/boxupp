@@ -144,9 +144,10 @@ public class PuppetModuleDAOManager implements DAOImplInterface {
 	public StatusBean delete(String puppetModuleID) {
 		StatusBean statusBean = new StatusBean();
 		try {
-			puppetModuleDao.updateBuilder()
-					.updateColumnValue("isDisabled", true).where()
-					.idEq(Integer.parseInt(puppetModuleID));
+			
+			PuppetModuleBean puppetModule = puppetModuleDao.queryForId(Integer.parseInt(puppetModuleID));
+			puppetModule.setIsDisabled(true);
+			puppetModuleDao.update(puppetModule);
 			/*
 			 * List<PuppetModuleMapping> puppetModuleMappping =
 			 * puppetModuleMappingDao
