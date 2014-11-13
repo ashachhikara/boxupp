@@ -26,7 +26,14 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	}
 
 	$scope.deleteActiveBox = function(){
-		alert('Box deleted');
+		MachineConfig.delete({id:$scope.activeVM.machineID},function(){
+			alert('deleted');
+		});
+		/*$scope.machine = new MachineConfig({id : $scope.activeVM.machineID },function(){
+			$scope.machine.$delete(function(){
+				alert('Machine deleted');
+			});
+		});*/
 	}
 
 	$scope.deleteActiveScript = function(){
@@ -67,7 +74,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		puppetModule.downloadPuppetModule(toBeDownloadedModule).then(function(response){
 			toBeDownloadedModule.downloadButtonText = 'Download';
 			toBeDownloadedModule.downloading = false;
-			console.log('new module has been downloaded');
+			$scope.projectData.modules.push(response.beanData);
 		});
 	}
 	$scope.selectScript = function(num){

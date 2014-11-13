@@ -19,6 +19,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
+import com.j256.ormlite.stmt.UpdateBuilder;
 
 public class MachineConfigDAOManager implements DAOImplInterface {
 	private static Logger logger = LogManager.getLogger(MachineConfigDAOManager.class.getName());
@@ -118,6 +119,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		StatusBean statusBean = new StatusBean();
 		try {
 			machineConfigDao.updateBuilder().updateColumnValue("isDisabled", true).where().idEq(Integer.parseInt(machineID));
+
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
