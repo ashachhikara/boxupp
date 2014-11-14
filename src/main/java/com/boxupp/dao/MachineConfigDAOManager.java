@@ -128,6 +128,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 			machineConfig = machineConfigDao.queryForId(Integer.parseInt(machineID));
 			machineConfig.setIsDisabled(true);
 			machineConfigDao.update(machineConfig);
+
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
