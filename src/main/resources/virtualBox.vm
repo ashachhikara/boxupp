@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
 	#set ($portMappings = $childBean.getPortMappings())	
 	#if($childBean.isPuppetMaster())#set($identifier="master")
 	#{else}
-		#set($identifier=$childBean.vagrantID)
+	#set($identifier=$childBean.vagrantID)
 	#end 
 	
 	config.vm.define :$childBean.vagrantID do |$identifier|
@@ -35,35 +35,35 @@ Vagrant.configure("2") do |config|
 				
 		$identifier$networkIPMarker :private_network, ip: "$childBean.networkIP"
 		#foreach ($portMapping in $portMappings)#if(!($portMapping.hostPort.isEmpty() && $portMapping.vmPort.isEmpty()))
-$identifier$portForwardMarker "forwarded_port", guest: $portMapping.hostPort, host: $portMapping.vmPort,auto_correct: true
+		$identifier$portForwardMarker "forwarded_port", guest: $portMapping.hostPort, host: $portMapping.vmPort,auto_correct: true
 		#end#end
-#foreach ($syncMapping in $folderMappings)#if(!($syncMapping.hostFolder.isEmpty() && $syncMapping.vmFolder.isEmpty()))$identifier$syncFolderMarker "$syncMapping.hostFolder", "$syncMapping.vmFolder"
+		#foreach ($syncMapping in $folderMappings)
+		#if(!($syncMapping.hostFolder.isEmpty() && $syncMapping.vmFolder.isEmpty()))
+		$identifier$syncFolderMarker "$syncMapping.hostFolder", "$syncMapping.vmFolder"
 		#end
 		#end
-		
-	#if($childBean.isPuppetMaster())
-	$identifier$syncFolderMarker "manifests", "/etc/puppetlabs/puppet/manifests"
-		$identifier$syncFolderMarker "modules", "/etc/puppetlabs/puppet/modules"
+	
+		$identifier$syncFolderMarker "../manifests", "/etc/puppetlabs/puppet/manifests"
+		$identifier$syncFolderMarker "../modules", "/etc/puppetlabs/puppet/modules"
 		$identifier$syncFolderMarker "files", "/etc/puppetlabs/puppet/files"
 		
 		config.vm.provision "puppet" do |$identifier|
-			$identifier$manifestsPathMarker = "manifests"
-			$identifier$manifestFilePathMarker = "site.pp"
-			$identifier$modulePathMarker = "modules"
+		$identifier$manifestsPathMarker = "../manifests"
+		$identifier$manifestFilePathMarker = "../site.pp"
+		$identifier$modulePathMarker = "../modules"
 		end		
-	#end
 	
-	#if($childBean.isShellMapped())
+	
 		#foreach ($scriptMapping in $scriptMappings)
-			#if($scriptMapping.machine_id ==  $childBean.id)
-				#foreach($script in $scripts)
-					#if($script.id == #scriptMapping.script_id)
-							$identifier$shellProvisionMarker "shell", path: "./scripts/$script.scriptName", privileged:"true"
-					#end
-				#end
-			#end
+		#if($scriptMapping.machineConfig ==  $childBean)
+		#foreach($script in $scripts)
+		#if($script == $scriptMapping.script)
+		$identifier$shellProvisionMarker "shell", path: "./scripts/$script.scriptName", privileged:"true"
 		#end
-	#end
+		#end
+		#end
+		#end
+	
 		#if(!$childBean.memory.isEmpty() || !$childBean.cpuExecCap.isEmpty() || $childBean.guiMode || !$childBean.provisionerName.isEmpty())
 		
 		$identifier$providerMarker "$childBean.providerType" do |prov|
@@ -76,11 +76,11 @@ $identifier$portForwardMarker "forwarded_port", guest: $portMapping.hostPort, ho
 		#end
 		#if(!$childBean.provisionerName.isEmpty())prov.name="$childBean.provisionerName"
 		#end
-end
+	end
 	#end
 	#set ($counter = $counter + 1)
 
-	end
+end
 #end
 end
 #*

@@ -1,6 +1,7 @@
 package com.boxupp.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +9,6 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
@@ -17,12 +16,16 @@ import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.SearchModuleBean;
+import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.PuppetUtilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.SelectArg;
 
 public class PuppetModuleDAOManager implements DAOImplInterface {
 	private static Logger logger = LogManager
@@ -31,6 +34,7 @@ public class PuppetModuleDAOManager implements DAOImplInterface {
 	protected static Dao<PuppetModuleBean, Integer> puppetModuleDao = null;
 	public static Dao<PuppetModuleMapping, Integer> puppetModuleMappingDao = null;
 	private static PuppetModuleDAOManager puppetModuleDBManager;
+	private PreparedQuery<PuppetModuleBean> queryForModulesOfProject = null;
 
 	public static PuppetModuleDAOManager getInstance() {
 		if (puppetModuleDBManager == null) {
@@ -40,10 +44,8 @@ public class PuppetModuleDAOManager implements DAOImplInterface {
 	}
 
 	private PuppetModuleDAOManager() {
-		puppetModuleDao = DAOProvider.getInstance().fetchDao(
-				PuppetModuleBean.class);
-		puppetModuleMappingDao = DAOProvider.getInstance().fetchDao(
-				PuppetModuleMapping.class);
+		puppetModuleDao = DAOProvider.getInstance().fetchDao(PuppetModuleBean.class);
+		puppetModuleMappingDao = DAOProvider.getInstance().fetchDao(PuppetModuleMapping.class);
 	}
 
 	@Override
@@ -120,10 +122,8 @@ public class PuppetModuleDAOManager implements DAOImplInterface {
 	@Override
 	public StatusBean update(JsonNode updatedData) {
 		PuppetModuleBean puppetModuleBean = null;
-		Gson puppetModuleData = new GsonBuilder().setDateFormat(
-				"yyyy'-'MM'-'dd HH':'mm':'ss").create();
-		puppetModuleBean = puppetModuleData.fromJson(updatedData.toString(),
-				PuppetModuleBean.class);
+		Gson puppetModuleData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
+		puppetModuleBean = puppetModuleData.fromJson(updatedData.toString(), PuppetModuleBean.class);
 		StatusBean statusBean = new StatusBean();
 		try {
 			puppetModuleDao.update(puppetModuleBean);
@@ -148,14 +148,6 @@ public class PuppetModuleDAOManager implements DAOImplInterface {
 			PuppetModuleBean puppetModule = puppetModuleDao.queryForId(Integer.parseInt(puppetModuleID));
 			puppetModule.setIsDisabled(true);
 			puppetModuleDao.update(puppetModule);
-			/*
-			 * List<PuppetModuleMapping> puppetModuleMappping =
-			 * puppetModuleMappingDao
-			 * .queryForEq(PuppetModuleMapping.MODULE_ID_FIELD_NAME,
-			 * Integer.parseInt(puppetModuleID)); for(PuppetModuleMapping
-			 * puppetModule : puppetModuleMappping){
-			 * puppetModuleMappingDao.delete(puppetModule); }
-			 */
 		} catch (SQLException e) {
 			logger.error("Error deleting a puppet Module : " + e.getMessage());
 			statusBean.setStatusCode(1);
@@ -223,24 +215,26 @@ public class PuppetModuleDAOManager implements DAOImplInterface {
 			List<PuppetModuleMapping> puppetModuleMappingList = ProjectDAOManager.getInstance().retireveModulesMapping(projectID);
 			PuppetUtilities.getInstance().refreshNodeTemplate(puppetModuleMappingList);
 		return (T) puppetModule;
-	}
+	}*/
 
-	/*
-	 * public <E>List <E> retireveModulesForBox(String machineID) {
-	 * List<PuppetModuleBean> puppetModuleList = new
-	 * ArrayList<PuppetModuleBean>(); try { if (queryForModulesOfBox == null) {
-	 * queryForModulesOfBox = makeQueryForModulesOfBox(); }
-	 * 
-	 * queryForModulesOfBox.setArgumentHolderValue(0, ProjectDAOManager
-	 * .getInstance().projectDao.queryForId(Integer.parseInt(machineID)));
-	 * puppetModuleList = puppetModuleDao.query(queryForModulesOfBox); } catch
-	 * (NumberFormatException e) {
-	 * logger.error("Error in retireveing module :"+e.getMessage()); } catch
-	 * (SQLException e) {
-	 * logger.error("Error in retireveing module :"+e.getMessage()); } return
-	 * (List<E>) puppetModuleList; }
-	 */
-
+	
+	  public <E>List <E> retireveModulesForProject(String projectID) {
+		  List<PuppetModuleBean> puppetModuleList = new
+		  ArrayList<PuppetModuleBean>(); try { if (queryForModulesOfProject == null) {
+			  queryForModulesOfProject = makeQueryForModulesOfProject();
+		  }
+		  
+		  queryForModulesOfProject.setArgumentHolderValue(0, ProjectDAOManager
+		  .getInstance().projectDao.queryForId(Integer.parseInt(projectID)));
+		  puppetModuleList = puppetModuleDao.query(queryForModulesOfProject);
+		  } catch (NumberFormatException e) {
+		  logger.error("Error in retireveing module :"+e.getMessage());
+		  } catch(SQLException e) {
+		  logger.error("Error in retireveing module :"+e.getMessage());
+		  }
+	
+		  return(List<E>) puppetModuleList; }
+	 
 	/*
 	 * public StatusBean linkModuleWithMachine( JsonNode moduleMachineMapping) {
 	 * StatusBean statusBean = new StatusBean(); try { ProjectBean project =
@@ -305,22 +299,19 @@ public class PuppetModuleDAOManager implements DAOImplInterface {
 	 * 
 	 * }
 	 */
-
-
-	/*
-	 * private PreparedQuery<PuppetModuleBean> makeQueryForModulesOfProject()
-	 * throws SQLException {
-	 * 
-	 * QueryBuilder<PuppetModuleMapping, Integer> moduleProjectQb =
-	 * puppetModuleMappingDao.queryBuilder();
-	 * moduleProjectQb.selectColumns(PuppetModuleMapping.MODULE_ID_FIELD_NAME);
-	 * SelectArg projectSelectArg = new SelectArg(); moduleProjectQb.where().eq(
-	 * PuppetModuleMapping.PROJECT_ID_FIELD_NAME, projectSelectArg);
-	 * QueryBuilder<PuppetModuleBean, Integer> moduleQb =
-	 * puppetModuleDao.queryBuilder();
-	 * moduleQb.where().in(PuppetModuleBean.ID_FIELD_NAME,moduleProjectQb);
-	 * return moduleQb.prepare(); }
-	 */
+	
+	  private PreparedQuery<PuppetModuleBean> makeQueryForModulesOfProject() throws SQLException {
+	  
+		  QueryBuilder<PuppetModuleMapping, Integer> moduleProjectQb =
+		  puppetModuleMappingDao.queryBuilder();
+		  moduleProjectQb.selectColumns(PuppetModuleMapping.MODULE_ID_FIELD_NAME);
+		  SelectArg projectSelectArg = new SelectArg(); moduleProjectQb.where().eq(
+		  PuppetModuleMapping.PROJECT_ID_FIELD_NAME, projectSelectArg);
+		  QueryBuilder<PuppetModuleBean, Integer> moduleQb =
+		  puppetModuleDao.queryBuilder();
+		  moduleQb.where().eq("isDisabled", false).and().in(PuppetModuleBean.ID_FIELD_NAME,moduleProjectQb);
+		  return moduleQb.prepare();
+	  }
 
 	/*
 	 * private PreparedQuery<PuppetModuleBean> makeQueryForModulesOfBox() throws
@@ -339,8 +330,7 @@ public class PuppetModuleDAOManager implements DAOImplInterface {
 	public StatusBean updateModuleMapping(JsonNode moduleMachineMapping) {
 
 		StatusBean statusBean = new StatusBean();
-		Integer projectID = Integer.parseInt(moduleMachineMapping.get(
-				"projectID").getTextValue());
+		Integer projectID = Integer.parseInt(moduleMachineMapping.get("projectID").getTextValue());
 		ProjectBean project = null;
 		try {
 			project = ProjectDAOManager.projectDao.queryForId(projectID);

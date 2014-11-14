@@ -6,7 +6,14 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "projectProviderMapping")
 public class ProjectProviderMappingBean {
 	
-
+	public ProjectProviderMappingBean(Integer projectID, Integer providerID) {
+		super();
+		this.projectID = projectID;
+		this.providerID = providerID;
+	}
+	public ProjectProviderMappingBean(){
+		
+	}
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
 	private Integer ID;
 	
@@ -15,6 +22,8 @@ public class ProjectProviderMappingBean {
 	
 	@DatabaseField(canBeNull = false, useGetSet = true)
 	private Integer providerID;
+
+	
 
 	public Integer getID() {
 		return ID;

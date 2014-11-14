@@ -13,12 +13,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 
+import com.boxupp.ConfigurationGenerator;
+import com.boxupp.FileManager;
 import com.boxupp.beans.BoxuppPuppetData;
 import com.boxupp.beans.BoxuppScriptsData;
 import com.boxupp.beans.BoxuppVMData;
+import com.boxupp.dao.MachineConfigDAOManager;
+import com.boxupp.dao.ProjectDAOManager;
+import com.boxupp.dao.PuppetModuleDAOManager;
+import com.boxupp.dao.ShellScriptDAOManager;
 import com.boxupp.db.beans.MachineConfigurationBean;
+import com.boxupp.db.beans.PuppetModuleBean;
+import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.ShellScriptBean;
+import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.db.beans.SyncFoldersBean;
+import com.boxupp.responseBeans.VagrantFileStatus;
 import com.google.gson.Gson;
 
 public class Utilities { 
@@ -244,6 +254,31 @@ public class Utilities {
     		System.out.println("File is deleted : " + file.getAbsolutePath());
     	}
 		
+	}
+	public VagrantFileStatus saveVagrantFile(JsonNode vargantFileData){
+		String projectID = vargantFileData.get("projectID").getTextValue();
+		String userID = vargantFileData.get("userID").getTextValue();
+		List<MachineConfigurationBean>  machineConfigList = MachineConfigDAOManager.getInstance().retireveBoxesForProject(projectID);
+		List<PuppetModuleBean>  puppetModuleList = PuppetModuleDAOManager.getInstance().retireveModulesForProject(projectID);
+		List<ShellScriptBean> shellScriptList = ShellScriptDAOManager.getInstance().retireveScriptsForProject(projectID);
+		List<ShellScriptMapping> shellScriptMappingList = ProjectDAOManager.getInstance().retireveScriptsMapping(projectID);
+		List<PuppetModuleMapping> puppetModuleMappingList = ProjectDAOManager.getInstance().retireveModulesMapping(projectID);
+		String provider  = ProjectDAOManager.getInstance().getProviderForProject(projectID);
+		Utilities.getInstance().commitSyncFoldersToDisk(machineConfigList, Integer.parseInt(userID));
+		boolean configFileData = ConfigurationGenerator.generateConfig(machineConfigList, puppetModuleList,  shellScriptList, shellScriptMappingList, puppetModuleMappingList, provider );
+		VagrantFileStatus fileStatus = new VagrantFileStatus();
+		if(configFileData){
+			logger.info("Started saving vagrant file");
+			FileManager fileManager = new FileManager();
+			String renderedTemplate = ConfigurationGenerator.getVelocityFinalTemplate();
+			fileStatus = fileManager.writeFileToDisk(renderedTemplate, Integer.parseInt(userID));
+			logger.info("Vagrant file save completed");
+		}
+		else{
+			logger.info("Failed to save vagrant file !!");
+		}
+		//persistData(mappings);
+		return fileStatus;
 	}
 	
 }

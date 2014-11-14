@@ -17,7 +17,34 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 			
 		});
 	}
-
+	$scope.setShellChangeFlag = function(){
+		$scope.boxuppConfig.shellChangeFlag = 1;	
+	}
+	$scope.$watch('shellScripts',function(newValue,oldValue){
+		if(newValue.length !== oldValue.length){
+			//shell scripts deleted or added//
+			$scope.setShellChangeFlag();
+		}
+		//Only handle script name change events//
+		if((newValue !== oldValue) && ($scope.scriptSelected !== -1)){
+		$scope.setShellChangeFlag();
+		console.log($scope.boxuppConfig.shellChangeFlag);
+		/*To handle empty scripts case*/
+		if(((typeof newValue[$scope.scriptSelected]) !== 'undefined') && 
+			((typeof oldValue[$scope.scriptSelected]) !== 'undefined')){
+			if(newValue[$scope.scriptSelected].scriptName !== oldValue[$scope.scriptSelected].scriptName){
+				var newScriptName = newValue[$scope.scriptSelected].scriptName;
+				var oldScriptName = oldValue[$scope.scriptSelected].scriptName;
+				for(index in $scope.boxesData){
+					var oldScriptNameIndex = $scope.boxesData[index].linkedScripts.indexOf(oldScriptName);
+					if( oldScriptNameIndex > -1){
+						$scope.boxesData[index].linkedScripts.splice(oldScriptNameIndex,1);
+						$scope.boxesData[index].linkedScripts.push(newScriptName);
+					}
+				}
+			}
+		}
+	}},true);
 	$scope.createBoxes = function(boxData){
 		for(link in  boxData.dockerLinks){
 			console.log("%"+link[0]);
