@@ -61,16 +61,19 @@ public class ProjectDAOManager implements DAOImplInterface {
 		Gson projectData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		projectBean = projectData.fromJson(newData.toString(), ProjectBean.class);
 		StatusBean statusBean = new StatusBean();
+		
 		try {
 
 			int rowsUpdated = projectDao.create(projectBean);
-			System.out.println(projectBean.getProjectID());
 			// if(rowsUpdated == 1)
 			// Utilities.getInstance().changeActiveDirectory(projectBean.getProjectId());
 			UserDAOManager.getInstance().populateMappingBean(projectBean, newData.get("owner").getValueAsText());
 			statusBean.setStatusCode(0);
 			statusBean.setData(projectBean);
 			Utilities.getInstance().initializeDirectory(projectBean.getProjectID());
+			Integer providerID = ProviderDAOManager.getInstance().providerDao.queryForId(projectBean.getProviderType()).getProviderID();
+			ProjectProviderMappingBean projectProvider = new ProjectProviderMappingBean(projectBean.getProjectID(), providerID);
+			projectProviderMappingDao.create(projectProvider);
 
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
@@ -185,7 +188,6 @@ public class ProjectDAOManager implements DAOImplInterface {
 		StatusBean statusBean = new StatusBean();
 		try {
 			int rowsUpdated = projectDao.create(projectBean);
-			System.out.println(projectBean.getProjectID());
 			// if(rowsUpdated == 1)
 			// Utilities.getInstance().changeActiveDirectory(projectBean.getProjectId());
 			UserDAOManager.getInstance().populateMappingBean(projectBean,
@@ -206,10 +208,8 @@ public class ProjectDAOManager implements DAOImplInterface {
 		List<ProjectBean> projectList = new ArrayList<ProjectBean>();
 		try {
 
-			List<UserProjectMapping> users = userProjectMappingDao
-					.queryForAll();
-			userProjectsQuery.setArgumentHolderValue(0, UserDAOManager
-					.getInstance().userDetailDao.queryForId(Integer
+			List<UserProjectMapping> users = userProjectMappingDao.queryForAll();
+			userProjectsQuery.setArgumentHolderValue(0, UserDAOManager.getInstance().userDetailDao.queryForId(Integer
 					.parseInt(UserID)));
 			projectList = projectDao.query(userProjectsQuery);
 
@@ -246,17 +246,13 @@ public class ProjectDAOManager implements DAOImplInterface {
 	public String getProviderForProject(String projectID) {
 		String provider = null;
 		try {
-			Integer providerId = projectProviderMappingDao
-					.queryForEq("projectID", Integer.parseInt(projectID))
+			Integer providerId = projectProviderMappingDao.queryForEq("projectID", Integer.parseInt(projectID))
 					.get(0).getProjectID();
-			provider = ProviderDAOManager.getInstance().providerDao.queryForId(
-					providerId).getName();
+			provider = ProviderDAOManager.getInstance().providerDao.queryForId(providerId).getName();
 		} catch (NumberFormatException e) {
-			logger.error("Error in finding provider for project :"
-					+ e.getMessage());
+			logger.error("Error in finding provider for project :"+ e.getMessage());
 		} catch (SQLException e) {
-			logger.error("Error in sql to finding provider for project :"
-					+ e.getMessage());
+			logger.error("Error in sql to finding provider for project :"+ e.getMessage());
 		}
 		return provider;
 	}

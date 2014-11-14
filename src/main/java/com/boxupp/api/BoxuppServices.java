@@ -1,14 +1,10 @@
 package com.boxupp.api;
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,9 +21,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 
 import com.boxupp.ConfigurationGenerator;
 import com.boxupp.FileManager;
@@ -40,7 +33,6 @@ import com.boxupp.dao.ShellScriptDAOManager;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
-import com.boxupp.db.beans.SearchModuleBean;
 import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.responseBeans.BoxURLResponse;
@@ -50,12 +42,9 @@ import com.boxupp.responseBeans.VagrantFile;
 import com.boxupp.responseBeans.VagrantFileStatus;
 import com.boxupp.responseBeans.VagrantOutput;
 import com.boxupp.responseBeans.VagrantStatus;
-import com.boxupp.utilities.PuppetUtilities;
 import com.boxupp.utilities.Utilities;
 import com.boxupp.windows.WindowsShellProcessor;
 import com.boxupp.ws.OutputConsole;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 @Path("/")
 public class BoxuppServices {

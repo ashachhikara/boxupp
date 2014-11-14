@@ -98,43 +98,9 @@ public class Project {
 	@POST
 	@Path("/saveAsFile")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public VagrantFileStatus saveAsFile(@Context HttpServletRequest request) throws IOException
+	public VagrantFileStatus saveAsFile(JsonNode VagrantFileData) throws IOException
 	{
-		String projectID = request.getParameter("projectID");
-		String userID = request.getParameter("userID");
-		List<MachineConfigurationBean>  machineConfigList = MachineConfigDAOManager.getInstance().read(projectID);
-		List<PuppetModuleBean>  puppetModuleList = PuppetModuleDAOManager.getInstance().read(projectID);
-		List<ShellScriptBean> shellScriptList = ShellScriptDAOManager.getInstance(). read(projectID);
-		List<ShellScriptMapping> shellScriptMappingList = null;
-		List<PuppetModuleMapping> puppetModuleMappingList = null;
-		try {
-			shellScriptMappingList = ShellScriptDAOManager.getInstance().retireveScriptsForProject(projectID);
-		for(MachineConfigurationBean machineConfig : machineConfigList){
-			puppetModuleMappingList.addAll( PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryForEq("machineConfig", MachineConfigDAOManager.getInstance().machineConfigDao.queryForId(machineConfig.getMachineID())));
-		}
-		} catch (NumberFormatException e) {
-			logger.error(e.getMessage());
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-		}
-		String provider  = ProjectDAOManager.getInstance().getProviderForProject(projectID);
-	
-		Utilities.getInstance().commitSyncFoldersToDisk(machineConfigList, Integer.parseInt(userID));
-		boolean configFileData = ConfigurationGenerator.generateConfig(machineConfigList, puppetModuleList,  shellScriptList, shellScriptMappingList, puppetModuleMappingList, provider );
-		VagrantFileStatus fileStatus = new VagrantFileStatus();
-		
-		if(configFileData){
-			logger.info("Started saving vagrant file");
-			FileManager fileManager = new FileManager();
-			String renderedTemplate = ConfigurationGenerator.getVelocityFinalTemplate();
-			fileStatus = fileManager.writeFileToDisk(renderedTemplate, Integer.parseInt(userID));
-			logger.info("Vagrant file save completed");
-		}
-		else{
-			logger.info("Failed to save vagrant file !!");
-		}
-		//persistData(mappings);
-		return fileStatus;
+		return Utilities.getInstance().saveVagrantFile(VagrantFileData);
 	}
 	
 }

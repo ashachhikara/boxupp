@@ -316,9 +316,13 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	});
 	
 	$scope.$watch('activeVM',function(newVal,oldVal){
-		// console.log("new val "+newVal +" : old val "+oldVal);
+		console.log(newVal +""+oldVal);
+		// console.log("new val "+newVal +" : old val "+oldVal);// console.log("new val "+newVal +" : old val "+oldVal);
 	});
-	
+
+	$scope.setVagrantChangeFlag = function(){
+		$scope.boxuppConfig.vagrantChangeFlag = 1;
+	}
 	$scope.editorOptions = {
         lineWrapping : true,
 		lineNumbers  : true,
@@ -763,12 +767,12 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.deployEnvironment = function(){
 		if($scope.checkDataValidity()){
 			if($scope.boxuppStateChanged()){
-				executeCommand.saveBoxuppData($scope.serverAddress,$scope).then(function(response){
-					$scope.startDeployment();			
+				executeCommand.saveBoxuppData($scope, $routeParams.projectID, $routeParams.userID).then(function(response){
+					//$scope.startDeployment();			
 				});			
 			}else{
-				executeCommand.saveBoxuppData($scope.serverAddress,$scope).then(function(response){
-					$scope.startDeployment();			
+				executeCommand.saveBoxuppData($scope, $routeParams.projectID, $routeParams.userID).then(function(response){
+					//$scope.startDeployment();			
 				});
 			}		
 		}		
