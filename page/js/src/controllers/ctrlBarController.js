@@ -76,7 +76,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		}else{
 			newIP = ipValues[0]+"."+ipValues[1]+"."+ipValues[2]+"."+(parseInt(ipValues[3]) + 1);
 		}
-		return presentIP;
+		return newIP;
 	}
 
 	$scope.checkFormStates = {

@@ -39,6 +39,14 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.deleteActiveScript = function(){
 		alert('Script deleted');
 	}
+
+	$scope.editActiveBox = function(){
+		alert('Active box edited');
+	}
+
+	$scope.editActiveScript = function(){
+		alert('Active script edited');
+	}
 	// $scope.selectedProvMachine = {};
 
 	$scope.listOfSSHImages=[

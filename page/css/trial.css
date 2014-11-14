@@ -184,7 +184,7 @@ div#controlBar {
     cursor: pointer; }
   div#controlBar ul.controlBarList li a.controlBarBtns:hover {
     background: #FFF; }
-  div#controlBar div.trashIcon a {
+  div#controlBar div.trashIcon a, div#controlBar div.editIcon a {
     font-size: 26px;
     color: #FFF; }
 
