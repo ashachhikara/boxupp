@@ -1,11 +1,10 @@
 package com.boxupp.resources;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -14,13 +13,7 @@ import javax.ws.rs.core.MediaType;
 import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.dao.MachineConfigDAOManager;
-import com.boxupp.dao.PuppetModuleDAOManager;
-import com.boxupp.dao.ShellScriptDAOManager;
 import com.boxupp.db.beans.MachineConfigurationBean;
-import com.boxupp.db.beans.PuppetModuleBean;
-import com.boxupp.db.beans.PuppetModuleMapping;
-import com.boxupp.db.beans.ShellScriptBean;
-import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.responseBeans.StatusBean;
 @Path("/machineConfig/")
 public class MachineConfig {
@@ -38,8 +31,7 @@ public class MachineConfig {
 		return MachineConfigDAOManager.getInstance().read(machineId);
 	}
 	
-	@POST 
-	@Path("/updateMachineConfig")
+	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes("application/json")
 	public StatusBean updateMachineConfiguration( JsonNode updatedmachineConfigData) {

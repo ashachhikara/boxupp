@@ -27,7 +27,11 @@ public class Boxupp {
 		ToolConfigurationReader toolConfig = new ToolConfigurationReader();
 		Config conf = toolConfig.getConfiguration();
 		AppContextBuilder appContextBuilder = new AppContextBuilder();
-		DBConnectionManager.getInstance();
+		DBConnectionManager connectionManager = DBConnectionManager.getInstance();
+		if(connectionManager != null){
+			connectionManager.checkForProviderEntries();
+		}
+		
 //		String jettyPort = PropertyReader.getInstance().getProperty("port");
 		String jettyPort = conf.getSetting().getPortNumber();
 		

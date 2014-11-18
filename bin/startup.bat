@@ -43,7 +43,7 @@ echo Starting BoxUpp
 cd ..
 SET "BASEDIR="%cd%""
 
-start java -Dfile.encoding=UTF-8 -cp %BASEDIR%;%BASEDIR%\lib\*;%BASEDIR%\config; com.paxcel.boxupp.Boxupp
+start java -Dfile.encoding=UTF-8 -cp %BASEDIR%;%BASEDIR%\lib\*;%BASEDIR%\config; com.boxupp.init.Boxupp
 
 FOR /F "tokens=1,2 delims==" %%G IN (config\config.properties) DO (set %%G=%%H)
 Setlocal EnableDelayedExpansion

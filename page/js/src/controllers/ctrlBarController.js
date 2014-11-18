@@ -58,12 +58,14 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.quickBoxCommitLoader = true;
 		$scope.toBeCreatedBox = angular.copy(boxData);
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
+		$scope.toBeCreatedBox.providerID = $routeParams.providerID;
 		$scope.toBeCreatedBox.isDisabled = false;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			$scope.boxesData.push(data.beanData);
 			$scope.quickBox = {};
 			$scope.quickBoxForm.$setPristine();
 		});
+		$scope.quickBoxForm.$setPristine();
 		$scope.quickBoxCommitLoader = false;
 	}
 
@@ -74,6 +76,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		angular.extend($scope.toBeCreatedBox,$scope.projectData.defaultSettings);
 
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
+		$scope.toBeCreatedBox.providerID = $routeParams.providerID;
 		$scope.toBeCreatedBox.isDisabled = false;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			$scope.boxesData.push(data.beanData);
@@ -84,17 +87,29 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 	}
 
 	$scope.cloneBoxData = function(cloneBox){
+		$('#boxModal').modal('show');
 		$scope.toBeClonedBox = angular.copy(cloneBox);
 		$scope.toBeClonedBox.networkIP = null;
 		$scope.toBeClonedBox.vagrantID = null;
-		$scope.activeVM = $scope.toBeClonedBox;
-		$('#boxModal').modal('show');
+		$scope.toBeClonedBox.hostName = null;
+		angular.extend($scope.rawBox,$scope.toBeClonedBox);
+		
+		$scope.rawBoxForm.basicSettings.vagrantID.$setViewValue($scope.toBeClonedBox.vagrantID);
+		$scope.rawBoxForm.basicSettings.boxType.$setViewValue($scope.toBeClonedBox.boxType);		
+		$scope.rawBoxForm.basicSettings.boxUrl.$setViewValue($scope.toBeClonedBox.boxUrl);
+		$scope.rawBoxForm.basicSettings.hostName.$setViewValue($scope.toBeClonedBox.hostName);
+
+		$scope.rawBoxForm.basicSettings.vagrantID.$render();
+		$scope.rawBoxForm.basicSettings.boxType.$render();
+		$scope.rawBoxForm.basicSettings.boxUrl.$render();
+		$scope.rawBoxForm.basicSettings.hostName.$render();
 	}
 
 	$scope.generateNewIP = function(){
 		var presentIP ="";
-		if(angular.isDefined($scope.boxesData)){
-			var size = $scope.boxesData.length;
+		var size = $scope.boxesData.length;
+		if(angular.isDefined($scope.boxesData) && size!== 0){
+			
 			presentIP = $scope.boxesData[size-1].networkIP;
 		}else{
 			presentIP = "192.168.1.1";
@@ -119,19 +134,48 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 				    !$scope.quickBoxForm.boxType.$pristine && $scope.quickBoxForm.boxType.$valid &&
 				    !$scope.quickBoxForm.boxUrl.$pristine && $scope.quickBoxForm.boxUrl.$valid);
 		},
-		vmRawBox : function(rawBoxFormBasicSettings,rawBoxFormNetworkSettings){
+		vmRawBox : function(){
 
-				return !(!rawBoxFormBasicSettings.vagrantID.$pristine && rawBoxFormBasicSettings.vagrantID.$valid &&
-				    !rawBoxFormBasicSettings.hostName.$pristine && rawBoxFormBasicSettings.hostName.$valid &&
-				    !rawBoxFormBasicSettings.boxType.$pristine && rawBoxFormBasicSettings.boxType.$valid &&
-				    !rawBoxFormBasicSettings.boxUrl.$pristine && rawBoxFormBasicSettings.boxUrl.$valid &&
-					!rawBoxFormNetworkSettings.networkIP.$pristine && rawBoxFormNetworkSettings.networkIP.$valid);
+				return !(!$scope.rawBoxForm.basicSettings.vagrantID.$pristine && $scope.rawBoxForm.basicSettings.vagrantID.$valid &&
+				    !$scope.rawBoxForm.basicSettings.hostName.$pristine && $scope.rawBoxForm.basicSettings.hostName.$valid &&
+				    !$scope.rawBoxForm.basicSettings.boxType.$pristine && $scope.rawBoxForm.basicSettings.boxType.$valid &&
+				    !$scope.rawBoxForm.basicSettings.boxUrl.$pristine && $scope.rawBoxForm.basicSettings.boxUrl.$valid &&
+					!$scope.rawBoxForm.networkSettings.networkIP.$pristine && $scope.rawBoxForm.networkSettings.networkIP.$valid);
 		},
 		containerQuickBox : function(){
 				return !(!$scope.containerQuickBoxForm.vagrantID.$pristine && $scope.containerQuickBoxForm.vagrantID.$valid &&
 				    !$scope.containerQuickBoxForm.hostName.$pristine && $scope.containerQuickBoxForm.hostName.$valid &&
 				    $scope.containerQuickBoxForm.imageName.$valid);								
 				// !$scope.containerQuickBoxForm.imageName.$pristine &&
+		},
+		vmRawBoxUpdate : function(){
+				return angular.equals($scope.rawBox,$scope.activeVM);
+		},
+		vmRawScript : function(rawScriptForm){
+				return !(!rawScriptForm.shellScriptName.$pristine && rawScriptForm.shellScriptName.$valid); 
+				//&& !$scope.rawScript.scriptContent.$pristine && $scope.rawScript.scriptContent.$valid );
+		},
+		vmRawScriptUpdate : function(){
+			return angular.equals($scope.rawScript,$scope.activeScript);
 		}
-	}				
+	}	
+
+	$scope.modals = {
+		close : {
+			script : function(rawScriptForm){
+				$scope.projectData.scriptsState.update = false;
+				rawScriptForm.$setPristine();
+				$scope.rawScript.scriptName = "";
+				$scope.rawScript.scriptContent = "";
+				$('#scriptModal').modal('hide');
+			},
+			box : function(){
+				$scope.projectData.boxesState.update = false;
+				$scope.rawBoxForm.basicSettings.$setPristine();
+				$scope.rawBoxForm.networkSettings.$setPristine();
+				$('#boxModal').modal('hide');
+			}	
+		}
+	};
+
 });

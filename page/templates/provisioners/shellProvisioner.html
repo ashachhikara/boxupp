@@ -19,13 +19,13 @@
 			<ul class="nav nav-pills" role="tablist">
 				<li ng-repeat="box in boxesData | filter:boxSearchText" class="col-md-3" style="margin-bottom:10px; margin-left:-15px;" role="presentation" ng-init="$parent.selectedProvMachine = boxesData[0]" ng-class="{'active' : $first}">
 
-					<a role="tab" data-toggle="tab" ng-click="$parent.selectedProvMachine = box">
+					<a role="tab" data-toggle="tab" ng-click="$parent.selectedProvMachine = box" style="text-align:center;">
 						<input type="radio" ng-value="box" ng-model="$parent.selectedProvMachine" style="display:none;"/>
 						<div class="boxEntry text-center">
 							<div class="boxLogo">
 								<span><i class="fa fa-cube"></i></span>
 							</div>
-							<div class="boxTitle">
+							<div class="boxTitle row">
 								<span ng-bind="box.vagrantID"></span>
 							</div>
 						</div>

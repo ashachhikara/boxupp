@@ -1,7 +1,7 @@
 angular.module("boxuppApp").controller('puppetController',function($scope,$rootScope,retrieveMappings,$timeout,validator,fileUpload,provision){
 
 		$scope.selectedProvMachine = {};
-		$scope.moduleProvMappings = {};
+		
 
 		$scope.checkProvState = function(){
 			return _.isEmpty($scope.moduleProvMappings);

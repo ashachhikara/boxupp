@@ -1,7 +1,8 @@
 package com.boxupp;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 
 import javax.xml.bind.Binder;
@@ -26,12 +27,13 @@ public class ToolConfigurationReader {
 		try {
 			jc = JAXBContext.newInstance(Config.class);
 
-			File file = new File(this.getClass().getResource("/config.xml").toURI());
+//			File file = new File(this.getClass().getResource("/config.xml").toURI());
+			InputStream toolSettings = getClass().getResourceAsStream("/config.xml");
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db;
 			db = dbf.newDocumentBuilder();
 			Document doc;
-			doc = db.parse(file);
+			doc = db.parse(toolSettings);
 			Binder<Node> binder = jc.createBinder();
 		    config = (Config) binder.unmarshal(doc);
 			binder.updateXML(config);
@@ -46,9 +48,6 @@ public class ToolConfigurationReader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

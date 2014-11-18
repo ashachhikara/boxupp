@@ -1,7 +1,15 @@
 
-angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil){
+angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript){
 
-	$scope.projectData = {};
+	$scope.projectData = {
+		boxesState : {
+			update : false,
+		},
+		scriptsState : {
+			update : false
+		}
+	};
+
 	$scope.boxuppMappings = {};
 	$scope.serverAddress = "http://"+window.location.host;
 	$scope.serverWSAddress = "ws://"+window.location.host;
@@ -20,15 +28,28 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.quickBox = {};
 	$scope.moduleResults=[];
 	$scope.rawBox = {};
+	$scope.rawScript = {};
+	$scope.rawBoxForm = {};
+	$scope.rawBoxFormNetworkSettings = {};
+	$scope.moduleProvMappings = {};
+	$scope.shellProvMappings = {};
 
 	$scope.userSignout = function(){
-		alert("Signout triggered");
+		$location.path('/login/');
 	}
 
 	$scope.deleteActiveBox = function(){
-		MachineConfig.delete({id:$scope.activeVM.machineID},function(){
-			alert('deleted');
+
+		MachineConfig.delete({id:$scope.activeVM.machineID},function(){			
+			var boxCounter = 0;
+			angular.forEach($scope.boxesData,function(box){
+				if(box.machineID === $scope.activeVM.machineID){
+					$scope.boxesData.splice(boxCounter,1);
+				}
+				boxCounter++;
+			});
 		});
+
 		/*$scope.machine = new MachineConfig({id : $scope.activeVM.machineID },function(){
 			$scope.machine.$delete(function(){
 				alert('Machine deleted');
@@ -41,12 +62,75 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	}
 
 	$scope.editActiveBox = function(){
-		alert('Active box edited');
+		var toBeEditedBox = angular.copy($scope.activeVM);
+		$scope.rawBox = toBeEditedBox;
+		$('#boxModal').modal('show');
+		$scope.projectData.boxesState.update = true;
 	}
 
 	$scope.editActiveScript = function(){
-		alert('Active script edited');
+		var toBeEditedScript = angular.copy($scope.activeScript);
+		$scope.rawScript = toBeEditedScript;
+		$('#scriptModal').modal('show');
+		$scope.projectData.scriptsState.update = true;
 	}
+
+	$scope.updateBox = function(){
+		var updatedContent = $scope.rawBox;
+		$scope.entry = MachineConfig.get({id:updatedContent.machineID},function(){
+			angular.extend($scope.entry,updatedContent);
+			$scope.entry.$update(function(){
+				angular.forEach($scope.boxesData,function(box){
+					if(box.machineID === $scope.entry.beanData.machineID){
+						angular.extend(box,$scope.entry.beanData);
+						box.configChangeFlag = 1;
+						return;
+					}
+				});
+			});
+		});
+	}
+
+	$scope.updateScript = function(){
+		var updatedContent = $scope.rawScript;
+		$scope.entry = shellScript.get({id:updatedContent.scriptID},function(){
+			angular.extend($scope.entry,updatedContent);
+			$scope.entry.creationTime = miscUtil.fetchCurrentTime();
+			$scope.entry.userID = $routeParams.userID;
+			$scope.entry.$update(function(){
+				angular.forEach($scope.shellScripts,function(script){
+					if(script.scriptID === $scope.entry.beanData.scriptID){
+						angular.extend(script,$scope.entry.beanData);
+						$scope.triggerScriptChangeFlag(script);
+						return;
+					}
+				});
+			});
+		});
+	}
+
+	$scope.triggerScriptChangeFlag = function(script){
+		var scriptID = script.scriptID;
+		angular.forEach($scope.shellProvMappings,function(mapping,key){
+			if($scope.shellProvMappings[key].indexOf(scriptID) != -1){
+				angular.forEach($scope.boxesData,function(box){
+					if(box.machineID == key){
+						var updatedContent = angular.copy(box);
+						$scope.entry = MachineConfig.get({id:box.machineID},function(){
+							angular.extend($scope.entry,updatedContent);
+							$scope.entry.scriptChangeFlag = 1;
+							$scope.entry.$update(function(){
+								box.scriptChangeFlag = 1;		
+							});
+						});
+						
+					}
+				});	
+			}
+		});
+	}
+
+
 	// $scope.selectedProvMachine = {};
 
 	$scope.listOfSSHImages=[
@@ -88,7 +172,6 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.selectScript = function(num){
 		// if($scope.nodeSelectionDisabled === true) animateArrow();
 		$scope.activeScript = $scope.shellScripts[num];
-		alert(num);
 		// $scope.nodeSelectionDisabled = false;
 	}
 
@@ -133,48 +216,45 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		});
 	}
 
+	$scope.fetchShellScriptMappings = function(){
+		retrieveMappings.fetchScriptMappings().then(function(mappings){
+			$scope.shellProvMappings = {};
+			angular.forEach(mappings,function(map){
+				var machineID = map.machineConfig.machineID;
+				var scriptID = map.script.scriptID;
+				if($scope.shellProvMappings.hasOwnProperty(machineID)){
+					$scope.shellProvMappings[machineID].push(scriptID);
+				}else{
+					$scope.shellProvMappings[machineID] = [];
+					$scope.shellProvMappings[machineID].push(scriptID);
+				}
+			});
+		});
+	}
+
+	$scope.fetchPuppetMappings = function(){
+		retrieveMappings.fetchPuppetMappings().then(function(mappings){
+			$scope.moduleProvMappings = {};
+			angular.forEach(mappings,function(map){
+				var machineID = map.machineConfig.machineID;
+				var puppetID = map.puppetModule.puppetID;
+				if($scope.moduleProvMappings.hasOwnProperty(machineID)){
+					$scope.moduleProvMappings[machineID].push(puppetID);
+				}else{
+					$scope.moduleProvMappings[machineID] = [];
+					$scope.moduleProvMappings[machineID].push(puppetID);
+				}
+			});
+		});
+	}
+
 	$scope.fetchBoxList();
 	$scope.fetchScriptList();
 	$scope.fetchModuleList();
 	$scope.markActiveProject();
+	$scope.fetchShellScriptMappings();
+	$scope.fetchPuppetMappings();
 	
-	/*retrieveMappings.fetchMappings($scope.serverAddress,$scope).then(function(response){
-			if(response.data !== null){
-				var scripts = response.data.shellScripts;
-				for(counter in scripts){
-					$scope.shellScripts.splice(counter,1,scripts[counter]);
-				}
-				var boxes = response.data.vmData;
-				for(counter in boxes){
-					$scope.boxesData.splice(counter,1,boxes[counter]);
-					if(boxes[counter].isPuppetMaster){
-						$scope.selectedPuppetMaster = boxes[counter];
-					}
-				}
-				var puppetData = response.data.puppetData;
-				for(counter in puppetData.manifests){
-					$scope.puppet.manifests.splice(counter,1,puppetData.manifests[counter]);
-				}
-				for(counter in puppetData.modules){
-					$scope.puppet.modules.splice(counter,1,puppetData.modules[counter]);
-				}
-				for(counter in puppetData.files){
-					$scope.puppet.files.splice(counter,1,puppetData.files[counter]);
-				}
-				$scope.$parent.defaultConfigurations = response.data.defaultConfigurations;
-				$('#nodesContainer').perfectScrollbar({wheelSpeed: 20,
-				wheelPropagation: true});
-				$timeout($scope.resetFlags,3000);
-			}
-			$timeout($scope.commitBoxuppData,5000);
-			
-			// working $scope.$parent.nodeSelected = 0;
-			
-			//$scope.$parent.selectNode(0);
-			//$timeout($scope.resetFlags(),10000);
-			
-		});*/
-
 	$scope.server = {
 		connect : function() {
 			

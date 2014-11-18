@@ -268,7 +268,7 @@
 								<fileset dir="${project.build.directory}/../bin" >
 							  	</fileset> 
 							</copy>
-		
+							
 							<copy todir="${project.build.directory}/boxuppzipdir/WEB-INF" >  
 								<fileset dir="${project.build.directory}/../WEB-INF" >
 							  	</fileset> 

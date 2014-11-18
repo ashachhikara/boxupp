@@ -19,7 +19,7 @@
 							<div id="boxConfigContent" class="tab-content" style="position:relative;">
 								
 									<div class="tab-pane fade active in container-fluid" id="machine">
-										<form name="rawBoxFormBasicSettings">			
+										<form name="rawBoxForm.basicSettings">			
 											<div class="boxConfig"> 
 												<span class="boxConfigTitles">
 													Vagrant ID<sup>*</sup>
@@ -63,7 +63,7 @@
 										</form>
 									</div>
 									<div class="tab-pane fade container-fluid" id="networking">
-										<form name="rawBoxFormNetworkSettings"
+										<form name="rawBoxForm.networkSettings"
 >											<div class="boxConfigFxdTop" >
 												<div class="boxConfig"> 
 													<span class="boxConfigTitles">
@@ -197,7 +197,9 @@
 					
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" ng-disabled="checkFormStates.vmRawBox(rawBoxFormBasicSettings,rawBoxFormNetworkSettings)" ng-click="createBoxes(rawBox)">Create</button>
+					<button class="btn btn-success" ng-click="modals.close.box()">Close</button>
+					<button class="btn btn-success" ng-disabled="checkFormStates.vmRawBox()" ng-click="createBoxes(rawBox)" ng-hide="projectData.boxesState.update">Create</button>
+					<button class="btn btn-success" ng-disabled="checkFormStates.vmRawBoxUpdate()" ng-click="updateBox()" ng-show="projectData.boxesState.update">Update</button>
 				</div>
 			</div>
 		</div>

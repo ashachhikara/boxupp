@@ -2,7 +2,7 @@ angular.module("boxuppApp").
 	controller('shellController',function($scope,provision){	
 	
 	$scope.selectedProvMachine = {};
-	$scope.shellProvMappings = {};
+	
 
 	$scope.checkProvState = function(){
 		return _.isEmpty($scope.shellProvMappings);

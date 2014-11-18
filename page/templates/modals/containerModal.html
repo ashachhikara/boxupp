@@ -58,7 +58,7 @@
 					            				</span>
 												<select multiple 
 														ng-model="rawBox.dockerLinks"
-														ng-options="box.vagrantID for box in boxesData"
+														ng-options="box.machineID as box.vagrantID for box in boxesData"
 														class="form-control "
 														ng-hide="boxesData.length === 0">
 

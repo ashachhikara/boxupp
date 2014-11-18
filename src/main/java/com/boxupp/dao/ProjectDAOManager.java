@@ -278,6 +278,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 			//scriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryForAll();
 		} catch (SQLException e) {
 			logger.error("Error in retireving scripts mapping: "+ e.getMessage());
+			e.printStackTrace();
 		}
 		System.out.println(scriptMappingList);
 		return (List<E>) scriptMappingList;

@@ -1,10 +1,14 @@
 package com.boxupp.db;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.boxupp.dao.GitRepoDAOManager;
+import com.boxupp.dao.ProjectDAOManager;
+import com.boxupp.dao.ProviderDAOManager;
 import com.boxupp.db.beans.DockerLinkBean;
 import com.boxupp.db.beans.ForwardedPortsBean;
 import com.boxupp.db.beans.GitRepoBean;
@@ -62,32 +66,30 @@ public class DBConnectionManager {
 		try {
 			
 			//************* DELETE TABLES **************//
-			System.out.println("started deleting tables");
 
 //			TableUtils.dropTable(connectionSource, ProviderBean.class, true);
-			/*TableUtils.dropTable(connectionSource, UserDetailBean.class, true);
-			TableUtils.dropTable(connectionSource, ProjectBean.class, true);
-			TableUtils.dropTable(connectionSource, ProjectProviderMappingBean.class, true);
-			TableUtils.dropTable(connectionSource, UserProjectMapping.class, true);
-		
-			TableUtils.dropTable(connectionSource, ShellScriptBean.class, true);
-			TableUtils.dropTable(connectionSource, ShellScriptMapping.class, true);
-			TableUtils.dropTable(connectionSource, PuppetModuleMapping.class, true);
-			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, true);
-			TableUtils.dropTable(connectionSource, ForwardedPortsBean.class, true);
-     		TableUtils.dropTable(connectionSource, SyncFoldersBean.class, true);
-			TableUtils.dropTable(connectionSource, DockerLinkBean.class, true);
-			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, true);
-			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, true);*/
+//			TableUtils.dropTable(connectionSource, UserDetailBean.class, true);
+//			TableUtils.dropTable(connectionSource, ProjectBean.class, true);
+//			TableUtils.dropTable(connectionSource, ProjectProviderMappingBean.class, true);
+//			TableUtils.dropTable(connectionSource, UserProjectMapping.class, false);
+//		
+//			TableUtils.dropTable(connectionSource, ShellScriptBean.class, true);
+//			TableUtils.dropTable(connectionSource, ShellScriptMapping.class, true);
+//			TableUtils.dropTable(connectionSource, PuppetModuleMapping.class, true);
+//			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, true);
+//			TableUtils.dropTable(connectionSource, ForwardedPortsBean.class, true);
+//     		TableUtils.dropTable(connectionSource, SyncFoldersBean.class, true);
+//			TableUtils.dropTable(connectionSource, DockerLinkBean.class, true);
+//			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, true);
+//			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, true);
+//
+//			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
 
-			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
-
-			System.out.println("started creating tables");
 			//************* CREATE TABLES **************//
 
 
-//			TableUtils.createTable(connectionSource, ProviderBean.class);
-			/*TableUtils.createTable(connectionSource, UserDetailBean.class);			
+			TableUtils.createTable(connectionSource, ProviderBean.class);
+			TableUtils.createTable(connectionSource, UserDetailBean.class);			
 			TableUtils.createTable(connectionSource, ProjectBean.class);
 			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
 			TableUtils.createTable(connectionSource, UserProjectMapping.class);
@@ -99,9 +101,12 @@ public class DBConnectionManager {
 			TableUtils.createTable(connectionSource, SyncFoldersBean.class);
 			TableUtils.createTable(connectionSource, DockerLinkBean.class);
 			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
-			TableUtils.createTable(connectionSource, MachineProjectMapping.class);*/
+			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
 
 			TableUtils.createTable(connectionSource, GitRepoBean.class);
+			
+		
+			
 			//***************CREATE_ENTRIES**********************//
 			
 			/*ProviderBean provider1 = new ProviderBean();
@@ -121,17 +126,57 @@ public class DBConnectionManager {
 			//**************CREATE_ENTRIES***********************//
 			
 			System.out.println("Created tables for mapping");
-		
+			return true;
 		
 		}catch (SQLException e) {
-			System.out.println("Error creating table : " + e.getMessage());
+			System.out.println("table exists");
 			e.printStackTrace();
-			logger.error("Error creating Tables on the database : "+e.getMessage());
-			return false;
 		}
 		return true;
 	}
 		
+	public boolean checkForProviderEntries(){
+		try {
+			List<ProviderBean> providerList = ProviderDAOManager.getInstance().providerDao.queryForAll();
+			if(providerList.size() == 0){
+				if(addProviderEntries()){
+					logger.info("Provider entries created");
+				}else{
+					logger.error("Provider entries could not be created");
+					System.exit(1);
+				}
+			}
+		} catch (SQLException e) {
+			logger.error("Error querying the provider database");
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	public boolean addProviderEntries(){
+		ProviderBean provider1 = new ProviderBean();
+		provider1.setDisabled(false);
+		provider1.setName("VirtualBox");
+		
+		try {
+			DAOProvider.getInstance().fetchProviderDao().create(provider1);
+		} catch (SQLException e) {
+			logger.error("Error committing provider1 data to database");
+			return false;
+		}
+		
+		ProviderBean provider2 = new ProviderBean();
+		provider2.setDisabled(false);
+		provider2.setName("Docker");
+		try {
+			DAOProvider.getInstance().fetchProviderDao().create(provider2);
+		} catch (SQLException e) {
+			logger.error("Error committing provider2 data to database");
+			return false;
+		}
+		return true;
+	}
+	
 	public boolean releaseConnection(ConnectionSource connection){
 		try {
 			connection.close();

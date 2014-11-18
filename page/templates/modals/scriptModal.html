@@ -8,22 +8,25 @@
 		        <div class="modal-body">
 					<div id="boxConfigContent" class="tab-content" style="position:relative;">
 						<div class="tab-pane fade active in container-fluid" id="machine">
-							<div class="boxConfig"> <span class="boxConfigTitles" >Script Name<sup>*</sup></span>
-				              <input type="text" id="shellScriptName" 
-							   ng-model="activeScript.scriptName" 
-							   ng-class="{errorFocus:activeScript.scriptName.length == 0}"
-							   class="form-control" 
-							   maxlength="15" 
-							   name="shellScriptName"/>
-				            </div>
-				            <div class="boxConfig"><span class="boxConfigTitles">Script Source<sup>*</sup></span>
-				            	<div class="form-control editor" id="scriptSource" ui-ace="{ mode: 'javascript', theme: 'monokai' }" ng-model="activeScript.scriptContent" style="height:200px;"></div>
-				            </div>
+							<form name="rawScriptForm">
+								<div class="boxConfig"> <span class="boxConfigTitles" >Script Name<sup>*</sup></span>
+					              <input type="text"
+								   		 ng-model="rawScript.scriptName" 
+								   		 class="form-control" 
+								   		 name="shellScriptName"
+								   		 required/>
+					            </div>
+					            <div class="boxConfig"><span class="boxConfigTitles">Script Source<sup>*</sup></span>
+					            	<div class="form-control editor" id="scriptSource" ui-ace="{ mode: 'javascript', theme: 'monokai' }" ng-model="rawScript.scriptContent" style="height:200px;"></div>
+					            </div>
+				        	</form>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-success" ng-disabled="checkScriptCreation()" ng-click="saveNewScript(activeScript)">Create</button>
+					<button class="btn btn-success" ng-click="modals.close.script(rawScriptForm)" >Close</button>
+					<button class="btn btn-success" ng-disabled="checkFormStates.vmRawScript(rawScriptForm)" ng-click="saveNewScript(rawScript)" ng-hide="projectData.scriptsState.update">Create</button>
+					<button class="btn btn-success" ng-disabled="checkFormStates.vmRawScriptUpdate()" ng-click="updateScript()" ng-show="projectData.scriptsState.update">Update</button>
 				</div>
 			</div>
 		</div>

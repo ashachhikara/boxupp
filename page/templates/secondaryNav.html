@@ -24,7 +24,7 @@
 			<div class="tab-pane fade" id="scriptsList">
 				<ul class="nav nav-pills nav-stacked secondaryNavList">
 					<li ng-repeat="script in shellScripts">
-						<a data-target="#" ng-click="selectScript($index)">
+						<a data-target="#" ng-click="selectScript($index)" role="tab" data-toggle="tab">
 							<div class="main-nav-icon"><i class="fa fa-code"></i></div>
 							<div class="main-nav-label">{{script.scriptName}}</div>
 							<div class="main-nav-description"></div>

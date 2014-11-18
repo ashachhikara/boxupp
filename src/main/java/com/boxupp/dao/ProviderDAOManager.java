@@ -15,7 +15,7 @@ import com.j256.ormlite.dao.Dao;
 public class ProviderDAOManager implements DAOImplInterface {
 	private static Logger logger = LogManager.getLogger(ProjectDAOManager.class.getName());
 
-	protected static Dao<ProviderBean, Integer> providerDao = null;
+	public static Dao<ProviderBean, Integer> providerDao = null;
 //	protected static Dao<ProviderBean, Integer> providerMappingDao = null;
 	private static ProviderDAOManager providerDAOManager;
 	
