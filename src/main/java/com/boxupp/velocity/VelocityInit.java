@@ -19,6 +19,7 @@ public class VelocityInit {
 		prop.setProperty("class.resource.loader.description", "Velocity Classpath Resource Loader");
 		prop.setProperty("class.resource.loader.class", 
 					  "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+		prop.setProperty("math", "org.apache.velocity.tools.generic.MathTool");
 		ve.init(prop);
 	}
 	

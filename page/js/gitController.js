@@ -7,7 +7,7 @@ angular.module("boxuppApp").controller('gitController', [ '$scope', '$routeParam
 		path:"local/VagrantFile",
 		comment:"Trial commit"
 	};
-	
+	$scope.loaderValid = false;
 	$scope.getGitRepoList = function(){
 		
 		if( !$scope.githubConfig.password ){
@@ -62,6 +62,7 @@ angular.module("boxuppApp").controller('gitController', [ '$scope', '$routeParam
 
 			}
 		});
+
 	}
 	$scope.branchValidity = function(){
 		$scope.branchValid = true;

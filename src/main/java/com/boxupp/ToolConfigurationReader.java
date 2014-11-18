@@ -1,9 +1,7 @@
 package com.boxupp;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 
 import javax.xml.bind.Binder;
 import javax.xml.bind.JAXBContext;
@@ -12,6 +10,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -19,6 +19,7 @@ import org.xml.sax.SAXException;
 import com.boxupp.beans.Config;
 
 public class ToolConfigurationReader {
+	private static Logger logger = LogManager.getLogger(ToolConfigurationReader.class.getName());
 
 	public Config getConfiguration(){
 
@@ -37,19 +38,14 @@ public class ToolConfigurationReader {
 			Binder<Node> binder = jc.createBinder();
 		    config = (Config) binder.unmarshal(doc);
 			binder.updateXML(config);
-			
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in parsing configuration file :"+e.getMessage());
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in reading configuration file :"+e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in reading configuration file :"+e.getMessage());
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error in reading configuration file :"+e.getMessage());
 		}
 		return config;
 

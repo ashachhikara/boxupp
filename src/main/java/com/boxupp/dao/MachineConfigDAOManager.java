@@ -16,16 +16,13 @@ import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.Utilities;
-import com.boxupp.windows.WindowsShellExecutor;
 import com.boxupp.windows.WindowsShellProcessor;
-import com.boxupp.ws.VagrantConsole;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
-import com.j256.ormlite.stmt.query.In;
 
 public class MachineConfigDAOManager implements DAOImplInterface {
 	private static Logger logger = LogManager.getLogger(MachineConfigDAOManager.class.getName());

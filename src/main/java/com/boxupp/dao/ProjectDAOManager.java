@@ -74,6 +74,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 			Integer providerID = ProviderDAOManager.getInstance().providerDao.queryForId(projectBean.getProviderType()).getProviderID();
 			ProjectProviderMappingBean projectProvider = new ProjectProviderMappingBean(projectBean.getProjectID(), providerID);
 			projectProviderMappingDao.create(projectProvider);
+			System.out.println(projectProvider);
 
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
@@ -247,7 +248,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 		String provider = null;
 		try {
 			Integer providerId = projectProviderMappingDao.queryForEq("projectID", Integer.parseInt(projectID))
-					.get(0).getProjectID();
+					.get(0).getProviderID();
 			provider = ProviderDAOManager.getInstance().providerDao.queryForId(providerId).getName();
 		} catch (NumberFormatException e) {
 			logger.error("Error in finding provider for project :"+ e.getMessage());
