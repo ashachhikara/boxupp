@@ -6,8 +6,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.boxupp.dao.GitRepoDAOManager;
-import com.boxupp.dao.ProjectDAOManager;
 import com.boxupp.dao.ProviderDAOManager;
 import com.boxupp.db.beans.DockerLinkBean;
 import com.boxupp.db.beans.ForwardedPortsBean;
@@ -68,6 +66,7 @@ public class DBConnectionManager {
 			//************* DELETE TABLES **************//
 
 //			TableUtils.dropTable(connectionSource, ProviderBean.class, true);
+
 //			TableUtils.dropTable(connectionSource, UserDetailBean.class, true);
 //			TableUtils.dropTable(connectionSource, ProjectBean.class, true);
 //			TableUtils.dropTable(connectionSource, ProjectProviderMappingBean.class, true);
@@ -85,6 +84,7 @@ public class DBConnectionManager {
 //
 //			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
 
+
 			//************* CREATE TABLES **************//
 
 
@@ -101,12 +101,14 @@ public class DBConnectionManager {
 			TableUtils.createTable(connectionSource, SyncFoldersBean.class);
 			TableUtils.createTable(connectionSource, DockerLinkBean.class);
 			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
+
 			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
 
 			TableUtils.createTable(connectionSource, GitRepoBean.class);
 			
 		
 			
+
 			//***************CREATE_ENTRIES**********************//
 			
 			/*ProviderBean provider1 = new ProviderBean();

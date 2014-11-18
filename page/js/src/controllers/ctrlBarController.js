@@ -54,7 +54,6 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 	};
 
 	$scope.createBoxes = function(boxData){
-
 		$scope.quickBoxCommitLoader = true;
 		$scope.toBeCreatedBox = angular.copy(boxData);
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
@@ -80,16 +79,20 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.toBeCreatedBox.isDisabled = false;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			$scope.boxesData.push(data.beanData);
-			$scope.quickBox = {};
+			$scope.quickBox = {};syncFolderMappings
 			$scope.quickBoxForm.$setPristine();
 		});
 		$scope.quickBoxCommitLoader = false;	
 	}
 
 	$scope.cloneBoxData = function(cloneBox){
+
 		$('#boxModal').modal('show');
+
 		$scope.toBeClonedBox = angular.copy(cloneBox);
-		$scope.toBeClonedBox.networkIP = null;
+		if($scope.toBeClonedBox.networkIP != null){
+			$scope.toBeClonedBox.networkIP = null;
+		}
 		$scope.toBeClonedBox.vagrantID = null;
 		$scope.toBeClonedBox.hostName = null;
 		angular.extend($scope.rawBox,$scope.toBeClonedBox);
@@ -103,6 +106,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.rawBoxForm.basicSettings.boxType.$render();
 		$scope.rawBoxForm.basicSettings.boxUrl.$render();
 		$scope.rawBoxForm.basicSettings.hostName.$render();
+
 	}
 
 	$scope.generateNewIP = function(){
