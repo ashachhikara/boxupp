@@ -96,6 +96,15 @@ public class MachineConfigurationBean {
 	@DatabaseField(useGetSet = true)
 	private Boolean isDisabled;
 	
+	@DatabaseField(useGetSet = true, defaultValue="0")
+	private Integer configChangeFlag;
+	
+	@DatabaseField(useGetSet = true, defaultValue="0")
+	private Integer scriptChangeFlag;
+	
+	@DatabaseField(useGetSet = true, defaultValue="0")
+	private Integer moduleChangeFlag;
+	
 	public Integer getMachineID() {
 		return machineID;
 	}
@@ -201,7 +210,6 @@ public class MachineConfigurationBean {
 	}
 
 	public void setSyncFolders(ArrayList<SyncFoldersBean> syncFolders) throws SQLException {
-		System.out.println("sync folders called");
 		this.syncFolders = syncFolders;
 		MachineConfigDAOManager.getInstance().machineConfigDao.assignEmptyForeignCollection(this, "ormSyncFolders");
 		this.ormSyncFolders.addAll(syncFolders);
@@ -348,6 +356,30 @@ public class MachineConfigurationBean {
 
 	public void setIsDisabled(Boolean isDisabled) {
 		this.isDisabled = isDisabled;
+	}
+
+	public Integer getConfigChangeFlag() {
+		return configChangeFlag;
+	}
+
+	public void setConfigChangeFlag(Integer configChangeFlag) {
+		this.configChangeFlag = configChangeFlag;
+	}
+
+	public Integer getScriptChangeFlag() {
+		return scriptChangeFlag;
+	}
+
+	public void setScriptChangeFlag(Integer scriptChangeFlag) {
+		this.scriptChangeFlag = scriptChangeFlag;
+	}
+
+	public Integer getModuleChangeFlag() {
+		return moduleChangeFlag;
+	}
+
+	public void setModuleChangeFlag(Integer moduleChangeFlag) {
+		this.moduleChangeFlag = moduleChangeFlag;
 	}
 
 }
