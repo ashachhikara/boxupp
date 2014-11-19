@@ -79,6 +79,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		var updatedContent = $scope.rawBox;
 		$scope.entry = MachineConfig.get({id:updatedContent.machineID},function(){
 			angular.extend($scope.entry,updatedContent);
+			$scope.entry.configChangeFlag =1;
 			$scope.entry.$update(function(){
 				angular.forEach($scope.boxesData,function(box){
 					if(box.machineID === $scope.entry.beanData.machineID){
@@ -98,8 +99,9 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 			$scope.entry.creationTime = miscUtil.fetchCurrentTime();
 			$scope.entry.userID = $routeParams.userID;
 			$scope.entry.$update(function(){
+				var beanScriptID = $scope.entry.beanData.scriptID;
 				angular.forEach($scope.shellScripts,function(script){
-					if(script.scriptID === $scope.entry.beanData.scriptID){
+					if(script.scriptID === beanScriptID){
 						angular.extend(script,$scope.entry.beanData);
 						$scope.triggerScriptChangeFlag(script);
 						return;
@@ -115,19 +117,22 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 			if($scope.shellProvMappings[key].indexOf(scriptID) != -1){
 				angular.forEach($scope.boxesData,function(box){
 					if(box.machineID == key){
-						var updatedContent = angular.copy(box);
-						$scope.entry = MachineConfig.get({id:box.machineID},function(){
+						$scope.setScriptFlagForBox(box);
+					}
+				});	
+			}
+		});
+	}
+
+	$scope.setScriptFlagForBox = function(box){
+		var updatedContent = angular.copy(box);
+		$scope.entry = MachineConfig.get({id:box.machineID},function(){
 							angular.extend($scope.entry,updatedContent);
 							$scope.entry.scriptChangeFlag = 1;
 							$scope.entry.$update(function(){
 								box.scriptChangeFlag = 1;		
 							});
 						});
-						
-					}
-				});	
-			}
-		});
 	}
 
 
@@ -219,17 +224,23 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.fetchShellScriptMappings = function(){
 		retrieveMappings.fetchScriptMappings().then(function(mappings){
 			$scope.shellProvMappings = {};
-			angular.forEach(mappings,function(map){
-				var machineID = map.machineConfig.machineID;
-				var scriptID = map.script.scriptID;
-				if($scope.shellProvMappings.hasOwnProperty(machineID)){
-					$scope.shellProvMappings[machineID].push(scriptID);
-				}else{
-					$scope.shellProvMappings[machineID] = [];
-					$scope.shellProvMappings[machineID].push(scriptID);
-				}
-			});
+			$scope.shellProvMappings = $scope.convertScriptMappingsStructure(mappings);
 		});
+	}
+
+	$scope.convertScriptMappingsStructure = function(mappings){
+		var newMappings = {};
+		angular.forEach(mappings,function(map){
+			var machineID = map.machineConfig.machineID;
+			var scriptID = map.script.scriptID;
+			if(newMappings.hasOwnProperty(machineID)){
+				newMappings[machineID].push(scriptID);
+			}else{
+				newMappings[machineID] = [];
+				newMappings[machineID].push(scriptID);
+			}
+		});
+		return newMappings;
 	}
 
 	$scope.fetchPuppetMappings = function(){

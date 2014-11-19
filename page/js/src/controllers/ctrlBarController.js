@@ -79,7 +79,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.toBeCreatedBox.isDisabled = false;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			$scope.boxesData.push(data.beanData);
-			$scope.quickBox = {};syncFolderMappings
+			$scope.quickBox = {};
 			$scope.quickBoxForm.$setPristine();
 		});
 		$scope.quickBoxCommitLoader = false;	

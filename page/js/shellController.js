@@ -1,5 +1,5 @@
 angular.module("boxuppApp").
-	controller('shellController',function($scope,provision){	
+	controller('shellController',function($scope,provision,$q,retrieveMappings){	
 	
 	$scope.selectedProvMachine = {};
 	
@@ -9,10 +9,38 @@ angular.module("boxuppApp").
 	}
 
 	$scope.commitShellScriptProvisioning = function(){
-		provision.commitShellMappings($scope.shellProvMappings).then(function(){
-			console.log('Shell Script Mappings have been committed');
+		$scope.triggerScriptProvisioningFlagChanges().then(function(){
+			provision.commitShellMappings($scope.shellProvMappings).then(function(){
+				console.log('Shell Script Mappings have been committed');
+			});
 		});
 	}
+
+	$scope.triggerScriptProvisioningFlagChanges = function(){
+		var defferred = $q.defer();
+		retrieveMappings.fetchScriptMappings().then(function(mappings){
+			var newMappings = $scope.convertScriptMappingsStructure(mappings);
+			angular.forEach(newMappings,function(value,key){
+				//Check is same machine is mapped in current mappings, only then flag will be set
+				if($scope.shellProvMappings.hasOwnProperty(key) && $scope.shellProvMappings[key].length > 0){
+					//Difference between previously mapped and present mapping array for a particular box
+					var arrayDifference = _.difference($scope.shellProvMappings[key],value);
+					if(arrayDifference.length>0){
+						angular.forEach($scope.boxesData,function(box){
+							if(box.machineID == key){
+								$scope.setScriptFlagForBox(box);
+							}	
+						});
+						
+					}
+				}
+			});
+			defferred.resolve();
+		});
+		return defferred.promise;
+	}
+
+
 
 	$scope.updateShellProvMapping = function(selectedProvMachine){
 			var checkedScripts = [];
