@@ -67,6 +67,20 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.quickBoxForm.$setPristine();
 		$scope.quickBoxCommitLoader = false;
 	}
+	$scope.createContainerBoxes = function(boxData){
+		$scope.quickContainerBoxCommitLoader = true;
+		$scope.toBeCreatedBox = angular.copy(boxData);
+		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
+		$scope.toBeCreatedBox.providerID = $routeParams.providerID;
+		$scope.toBeCreatedBox.isDisabled = false;
+		MachineConfig.save($scope.toBeCreatedBox,function(data){
+			$scope.boxesData.push(data.beanData);
+			$scope.quickBox = {};
+			$scope.containerQuickBoxForm.$setPristine();
+		});
+		$scope.containerQuickBoxForm.$setPristine();
+		$scope.quickContainerBoxCommitLoader = false;
+	}
 
 	$scope.createQuickBox = function(boxData){
 		
@@ -79,12 +93,26 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.toBeCreatedBox.isDisabled = false;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			$scope.boxesData.push(data.beanData);
-			$scope.quickBox = {};syncFolderMappings
+			$scope.quickBox = {};
 			$scope.quickBoxForm.$setPristine();
 		});
 		$scope.quickBoxCommitLoader = false;	
 	}
+	$scope.createContainerQuickBox = function(boxData){
+		
+		$scope.toBeCreatedBox = angular.copy(boxData);
+		angular.extend($scope.toBeCreatedBox,$scope.projectData.defaultSettings);
 
+		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
+		$scope.toBeCreatedBox.providerID = $routeParams.providerID;
+		$scope.toBeCreatedBox.isDisabled = false;
+		MachineConfig.save($scope.toBeCreatedBox,function(data){
+			$scope.boxesData.push(data.beanData);
+			$scope.quickBox = {};
+			$scope.containerQuickBoxForm.$setPristine();
+		});
+		$scope.containerQuickBoxCommitLoader = false;	
+	}
 	$scope.cloneBoxData = function(cloneBox){
 
 		$('#boxModal').modal('show');
@@ -108,6 +136,23 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.rawBoxForm.basicSettings.hostName.$render();
 
 	}
+	$scope.cloneContainerBoxData = function(cloneBox){
+
+		$('#boxModal').modal('show');
+
+		$scope.toBeClonedBox = angular.copy(cloneBox);
+		$scope.toBeClonedBox.vagrantID = null;
+		$scope.toBeClonedBox.hostName = null;
+		angular.extend($scope.rawBox,$scope.toBeClonedBox);
+		
+		$scope.containerRawBoxForm.basicSettings.vagrantID.$setViewValue($scope.toBeClonedBox.vagrantID);
+		$scope.containerRawBoxForm.basicSettings.hostName.$setViewValue($scope.toBeClonedBox.hostName);
+
+		$scope.containerRawBoxForm.basicSettings.vagrantID.$render();
+		$scope.containerRawBoxForm.basicSettings.hostName.$render();
+
+	}
+
 
 	$scope.generateNewIP = function(){
 		var presentIP ="";
@@ -152,6 +197,13 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 				    $scope.containerQuickBoxForm.imageName.$valid);								
 				// !$scope.containerQuickBoxForm.imageName.$pristine &&
 		},
+		containerRawBox : function(){
+				return !(!$scope.containerRawBoxForm.basicSettings.vagrantID.$pristine && $scope.containerRawBoxForm.basicSettings.vagrantID.$valid &&
+				    !$scope.containerRawBoxForm.basicSettings.hostName.$pristine && $scope.containerRawBoxForm.basicSettings.hostName.$valid &&
+				    $scope.containerRawBoxForm.basicSettings.imageName.$valid );
+				   	
+
+		},
 		vmRawBoxUpdate : function(){
 				return angular.equals($scope.rawBox,$scope.activeVM);
 		},
@@ -177,6 +229,11 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 				$scope.projectData.boxesState.update = false;
 				$scope.rawBoxForm.basicSettings.$setPristine();
 				$scope.rawBoxForm.networkSettings.$setPristine();
+				$('#boxModal').modal('hide');
+			},
+			containerBox : function(){
+				$scope.projectData.boxesState.update = false;
+				$scope.containerRawBoxForm.basicSettings.$setPristine();
 				$('#boxModal').modal('hide');
 			}	
 		}

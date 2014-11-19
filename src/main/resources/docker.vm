@@ -29,10 +29,10 @@ Vagrant.configure("2") do |config|
 		#set($identifier=$childBean.vagrantID)
 		#end 
 	
-		config.vm.define :$childBean.vagrantID do |$identifier|
-			$identifier$providerMarker :$childBean.providerType do |d|
+		config.vm.define "$childBean.vagrantID" do |$identifier|
+			$identifier$providerMarker "$childBean.providerType" do |d|
 				d.image = "$childBean.dockerImage:latest"
-				d.name = $identifier
+				d.name = "$identifier"
 				d.has_ssh= true
 				
 				#foreach($portMapping in $portMappings)
@@ -50,7 +50,7 @@ Vagrant.configure("2") do |config|
 			#end
 			end
 			
-			$identifier$hostnameMarker = $childBean.hostName
+			$identifier$hostnameMarker = "$childBean.hostName"
 			$identifier$sshUsernameMarker = "root"
 			$identifier$sshPasswordMarker = "root123"
 			

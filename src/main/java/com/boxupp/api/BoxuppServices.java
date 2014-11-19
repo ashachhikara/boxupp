@@ -215,7 +215,6 @@ public class BoxuppServices {
 		WindowsShellProcessor shellProcessor = new WindowsShellProcessor();
 		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		return shellProcessor.checkVagrantStatus(location);
-		
 	}
 	
 	@GET

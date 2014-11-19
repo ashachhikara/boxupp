@@ -31,6 +31,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.rawScript = {};
 	$scope.rawBoxForm = {};
 	$scope.rawBoxFormNetworkSettings = {};
+	$scope.containerRawBoxForm ={};
 	$scope.moduleProvMappings = {};
 	$scope.shellProvMappings = {};
 	$scope.server = {
@@ -150,7 +151,21 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 			});
 		});
 	}
-
+$scope.updateContainerBox = function(){
+		var updatedContent = $scope.rawBox;
+		$scope.entry = MachineConfig.get({id:updatedContent.machineID},function(){
+			angular.extend($scope.entry,updatedContent);
+			$scope.entry.$update(function(){
+				angular.forEach($scope.boxesData,function(box){
+					if(box.machineID === $scope.entry.beanData.machineID){
+						angular.extend(box,$scope.entry.beanData);
+						box.configChangeFlag = 1;
+						return;
+					}
+				});
+			});
+		});
+	}
 	$scope.updateScript = function(){
 		var updatedContent = $scope.rawScript;
 		$scope.entry = shellScript.get({id:updatedContent.scriptID},function(){
@@ -636,20 +651,16 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		$scope.vagrantOutput = [];
 	}
 	$scope.deployAllBoxes = function(){
-		
+		/*angular.forEach($scope.boxesData function(value, key){
+
+		});*/
+
 	}
 	$scope.deployEnvironment = function(vmConfig){
-		if($scope.checkDataValidity()){
-			if($scope.boxuppStateChanged()){
-				executeCommand.saveBoxuppData($scope, $routeParams.projectID, $routeParams.userID).then(function(response){
-					$scope.startDeployment(vmConfig);			
-				});			
-			}else{
-				executeCommand.saveBoxuppData($scope, $routeParams.projectID, $routeParams.userID).then(function(response){
-					$scope.startDeployment();			
-				});
-			}		
-		}		
+		executeCommand.saveBoxuppData($scope, $routeParams.projectID, $routeParams.userID).then(function(response){
+			$scope.startDeployment(vmConfig);			
+		});			
+	
 	}
 	$scope.startDeployment = function(vmConfig){
 		$scope.outputConsole.boxuppExecuting = true;
@@ -657,7 +668,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		var optionSelected = $scope.vagrantOptions;
 		if(optionSelected === 0){
 			$scope.pushCustomMessage();
-			vagrantStatus.updateVagrantStatus($scope.serverAddress,$scope, $routeParams.userID).then(function(response){
+			vagrantStatus.updateVagrantStatus($scope.serverAddress,$scope, $vmConfig.vagrantID, $routeParams.userID).then(function(response){
 				$scope.chooseBestDeployOption(vmConfig);
 				executeCommand.triggerVagrant($scope.serverAddress,$scope);
 			});
@@ -923,7 +934,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	}
 	
 	
-	$scope.checkDataValidity = function(){
+	/*$scope.checkDataValidity = function(){
 		for(box in $scope.boxesData){
 			if($scope.boxesData[box].isValid === false){
 				alert('Please check the box configurations for errors first');
@@ -931,7 +942,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 			}
 		}
 		return true;
-	}
+	}*/
 	
 	
 	
