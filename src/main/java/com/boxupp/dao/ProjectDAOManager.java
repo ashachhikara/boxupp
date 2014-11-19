@@ -273,9 +273,11 @@ public class ProjectDAOManager implements DAOImplInterface {
 	public <E> List<E> retireveScriptsMapping(String projectID) {
 		List<ShellScriptMapping> scriptMappingList = new ArrayList<ShellScriptMapping>();
 		try {
-			List<ShellScriptBean>shellScripts = ShellScriptDAOManager.getInstance().shellScriptDao.queryForEq("isDisabled", false);
-			List<MachineConfigurationBean>machineConfigs = MachineConfigDAOManager.getInstance().machineConfigDao.queryForEq("isDisabled", false);
-			scriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryBuilder().where().in(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScripts).and().in(ShellScriptMapping.MACHINE_ID_FIELD_NAME, machineConfigs).query();
+			List<ShellScriptBean> shellScripts = ShellScriptDAOManager.getInstance().shellScriptDao.queryForEq("isDisabled", false);
+			List<MachineConfigurationBean> machineConfigs = MachineConfigDAOManager.getInstance().machineConfigDao.queryForEq("isDisabled", false);
+			if(!(shellScripts.isEmpty() && machineConfigs.isEmpty())){
+				scriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryBuilder().where().in(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScripts).and().in(ShellScriptMapping.MACHINE_ID_FIELD_NAME, machineConfigs).query();
+			}
 			//scriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryForAll();
 		} catch (SQLException e) {
 			logger.error("Error in retireving scripts mapping: "+ e.getMessage());
