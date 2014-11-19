@@ -71,7 +71,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.quickContainerBoxCommitLoader = true;
 		$scope.toBeCreatedBox = angular.copy(boxData);
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
-		$scope.toBeCreatedBox.providerID = $routeParams.providerID;
+		$scope.toBeCreatedBox.providerType = $scope.providerType;
 		$scope.toBeCreatedBox.isDisabled = false;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			$scope.boxesData.push(data.beanData);
@@ -104,7 +104,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		angular.extend($scope.toBeCreatedBox,$scope.projectData.defaultSettings);
 
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
-		$scope.toBeCreatedBox.providerID = $routeParams.providerID;
+		$scope.toBeCreatedBox.providerType = $scope.providerType;
 		$scope.toBeCreatedBox.isDisabled = false;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			$scope.boxesData.push(data.beanData);
@@ -201,8 +201,6 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 				return !(!$scope.containerRawBoxForm.basicSettings.vagrantID.$pristine && $scope.containerRawBoxForm.basicSettings.vagrantID.$valid &&
 				    !$scope.containerRawBoxForm.basicSettings.hostName.$pristine && $scope.containerRawBoxForm.basicSettings.hostName.$valid &&
 				    $scope.containerRawBoxForm.basicSettings.imageName.$valid );
-				   	
-
 		},
 		vmRawBoxUpdate : function(){
 				return angular.equals($scope.rawBox,$scope.activeVM);
