@@ -1,4 +1,4 @@
-package com.boxupp.windows;
+package com.boxupp.vagrant;
 
 import java.io.IOException;
 
@@ -6,14 +6,21 @@ import com.boxupp.VagrantOutputStream;
 import com.boxupp.responseBeans.VagrantStatus;
 import com.boxupp.ws.OutputConsole;
 
-public class WindowsShellProcessor {
-	private static WindowsShellExecutor shellExec = new WindowsShellExecutor();
-	private static WindowsShellParser shellParser = new WindowsShellParser();
+public class VagrantCommandProcessor {
+	private static VagrantCommandExecutor shellExec = new VagrantCommandExecutor();
+	private static VagrantCommandParser shellParser = new VagrantCommandParser();
 	
 	public VagrantStatus checkVagrantStatus(String location){
 		shellExec.setCMDExecDir(location);
 		StringBuffer cmdOutput;
 		cmdOutput = shellExec.checkVagrantStatusCMD("vagrant","status");
+		return shellParser.parseVagrantStatusCMD(cmdOutput);
+	}
+	
+	public VagrantStatus checkMachineStatus(String location, String vagrantID){
+		shellExec.setCMDExecDir(location);
+		StringBuffer cmdOutput;
+		cmdOutput = shellExec.checkVagrantStatusCMD("vagrant","status",vagrantID);
 		return shellParser.parseVagrantStatusCMD(cmdOutput);
 	}
 	
@@ -42,6 +49,7 @@ public class WindowsShellProcessor {
 	}
 	
 	public static void main(String args[]) throws IOException, InterruptedException{
-		WindowsShellProcessor proc = new WindowsShellProcessor();
+		VagrantCommandProcessor proc = new VagrantCommandProcessor();
+		System.out.println(proc.filterCommand("vagrant destroy mysql")+"'");
 	}
 }

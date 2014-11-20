@@ -1,4 +1,4 @@
-package com.boxupp.windows;
+package com.boxupp.vagrant;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,9 +15,9 @@ import com.boxupp.utilities.Utilities;
 import com.boxupp.ws.OutputConsole;
 
 
-public class WindowsShellExecutor {
+public class VagrantCommandExecutor {
 	
-	private static Logger logger = LogManager.getLogger(WindowsShellExecutor.class.getName());
+	private static Logger logger = LogManager.getLogger(VagrantCommandExecutor.class.getName());
 	
 	public static String WIN_CMD_PROCESSOR = "cmd";
 	public static String OPTION_REG_VALUENAME = " /v";
@@ -153,10 +153,11 @@ public class WindowsShellExecutor {
 	}
 		
 	public static void main(String args[]) throws IOException, InterruptedException{
-		WindowsShellExecutor executor = new WindowsShellExecutor();
+		VagrantCommandExecutor executor = new VagrantCommandExecutor();
 		String[] array = {"vagrant","status"};
 		executor.setCMDExecDir(OSProperties.getInstance().getUserHomeDirectory());
 		executor.checkVagrantStatusCMD(array);
+		System.out.println("completed");
 	}
 }
 	
