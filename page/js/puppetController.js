@@ -8,9 +8,35 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 		}
 
 		$scope.commitModulesProvisioning = function(){
-			provision.commitModuleMappings($scope.moduleProvMappings).then(function(){
-				console.log('Puppet Mappings have been committed');
+			$scope.triggerPuppetProvisioningFlagChanges().then(function(){
+				provision.commitModuleMappings($scope.moduleProvMappings).then(function(){
+					console.log('Puppet Mappings have been committed');
+				});
 			});
+		}
+
+		$scope.triggerPuppetProvisioningFlagChanges = function(){
+			var defferred = $q.defer();
+			retrieveMappings.fetchPuppetMappings().then(function(mappings){
+				var newMappings = $scope.convertPuppetMappingsStructure(mappings);
+				angular.forEach(newMappings,function(value,key){
+					//Check is same machine is mapped in current mappings, only then flag will be set
+					if($scope.moduleProvMappings.hasOwnProperty(key) && $scope.moduleProvMappings[key].length > 0){
+						//Difference between previously mapped and present mapping array for a particular box
+						var arrayDifference = _.difference($scope.moduleProvMappings[key],value);
+						if(arrayDifference.length>0){
+							angular.forEach($scope.boxesData,function(box){
+								if(box.machineID == key){
+									$scope.setPuppetFlagForBox(box);
+								}	
+							});
+							
+						}
+					}
+				});
+				defferred.resolve();
+			});
+			return defferred.promise;
 		}
 
 		$scope.updateModuleProvMapping = function(selectedProvMachine){

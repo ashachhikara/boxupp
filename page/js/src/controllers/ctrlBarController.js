@@ -64,6 +64,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 			$scope.boxesData.push(data.beanData);
 			$scope.quickBox = {};
 			$scope.quickBoxForm.$setPristine();
+			$scope.startDeployment(data.beanData);
 		});
 		$scope.quickBoxForm.$setPristine();
 		$scope.quickBoxCommitLoader = false;
@@ -80,6 +81,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 			$scope.boxesData.push($scope.dockerLinkMappingForFrontend(data.beanData));
 			$scope.quickBox = {};
 			$scope.containerQuickBoxForm.$setPristine();
+			$scope.startDeployment(data.beanData);
 		});
 		$scope.containerQuickBoxForm.$setPristine();
 		$scope.quickContainerBoxCommitLoader = false;
@@ -99,6 +101,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 			$scope.boxesData.push(data.beanData);
 			$scope.quickBox = {};
 			$scope.quickBoxForm.$setPristine();
+			$scope.startDeployment(data.beanData);
 		});
 		$scope.quickBoxCommitLoader = false;	
 	}
@@ -114,6 +117,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 			$scope.boxesData.push(data.beanData);
 			$scope.quickBox = {};
 			$scope.containerQuickBoxForm.$setPristine();
+			$scope.startDeployment(data.beanData);
 		});
 		$scope.containerQuickBoxCommitLoader = false;	
 	}

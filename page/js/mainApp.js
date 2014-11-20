@@ -342,6 +342,17 @@ $scope.updateContainerBox = function(){
 						});
 	}
 
+	$scope.setPuppetFlagForBox = function(box){
+		var updatedContent = angular.copy(box);
+		$scope.entry = MachineConfig.get({id:box.machineID},function(){
+							angular.extend($scope.entry,updatedContent);
+							$scope.entry.moduleChangeFlag = 1;
+							$scope.entry.$update(function(){
+								box.moduleChangeFlag = 1;		
+							});
+						});	
+	}
+
 
 	// $scope.selectedProvMachine = {};
 
@@ -450,19 +461,25 @@ $scope.updateContainerBox = function(){
 		return newMappings;
 	}
 
+	$scope.convertPuppetMappingsStructure = function(mappings){
+		var newMappings = {};
+		angular.forEach(mappings,function(map){
+			var machineID = map.machineConfig.machineID;
+			var puppetID = map.puppetModule.puppetID;
+			if(newMappings.hasOwnProperty(machineID)){
+				newMappings[machineID].push(puppetID);
+			}else{
+				newMappings[machineID] = [];
+				newMappings[machineID].push(puppetID);
+			}
+		});
+		return newMappings;
+	}
+
 	$scope.fetchPuppetMappings = function(){
 		retrieveMappings.fetchPuppetMappings().then(function(mappings){
 			$scope.moduleProvMappings = {};
-			angular.forEach(mappings,function(map){
-				var machineID = map.machineConfig.machineID;
-				var puppetID = map.puppetModule.puppetID;
-				if($scope.moduleProvMappings.hasOwnProperty(machineID)){
-					$scope.moduleProvMappings[machineID].push(puppetID);
-				}else{
-					$scope.moduleProvMappings[machineID] = [];
-					$scope.moduleProvMappings[machineID].push(puppetID);
-				}
-			});
+			$scope.moduleProvMappings = $scope.convertPuppetMappingsStructure(mappings);
 		});
 	}
 
