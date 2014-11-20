@@ -43,7 +43,7 @@ import com.boxupp.responseBeans.VagrantFileStatus;
 import com.boxupp.responseBeans.VagrantOutput;
 import com.boxupp.responseBeans.VagrantStatus;
 import com.boxupp.utilities.Utilities;
-import com.boxupp.windows.WindowsShellProcessor;
+import com.boxupp.vagrant.VagrantCommandProcessor;
 import com.boxupp.ws.OutputConsole;
 
 @Path("/")
@@ -178,7 +178,7 @@ public class BoxuppServices {
 	@Path("/boxupp")
 	public String runVagrantFile(@Context HttpServletRequest request) throws IOException, InterruptedException{
 		Integer userID = Integer.parseInt(request.getParameter("userID"));
-		WindowsShellProcessor shellProcessor = new WindowsShellProcessor();
+		VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
 		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		String command = request.getParameter("command");
 		if(command.toLowerCase(Locale.ENGLISH).indexOf("vagrant")!= -1 ){
@@ -212,9 +212,23 @@ public class BoxuppServices {
 	
 	public VagrantStatus checkVagrantStatus(@Context HttpServletRequest request){
 		Integer userID = Integer.parseInt(request.getParameter("userID"));
-		WindowsShellProcessor shellProcessor = new WindowsShellProcessor();
+		VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
 		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		return shellProcessor.checkVagrantStatus(location);
+		
+	}
+	
+	@GET
+	@Path("/checkMachineStatus")
+	@Produces(MediaType.APPLICATION_JSON)
+	
+	public VagrantStatus checkMachineStatus(@Context HttpServletRequest request){
+		Integer userID = Integer.parseInt(request.getParameter("userID"));
+		String vagrantID = request.getParameter("vagrantID");
+		
+		VagrantCommandProcessor commandProcessor = new VagrantCommandProcessor();
+		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
+		return commandProcessor.checkMachineStatus(location,vagrantID);
 		
 	}
 	

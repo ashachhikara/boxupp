@@ -21,7 +21,7 @@ import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.db.beans.UserProjectMapping;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.Utilities;
-import com.boxupp.windows.WindowsShellProcessor;
+import com.boxupp.vagrant.VagrantCommandProcessor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.j256.ormlite.dao.Dao;
@@ -157,7 +157,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 			for(MachineConfigurationBean machineConfig : machineConfigList){
 				MachineConfigDAOManager.getInstance().delete(machineConfig.getMachineID().toString());
 				String vagrantCommand = "vagrant destroy "+machineConfig.getVagrantID();
-				WindowsShellProcessor shellProcessor = new WindowsShellProcessor();
+				VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
 				try {
 					shellProcessor.executeVagrantFile(location,vagrantCommand, userID, new VagrantOutputStream());
 				} catch (IOException e) {

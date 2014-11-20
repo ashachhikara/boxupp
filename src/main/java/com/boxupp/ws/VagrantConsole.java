@@ -18,7 +18,7 @@ import com.boxupp.responseBeans.VagrantOutput;
 import com.boxupp.responseBeans.VagrantStreamError;
 import com.boxupp.responseBeans.VagrantStreamOutput;
 import com.boxupp.utilities.Utilities;
-import com.boxupp.windows.WindowsShellProcessor;
+import com.boxupp.vagrant.VagrantCommandProcessor;
 import com.google.gson.Gson;
 
 @WebSocket
@@ -35,11 +35,17 @@ public class VagrantConsole implements OutputConsole{
     }
 
 	@OnWebSocketMessage
-    public void onMessage(Session session,String command, Integer userID) throws IOException, InterruptedException {
-        WindowsShellProcessor shellProcessor = new WindowsShellProcessor();
-		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
+    public void onMessage(Session session,String command) throws IOException, InterruptedException {
+		System.out.println("Websocket command received : " + command);
+		String[] commands = command.split(":");
+		Integer userID = Integer.parseInt(commands[1]);
+		command = commands[0];
+        VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
+//		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
+        String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
         if(command.toLowerCase(Locale.ENGLISH).indexOf("vagrant")!= -1 ){
-			shellProcessor.executeVagrantFile(location,command,userID, this);
+//			shellProcessor.executeVagrantFile(location,command,userID, this);
+        	shellProcessor.executeVagrantFile(location,command,userID, this);
 		}else{
 			this.pushError("Not a valid Vagrant command");
 			this.pushDataTermination();
@@ -50,6 +56,7 @@ public class VagrantConsole implements OutputConsole{
 	@OnWebSocketClose
     public void onClose(int statusCode, String reason) {
         logger.info("Close: statusCode=" + statusCode + ", reason=" + reason);
+        System.out.println("connection closed "+ statusCode + ", reason=" + reason);
     }
 
     @OnWebSocketError
@@ -80,11 +87,14 @@ public class VagrantConsole implements OutputConsole{
 		vagrantStreamOutput.setOutput("Execution Completed");
 		vagrantStreamOutput.setDataEnd(true);
 		commitOutput(vagrantStreamOutput);
+		
+		
 	}
 	
 	public void commitOutput(VagrantOutput output){
 		try{
 			remote.sendString(gson.toJson(output));
+			System.out.println(gson.toJson(output));
 		}
 		catch(IOException e){
 			logger.error("Error committing output to console : "+e.getMessage());

@@ -58,6 +58,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.toBeCreatedBox = angular.copy(boxData);
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
 		$scope.toBeCreatedBox.providerID = $routeParams.providerID;
+		$scope.toBeCreatedBox.providerType = $scope.providerType;
 		$scope.toBeCreatedBox.isDisabled = false;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			$scope.boxesData.push(data.beanData);
@@ -76,10 +77,11 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
 		$scope.toBeCreatedBox.providerID = $routeParams.providerID;
+		$scope.toBeCreatedBox.providerType = $scope.providerType;
 		$scope.toBeCreatedBox.isDisabled = false;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			$scope.boxesData.push(data.beanData);
-			$scope.quickBox = {};syncFolderMappings
+			$scope.quickBox = {};
 			$scope.quickBoxForm.$setPristine();
 		});
 		$scope.quickBoxCommitLoader = false;	

@@ -16,10 +16,18 @@ angular.module('boxuppApp',['ui.codemirror','app','ngAnimate', 'ngLoadScript','n
 		      	controller: 'projectInitController'
 		      }).when('/projects/:userID/:projectID/:providerType/docker/',{
 		      	templateUrl: 'templates/dockerDashboard.html',
-		      	controller: 'vboxController'
+		      	controller: 'vboxController',
+		      	resolve : {
+		      		providerType : 'docker'
+		      	}
 		      }).when('/projects/:userID/:projectID/:providerType/virtualbox/',{
 		      	templateUrl: 'templates/vboxDashboard.html',
-		      	controller: 'vboxController'
+		      	controller: 'vboxController',
+		      	resolve : {
+		      		provider : function(){
+		      			return 'virtualbox';
+		      		}
+		      	}
 		      }).otherwise({
 		      	redirectTo : '/login/'
 		      });

@@ -107,10 +107,22 @@ div.secondaryNavElements {
   top: 51px;
   bottom: 0px; }
   div.secondaryNavElements .secondaryNavList li.active a {
-    background: #FFFFFF;
-    color: black; }
+    background: grey;
+    color: #FFF; }
   div.secondaryNavElements .secondaryNavList li.active a:hover {
-    background: #FFFFFF; }
+    background: grey; }
+  div.secondaryNavElements .secondaryNavList li.active div.arrow {
+    display: block;
+    width: 0;
+    height: 0;
+    border-right: 20px solid transparent;
+    border-left: 20px solid grey;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    position: absolute;
+    right: -46px;
+    top: 4px;
+    z-index: 1; }
   div.secondaryNavElements .secondaryNavList li a {
     border-radius: 0px;
     color: #FFFFFF; }
@@ -130,6 +142,8 @@ div.secondaryNavElements {
   div.secondaryNavElements .secondaryNavList li a:hover {
     background: #88D2F7;
     cursor: pointer; }
+  div.secondaryNavElements .secondaryNavList li div.arrow {
+    display: none; }
 
 div.boxConfigs {
   margin-left: 20px;

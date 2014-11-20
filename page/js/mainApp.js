@@ -1,5 +1,5 @@
 
-angular.module('boxuppApp').controller('vboxController',function($scope,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript){
+angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider){
 
 	$scope.projectData = {
 		boxesState : {
@@ -33,14 +33,18 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.rawBoxFormNetworkSettings = {};
 	$scope.moduleProvMappings = {};
 	$scope.shellProvMappings = {};
+	$scope.boxesSize = 0;
+	$scope.boxCounter = 0;
+	$scope.providerType = provider;
 	$scope.server = {
-		connect : function() {
+		connect : function(promise) {
 			
 			var location = $scope.serverWSAddress + "/vagrantConsole/";
 			this._ws = new WebSocket(location);
 			this._ws.onopen = this._onopen;
 			this._ws.onmessage = this._onmessage;
 			this._ws.onclose = this._onclose;
+			this._ws.promise = promise;
 		},
 
 		_onopen : function() {
@@ -63,6 +67,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		},
 
 		_onmessage : function(message) {
+			console.log(message);
 			var data = JSON.parse(message.data);
 			if(data.dataEnd === false){
 				$scope.activeOutputSnippet = {};
@@ -87,13 +92,114 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 				$scope.vagrantOutput.push($scope.activeOutputSnippet);
 				$scope.outputConsole.boxuppExecuting = false;
 				$("#consoleOutput").scrollTop(1500000);
+				this.close();
 			}
 		},
 
 		_onclose : function(m) {
+			this.promise.resolve();
 			this._ws = null;
+			console.log('connection has been closed');
 		}
 	};
+
+	$scope.deployEnvironment = function(){
+		$scope.createVagrantFile().then(function(){
+			var elements = [];
+			
+			angular.forEach($scope.boxesData,function(box){
+				if(box.configChangeFlag || box.scriptChangeFlag || box.moduleChangeFlag){
+					elements.push(box);
+				}
+			});
+			
+			$scope.boxesSize = elements.length;
+			
+			$scope.boxesSize > 0 ? $scope.triggerDeployment(elements[0],elements) : console.log('No boxes to deploy');
+			
+			/*var promises = [];
+			angular.forEach($scope.boxesData,function(box){
+				if(box.configChangeFlag || box.scriptChangeFlag || box.moduleChangeFlag){
+					$q.all(promises).then(function(){
+						console.log('promise resolved');
+						promises.push($scope.startDeployment(box));	
+					});
+				}
+			});
+			console.log('Done deploying all boxes');*/
+		});
+	}
+
+	$scope.triggerDeployment = function(box,elements){
+		promise = $scope.startDeployment(box);
+		$scope.boxCounter++;
+		promise.then(function(){
+			if($scope.boxCounter < $scope.boxesSize){
+				$scope.triggerDeployment(elements[$scope.boxCounter],elements);
+			}else{
+				console.log('All Boxes deployed');
+				$scope.boxCounter = 0; //RESET
+			}		
+		});
+	}
+
+	$scope.createVagrantFile = function(){
+		var deferred = $q.defer();
+		executeCommand.createVagrantFile($routeParams.projectID, $routeParams.userID).then(function(response){
+			if(response){
+				deferred.resolve(response);
+				console.log('Vagrant file created for project  : ' + $routeParams.projectID);
+			}else{
+				deferred.reject('Vagrant file could not be created');
+			}
+		});
+		return deferred.promise;
+	}
+
+	$scope.deployBox = function(vmConfig){
+		$scope.createVagrantFile().then(function(){
+			$scope.startDeployment(vmConfig).then(function(){
+				console.log('Box execution completed now !');
+			});
+		});
+	}
+
+	$scope.startDeployment = function(vmConfig){
+		var deferred = $q.defer();
+		// $scope.outputConsole.boxuppExecuting = true;
+		// $scope.outputConsole.boxuppOutputWindow = true;
+		// var optionSelected = $scope.vagrantOptions;
+		// if(optionSelected === 0){
+		// 	$scope.pushCustomMessage();
+			vagrantStatus.checkMachineStatus($routeParams.userID, vmConfig.vagrantID).then(function(response){
+				console.log(response);
+				vmConfig.machineStatusFlag = response.statusCode;
+				var commandForMachine = $scope.chooseBestDeployOption(vmConfig);
+				executeCommand.triggerVagrantCommand($scope,commandForMachine,deferred);
+			});
+		// }else{
+		// 	var customCmd = prompt("Enter your Vagrant command","vagrant");
+		// 	if(customCmd !== null){
+		// 		$scope.deployCommand = customCmd;
+		// 		executeCommand.triggerVagrant($scope.serverAddress,$scope);
+		// 	}else{
+		// 		$scope.outputConsole.boxuppExecuting = false;
+		// 		$scope.outputConsole.boxuppOutputWindow = false;
+		// 		return false;
+		// 	}
+		// }
+		return deferred.promise;
+		
+	}
+	
+	$scope.chooseBestDeployOption = function(vmConfig){
+		var flagStatesCombination = vmConfig.configChangeFlag + "" +vmConfig.moduleChangeFlag + "" +
+									vmConfig.scriptChangeFlag + "" +vmConfig.machineStatusFlag + "";	
+									
+		return ($scope.fetchVagrantCommand(flagStatesCombination)+" " + vmConfig.vagrantID);
+		
+	}
+
 	$scope.userSignout = function(){
 		$location.path('/login/');
 	}
@@ -326,7 +432,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.fetchShellScriptMappings();
 	$scope.fetchPuppetMappings();
 	
-	$scope.server = {
+	/*$scope.server = {
 		connect : function() {
 			
 			var location = $scope.serverWSAddress + "/vagrantConsole/";
@@ -387,7 +493,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		_onclose : function(m) {
 			this._ws = null;
 		}
-	};
+	};*/
 			
 	$scope.defaultConfigurations = {
 			"vagrantID":"",
@@ -646,54 +752,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.flushVagrantOutputConsole = function(){
 		$scope.vagrantOutput = [];
 	}
-	$scope.deployAllBoxes = function(){
-		
-	}
-	$scope.deployEnvironment = function(vmConfig){
-		if($scope.checkDataValidity()){
-			if($scope.boxuppStateChanged()){
-				executeCommand.saveBoxuppData($scope, $routeParams.projectID, $routeParams.userID).then(function(response){
-					$scope.startDeployment(vmConfig);			
-				});			
-			}else{
-				executeCommand.saveBoxuppData($scope, $routeParams.projectID, $routeParams.userID).then(function(response){
-					$scope.startDeployment();			
-				});
-			}		
-		}		
-	}
-	$scope.startDeployment = function(vmConfig){
-		$scope.outputConsole.boxuppExecuting = true;
-		$scope.outputConsole.boxuppOutputWindow = true;
-		var optionSelected = $scope.vagrantOptions;
-		if(optionSelected === 0){
-			$scope.pushCustomMessage();
-			vagrantStatus.updateVagrantStatus($scope.serverAddress,$scope, $routeParams.userID).then(function(response){
-				$scope.chooseBestDeployOption(vmConfig);
-				executeCommand.triggerVagrant($scope.serverAddress,$scope);
-			});
-		}else{
-			var customCmd = prompt("Enter your Vagrant command","vagrant");
-			if(customCmd !== null){
-				$scope.deployCommand = customCmd;
-				executeCommand.triggerVagrant($scope.serverAddress,$scope);
-			}else{
-				$scope.outputConsole.boxuppExecuting = false;
-				$scope.outputConsole.boxuppOutputWindow = false;
-				return false;
-			}
-		}
-		
-	}
-	
-	$scope.chooseBestDeployOption = function(vmConfig){
-		var flagStatesCombination = vmConfig.configChnageFlag + "" +vmConfig.moduleChangeFlag + "" +
-									(vmConfig.scriptChangeFlag || vmConfig.cookbooksChangeFlag) + "" +
-									vmConfig.vagrantExecutionFlag + "";	
-									
-		this.deployCommand = this.fetchVagrantCommand(flagStatesCombination)+" " + vmConfig.vagrantID;
-		
-	}
+
 	$scope.toggleConsoleWindow = function(){
 		if($scope.outputConsole.boxuppOutputWindow){
 			if(!$('#puppetEditor').hasClass('maximized')){

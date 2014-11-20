@@ -96,7 +96,7 @@ public class Project {
 		return ProjectDAOManager.getInstance().retireveScriptsMapping(projectID);
 	}
 	@POST
-	@Path("/saveAsFile")
+	@Path("/createVagrantFile")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public VagrantFileStatus saveAsFile(JsonNode VagrantFileData) throws IOException
 	{
