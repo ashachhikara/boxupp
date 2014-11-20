@@ -15,6 +15,7 @@ import com.boxupp.responseBeans.StatusBean;
 import com.google.gson.Gson;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.stmt.DeleteBuilder;
 
 public class DockerLinkDAOManager {
 	private static Logger logger = LogManager.getLogger(DockerLinkDAOManager.class.getName());
@@ -73,4 +74,19 @@ public class DockerLinkDAOManager {
 		return statusBean;
 	}
 	
+	public  StatusBean delete(MachineConfigurationBean machineConfig) {
+		StatusBean statusBean = new StatusBean();
+			try { 
+				DeleteBuilder<DockerLinkBean, Integer> deleteBuilder = dockerLinkDao.deleteBuilder();
+				deleteBuilder.where().eq(DockerLinkBean.MACHINE_ID_FIELD_NAME, machineConfig);
+				deleteBuilder.delete();
+			} catch (SQLException e) {
+				statusBean.setStatusCode(1);
+				statusBean.setStatusMessage("Error in deleting  dockerLink mapping  : "+e.getMessage());
+			}
+		
+		statusBean.setStatusCode(0);
+		statusBean.setStatusMessage(" dockerLink mapping deleting successfully");
+		return statusBean;
+	}
 }

@@ -56,10 +56,9 @@
 			            						No Boxes exist in your project yet !
 			            					</span>
 											<select multiple ng-model="rawBox.dockerLinks"
-												ng-options="box.machineID as box.vagrantID for box in boxesData" class="form-control "
-												ng-hide="boxesData.length === 0">
-
+												ng-options="box.machineID as box.vagrantID for box in boxesData" class="form-control " ng-hide="boxesData.length === 0">
             								</select>
+            								
 				  						</div>
        								</div>
 					  	  			<div ng-repeat="mapping in rawBox.portMappings">
@@ -157,7 +156,7 @@
 		</div>
 		<div class="modal-footer">
 			<button class="btn btn-success" ng-click="modals.close.containerBox()">Close</button>
-					<button class="btn btn-success" ng-disabled="checkFormStates.containerRawBox()" ng-click="createContainerQuickBoxes(rawBox)" ng-hide="projectData.boxesState.update">Create</button>
+					<button class="btn btn-success" ng-disabled="checkFormStates.containerRawBox()" ng-click="createContainerBoxes(rawBox)" ng-hide="projectData.boxesState.update">Create</button>
 					<button class="btn btn-success" ng-disabled="checkFormStates.containerRawBoxUpdate()" ng-click="updateContainerBox()" ng-show="projectData.boxesState.update">Update</button>
 		</div>
 	</div>

@@ -157,7 +157,6 @@ public class WindowsShellExecutor {
 		String[] array = {"vagrant","status"};
 		executor.setCMDExecDir(OSProperties.getInstance().getUserHomeDirectory());
 		executor.checkVagrantStatusCMD(array);
-		System.out.println("completed");
 	}
 }
 	

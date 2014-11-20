@@ -70,18 +70,20 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 	$scope.createContainerBoxes = function(boxData){
 		$scope.quickContainerBoxCommitLoader = true;
 		$scope.toBeCreatedBox = angular.copy(boxData);
+		$scope.toBeCreatedBox = $scope.dockerLinkMappingForBackend($scope.toBeCreatedBox);
+		
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
 		$scope.toBeCreatedBox.providerType = $scope.providerType;
 		$scope.toBeCreatedBox.isDisabled = false;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
-			$scope.boxesData.push(data.beanData);
+			$scope.boxesData.push($scope.dockerLinkMappingForFrontend(data.beanData));
 			$scope.quickBox = {};
 			$scope.containerQuickBoxForm.$setPristine();
 		});
 		$scope.containerQuickBoxForm.$setPristine();
 		$scope.quickContainerBoxCommitLoader = false;
 	}
-
+	
 	$scope.createQuickBox = function(boxData){
 		
 		$scope.toBeCreatedBox = angular.copy(boxData);

@@ -98,7 +98,32 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 	$scope.userSignout = function(){
 		$location.path('/login/');
 	}
+	$scope.dockerLinkMappingForBackend = function(linkData){
+		
+		$scope.containerData = linkData;
+		if(linkData.dockerLinks){
+			var updatedData = linkData.dockerLinks;
+			$scope.containerData.dockerLinks=[];
+			for(var i=0; i<updatedData.length; i++){
+				var links = {"linkedMachineID":updatedData[i]};
+				$scope.containerData.dockerLinks.push(links);
+			}
+		}
+		return $scope.containerData;
+	}
 
+	$scope.dockerLinkMappingForFrontend = function(linkData){
+		$scope.containerData = linkData;
+		if(linkData.dockerLinks){
+			var machineIDs = [];
+			var links = linkData.dockerLinks;
+			for(var i=0; i<links.length; i++){
+				machineIDs.push(links[i].linkedMachineID);	
+			}
+			$scope.containerData.dockerLinks = machineIDs;
+		}
+		return $scope.containerData;
+	}
 	$scope.deleteActiveBox = function(){
 
 		MachineConfig.delete({id:$scope.activeVM.machineID},function(){			
@@ -152,13 +177,14 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$http,$r
 		});
 	}
 $scope.updateContainerBox = function(){
-		var updatedContent = $scope.rawBox;
+		var updatedContent = $scope.dockerLinkMappingForBackend($scope.rawBox);
+		
 		$scope.entry = MachineConfig.get({id:updatedContent.machineID},function(){
 			angular.extend($scope.entry,updatedContent);
 			$scope.entry.$update(function(){
 				angular.forEach($scope.boxesData,function(box){
 					if(box.machineID === $scope.entry.beanData.machineID){
-						angular.extend(box,$scope.entry.beanData);
+						angular.extend(box,$scope.dockerLinkMappingForFrontend($scope.entry.beanData));
 						box.configChangeFlag = 1;
 						return;
 					}
@@ -865,10 +891,12 @@ $scope.updateContainerBox = function(){
 		}
 	}
 	$scope.selectNode = function(num){
-		$scope.activeVM = $scope.boxesData[num];
+
+		$scope.activeVM = $scope.dockerLinkMappingForFrontend($scope.boxesData[num]);
+	
 		// $scope.resetBoxURLChangeStatus();
 	}
-
+	
 	$scope.deleteFolderMapping = function(mappingNumber){
 		$scope.rawBox.syncFolders.splice(mappingNumber,1);
 	}

@@ -43,6 +43,5 @@ public class WindowsShellProcessor {
 	
 	public static void main(String args[]) throws IOException, InterruptedException{
 		WindowsShellProcessor proc = new WindowsShellProcessor();
-		System.out.println(proc.filterCommand("vagrant destroy mysql")+"'");
 	}
 }
