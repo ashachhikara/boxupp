@@ -275,7 +275,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 		try {
 			List<ShellScriptBean> shellScripts = ShellScriptDAOManager.getInstance().shellScriptDao.queryForEq("isDisabled", false);
 			List<MachineConfigurationBean> machineConfigs = MachineConfigDAOManager.getInstance().machineConfigDao.queryForEq("isDisabled", false);
-			if(!(shellScripts.isEmpty() && machineConfigs.isEmpty())){
+			if(!(shellScripts.isEmpty())){
 				scriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryBuilder().where().in(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScripts).and().in(ShellScriptMapping.MACHINE_ID_FIELD_NAME, machineConfigs).query();
 			}
 			//scriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryForAll();

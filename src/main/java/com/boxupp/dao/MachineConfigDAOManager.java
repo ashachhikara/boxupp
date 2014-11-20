@@ -100,10 +100,16 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		StatusBean statusBean = new StatusBean();
 		try {
 			machineConfigDao.update(machineConfigBean);
-			if(portForwardingMappings!= null && portForwardingMappings.size()>0)PortMappingDAOManager.getInstance().update(machineConfigBean, portForwardingMappings);
-			if(syncFolderMappings!=null && syncFolderMappings.size()>0)SyncFolderDAOManager.getInstance().update(machineConfigBean, syncFolderMappings);
+			if(portForwardingMappings!= null && portForwardingMappings.size()>0)PortMappingDAOManager.getInstance().delete(machineConfigBean);
+			if(syncFolderMappings!=null && syncFolderMappings.size()>0)SyncFolderDAOManager.getInstance().delete(machineConfigBean);
 			if(dockerLinkContainerMappings!=null && dockerLinkContainerMappings.size()>0){
-				DockerLinkDAOManager.getInstance().update(machineConfigBean, dockerLinkContainerMappings);
+				DockerLinkDAOManager.getInstance().delete(machineConfigBean);
+			}
+			machineConfigDao.refresh(machineConfigBean);
+			if(portForwardingMappings!= null && portForwardingMappings.size()>0)PortMappingDAOManager.getInstance().save(machineConfigBean, portForwardingMappings);
+			if(syncFolderMappings!=null && syncFolderMappings.size()>0)SyncFolderDAOManager.getInstance().save(machineConfigBean, syncFolderMappings);
+			if(dockerLinkContainerMappings!=null && dockerLinkContainerMappings.size()>0){
+				DockerLinkDAOManager.getInstance().save(machineConfigBean, dockerLinkContainerMappings);
 			}
 			machineConfigDao.refresh(machineConfigBean);
 		} catch (SQLException e) {

@@ -10,11 +10,13 @@ import org.codehaus.jackson.JsonNode;
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.ForwardedPortsBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
+import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.db.beans.SyncFoldersBean;
 import com.boxupp.responseBeans.StatusBean;
 import com.google.gson.Gson;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.stmt.DeleteBuilder;
 
 public class SyncFolderDAOManager {
 	private static Logger logger = LogManager.getLogger(SyncFolderDAOManager.class.getName());
@@ -71,6 +73,21 @@ public class SyncFolderDAOManager {
 		
 		statusBean.setStatusCode(0);
 		statusBean.setStatusMessage("Sync Folder upadte successfully");
+		return statusBean;
+	}
+	public  StatusBean delete(MachineConfigurationBean machineConfig) {
+		StatusBean statusBean = new StatusBean();
+			try { 
+				DeleteBuilder<SyncFoldersBean, Integer> deleteBuilder = syncFolderDao.deleteBuilder();
+				deleteBuilder.where().eq(SyncFoldersBean.MACHINE_ID_FIELD_NAME, machineConfig);
+				deleteBuilder.delete();
+			} catch (SQLException e) {
+				statusBean.setStatusCode(1);
+				statusBean.setStatusMessage("Error in deleting  sync Folder  : "+e.getMessage());
+			}
+		
+		statusBean.setStatusCode(0);
+		statusBean.setStatusMessage(" sync Folder  deleting successfully");
 		return statusBean;
 	}
 }

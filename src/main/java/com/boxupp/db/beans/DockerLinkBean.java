@@ -11,20 +11,20 @@ public class DockerLinkBean {
 		private MachineConfigurationBean machineConfig;
 	
 		@DatabaseField(useGetSet = true)
-		private String linkContainer;
+		private Integer linkedMachineID;
 		
-		public String getLinkContainer() {
-			return linkContainer;
-		}
-
-		public void setLinkContainer(String linkContainer) {
-			this.linkContainer = linkContainer;
-		}
 		public MachineConfigurationBean getMachineConfig() {
 			return machineConfig;
 		}
 		public void setMachineConfig(MachineConfigurationBean machineConfig) {
 			this.machineConfig = machineConfig;
 		}
+		public Integer getLinkedMachineID() {
+			return linkedMachineID;
+		}
+		public void setLinkedMachineID(Integer linkedMachineID) {
+			this.linkedMachineID = linkedMachineID;
+		}
+		
 		
 }

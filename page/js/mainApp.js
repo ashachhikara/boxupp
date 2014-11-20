@@ -31,6 +31,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	$scope.rawScript = {};
 	$scope.rawBoxForm = {};
 	$scope.rawBoxFormNetworkSettings = {};
+	$scope.containerRawBoxForm ={};
 	$scope.moduleProvMappings = {};
 	$scope.shellProvMappings = {};
 	$scope.boxesSize = 0;
@@ -203,7 +204,32 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	$scope.userSignout = function(){
 		$location.path('/login/');
 	}
+	$scope.dockerLinkMappingForBackend = function(linkData){
+		
+		$scope.containerData = linkData;
+		if(linkData.dockerLinks){
+			var updatedData = linkData.dockerLinks;
+			$scope.containerData.dockerLinks=[];
+			for(var i=0; i<updatedData.length; i++){
+				var links = {"linkedMachineID":updatedData[i]};
+				$scope.containerData.dockerLinks.push(links);
+			}
+		}
+		return $scope.containerData;
+	}
 
+	$scope.dockerLinkMappingForFrontend = function(linkData){
+		$scope.containerData = linkData;
+		if(linkData.dockerLinks){
+			var machineIDs = [];
+			var links = linkData.dockerLinks;
+			for(var i=0; i<links.length; i++){
+				machineIDs.push(links[i].linkedMachineID);	
+			}
+			$scope.containerData.dockerLinks = machineIDs;
+		}
+		return $scope.containerData;
+	}
 	$scope.deleteActiveBox = function(){
 
 		MachineConfig.delete({id:$scope.activeVM.machineID},function(){			
@@ -257,7 +283,22 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			});
 		});
 	}
-
+$scope.updateContainerBox = function(){
+		var updatedContent = $scope.dockerLinkMappingForBackend($scope.rawBox);
+		
+		$scope.entry = MachineConfig.get({id:updatedContent.machineID},function(){
+			angular.extend($scope.entry,updatedContent);
+			$scope.entry.$update(function(){
+				angular.forEach($scope.boxesData,function(box){
+					if(box.machineID === $scope.entry.beanData.machineID){
+						angular.extend(box,$scope.dockerLinkMappingForFrontend($scope.entry.beanData));
+						box.configChangeFlag = 1;
+						return;
+					}
+				});
+			});
+		});
+	}
 	$scope.updateScript = function(){
 		var updatedContent = $scope.rawScript;
 		$scope.entry = shellScript.get({id:updatedContent.scriptID},function(){
@@ -924,10 +965,12 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		}
 	}
 	$scope.selectNode = function(num){
-		$scope.activeVM = $scope.boxesData[num];
+
+		$scope.activeVM = $scope.dockerLinkMappingForFrontend($scope.boxesData[num]);
+	
 		// $scope.resetBoxURLChangeStatus();
 	}
-
+	
 	$scope.deleteFolderMapping = function(mappingNumber){
 		$scope.rawBox.syncFolders.splice(mappingNumber,1);
 	}
@@ -993,7 +1036,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	}
 	
 	
-	$scope.checkDataValidity = function(){
+	/*$scope.checkDataValidity = function(){
 		for(box in $scope.boxesData){
 			if($scope.boxesData[box].isValid === false){
 				alert('Please check the box configurations for errors first');
@@ -1001,7 +1044,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			}
 		}
 		return true;
-	}
+	}*/
 	
 	
 	

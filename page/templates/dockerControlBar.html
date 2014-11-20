@@ -3,23 +3,76 @@
 		<div class="container-fluid">
 			<div class="row">
 				
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<a data-target="#" class="pull-left" style="font-size:26px; color:#FFF;" ng-click="expandedCtrlBar = true;">
 						<span ng-hide="expandedCtrlBar">
 							<i class="fa fa-plus"></i>
 						</span>
 					</a>
 				</div>
-				<div class="col-md-6">
-					<a data-target="#" class="pull-right" style="font-size:26px; color:#FFF;">
-						<span ng-hide="expandedCtrlBar">
-							<i class="fa fa-trash-o"></i>
-						</span>
-						<span ng-show="expandedCtrlBar">
-							<i class="fa fa-minus-circle" ng-click="expandedCtrlBar = false;"></i>
-						</span>
-					</a>
+				<div class="col-md-4 text-center">
+					<div class="tab-content">
+						<div class="editIcon tab-pane fade" id="boxEdit">
+							<a ng-click="editActiveBox()" ng-hide="activeVM === null">
+								<span ng-hide="expandedCtrlBar">
+									<i class="fa fa-edit"></i>
+								</span>
+							</a>
+						</div>
+						<div class="editIcon tab-pane fade" id="scriptEdit">
+							<a ng-click="editActiveScript()" ng-hide="activeScript === null">
+								<span ng-hide="expandedCtrlBar">
+									<i class="fa fa-edit"></i>
+								</span>
+							</a>
+						</div>
+						<div class="editIcon tab-pane fade" id="moduleEdit">
+							<!-- EMPTY -->
+						</div>
+					</div>					
 				</div>
+				<div class="col-md-4">
+
+					<div class="tab-content">
+						<div class="trashIcon tab-pane fade" id="boxTrash">
+							<a class="pull-right" ng-click="deleteActiveBox()" ng-hide="activeVM === null">
+								<span ng-hide="expandedCtrlBar">
+									<i class="fa fa-trash-o"></i>
+								</span>
+							</a>
+							<a class="pull-right">
+								<span ng-show="expandedCtrlBar">
+									<i class="fa fa-minus-circle" ng-click="expandedCtrlBar = false;"></i>
+								</span>
+							</a>
+						</div>
+						<div class="trashIcon tab-pane fade" id="scriptTrash">
+							<a class="pull-right" ng-click="deleteActiveScript()">
+								<span ng-hide="expandedCtrlBar">
+									<i class="fa fa-trash-o"></i>
+								</span>
+							</a>
+							<a class="pull-right">
+								<span ng-show="expandedCtrlBar">
+									<i class="fa fa-minus-circle" ng-click="expandedCtrlBar = false;"></i>
+								</span>
+							</a>
+						</div>
+						<div class="trashIcon tab-pane fade" id="moduleTrash">
+							<a class="pull-right" ng-click="deleteActiveModule()">
+								<span ng-hide="expandedCtrlBar">
+									<i class="fa fa-trash-o"></i>
+								</span>
+							</a>
+							<a class="pull-right">
+								<span ng-show="expandedCtrlBar">
+									<i class="fa fa-minus-circle" ng-click="expandedCtrlBar = false;"></i>
+								</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -122,7 +175,7 @@
 										class="form-control"
 										required>
 						            </div>
-									<div class="boxConfig" ><span class="boxConfigTitles">Docker Image<sup>* </sup></span>
+									<div class="boxConfig"><span class="boxConfigTitles">Docker Image<sup>* </sup></span>
 										<select name="imageName" ng-model="quickBox.dockerImage" ng-options="image.path as image.path for image in listOfSSHImages" class="form-control" required>
 											<option value="">Select an image</option>
 										</select>
@@ -136,7 +189,11 @@
 	          						</div>
           						</form>
 					            <div class="boxConfig">
-								       	<a class="btn btn-success" ng-disabled="checkFormStates.containerQuickBox()" ng-click="createBoxes(quickBox)">Create Box</a>
+								       	<a class="btn btn-success" ng-disabled="checkFormStates.containerQuickBox()" ng-click="createContainerQuickBox(quickBox)">
+								       	<span ng-show="containerQuickBoxCommitLoader" ng-init="containerQuickBoxCommitLoader = false"><i class="fa fa-spin fa-refresh"></i></span>
+								       		<span ng-show="!containerQuickBoxCommitLoader">Create Box
+								       		</span>
+								       		</a>
 								</div>
 					  		</div>
 					  		<div class="tab-pane fade" id="box-clone">
@@ -145,7 +202,7 @@
 									</select>
 					  			</div>
 					  			<div class="boxConfig">
-								       	<a class="btn btn-success" ng-click="cloneBoxData(cloneBox)" data-toggle="modal" data-target="#boxModal" >Create Box</a>
+								       	<a class="btn btn-success" ng-click="cloneContainerBoxData(cloneBox)" data-toggle="modal" data-target="#boxModal" >Create Box</a>
 								</div>
 					  		</div>
 					  		<div class="tab-pane fade" id="ctrl-bar-empty-play-area">

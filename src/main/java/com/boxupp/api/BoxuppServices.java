@@ -215,7 +215,6 @@ public class BoxuppServices {
 		VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
 		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		return shellProcessor.checkVagrantStatus(location);
-		
 	}
 	
 	@GET
