@@ -11,7 +11,9 @@ ngBoxuppApp.controller('projectInitController',function($scope,$routeParams,Prov
             var userID = $routeParams.userID;
             var projectID = $routeParams.projectID;
             var providerID = $routeParams.providerType;
-            $location.path("/projects/" + userID + "/" + projectID + "/" + providerID +"/docker/");
+            $timeout(function(){
+                $location.path("/projects/" + userID + "/" + projectID + "/" + providerID +"/docker/");
+            },3000);
         }else{
 
             var userID = $routeParams.userID;

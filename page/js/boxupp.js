@@ -18,7 +18,9 @@ angular.module('boxuppApp',['ui.codemirror','app','ngAnimate', 'ngLoadScript','n
 		      	templateUrl: 'templates/dockerDashboard.html',
 		      	controller: 'vboxController',
 		      	resolve : {
-		      		providerType : 'docker'
+		      		provider : function(){
+		      			return 'docker';
+		      		}
 		      	}
 		      }).when('/projects/:userID/:projectID/:providerType/virtualbox/',{
 		      	templateUrl: 'templates/vboxDashboard.html',

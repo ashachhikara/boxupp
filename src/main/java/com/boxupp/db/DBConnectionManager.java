@@ -88,21 +88,21 @@ public class DBConnectionManager {
 			//************* CREATE TABLES **************//
 
 
-//			TableUtils.createTable(connectionSource, ProviderBean.class);
-//			TableUtils.createTable(connectionSource, UserDetailBean.class);			
-//			TableUtils.createTable(connectionSource, ProjectBean.class);
-//			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
-//			TableUtils.createTable(connectionSource, UserProjectMapping.class);
-//			TableUtils.createTable(connectionSource, ShellScriptBean.class);
-//			TableUtils.createTable(connectionSource, ShellScriptMapping.class);
-//			TableUtils.createTable(connectionSource, PuppetModuleMapping.class);
-//			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
-//			TableUtils.createTable(connectionSource, ForwardedPortsBean.class);
-//			TableUtils.createTable(connectionSource, SyncFoldersBean.class);
-//			TableUtils.createTable(connectionSource, DockerLinkBean.class);
-//			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
-//
-//			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
+			TableUtils.createTable(connectionSource, ProviderBean.class);
+			TableUtils.createTable(connectionSource, UserDetailBean.class);			
+			TableUtils.createTable(connectionSource, ProjectBean.class);
+			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
+			TableUtils.createTable(connectionSource, UserProjectMapping.class);
+			TableUtils.createTable(connectionSource, ShellScriptBean.class);
+			TableUtils.createTable(connectionSource, ShellScriptMapping.class);
+			TableUtils.createTable(connectionSource, PuppetModuleMapping.class);
+			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
+			TableUtils.createTable(connectionSource, ForwardedPortsBean.class);
+			TableUtils.createTable(connectionSource, SyncFoldersBean.class);
+			TableUtils.createTable(connectionSource, DockerLinkBean.class);
+			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
+
+			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
 
 			TableUtils.createTable(connectionSource, GitRepoBean.class);
 			
