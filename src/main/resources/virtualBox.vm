@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
 		#if(!$moduleMappings.isEmpty())
 		config.vm.provision "puppet" do |$identifier|
 		$identifier$manifestsPathMarker = "../manifests"
-		$identifier$manifestFilePathMarker = "../$nodeFile"
+		$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
 		$identifier$modulePathMarker = "../modules"
 		end		
 		#end
