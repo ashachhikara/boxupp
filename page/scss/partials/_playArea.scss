@@ -1,3 +1,12 @@
+div#playArea{
+	div.secPlayArea{
+		position: absolute;
+		top: 71px;
+		bottom: 10px;
+		overflow: auto;
+	}
+}
+
 span.messageTitle{
 	font-family: 'Roboto', sans-serif;		
 	font-size: 35px;

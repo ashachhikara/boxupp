@@ -29,6 +29,11 @@ public class FileManager {
 		String projectDir = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		String fileOutputDir = projectDir + OSProperties.getInstance().getOSFileSeparator() + 
 								OSProperties.getInstance().getVagrantFileName();
+		File boxuppDir = new File(projectDir);
+		if(!boxuppDir.exists()){
+			Utilities.getInstance().checkIfDirExists(new File(projectDir));
+		}
+		
 		VagrantFileStatus vagrantFileStatus = new VagrantFileStatus();
 		
 		File file = new File(fileOutputDir);
@@ -45,6 +50,7 @@ public class FileManager {
 			vagrantFileStatus.setFileCreationPath(fileOutputDir);
 		} catch (IOException e) {
 			logger.error("Error writing to the Vagrant File : "+e.getMessage());
+			e.printStackTrace();
 			file.delete();
 			vagrantFileStatus.setFileCreated(false);
 		}

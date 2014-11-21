@@ -16,6 +16,7 @@ import com.boxupp.JettyServer;
 import com.boxupp.ToolConfigurationReader;
 import com.boxupp.beans.Config;
 import com.boxupp.db.DBConnectionManager;
+import com.boxupp.utilities.Utilities;
 import com.boxupp.ws.VagrantConsole;
 
 public class Boxupp {
@@ -24,6 +25,7 @@ public class Boxupp {
 
 	public static void main(String[] args) throws Exception {
 		
+		Utilities.getInstance().createBoxuppFolderIfNotExists();
 		ToolConfigurationReader toolConfig = new ToolConfigurationReader();
 		Config conf = toolConfig.getConfiguration();
 		AppContextBuilder appContextBuilder = new AppContextBuilder();

@@ -83,6 +83,15 @@ public class Utilities {
 		return boxuppPuppetData;
 	}
 	
+	public boolean createBoxuppFolderIfNotExists(){
+		String boxuppDirPath = osProperties.getUserHomeDirectory() + 
+				 osProperties.getOSFileSeparator() + "Boxupp";
+		File boxuppDir = new File(boxuppDirPath);
+		if(!boxuppDir.exists()){
+			boxuppDir.mkdirs();
+		}
+		return true;
+	}
 	public void initializeDirectory(Integer projectID){
 		
 		String userHomeDir = osProperties.getUserHomeDirectory() + 

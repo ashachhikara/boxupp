@@ -1,4 +1,4 @@
-angular.module("boxuppApp").controller('projectController',function($scope,Projects,Providers,User,$routeParams,$filter,$location,miscUtil,$http){
+angular.module("boxuppApp").controller('projectController',function($scope,Projects,Providers,User,$routeParams,$filter,$location,miscUtil,$http,$timeout){
 
 	/*$scope.projects = Projects.query(function(){
 		if($scope.projects.length === 0) $scope.noProjectsInfo = true;
@@ -32,7 +32,8 @@ angular.module("boxuppApp").controller('projectController',function($scope,Proje
 	$scope.checkProjectInput = function(){
 		     return !(!$scope.newProjectData.providerNames.$pristine && $scope.newProjectData.providerNames.$valid
 		     		  && !$scope.newProjectData.projectTitle.$pristine && $scope.newProjectData.projectTitle.$valid
-		     		  && !$scope.newProjectData.projectDesc.$pristine && $scope.newProjectData.projectDesc.$valid);
+		     		  && !$scope.newProjectData.projectDesc.$pristine && $scope.newProjectData.projectDesc.$valid
+		     		  && ($scope.newProject.providerType > 0));
 	}
 
 	$scope.submitNewProjectData = function(){
@@ -46,6 +47,10 @@ angular.module("boxuppApp").controller('projectController',function($scope,Proje
 				$scope.newProject = {};
 				//Reset form pristine state
 				$scope.newProjectData.$setPristine();
+				$scope.newProjectCreated = true;
+				$timeout(function(){
+					$scope.newProjectCreated = false;
+				},3000);
 			});
 
 			//$scope.newProject = {};

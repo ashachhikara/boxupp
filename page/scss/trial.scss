@@ -7,6 +7,15 @@ body.dashBoardStyling{
 }
 
 
+div.modalClose{
+	a{
+		text-decoration: none;
+		cursor: pointer;
+		color: #FFF;
+		margin-right: 20px;
+	}
+
+}
 $mainNavBackground : #71B1D1;
 $mainNavHoverBackground : #71B1D1;
 
@@ -171,6 +180,8 @@ div.secondaryNavElements {
 	position:absolute;
 	top:51px;
 	bottom:0px;
+	overflow-x:hidden;
+	overflow-y:auto;
 
 	.secondaryNavList{
 

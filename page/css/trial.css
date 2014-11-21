@@ -4,6 +4,12 @@ body {
 body.dashBoardStyling {
   background: #FFF; }
 
+div.modalClose a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #FFF;
+  margin-right: 20px; }
+
 div.ng-leave {
   opacity: 0; }
 
@@ -105,7 +111,9 @@ div.secondaryNavElements {
   background: grey;
   position: absolute;
   top: 51px;
-  bottom: 0px; }
+  bottom: 0px;
+  overflow-x: hidden;
+  overflow-y: auto; }
   div.secondaryNavElements .secondaryNavList li.active a {
     background: grey;
     color: #FFF; }
@@ -291,6 +299,7 @@ div.project-container {
           div.project-container ul.projectsList li a div.projectTitle span {
             color: #71B1D1; }
         div.project-container ul.projectsList li a div.projectDesc {
+          overflow: hidden;
           position: absolute;
           top: 32px;
           left: 94px;
@@ -390,6 +399,12 @@ div#moduleSearchResultsLoader.collapsed {
 
 div#moduleSearchResultsLoader.expanded {
   height: 200px; }
+
+div#playArea div.secPlayArea {
+  position: absolute;
+  top: 71px;
+  bottom: 10px;
+  overflow: auto; }
 
 span.messageTitle {
   font-family: 'Roboto', sans-serif;
