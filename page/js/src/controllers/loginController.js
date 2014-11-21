@@ -7,6 +7,8 @@ ngBoxuppApp.controller('loginController',function($scope,$http,$location,User){
 			password : ''
 	};*/
 
+	$scope.bodyStyle.applyDashBoardStyling = false;
+
 	$scope.checkUserLogin = function(){
 
 		$scope.checkLogin = true;

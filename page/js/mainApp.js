@@ -1,5 +1,5 @@
 
-angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider){
+angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User){
 
 	$scope.projectData = {
 		boxesState : {
@@ -202,7 +202,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	}
 
 	$scope.userSignout = function(){
-		$location.path('/login/');
+		User.signout();
 	}
 	$scope.dockerLinkMappingForBackend = function(linkData){
 		

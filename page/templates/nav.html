@@ -42,7 +42,7 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<button class="btn navbar-btn btn-sm btn-success" ng-click="deployEnvironment();">DEPLOY</button>
+					<button class="btn navbar-btn btn-sm btn-success" ng-click="deployEnvironment();"><i class="fa fa-rocket" style="margin-right: 5px; font-size: 15px;"></i>DEPLOY</button>
 				</li>
 				<!--<li>
 					<a id="vagrantIcon" data-toggle="modal" data-target="#vagrantFileModal">Config</a>
@@ -70,7 +70,7 @@
 					<a data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-gear"></i><b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li>
-							<a class="helpNav"><i class="fa fa-sign-out"></i>Signout</a>
+							<a class="helpNav" ng-click="userSignout()"><i class="fa fa-sign-out"></i>Signout</a>
 						</li>
 					</ul>
 				</li>
