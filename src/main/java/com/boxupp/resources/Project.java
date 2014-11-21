@@ -58,8 +58,8 @@ public class Project {
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StatusBean deleteProject(@PathParam("id") String projectId){
-		return ProjectDAOManager.getInstance().delete(projectId);
+	public StatusBean deleteProject(@PathParam("id") String projectID){
+		return ProjectDAOManager.getInstance().delete(projectID);
 	}
 	
 	@GET

@@ -41,8 +41,8 @@ public class MachineConfig {
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public StatusBean deleteMachineConfiguration(@PathParam("id") String machineId) {
-		return MachineConfigDAOManager.getInstance().delete(machineId);
+	public StatusBean deleteMachineConfiguration(@PathParam("id") String machineID) {
+		return MachineConfigDAOManager.getInstance().delete(machineID);
 	}
 	
 }

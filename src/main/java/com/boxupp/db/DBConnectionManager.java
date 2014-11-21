@@ -71,7 +71,7 @@ public class DBConnectionManager {
 			TableUtils.dropTable(connectionSource, ProjectBean.class, true);
 			TableUtils.dropTable(connectionSource, ProjectProviderMappingBean.class, true);
 			TableUtils.dropTable(connectionSource, UserProjectMapping.class, false);
-		
+
 			TableUtils.dropTable(connectionSource, ShellScriptBean.class, true);
 			TableUtils.dropTable(connectionSource, ShellScriptMapping.class, true);
 			TableUtils.dropTable(connectionSource, PuppetModuleMapping.class, true);
@@ -81,15 +81,16 @@ public class DBConnectionManager {
 			TableUtils.dropTable(connectionSource, DockerLinkBean.class, true);
 			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, true);
 			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, true);
-
-			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);*/
+*/
+			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
 
 
 			//************* CREATE TABLES **************//
 
 
-			TableUtils.createTable(connectionSource, ProviderBean.class);
-			TableUtils.createTable(connectionSource, UserDetailBean.class);			
+			//TableUtils.createTable(connectionSource, ProviderBean.class);
+			/*TableUtils.createTable(connectionSource, UserDetailBean.class);			
+
 			TableUtils.createTable(connectionSource, ProjectBean.class);
 			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
 			TableUtils.createTable(connectionSource, UserProjectMapping.class);
@@ -103,7 +104,7 @@ public class DBConnectionManager {
 			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
 
 			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
-
+*/
 			TableUtils.createTable(connectionSource, GitRepoBean.class);
 			
 		

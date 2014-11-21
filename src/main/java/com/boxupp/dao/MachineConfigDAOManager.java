@@ -14,6 +14,9 @@ import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
+import com.boxupp.db.beans.ShellScriptBean;
+import com.boxupp.db.beans.UserDetailBean;
+import com.boxupp.db.beans.UserProjectMapping;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.Utilities;
 import com.boxupp.vagrant.VagrantCommandProcessor;
@@ -23,6 +26,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
+import com.j256.ormlite.stmt.query.In;
 
 public class MachineConfigDAOManager implements DAOImplInterface {
 	private static Logger logger = LogManager.getLogger(MachineConfigDAOManager.class.getName());
@@ -123,7 +127,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		return statusBean;
 	}
 
-	@Override
+	/*@Override
 	public StatusBean delete(String machineID) {
 		StatusBean statusBean = new StatusBean();
 		MachineConfigurationBean machineConfig= new MachineConfigurationBean(); 
@@ -141,17 +145,20 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		statusBean.setStatusCode(0);
 		statusBean.setStatusMessage("Machine Congifuration delete successfully");
 		return statusBean;
-	}
-
-	public StatusBean delete(JsonNode machineData) {
+	}*/
+	@Override
+	public StatusBean delete(String machineId) {
+		Integer machineID = Integer.parseInt(machineId);
 		StatusBean statusBean = new StatusBean();
-		Integer machineID = Integer.parseInt(machineData.get("machineID").getTextValue());
-		Integer userID = Integer.parseInt(machineData.get("userID").getTextValue());
-		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		MachineConfigurationBean machinConfig= new MachineConfigurationBean(); 
 		try {
-			machineConfigDao.updateBuilder().updateColumnValue("isDisabled", true).where().idEq(machineID);
-			machinConfig = machineConfigDao.queryForId(machineID);
+			ProjectBean project = machineMappingDao.queryBuilder().where().eq(MachineProjectMapping.MACHINE_ID_FIELD_NAME, machineConfigDao.queryForId(machineID)).queryForFirst().getProject();
+			List<UserProjectMapping> userProjectMapping = UserDAOManager.getInstance().userProjectMappingDao.queryForAll();
+			Integer userID = UserDAOManager.getInstance().userProjectMappingDao.queryBuilder().where().eq(UserProjectMapping.PROJECT_ID_FIELD_NAME, project).queryForFirst().getUser().getUserID();
+			String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
+			MachineConfigurationBean machineConfig = machineConfigDao.queryForId(machineID);
+			machineConfig.setIsDisabled(true);
+			machineConfigDao.update(machineConfig);
 			String vagrantCommand = "vagrant destroy "+machinConfig.getVagrantID();
 			VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
 			try {
