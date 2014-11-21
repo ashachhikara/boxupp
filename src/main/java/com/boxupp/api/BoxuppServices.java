@@ -133,7 +133,7 @@ public class BoxuppServices {
 	}
 	*/
 	
-	@POST
+	/*@POST
 	@Path("/saveAsFile")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public VagrantFileStatus saveAsFile(@Context HttpServletRequest request) throws IOException
@@ -157,7 +157,7 @@ public class BoxuppServices {
 		String provider  = ProjectDAOManager.getInstance().getProviderForProject(projectID);
 	
 		Utilities.getInstance().commitSyncFoldersToDisk(machineConfigList, Integer.parseInt(userID));
-		boolean configFileData = ConfigurationGenerator.generateConfig(machineConfigList, puppetModuleList,  shellScriptList, shellScriptMappingList, puppetModuleMappingList, provider );
+		boolean configFileData = ConfigurationGenerator.generateConfig(machineConfigList, puppetModuleList,  shellScriptList, shellScriptMappingList, puppetModuleMappingList, provider, projectID );
 		VagrantFileStatus fileStatus = new VagrantFileStatus();
 		
 		if(configFileData){
@@ -172,7 +172,7 @@ public class BoxuppServices {
 		}
 		//persistData(mappings);
 		return fileStatus;
-	}
+	}*/
 	
 	@GET
 	@Path("/boxupp")
