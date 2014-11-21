@@ -25,6 +25,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.helpers.FileUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -205,7 +206,7 @@ public class PuppetUtilities extends Utilities {
 				}
 				outputStream.close();
 				inputStream.close();
-				extrectFile(saveFilePath, moduleDirPath);
+				extrectFile(saveFilePath, moduleDirPath, searchModuleBean.getModuleName());
 				File file = new File(saveFilePath);
 				file.delete();
 			
@@ -224,7 +225,7 @@ public class PuppetUtilities extends Utilities {
 		return statusBean;
 	}
 	
-	private void extrectFile(String saveFilePath, String moduleDirPath) {
+	private void extrectFile(String saveFilePath, String moduleDirPath, String moduleName) {
 		try {
 			File file = new File(saveFilePath);
 			FileInputStream fin = new FileInputStream(file);
@@ -248,7 +249,18 @@ public class PuppetUtilities extends Utilities {
 					dest.close();
 				}
 			}
+			
+			File unzipFile = new File(saveFilePath.split(".tar.gz")[0]);
+			
+			File renamedFile= new File(moduleDirPath+"/"+moduleName);
+			if(unzipFile.isDirectory()){
+				unzipFile.renameTo(renamedFile);
+			}
+			
+			
+			
 			tarIn.close();
+			
 		} catch (IOException e) {
 			logger.error("Error in unzip the module file :"+e.getMessage());
 		}
@@ -257,7 +269,6 @@ public class PuppetUtilities extends Utilities {
 		List <SearchModuleBean> moduleList = new ArrayList<SearchModuleBean>();
 		String module = request.getParameter("query");
 		String url = "https://forgeapi.puppetlabs.com:443/v3/modules?query="+module;
-		
 		try {
 			HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
 			con.setRequestMethod("GET");
@@ -316,8 +327,7 @@ public class PuppetUtilities extends Utilities {
 					nodeConfigMap.get(puppetModule.getMachineConfig().getHostName()).add(puppetModule.getPuppetModule().getFile_uri().split("/")[3].split(".tar.gz")[0]);
 				}else{
 					ArrayList<String > moduleNameList = new ArrayList<String>();
-					String name = puppetModule.getPuppetModule().getFile_uri().split("/")[2];
-					moduleNameList.add(puppetModule.getPuppetModule().getFile_uri().split("/")[3].split(".tar.gz")[0]);
+					moduleNameList.add(puppetModule.getPuppetModule().getModuleName());
 					nodeConfigMap.put(puppetModule.getMachineConfig().getHostName(), moduleNameList);
 				}
 			}
