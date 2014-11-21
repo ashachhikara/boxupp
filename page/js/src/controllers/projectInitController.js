@@ -3,6 +3,8 @@ var ngBoxuppApp = angular.module('boxuppApp');
 ngBoxuppApp.controller('projectInitController',function($scope,$routeParams,Providers,$location,$http,$timeout){
 
 
+    $scope.bodyStyle.applyDashBoardStyling = false;
+    
     $scope.$watch('selectedProvider',function(newVal, oldVal){
         if(newVal === oldVal) return;
         console.info('watch triggered');

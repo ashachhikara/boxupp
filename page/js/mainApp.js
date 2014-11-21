@@ -1,5 +1,5 @@
 
-angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User){
+angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location){
 
 	$scope.projectData = {
 		boxesState : {
@@ -105,10 +105,19 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	};
 
 
-	$scope.checkMachineFlags = function(activeVM){
-		if(activeVM.configChangeFlag || activeVM.scriptChangeFlag || activeVM.moduleChangeFlag){
-			return true;
+	$scope.checkMachineFlags = function(machine){
+		if(machine !== null){
+			if(machine.configChangeFlag || machine.scriptChangeFlag || machine.moduleChangeFlag){
+				return true;
+			}else{
+				return false;
+			}
 		}
+		
+	}
+
+	$scope.switchWorkspace = function(){
+		$location.path("/" + $routeParams.userID + "/projects/");
 	}
 
 	$scope.checkScriptMappings = function(activeVM){

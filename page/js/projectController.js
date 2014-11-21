@@ -4,7 +4,9 @@ angular.module("boxuppApp").controller('projectController',function($scope,Proje
 		if($scope.projects.length === 0) $scope.noProjectsInfo = true;
 		
 	});*/
-
+	
+	$scope.bodyStyle.applyDashBoardStyling = false;
+	
 	User.getProjects($routeParams.userID).then(function(projectsList){
 			$scope.projects = projectsList;
 	});

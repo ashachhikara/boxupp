@@ -11,13 +11,15 @@
 		<div class="navbar-collapse collapse">
 
 			<ul class="nav navbar-nav navbar-left">
-				<li>
-					<a class="navbar-brand">
-						<!--<img src="../img/dashboardLogo.png" alt="Boxupp Tool logo">-->
-						Boxupp
-					</a>
-				</li>
 				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" data-target="#" style="padding-bottom:-15px; padding-top:-15px;">
+						<img src="../img/boxupp-icon.png" alt="Boxupp Tool logo" style="width: 30px;height: 30px;position: absolute;top: 10px;">
+					</a>
+					<ul class="dropdown-menu" role="menu">
+						<li> <a ng-click="switchWorkspace()">Switch Workspace</a></li>
+					</ul>
+				</li>
+				<!--<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
 					   <span class="divider">
 					   		<i class="fa fa-chevron-down"></i>
@@ -29,7 +31,7 @@
 						<li class="divider"></li>
 						<li> <a data-target="#">Workspace settings</a></li>
 					</ul>
-				</li>
+				</li>-->
 				<!--<li class="active"><a data-target="#nodes" role="tab" data-toggle="tab">Boxes</a></li>
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">Provisioners <span class="caret"></span></a>
