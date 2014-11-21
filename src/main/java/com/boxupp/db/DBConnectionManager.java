@@ -80,15 +80,15 @@ public class DBConnectionManager {
      		TableUtils.dropTable(connectionSource, SyncFoldersBean.class, true);
 			TableUtils.dropTable(connectionSource, DockerLinkBean.class, true);
 			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, true);
-			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, true);*/
+			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, true);
 
-			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
+			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);*/
 
 
 			//************* CREATE TABLES **************//
 
 
-			/*TableUtils.createTable(connectionSource, ProviderBean.class);
+			TableUtils.createTable(connectionSource, ProviderBean.class);
 			TableUtils.createTable(connectionSource, UserDetailBean.class);			
 			TableUtils.createTable(connectionSource, ProjectBean.class);
 			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
@@ -102,7 +102,7 @@ public class DBConnectionManager {
 			TableUtils.createTable(connectionSource, DockerLinkBean.class);
 			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
 
-			TableUtils.createTable(connectionSource, MachineProjectMapping.class);*/
+			TableUtils.createTable(connectionSource, MachineProjectMapping.class);
 
 			TableUtils.createTable(connectionSource, GitRepoBean.class);
 			

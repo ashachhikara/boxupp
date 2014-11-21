@@ -1,4 +1,4 @@
-angular.module("boxuppApp").controller('puppetController',function($scope,$rootScope,retrieveMappings,$timeout,validator,fileUpload,provision){
+angular.module("boxuppApp").controller('puppetController',function($scope,$rootScope,retrieveMappings,$timeout,validator,fileUpload,provision,$q){
 
 		$scope.selectedProvMachine = {};
 		
@@ -19,7 +19,8 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 			var defferred = $q.defer();
 			retrieveMappings.fetchPuppetMappings().then(function(mappings){
 				var newMappings = $scope.convertPuppetMappingsStructure(mappings);
-				angular.forEach(newMappings,function(value,key){
+				
+				/*angular.forEach(newMappings,function(value,key){
 					//Check is same machine is mapped in current mappings, only then flag will be set
 					if($scope.moduleProvMappings.hasOwnProperty(key) && $scope.moduleProvMappings[key].length > 0){
 						//Difference between previously mapped and present mapping array for a particular box
@@ -33,7 +34,24 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 							
 						}
 					}
+				});*/
+
+				angular.forEach($scope.moduleProvMappings,function(value,key){
+					//Check is same machine is mapped in current mappings, only then flag will be set
+					if(value.length > 0){
+						//Difference between previously mapped and present mapping array for a particular box
+						var arrayDifference = _.difference(value,newMappings[key]);
+						if(arrayDifference.length>0){
+							angular.forEach($scope.boxesData,function(box){
+								if(box.machineID == key){
+									$scope.setPuppetFlagForBox(box);
+								}	
+							});
+							
+						}
+					}
 				});
+
 				defferred.resolve();
 			});
 			return defferred.promise;

@@ -20,7 +20,9 @@ angular.module("boxuppApp").
 		var defferred = $q.defer();
 		retrieveMappings.fetchScriptMappings().then(function(mappings){
 			var newMappings = $scope.convertScriptMappingsStructure(mappings);
-			angular.forEach(newMappings,function(value,key){
+			
+
+			/*angular.forEach(newMappings,function(value,key){
 				//Check is same machine is mapped in current mappings, only then flag will be set
 				if($scope.shellProvMappings.hasOwnProperty(key) && $scope.shellProvMappings[key].length > 0){
 					//Difference between previously mapped and present mapping array for a particular box
@@ -34,7 +36,32 @@ angular.module("boxuppApp").
 						
 					}
 				}
+			});*/
+			
+
+			angular.forEach($scope.shellProvMappings,function(value,key){
+				//Check is same machine is mapped in current mappings, only then flag will be set
+				if(value.length > 0){
+					//Difference between previously mapped and present mapping array for a particular box
+					var arrayDifference = _.difference(value,newMappings[key]);
+					if(arrayDifference.length>0){
+						angular.forEach($scope.boxesData,function(box){
+							if(box.machineID == key){
+								$scope.setScriptFlagForBox(box);
+							}	
+						});
+						
+					}
+				}
 			});
+
+			/*angular.forEach($scope.shellProvMappings,function(value,key){
+				if(!newMappings.hasOwnProperty(key) && $scope.shellProvMappings[key].length > 0){
+					$scope.setScriptFlagForBox(box);
+				}
+			});*/
+
+
 			defferred.resolve();
 		});
 		return defferred.promise;

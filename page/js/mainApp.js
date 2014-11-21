@@ -104,6 +104,76 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		}
 	};
 
+
+	$scope.checkMachineFlags = function(activeVM){
+		if(activeVM.configChangeFlag || activeVM.scriptChangeFlag || activeVM.moduleChangeFlag){
+			return true;
+		}
+	}
+
+	$scope.checkScriptMappings = function(activeVM){
+		if(activeVM !== null){
+			var machineID = activeVM.machineID;
+			if($scope.shellProvMappings.hasOwnProperty(machineID) && $scope.shellProvMappings[machineID].length > 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+
+	$scope.checkModuleMappings = function(activeVM){
+		if(activeVM !== null){
+			var machineID = activeVM.machineID;
+			if($scope.moduleProvMappings.hasOwnProperty(machineID) && $scope.moduleProvMappings[machineID].length > 0) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+
+	$scope.fetchMappedScriptNames = function(activeVM){
+		var scriptNames = [];
+
+		if(activeVM !== null){
+			var machineID = activeVM.machineID;
+			
+			var scriptMappings = $scope.shellProvMappings[machineID];
+			angular.forEach(scriptMappings,function(scriptID){
+				angular.forEach($scope.shellScripts,function(value){
+					if(value.scriptID === scriptID){
+						scriptNames.push(value.scriptName);
+					}
+				})
+			});	
+		}
+		
+		return scriptNames;
+	}
+
+	$scope.fetchMappedModuleNames = function(activeVM){
+		var moduleNames = [];
+
+		if(activeVM !== null){
+			var machineID = activeVM.machineID;
+			
+			var moduleMappings = $scope.moduleProvMappings[machineID];
+			angular.forEach(moduleMappings,function(moduleID){
+				angular.forEach($scope.projectData.modules,function(value){
+					if(value.moduleID === moduleID){
+						moduleNames.push(value.moduleName);
+					}
+				})
+			});	
+		}
+		
+		return moduleNames;
+	}
+
+
 	$scope.deployEnvironment = function(){
 		$scope.createVagrantFile().then(function(){
 			var elements = [];

@@ -43,8 +43,46 @@
 			</tr>
 		</tbody>
 	</table>
+
+	
+	<table class="table table-striped mappings" >
+		<thead>
+			<tr>
+				<td class="col-md-2">Scripts Mapped</td>
+			</tr>
+		</thead>
+		<tbody ng-show="checkScriptMappings(activeVM)">
+			<tr ng-repeat="scriptName in fetchMappedScriptNames(activeVM)">
+				<td class="col-md-2"><span ng-bind="scriptName"></span></td>
+			</tr>
+		</tbody>
+		<tbody ng-hide="checkScriptMappings(activeVM)">
+			<tr>
+				<td class="col-md-2"><span>-</span></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table table-striped mappings" >
+		<thead>
+			<tr>
+				<td class="col-md-2">Modules Mapped</td>
+			</tr>
+		</thead>
+		<tbody ng-show="checkModuleMappings(activeVM)">
+			<tr ng-repeat="moduleName in fetchMappedModuleNames(activeVM)">
+				<td class="col-md-2"><span ng-bind="moduleName"></span></td>
+			</tr>
+		</tbody>
+		<tbody ng-hide="checkModuleMappings(activeVM)">
+			<tr>
+				<td class="col-md-2"><span>-</span></td>
+			</tr>
+		</tbody>
+	</table>
+
 	Config Change flag - {{activeVM.configChangeFlag}}
 	Script change flag - {{activeVM.scriptChangeFlag}}
 	Puppet Change flag - {{activeVM.moduleChangeFlag}}
-	<a class="btn btn-info" ng-click="deployBox(activeVM)">Commit changes</a>
+	<a class="btn btn-info" ng-click="deployBox(activeVM)" ng-show="checkMachineFlags(activeVM)">Commit changes</a>
 </div>

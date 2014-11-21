@@ -400,6 +400,12 @@ div#moduleSearchResultsLoader.collapsed {
 div#moduleSearchResultsLoader.expanded {
   height: 200px; }
 
+table.mappings {
+  table-layout: fixed;
+  width: 20%;
+  margin-right: 50px;
+  float: left; }
+
 div#playArea div.secPlayArea {
   position: absolute;
   top: 71px;
