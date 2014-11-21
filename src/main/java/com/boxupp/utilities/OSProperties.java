@@ -13,7 +13,7 @@ public class OSProperties {
 	private String serializedFileName = "serData";
 	private String moduleDirName = "modules";
 	private String manifestsDirName = "manifests";
-	private String nodeFileName = "nodes.pp";
+	private String nodeFileName = "site.pp";
 			
 	private OSProperties(){
 			OSFileSeparator = System.getProperty("file.separator");
