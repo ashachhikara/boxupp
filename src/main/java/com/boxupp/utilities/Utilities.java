@@ -274,7 +274,7 @@ public class Utilities {
 		List<PuppetModuleMapping> puppetModuleMappingList = ProjectDAOManager.getInstance().retireveModulesMapping(projectID);
 		String provider  = ProjectDAOManager.getInstance().getProviderForProject(projectID);
 		Utilities.getInstance().commitSyncFoldersToDisk(machineConfigList, Integer.parseInt(userID));
-		boolean configFileData = ConfigurationGenerator.generateConfig(machineConfigList, puppetModuleList,  shellScriptList, shellScriptMappingList, puppetModuleMappingList, provider );
+		boolean configFileData = ConfigurationGenerator.generateConfig(machineConfigList, puppetModuleList,  shellScriptList, shellScriptMappingList, puppetModuleMappingList, provider, projectID);
 		VagrantFileStatus fileStatus = new VagrantFileStatus();
 		if(configFileData){
 			logger.info("Started saving vagrant file");
