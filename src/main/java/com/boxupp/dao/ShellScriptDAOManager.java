@@ -12,9 +12,11 @@ import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
+import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
+import com.boxupp.db.beans.UserProjectMapping;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.Utilities;
 import com.google.gson.Gson;
@@ -114,10 +116,13 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 			ShellScriptBean scriptBean = shellScriptDao.queryForId(Integer.parseInt(shellScriptID));
 			scriptBean.setIsDisabled(true);
 			shellScriptDao.update(scriptBean);
+			ProjectBean project = shellScriptMappingDao.queryBuilder().where().eq(ShellScriptMapping.MACHINE_ID_FIELD_NAME, shellScriptDao.queryForId(Integer.parseInt(shellScriptID))).queryForFirst().getProject();
+			Integer userID = UserDAOManager.getInstance().userProjectMappingDao.queryBuilder().where().eq(UserProjectMapping.PROJECT_ID_FIELD_NAME, project).queryForFirst().getUser().getUserID();
 			/*List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, Integer.parseInt(shellScriptID));
 				for(ShellScriptMapping shellScript : shellscriptMappping){
 					shellScriptMappingDao.delete(shellScript);
-				}*/
+			}*/
+			Utilities.getInstance().deleteScriptfileOnDisk(scriptBean.getScriptName(), userID);
 		} catch (SQLException e) {
 			logger.error("Error updating a shell script : " + e.getMessage());
 			statusBean.setStatusCode(1);

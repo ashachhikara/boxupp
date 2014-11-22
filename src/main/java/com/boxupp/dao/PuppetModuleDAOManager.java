@@ -148,6 +148,7 @@ public class PuppetModuleDAOManager implements DAOImplInterface {
 			PuppetModuleBean puppetModule = puppetModuleDao.queryForId(Integer.parseInt(puppetModuleID));
 			puppetModule.setIsDisabled(true);
 			puppetModuleDao.update(puppetModule);
+			PuppetUtilities.getInstance().deletePuppetModule(puppetModule.getModuleName());
 		} catch (SQLException e) {
 			logger.error("Error deleting a puppet Module : " + e.getMessage());
 			statusBean.setStatusCode(1);
