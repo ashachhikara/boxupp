@@ -13,7 +13,7 @@
 					    <li class="active"><a data-target="#machine" role="tab" data-toggle="tab">Box Settings</a></li>
 						<li class=""><a data-target="#networking" role="tab" data-toggle="tab">Networking</a></li>
 						<li class=""><a data-target="#folders" role="tab" data-toggle="tab">Folders</a></li>
-						<li class=""><a data-target="#misc" role="tab" data-toggle="tab">Authentication</a></li>
+						<!-- <li class=""><a data-target="#misc" role="tab" data-toggle="tab">Authentication</a></li> -->
 					</ul>
 					<div id="boxConfigContent" class="tab-content" style="position:relative;">
 					    <div class="tab-pane fade active in container-fluid" id="machine">
@@ -21,6 +21,7 @@
 								<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
 					            	<input name="vagrantID" id="vagrantID" 
 									ng-model="rawBox.vagrantID"
+									ng-pattern="/^[a-z0-9]{1,8}$/"
 									type="text" 
 									class="form-control"
 									required>
@@ -115,7 +116,7 @@
 						  					<span class="boxConfigTitles">Host Folder<sup>*</sup></span>
 						  				</div>	
 						  				<div class="boxConfig col-sm-6">
-							  				<span class="boxConfigTitles pull-right">VM lder<sup>*</sup></span>
+							  				<span class="boxConfigTitles pull-right">VM Folder<sup>*</sup></span>
 							  			</div>	
 						  	  		</div>
 							  		<div class="row">
@@ -141,7 +142,7 @@
 								</a>
 							</div>
 						</div>
-						<div class="tab-pane fade container-fluid" id="misc">
+						 <div class="tab-pane fade container-fluid" id="misc">
 							<div class="boxConfig"> <span class="boxConfigTitles" >UserName</span>
 					           <input name="username" id="username" ng-model="rawBox.username" data-placement="bottom" title="User name For Docker Image" type="text" class="form-control">
 					    </div>
@@ -149,7 +150,7 @@
 					        <input name="password"  id="password" 
 							ng-model="rawBox.password"  type="text" 
 							data-placement="bottom" title="Password For Docker Image" class="form-control"/>
-					    </div>
+					    </div> 
 					</div>
 				</div>
 			</div>
@@ -157,7 +158,7 @@
 		<div class="modal-footer">
 			<button class="btn btn-success" ng-click="modals.close.containerBox()">Close</button>
 					<button class="btn btn-success" ng-disabled="checkFormStates.containerRawBox()" ng-click="createContainerBoxes(rawBox)" ng-hide="projectData.boxesState.update">Create</button>
-					<button class="btn btn-success" ng-disabled="checkFormStates.containerRawBoxUpdate()" ng-click="updateContainerBox()" ng-show="projectData.boxesState.update">Update</button>
+					<!-- <button class="btn btn-success" ng-disabled="checkFormStates.containerRawBoxUpdate()" ng-click="updateContainerBox()" ng-show="projectData.boxesState.update">Update</button> -->
 		</div>
 	</div>
 </div>

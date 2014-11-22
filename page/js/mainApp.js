@@ -281,6 +281,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			}else{
 				return ($scope.fetchVagrantCommandForDocker(flagStatesCombination)+" " + vmConfig.vagrantID);
 			}
+
 	}
 
 	$scope.userSignout = function(){
@@ -499,8 +500,7 @@ $scope.updateContainerBox = function(){
 		$('ul.ctrl-bar-sec-list li').removeClass('active');
 	}
 	
-	
-	
+		
 	$scope.vagrantCommands = {
 		0:"Choose what's best"
 	};
