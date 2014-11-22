@@ -280,6 +280,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			}else{
 				return ($scope.fetchVagrantCommandForDocker(flagStatesCombination)+" " + vmConfig.vagrantID);
 			}
+
 	}
 
 	$scope.userSignout = function(){
@@ -482,8 +483,7 @@ $scope.updateContainerBox = function(){
 		$('ul.ctrl-bar-sec-list li').removeClass('active');
 	}
 	
-	
-	
+		
 	$scope.vagrantCommands = {
 		0:"Choose what's best"
 	};
@@ -915,7 +915,7 @@ $scope.updateContainerBox = function(){
 			"1000":"vagrant up",
 			"1001":"vagrant reload",
 			"1010":"vagrant up --provision",
-			"1011":"vagrant reload --provision"
+			"1011":"vagrant reload --provision",
 			"1100":"vagrant reload --provision",
 			"1101":"vagrant reload --provision",
 			"1110":"vagrant up --provision",
@@ -946,7 +946,7 @@ $scope.updateContainerBox = function(){
 			"1000":"vagrant up --provider=docker",
 			"1001":"vagrant reload",
 			"1010":"vagrant up --provision --provider=docker",
-			"1011":"vagrant reload --provision"
+			"1011":"vagrant reload --provision",
 			"1100":"vagrant reload --provision",
 			"1101":"vagrant reload --provision",
 			"1110":"vagrant up --provision --provider=docker",

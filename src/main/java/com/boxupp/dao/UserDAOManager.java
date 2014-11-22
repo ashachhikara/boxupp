@@ -1,6 +1,7 @@
 package com.boxupp.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -96,5 +97,24 @@ public class UserDAOManager implements DAOImplInterface{
 		}
 		return (T) userProjectMappingBean;
 	}
-
+	public StatusBean checkForExistingUser(String userID){
+		StatusBean statusBean = new StatusBean();
+		try {
+			List<UserDetailBean> userDetail = userDetailDao.queryBuilder().where().eq("mailID", userID).query();
+			if(!userDetail.isEmpty()){
+				statusBean.setStatusCode(0);
+			}
+		} catch (SQLException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error in fetching data from userDetail");
+		}
+		return statusBean ;
+	} 
+	
+	public static void main(String[] args){
+		UserDAOManager user = new UserDAOManager();
+		StatusBean statusBean = user.checkForExistingUser("a");
+		System.out.println(statusBean.getStatusCode());
+		
+	}
 }

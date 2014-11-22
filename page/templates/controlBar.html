@@ -166,6 +166,7 @@
 						  			<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
 						              <input name="vagrantID"
 						              		 type="text" 
+						              		 ng-pattern="/^[a-z0-9]{1,8}$/"
 											 ng-model="quickBox.vagrantID"
 											 class="form-control" 
 											 required/>

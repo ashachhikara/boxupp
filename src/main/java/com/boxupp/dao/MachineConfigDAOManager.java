@@ -159,7 +159,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 			MachineConfigurationBean machineConfig = machineConfigDao.queryForId(machineID);
 			machineConfig.setIsDisabled(true);
 			machineConfigDao.update(machineConfig);
-			String vagrantCommand = "vagrant destroy "+machinConfig.getVagrantID();
+			String vagrantCommand = "vagrant destroy "+machinConfig.getVagrantID()+" -f";
 			VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
 			try {
 				shellProcessor.executeVagrantFile(location,vagrantCommand, userID, new VagrantOutputStream());
