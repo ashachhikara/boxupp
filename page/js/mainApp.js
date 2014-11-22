@@ -275,9 +275,11 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	$scope.chooseBestDeployOption = function(vmConfig){
 		var flagStatesCombination = vmConfig.configChangeFlag + "" +vmConfig.moduleChangeFlag + "" +
 									vmConfig.scriptChangeFlag + "" +vmConfig.machineStatusFlag + "";	
-									
-		return ($scope.fetchVagrantCommand(flagStatesCombination)+" " + vmConfig.vagrantID);
-		
+			if(vmConfig.providerType === "virtualbox"){						
+				return ($scope.fetchVagrantCommandForVirtualBox(flagStatesCombination)+" " + vmConfig.vagrantID);
+			}else{
+				return ($scope.fetchVagrantCommandForDocker(flagStatesCombination)+" " + vmConfig.vagrantID);
+			}
 	}
 
 	$scope.userSignout = function(){
@@ -437,23 +439,22 @@ $scope.updateContainerBox = function(){
 
 	$scope.listOfSSHImages=[
 		{
-			"path":"boxupp / centos-base",
+			"path":"boxupp/centos-base",
 			"iconSrc":"img/centos-32.png"
 		},
 		{
-			"path":"boxupp / redhat-base",
-			"iconSrc" : "img/redhat-32.png"
-		},
-		{
-			"path":"boxupp / debian-base",
+			"path":"boxupp/debian-base",
 			"iconSrc" : "img/debian-32.png"
 		},
 		{
-			"path":"boxupp / ubuntu-base",
+			"path":"boxupp/ubuntu-base",
 			"iconSrc" : "img/ubuntu-32.png"
 		}
 	];
-	
+	/*{
+			"path":"boxupp/redhat-base",
+			"iconSrc" : "img/redhat-32.png"
+		},*/
 	$scope.searchNewModule = function(moduleSearchText){
 		$scope.searchingModules = true;
 		puppetModule.searchPuppetModule($scope,moduleSearchText).then(function(response){
@@ -900,7 +901,7 @@ $scope.updateContainerBox = function(){
 		$scope.outputConsole.boxuppOutputWindow = true;
 	}
 
-	$scope.fetchVagrantCommand = function(combination){
+	$scope.fetchVagrantCommandForVirtualBox = function(combination){
 		console.log("Environment state : " + combination);
 		var commands = {
 			"0000":"vagrant up",
@@ -914,7 +915,7 @@ $scope.updateContainerBox = function(){
 			"1000":"vagrant up",
 			"1001":"vagrant reload",
 			"1010":"vagrant up --provision",
-			"1011":"vagrant reload --provision",
+			"1011":"vagrant reload --provision"
 			"1100":"vagrant reload --provision",
 			"1101":"vagrant reload --provision",
 			"1110":"vagrant up --provision",
@@ -931,7 +932,37 @@ $scope.updateContainerBox = function(){
 		};
 		return commands[combination];	
 	}
-	
+	$scope.fetchVagrantCommandForDocker = function(combination){
+		console.log("Environment state : " + combination);
+		var commands = {
+			"0000":"vagrant up --provider=docker",
+			"0001":"vagrant reload --provision",
+			"0010":"vagrant up --provision --provider=docker",
+			"0011":"vagrant provision --provision-with shell",
+			"0100":"vagrant up --provision --provider=docker",
+			"0101":"vagrant provision",
+			"0110":"vagrant up --provision --provider=docker",
+			"0111":"vagrant reload --provision",
+			"1000":"vagrant up --provider=docker",
+			"1001":"vagrant reload",
+			"1010":"vagrant up --provision --provider=docker",
+			"1011":"vagrant reload --provision"
+			"1100":"vagrant reload --provision",
+			"1101":"vagrant reload --provision",
+			"1110":"vagrant up --provision --provider=docker",
+			"1111":"vagrant reload --provision",
+			"0003":"vagrant up --provision --provider=docker",
+			"0013":"vagrant up --provision --provider=docker",
+			"0103":"vagrant up --provision --provider=docker",
+			"0113":"vagrant up --provision --provider=docker",
+			"1003":"vagrant up --provision --provider=docker",
+			"1013":"vagrant up --provision --provider=docker",
+			"1103":"vagrant up --provision --provider=docker",
+			"1113":"vagrant up --provision --provider=docker"
+			
+		};
+		return commands[combination];	
+	}
 	$scope.fetchVagrantOutput = function(){
 		$scope.outputConsole.boxuppExecuting = true;
 		var completeURL = $scope.serverAddress + "/services/getStream";
