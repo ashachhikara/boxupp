@@ -67,6 +67,13 @@
 	line-height: 11px;	
 }
 
+
+div#moduleModal{
+	div.modal-lg{
+		width:1000px;
+	}
+}
+
 div.modal-content{
 	@include boxupp-modal-styling();
 }
@@ -83,21 +90,43 @@ div#moduleSearchResults{
 		}
 	}
 
-	a.moduleLinks{
+	
 		/*background:grey;*/
-		margin-bottom:5px;
-		text-decoration : none;
-		/*color:white;*/
-		border: 1px solid #C5BDBD;
+		
 
 		div.moduleContent{
+
+			margin-bottom:5px;
+			text-decoration : none;
+			/*color:white;*/
+			border: 1px solid #C5BDBD;
+
 			div.moduleOwnerGravatar{
-				position:relative;
-				top:0px;
-				left:0px;
+				position:absolute;
+				top:-5px;
+				left : 0px;
+			}
+			div.moduleOwnerName{
+				position:absolute;
+				left:39px;
+			}
+
+			div.moduleDescription{
+				overflow:auto;
+				div.moduleSummary{
+					font-family: 'Open Sans', sans-serif;
+					font-size:13px;
+					color:grey;
+					margin-top: 20px;
+					margin-bottom: 20px;
+				}
+				div.moduleDownload{
+					margin-top: 20px;
+					margin-bottom: 20px;	
+				}
 			}
 		}
-	}
+	
 
 	div.moduleContent{
 		div.moduleMetaData, div.moduleSearchDataFooter{
@@ -108,7 +137,18 @@ div#moduleSearchResults{
 			font-size: 11px;
 			line-height: 11px;
 			color: grey;
-			background:#E2F5FD;
+			/*background:#E2F5FD;*/
+		}
+
+		div.moduleMetaData{
+			border-bottom: 1px solid #eee;
+			height: 38px;
+			background:#eee;
+		}
+
+		div.moduleSearchDataFooter{
+			margin-bottom: 10px;
+			border-top: 1px solid #EDEDEF;
 		}
 
 	}
@@ -119,7 +159,7 @@ div#moduleSearchResults.collapsed{
 }
 
 div#moduleSearchResults.expanded{
-	height : 200px;
+	height : 300px;
 }
 
 div#moduleSearchResultsLoader{
@@ -134,5 +174,5 @@ div#moduleSearchResultsLoader.collapsed{
 }
 
 div#moduleSearchResultsLoader.expanded{
-		height : 200px;
+		height : 300px;
 }

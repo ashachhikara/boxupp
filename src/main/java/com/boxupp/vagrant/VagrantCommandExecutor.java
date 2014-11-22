@@ -61,9 +61,15 @@ public class VagrantCommandExecutor {
 			
 			String windowsCmd = "cmd /C " + vagrantCommand.toString();
 			if(osType.indexOf("windows") != -1){
+				System.out.println("in windows");
 				String commandArray[] = windowsCmd.split(" ");
 				processBuilder = new ProcessBuilder(commandArray);
+			}else if((osType.indexOf("mac")!= -1) || (osType.indexOf("darwin")!= -1)){
+				System.out.println("in mac");
+				String command = vagrantCommand.toString().replaceAll("vagrant", "/Applications/Vagrant/bin/vagrant");
+				processBuilder = new ProcessBuilder(command.split(" "));
 			}else{
+				System.out.println("in linux");
 				String command = vagrantCommand.toString().replaceAll("vagrant", "/opt/vagrant/bin/vagrant");
 				processBuilder = new ProcessBuilder(command.split(" "));
 			}
@@ -114,7 +120,20 @@ public class VagrantCommandExecutor {
 				vagrantCommand.insert(0, "cmd ");
 				String commandArray[] = vagrantCommand.toString().split(" ");
 				processBuilder = new ProcessBuilder(commandArray);
-			}else{
+			}else if((osType.indexOf("mac")!= -1) || (osType.indexOf("darwin")!= -1)){
+				for(int counter=0; counter<commands.length; counter++){
+					if(counter == commands.length-1){
+						vagrantCommand.append(commands[counter]);
+					}
+					else{
+						vagrantCommand.append(commands[counter]).append(" ");
+					}
+				}
+				String command = vagrantCommand.toString().replaceAll("vagrant", "/Applications/Vagrant/bin/vagrant");
+				processBuilder = new ProcessBuilder(command.split(" "));
+				
+			}
+			else{
 				
 				for(int counter=0; counter<commands.length; counter++){
 					if(counter == commands.length-1){

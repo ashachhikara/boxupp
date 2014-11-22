@@ -1,11 +1,7 @@
 #!/bin/bash
-
-
 #Get os Details
-
 os=""
 ls /proc/version > /dev/null 2>&1 
-
 if [ $? = '0' ];then
 grep "centos" /proc/version -i -q 
 if [ $? = '0' ];then
@@ -43,8 +39,6 @@ if [ $? -ne 0 ]; then
 		exit 1
 fi
 
-
-
 #Check os
 
 case $os in "ubuntu")
@@ -60,7 +54,7 @@ fi
 
 
 if [ $? -ne 0 ]; then
-exit1
+exit 1
 fi
 
 #Check Vagrant
@@ -76,7 +70,6 @@ if [ $? -ne 0 ]; then
       exit 1
 fi
 ;;
-
 
 "centos")
 

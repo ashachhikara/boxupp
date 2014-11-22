@@ -225,6 +225,9 @@ div.collapseCtrlBar{
 div.expandCtrlBar{
 	height:30px;
 }*/
+div.logo img {
+  width: 150px; }
+
 div.login-container, div.registration-container {
   background: #444546;
   position: absolute;
@@ -312,6 +315,9 @@ div.project-container {
         div.project-container ul.projectsList li a:hover div.projectTitle span {
           color: #FFF; }
 
+div#moduleModal div.modal-lg {
+  width: 1000px; }
+
 div.modal-content {
   top: 50px;
   border-radius: 0px; }
@@ -354,7 +360,8 @@ div.modal-content {
       font-weight: 300; }
 
 div#moduleSearchResults {
-  overflow: auto; }
+  overflow: auto;
+  /*background:grey;*/ }
   div#moduleSearchResults div.moduleOwnerGravatar {
     position: absolute;
     border-style: 1px solid grey; }
@@ -362,16 +369,29 @@ div#moduleSearchResults {
       height: 30px;
       width: 30px;
       border-radius: 50%; }
-  div#moduleSearchResults a.moduleLinks {
-    /*background:grey;*/
+  div#moduleSearchResults div.moduleContent {
     margin-bottom: 5px;
     text-decoration: none;
     /*color:white;*/
     border: 1px solid #C5BDBD; }
-    div#moduleSearchResults a.moduleLinks div.moduleContent div.moduleOwnerGravatar {
-      position: relative;
-      top: 0px;
+    div#moduleSearchResults div.moduleContent div.moduleOwnerGravatar {
+      position: absolute;
+      top: -5px;
       left: 0px; }
+    div#moduleSearchResults div.moduleContent div.moduleOwnerName {
+      position: absolute;
+      left: 39px; }
+    div#moduleSearchResults div.moduleContent div.moduleDescription {
+      overflow: auto; }
+      div#moduleSearchResults div.moduleContent div.moduleDescription div.moduleSummary {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 13px;
+        color: grey;
+        margin-top: 20px;
+        margin-bottom: 20px; }
+      div#moduleSearchResults div.moduleContent div.moduleDescription div.moduleDownload {
+        margin-top: 20px;
+        margin-bottom: 20px; }
   div#moduleSearchResults div.moduleContent div.moduleMetaData, div#moduleSearchResults div.moduleContent div.moduleSearchDataFooter {
     padding: 10px 0px 10px 0px;
     font-family: 'Open Sans', sans-serif;
@@ -380,13 +400,20 @@ div#moduleSearchResults {
     font-size: 11px;
     line-height: 11px;
     color: grey;
-    background: #E2F5FD; }
+    /*background:#E2F5FD;*/ }
+  div#moduleSearchResults div.moduleContent div.moduleMetaData {
+    border-bottom: 1px solid #eee;
+    height: 38px;
+    background: #eee; }
+  div#moduleSearchResults div.moduleContent div.moduleSearchDataFooter {
+    margin-bottom: 10px;
+    border-top: 1px solid #EDEDEF; }
 
 div#moduleSearchResults.collapsed {
   height: 0px; }
 
 div#moduleSearchResults.expanded {
-  height: 200px; }
+  height: 300px; }
 
 div#moduleSearchResultsLoader {
   overflow: auto; }
@@ -398,7 +425,7 @@ div#moduleSearchResultsLoader.collapsed {
   height: 0px; }
 
 div#moduleSearchResultsLoader.expanded {
-  height: 200px; }
+  height: 300px; }
 
 table.mappings {
   table-layout: fixed;

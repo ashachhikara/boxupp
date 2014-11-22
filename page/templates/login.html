@@ -52,7 +52,7 @@
             <div class="row">
                 <div class="message-container">
                     <div class="alert alert-danger" role="alert" ng-show="authError" ng-init="authError = false">
-                      <strong>Error!</strong> Invalid user credentials !
+                      <strong>Error!</strong> <span ng-bind="errorMessage"></span>
                     </div>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                     <div class=" col-sm-4"  ng-hide="showRegInfo">
                     
                       <div class="registrationAction pull-left">
-                          <a ng-click="showLogin = !showLogin" class="pull-left"><i class="fa fa-arrow-left"></i>Back </a> 
+                          <a ng-click="showLogin = !showLogin" class="pull-left"><i class="fa fa-arrow-left" ng-click="proceedToLogin()"></i>Back </a> 
                       </div>
                     
                   </div>
@@ -125,9 +125,10 @@
                     <div class="form-field" ng-show="showRegInfo" ng-init="showRegInfo = false">
                       
                         <div class="fieldIcon col-sm-12 pull-left" >
-                          <a ng-click="showLogin = !showLogin">
-                            Click here to login
-                          </a>
+                          <!--<a ng-click="showLogin = !showLogin" style="cursor:pointer;">-->
+                            <a ng-click="proceedToLogin()" style="cursor:pointer;">
+                              Click here to login
+                            </a>
                         </div>
                       
                     </div>
@@ -143,6 +144,13 @@
 
                     
               </div>
+            </div>
+            <div class="row">
+                <div class="message-container">
+                    <div class="alert alert-danger" role="alert" ng-show="regError" ng-init="regError = false">
+                      <strong>Error!</strong> <span ng-bind="regErrorMessage"></span>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -1,6 +1,20 @@
-<div ng-show="projectData.modules.length == 0">
+<div ng-show="projectData.modules.length === 0">
 	<span class="messageTitle">No Modules found</span>
 </div>
-<div ng-show="projectData.modules.length >0 && projectData.activeModule === null">
+<div ng-show="projectData.modules.length >0 && activeModule === null">
 	<span class="messageTitle">Select a module to manage</span>
+</div>
+
+<div class="moduleDetails" ng-show="projectData.modules.length>0 && activeModule !== null">
+	
+	<div class="moduleMetaData">
+		<div class="moduleName">
+			<span><i class="fa fa-file"></i>{{activeModule.moduleName}}</span>
+		</div>
+		<div class="moduleDownloads">
+			<span><i class="fa fa-download"></i>{{activeModule.downloads}}</span>
+		</div>
+
+	</div>
+
 </div>

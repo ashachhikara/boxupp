@@ -169,7 +169,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 			
 			presentIP = $scope.boxesData[size-1].networkIP;
 		}else{
-			presentIP = "192.168.1.1";
+			presentIP = "192.168.111.1";
 		}
 		
 		var ipValues = presentIP.split(".");

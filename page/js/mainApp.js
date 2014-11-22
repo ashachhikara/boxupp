@@ -18,6 +18,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	$scope.apiHitInterval = 500; //0.5 second
 	$scope.activeVM = null;
 	$scope.activeScript = null;
+	$scope.activeModule = null;
 	$scope.projectData.activeModule = null;
 	$scope.outputConsole = {};
 	$scope.outputConsole.boxuppExecuting = false;
@@ -331,7 +332,19 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	}
 
 	$scope.deleteActiveScript = function(){
-		alert('Script deleted');
+		shellScript.delete({id:$scope.activeScript.scriptID},function(){
+			var scriptCounter = 0;
+			angular.forEach($scope.shellScripts,function(script){
+				if(script.scriptID === $scope.activeScript.scriptID){
+					$scope.shellScripts.splice(scriptCounter,1);
+				}
+				scriptCounter++;
+			});
+		});
+	}
+
+	$scope.deleteActiveModule = function(){
+		
 	}
 
 	$scope.editActiveBox = function(){
@@ -436,6 +449,10 @@ $scope.updateContainerBox = function(){
 
 
 	// $scope.selectedProvMachine = {};
+
+	$scope.selectModule = function(module){
+		$scope.activeModule = module;
+	}
 
 	$scope.listOfSSHImages=[
 		{
@@ -915,7 +932,7 @@ $scope.updateContainerBox = function(){
 			"1000":"vagrant up",
 			"1001":"vagrant reload",
 			"1010":"vagrant up --provision",
-			"1011":"vagrant reload --provision"
+			"1011":"vagrant reload --provision",
 			"1100":"vagrant reload --provision",
 			"1101":"vagrant reload --provision",
 			"1110":"vagrant up --provision",
@@ -946,7 +963,7 @@ $scope.updateContainerBox = function(){
 			"1000":"vagrant up --provider=docker",
 			"1001":"vagrant reload",
 			"1010":"vagrant up --provision --provider=docker",
-			"1011":"vagrant reload --provision"
+			"1011":"vagrant reload --provision",
 			"1100":"vagrant reload --provision",
 			"1101":"vagrant reload --provision",
 			"1110":"vagrant up --provision --provider=docker",

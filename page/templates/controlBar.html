@@ -47,7 +47,7 @@
 							</a>
 						</div>
 						<div class="trashIcon tab-pane fade" id="scriptTrash">
-							<a class="pull-right" ng-click="deleteActiveScript()">
+							<a class="pull-right" ng-click="deleteActiveScript()" ng-hide="activeScript === null">
 								<span ng-hide="expandedCtrlBar">
 									<i class="fa fa-trash-o"></i>
 								</span>
@@ -59,7 +59,7 @@
 							</a>
 						</div>
 						<div class="trashIcon tab-pane fade" id="moduleTrash">
-							<a class="pull-right" ng-click="deleteActiveModule()">
+							<a class="pull-right" ng-click="deleteActiveModule()" ng-hide="activeModule === null">
 								<span ng-hide="expandedCtrlBar">
 									<i class="fa fa-trash-o"></i>
 								</span>
