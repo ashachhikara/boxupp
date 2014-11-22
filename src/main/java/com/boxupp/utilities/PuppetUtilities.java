@@ -145,8 +145,8 @@ public class PuppetUtilities extends Utilities {
 		}
 	}
 	
-	public void deletePuppetModule(Integer userID, String puppetModuleName){
-		String modulesDir = fetchActiveProjectDirectory(userID) + OSFileSeparator + "modules" + OSFileSeparator;
+	public void deletePuppetModule(String puppetModuleName){
+		String modulesDir =  constructModuleDirectory() +OSFileSeparator;
 		File file  = new File(modulesDir+puppetModuleName);
 		Utilities.getInstance().deleteFile(file);
 		
