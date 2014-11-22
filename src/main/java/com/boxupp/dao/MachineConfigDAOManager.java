@@ -150,7 +150,6 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 	public StatusBean delete(String machineId) {
 		Integer machineID = Integer.parseInt(machineId);
 		StatusBean statusBean = new StatusBean();
-		MachineConfigurationBean machinConfig= new MachineConfigurationBean(); 
 		try {
 			ProjectBean project = machineMappingDao.queryBuilder().where().eq(MachineProjectMapping.MACHINE_ID_FIELD_NAME, machineConfigDao.queryForId(machineID)).queryForFirst().getProject();
 			List<UserProjectMapping> userProjectMapping = UserDAOManager.getInstance().userProjectMappingDao.queryForAll();
@@ -159,7 +158,7 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 			MachineConfigurationBean machineConfig = machineConfigDao.queryForId(machineID);
 			machineConfig.setIsDisabled(true);
 			machineConfigDao.update(machineConfig);
-			String vagrantCommand = "vagrant destroy "+machinConfig.getVagrantID()+" -f";
+			String vagrantCommand = "vagrant destroy "+machineConfig.getVagrantID()+" -f";
 			VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
 			try {
 				shellProcessor.executeVagrantFile(location,vagrantCommand, userID, new VagrantOutputStream());
