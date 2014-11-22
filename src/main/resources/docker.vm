@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
 			
 			#foreach ($syncMapping in $folderMappings)
 				#if(!($syncMapping.hostFolder.isEmpty() && $syncMapping.vmFolder.isEmpty()))
-				$identifier$syncFolderMarker "$syncMapping.hostFolder", "$syncMapping.vmFolder", type: "nfs"
+				$identifier$syncFolderMarker "$syncMapping.hostFolder", "$syncMapping.vmFolder"
 				#end
 			#end
 		

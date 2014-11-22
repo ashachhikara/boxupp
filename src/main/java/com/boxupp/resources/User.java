@@ -41,4 +41,12 @@ public class User {
 	public List<ProjectBean> getAllProjectsList(@PathParam("id") String userId){
 		return ProjectDAOManager.getInstance().retireveProjectsForUser(userId);
 	}
+	
+	@GET
+	@Path("/checkExistUser/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StatusBean checkExistUser(@PathParam("id") String userId){
+		return UserDAOManager.getInstance().checkForExistingUser(userId);
+	}
+	
 }

@@ -103,9 +103,11 @@ public class UserDAOManager implements DAOImplInterface{
 			List<UserDetailBean> userDetail = userDetailDao.queryBuilder().where().eq("mailID", userID).query();
 			if(!userDetail.isEmpty()){
 				statusBean.setStatusCode(0);
+			}else{
+				statusBean.setStatusCode(1);
 			}
 		} catch (SQLException e) {
-			statusBean.setStatusCode(1);
+			statusBean.setStatusCode(2);
 			statusBean.setStatusMessage("Error in fetching data from userDetail");
 		}
 		return statusBean ;
