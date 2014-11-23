@@ -469,6 +469,10 @@ $scope.updateContainerBox = function(){
 		$scope.activeModule = module;
 	}
 
+	$scope.selectScript = function(script){		
+		$scope.activeScript = script;
+	}
+
 	$scope.listOfSSHImages=[
 		{
 			"path":"boxupp/centos-dev:V1.4",
@@ -504,16 +508,8 @@ $scope.updateContainerBox = function(){
 			$scope.projectData.modules.push(response.beanData);
 		});
 	}
-	$scope.selectScript = function(num){
-		// if($scope.nodeSelectionDisabled === true) animateArrow();
-		$scope.activeScript = $scope.shellScripts[num];
-		// $scope.nodeSelectionDisabled = false;
-	}
-	$scope.selectModule = function(num){
-		// if($scope.nodeSelectionDisabled === true) animateArrow();
-		$scope.activeModule = $scope.projectData.modules[num];
-		// $scope.nodeSelectionDisabled = false;
-	}
+	
+	
 	$scope.resetCtrlBarSecNav = function(){
 		$('ul.ctrl-bar-sec-list li').removeClass('active');
 	}
@@ -1127,10 +1123,7 @@ $scope.updateContainerBox = function(){
 		}
 	}
 	$scope.selectNode = function(box){
-
 		$scope.activeVM = $scope.dockerLinkMappingForFrontend(box);
-	
-		// $scope.resetBoxURLChangeStatus();
 	}
 	
 	$scope.deleteFolderMapping = function(mappingNumber){
