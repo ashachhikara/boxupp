@@ -62,10 +62,10 @@ Vagrant.configure("2") do |config|
 			#end
 		
 			
-				config.vm.provision "puppet" do |$identifier|
-				$identifier$manifestsPathMarker = "../manifests"
-				$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
-				$identifier$modulePathMarker = "../modules"
+				$identifier.vm.provision "puppet" do |$identifier|
+					$identifier$manifestsPathMarker = "../manifests"
+					$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
+					$identifier$modulePathMarker = "../modules"
 				end		
 				
 	
