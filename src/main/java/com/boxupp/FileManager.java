@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.responseBeans.VagrantFile;
@@ -84,8 +85,8 @@ public class FileManager {
 		return statusBean;
 	}
 	
-	public VagrantFile fetchVagrantFileData(Integer userID){
-		
+	public VagrantFile fetchVagrantFileData(JsonNode projectData){
+		Integer userID = Integer.parseInt(projectData.get("userID").getTextValue());
 		String projectDir = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		String fileLocation = projectDir + OSProperties.getInstance().getOSFileSeparator() + 
 								OSProperties.getInstance().getVagrantFileName();
@@ -104,9 +105,8 @@ public class FileManager {
 				fileResponse.setFileContent(fileData.toString());
 				fileResponse.setStatusCode(0);
 			}else{
-				fileResponse.setStatusCode(1);
-				fileResponse.setFileContent("Vagrant file does not exist");
-				fileResponse.setFileExists(false);
+				fileResponse.setStatusCode(0);
+				Utilities.getInstance().saveVagrantFile(projectData);
 			}
 			return fileResponse;
 		}catch(Exception e){

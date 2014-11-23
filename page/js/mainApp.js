@@ -18,6 +18,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	$scope.apiHitInterval = 500; //0.5 second
 	$scope.activeVM = null;
 	$scope.activeScript = null;
+	$scope.activeModule = null;
 	$scope.projectData.activeModule = null;
 	$scope.outputConsole = {};
 	$scope.outputConsole.boxuppExecuting = false;
@@ -478,7 +479,11 @@ $scope.updateContainerBox = function(){
 		$scope.activeScript = $scope.shellScripts[num];
 		// $scope.nodeSelectionDisabled = false;
 	}
-
+	$scope.selectModule = function(num){
+		// if($scope.nodeSelectionDisabled === true) animateArrow();
+		$scope.activeModule = $scope.projectData.modules[num];
+		// $scope.nodeSelectionDisabled = false;
+	}
 	$scope.resetCtrlBarSecNav = function(){
 		$('ul.ctrl-bar-sec-list li').removeClass('active');
 	}

@@ -21,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.ConfigurationGenerator;
 import com.boxupp.FileManager;
@@ -72,11 +73,11 @@ public class BoxuppServices {
 	}
 	
 	@GET
-	@Path("/getVagrantFile/{id}")
+	@Path("/getVagrantFile")
 	@Produces(MediaType.APPLICATION_JSON)
-	public VagrantFile getVagrantFile(@PathParam("id") String userID) throws IOException{
+	public VagrantFile getVagrantFile(JsonNode projectData) throws IOException{
 		FileManager manager = new FileManager();
-		return manager.fetchVagrantFileData(Integer.parseInt(userID));
+		return manager.fetchVagrantFileData(projectData);
 	}
 	
 	/*@POST
