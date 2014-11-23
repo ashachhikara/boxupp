@@ -5,17 +5,19 @@ angular.module("boxuppApp").controller('gitController', [ '$scope', '$routeParam
 		repoName:"trial",
 		repoBranch:"",
 		path:"local/VagrantFile",
-		comment:"Trial commit"
+		comment:"Vagrantfile commit"
 	};
+
+	$scope.buttonText = "Get Repos";
 	$scope.loaderValid = false;
 	$scope.getGitRepoList = function(){
 		
-		if( !$scope.githubConfig.password ){
+		/*if( !$scope.githubConfig.password ){
 			$scope.passValid = true ;
 			return -1;
 
 		}
-		$scope.passValid = false ;
+		$scope.passValid = false ;*/
 		var gC = $scope.githubConfig;
 		
 		var github = new Github({
@@ -24,15 +26,15 @@ angular.module("boxuppApp").controller('gitController', [ '$scope', '$routeParam
 			auth : 'basic'
 		});
 		
-		$scope.loaderValid = true;
+		/*$scope.loaderValid = true;*/
 		
 		github.getUser().repos(function(err, response){
 			if(err != null){
-				$scope.loaderValid = false;
-				$scope.loginValid = true;
+				// $scope.loaderValid = false;
+				// $scope.loginValid = true;
 				$scope.githubConfig.username = "";
 				$scope.githubConfig.password = "";
-				return -1;
+				// return -1;
 			}
 			
 			if(err == null){
@@ -40,6 +42,7 @@ angular.module("boxuppApp").controller('gitController', [ '$scope', '$routeParam
 				$scope.loaderValid = false;
 				gC.gitRepoList = response;
 			}
+			console.log(response);
 		});
 		
 	}

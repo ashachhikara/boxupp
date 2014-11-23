@@ -8,9 +8,12 @@
 			<!--DASHBOARD_SUMMARYLIST-->
 			<!-- BOXES_LIST -->
 			<div class="tab-pane fade" id="boxesList">
-				<ul class="nav nav-pills nav-stacked secondaryNavList">
+				<div class="text-center sadFace" ng-show="boxesData.length === 0">
+					<span><i class="fa fa-meh-o"></i></span>
+				</div>
+				<ul class="nav nav-pills nav-stacked secondaryNavList" ng-hide="boxesData.length === 0">
 				  	<li ng-repeat="box in boxesData">
-						<a data-target="#" ng-click="selectNode($index)" role="tab" data-toggle="tab">
+						<a data-target="#" ng-click="selectNode(box)" role="tab" data-toggle="tab">
 							<div class="main-nav-icon"><i class="fa fa-cube"></i></div>
 							<div class="arrow"></div>
 							<div class="main-nav-label">{{box.vagrantID}}</div>
@@ -23,6 +26,9 @@
 
 			<!-- SCRIPTS_LIST-->
 			<div class="tab-pane fade" id="scriptsList">
+				<div class="text-center sadFace" ng-show="shellScripts.length === 0">
+					<span><i class="fa fa-meh-o"></i></span>
+				</div>
 				<ul class="nav nav-pills nav-stacked secondaryNavList">
 					<li ng-repeat="script in shellScripts">
 						<a data-target="#" ng-click="selectScript($index)" role="tab" data-toggle="tab">
@@ -37,6 +43,9 @@
 
 			<!-- MODULES_LIST-->
 			<div class="tab-pane fade" id="modulesList">
+				<div class="text-center sadFace" ng-show="projectData.modules.length === 0">
+					<span><i class="fa fa-meh-o"></i></span>
+				</div>
 				<ul class="nav nav-pills nav-stacked secondaryNavList">
 					<li ng-repeat="module in projectData.modules">
 						<a data-target="#" ng-click="selectModule(module)">

@@ -5,5 +5,39 @@
 	<span class="messageTitle">Select a script to manage</span>
 </div>
 <div class="scriptDetails" ng-show="shellScripts.length>0 && activeScript !== null">
-	<span ng-bind="activeScript.scriptName"></span>
+	<div class="row">
+		<div class="col-md-10">
+			<table class="table table-striped mappings" >
+				<thead>
+					<tr>
+						<td class="col-md-2">Script Name</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="col-md-2"><span ng-bind="activeScript.scriptName"></span></td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="table table-striped mappings" >
+				<thead>
+					<tr>
+						<td class="col-md-2">Created on</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="col-md-2"><span ng-bind="activeScript.creationTime"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-10">
+			<div class="form-control editor col-md-10" ui-ace="{ mode: 'javascript' }" readonly="true" ng-model="activeScript.scriptContent" style="height:200px;"></div>
+		</div>
+
+
+	</div>
 </div>
+
+

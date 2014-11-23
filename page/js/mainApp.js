@@ -1,5 +1,5 @@
 
-angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location){
+angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location,puppetModuleResource){
 
 	$scope.projectData = {
 		boxesState : {
@@ -317,12 +317,14 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 
 		MachineConfig.delete({id:$scope.activeVM.machineID},function(){			
 			var boxCounter = 0;
+
 			angular.forEach($scope.boxesData,function(box){
 				if(box.machineID === $scope.activeVM.machineID){
 					$scope.boxesData.splice(boxCounter,1);
 				}
 				boxCounter++;
 			});
+			$scope.activeVM = null;
 		});
 
 		/*$scope.machine = new MachineConfig({id : $scope.activeVM.machineID },function(){
@@ -341,11 +343,23 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 				}
 				scriptCounter++;
 			});
+
+			$scope.activeScript = null;
 		});
 	}
 
 	$scope.deleteActiveModule = function(){
-		
+		puppetModuleResource.delete({id:$scope.activeModule.puppetID},function(){
+			var moduleCounter = 0;
+			angular.forEach($scope.projectData.modules,function(module){
+				if(module.puppetID === $scope.activeModule.puppetID){
+					$scope.projectData.modules.splice(moduleCounter,1);
+				}
+				moduleCounter++;
+			});
+
+			$scope.activeModule = null;
+		});
 	}
 
 	$scope.editActiveBox = function(){
@@ -926,12 +940,12 @@ $scope.updateContainerBox = function(){
 			"0010":"vagrant up --provision",
 			"0011":"vagrant provision --provision-with shell",
 			"0100":"vagrant up --provision",
-			"0101":"vagrant provision",
+			"0101":"vagrant reload --provision",
 			"0110":"vagrant up --provision",
 			"0111":"vagrant reload --provision",
 			"1000":"vagrant up",
 			"1001":"vagrant reload",
-			"1010":"vagrant up --provision",
+			"1010":"vagrant reload --provision",
 			"1011":"vagrant reload --provision",
 			"1100":"vagrant reload --provision",
 			"1101":"vagrant reload --provision",
@@ -957,7 +971,7 @@ $scope.updateContainerBox = function(){
 			"0010":"vagrant up --provision --provider=docker",
 			"0011":"vagrant provision --provision-with shell",
 			"0100":"vagrant up --provision --provider=docker",
-			"0101":"vagrant provision",
+			"0101":"vagrant reload --provision",
 			"0110":"vagrant up --provision --provider=docker",
 			"0111":"vagrant reload --provision",
 			"1000":"vagrant up --provider=docker",
@@ -1108,9 +1122,9 @@ $scope.updateContainerBox = function(){
 			$scope.activeVM = $scope.boxesData[0];
 		}
 	}
-	$scope.selectNode = function(num){
+	$scope.selectNode = function(box){
 
-		$scope.activeVM = $scope.dockerLinkMappingForFrontend($scope.boxesData[num]);
+		$scope.activeVM = $scope.dockerLinkMappingForFrontend(box);
 	
 		// $scope.resetBoxURLChangeStatus();
 	}

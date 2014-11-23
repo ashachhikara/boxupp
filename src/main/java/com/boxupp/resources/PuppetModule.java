@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -44,21 +45,21 @@ public class PuppetModule {
 		return PuppetModuleDAOManager.getInstance().update(updatedPuppetModuleData);
 	}
 	
-	/*@DELETE 
+	@DELETE 
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StatusBean deletePuppetModule(@PathParam("id") String puppetModuleId) {
 		return PuppetModuleDAOManager.getInstance().delete(puppetModuleId);
-	}*/
+	}
 	
-	@GET
+	/*@GET
 	@Path("/deletePuppetModule")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StatusBean deletePuppetModule(@Context HttpServletRequest request) {
 		String puppetModuleID = request.getParameter("moduleID");
 		Integer userID = Integer.parseInt(request.getParameter("userID"));
 		return PuppetModuleDAOManager.getInstance().delete(puppetModuleID);
-	}
+	}*/
 	
 	/*@POST
 	@Path("/linkModule")

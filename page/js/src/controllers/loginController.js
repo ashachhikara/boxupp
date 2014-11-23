@@ -9,6 +9,17 @@ ngBoxuppApp.controller('loginController',function($scope,$http,$location,User){
 
 	$scope.bodyStyle.applyDashBoardStyling = false;
 
+
+	$scope.checkIfUserExists = function(mailID){
+		if(angular.isDefined(mailID)){
+			User.checkIfExists(mailID).then(function(response){
+				if(response.statusCode === 0){
+					$scope.disableUserReg = true;	
+				}
+			});	
+		}
+	}
+
 	$scope.checkUserLogin = function(){
 
 		$scope.checkLogin = true;

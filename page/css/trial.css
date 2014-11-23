@@ -101,7 +101,7 @@ div.mainNavElements {
         font-size: 11px;
         line-height: 11px;
         position: absolute;
-        top: 12px;
+        top: 16px;
         left: 65px; }
     div.mainNavElements .mainNavList li a:hover {
       background: #88D2F7;
@@ -114,6 +114,9 @@ div.secondaryNavElements {
   bottom: 0px;
   overflow-x: hidden;
   overflow-y: auto; }
+  div.secondaryNavElements div.sadFace i {
+    font-size: 145px;
+    color: #777777; }
   div.secondaryNavElements .secondaryNavList li.active a {
     background: grey;
     color: #FFF; }
@@ -145,7 +148,7 @@ div.secondaryNavElements {
       font-size: 11px;
       line-height: 11px;
       position: absolute;
-      top: 12px;
+      top: 16px;
       left: 65px; }
   div.secondaryNavElements .secondaryNavList li a:hover {
     background: #88D2F7;
@@ -167,6 +170,17 @@ div.boxConfigs {
     cursor: pointer; }
   div.boxConfigs ul li a:hover {
     background: grey; }
+  div.boxConfigs div#gitConfigContent span.boxConfigTitles {
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 11px; }
+  div.boxConfigs div#gitConfigContent input {
+    border-radius: 0px;
+    -webkit-border-radius: 0px; }
+  div.boxConfigs div#gitConfigContent div.boxConfig {
+    margin-top: 15px; }
   div.boxConfigs div#boxConfigContent {
     border: 1px solid #ddd;
     border-top: none; }
@@ -441,7 +455,7 @@ div#playArea div.secPlayArea {
 
 span.messageTitle {
   font-family: 'Roboto', sans-serif;
-  font-size: 35px;
+  font-size: 30px;
   line-height: 11px;
   font-weight: 100;
   color: grey;

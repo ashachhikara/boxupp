@@ -163,7 +163,7 @@ div.mainNavElements{
 					.main-nav-label{
 						@include nav-label-styling();
 						position: absolute;
-						top: 12px;
+						top: 16px;
 						left: 65px;
 					}														
 				}
@@ -182,6 +182,13 @@ div.secondaryNavElements {
 	bottom:0px;
 	overflow-x:hidden;
 	overflow-y:auto;
+
+	div.sadFace{
+		i{
+			font-size:145px;
+			color:#777777;
+		}
+	}
 
 	.secondaryNavList{
 
@@ -223,7 +230,7 @@ div.secondaryNavElements {
 					.main-nav-label{
 						@include nav-label-styling();
 						position: absolute;
-						top: 12px;
+						top: 16px;
 						left: 65px;
 					}														
 				}
@@ -261,6 +268,21 @@ div.boxConfigs {
 		}
 	}
 
+	div#gitConfigContent{
+
+		span.boxConfigTitles{
+			@include box-config-titles();
+		}
+
+		input{
+				border-radius : 0px;
+				-webkit-border-radius : 0px;
+		}
+
+		div.boxConfig{
+			margin-top:15px;
+		}
+	}
 	div#boxConfigContent {
 		border : 1px solid #ddd;
 		border-top : none;

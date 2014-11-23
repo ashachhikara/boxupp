@@ -72,7 +72,7 @@
                           <i class="fa fa-envelope"></i> 
                         </div>
                         <div class="field col-sm-11">
-                          <input type="text" ng-model="newUserDetail.mailID" placeholder="Enter Email ID here" class="form-control" required>
+                          <input type="text" ng-model="newUserDetail.mailID" placeholder="Enter Email ID here" class="form-control" ng-blur="checkIfUserExists(newUserDetail.mailID)" required>
                         </div>
                     </div>
 
@@ -105,7 +105,7 @@
                     <div class="form-field">
                       
                         <div class="fieldIcon col-sm-12">
-                          <a ng-click="registerNewUser()" class="btn btn-primary">
+                          <a ng-click="registerNewUser()" class="btn btn-primary" ng-disabled="disableUserReg">
                             Register
                           </a>
                           <span class="newRegLoader" ng-show="startRegistration" ng-init="startRegistration = false">

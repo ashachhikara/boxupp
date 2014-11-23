@@ -43,7 +43,7 @@ public class User {
 	}
 	
 	@GET
-	@Path("/checkExistUser/{id}")
+	@Path("/idCheck/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public StatusBean checkExistUser(@PathParam("id") String userId){
 		return UserDAOManager.getInstance().checkForExistingUser(userId);
