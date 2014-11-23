@@ -126,12 +126,12 @@ div.secondaryNavElements {
     display: block;
     width: 0;
     height: 0;
-    border-right: 20px solid transparent;
-    border-left: 20px solid grey;
-    border-top: 20px solid transparent;
-    border-bottom: 20px solid transparent;
+    border-right: 12px solid white;
+    border-left: 12px solid transparent;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
     position: absolute;
-    right: -46px;
+    right: -15px;
     top: 4px;
     z-index: 1; }
   div.secondaryNavElements .secondaryNavList li a {
@@ -151,7 +151,7 @@ div.secondaryNavElements {
       top: 16px;
       left: 65px; }
   div.secondaryNavElements .secondaryNavList li a:hover {
-    background: #88D2F7;
+    background: grey;
     cursor: pointer; }
   div.secondaryNavElements .secondaryNavList li div.arrow {
     display: none; }
