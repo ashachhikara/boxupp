@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
 	
 		config.vm.define "$childBean.vagrantID" do |$identifier|
 			$identifier$providerMarker "$childBean.providerType" do |d|
-				d.image = "$childBean.dockerImage:latest"
+				d.image = "$childBean.dockerImage"
 				d.name = "$identifier"
 				d.has_ssh= true
 				d.volumes << '/var/lib/docker'

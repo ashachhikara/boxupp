@@ -11,9 +11,9 @@
       </div>
       <div class="modal-body">
         <div class="boxConfigs">
-            <div id="gitConfigContent" class="tab-content row" style="position:relative;">
+            <div id="gitConfigContent" class="tab-content" style="position:relative;">
               <form name="githubForm">
-                 <div class="boxConfig"> 
+                 <div class="boxConfig" ng-hide="fetchRepoListSuccess"> 
                           <span class="boxConfigTitles">
                             Username<sup>*</sup>
                           </span>
@@ -25,7 +25,7 @@
                                   placeholder = "Enter Github account id"
                                   required/>
                   </div>
-                  <div class="boxConfig"> 
+                  <div class="boxConfig" ng-hide="fetchRepoListSuccess"> 
                           <span class="boxConfigTitles">
                             Password<sup>*</sup>
                           </span>
@@ -38,38 +38,66 @@
                                   required                                    
                                   />
                   </div>
-                  <a class="btn btn-info" ng-click="getGitRepoList();">{{buttonText}}</a>
-                </form>
+                  <div class="boxConfig" ng-show="fetchRepoListSuccess"> 
+                          <span class="boxConfigTitles">
+                            Repo List
+                          </span>
+                            <select name="repoList"
+                                    ng-model="githubConfig.repoName"
+                                    ng-change="getGitBranchList()"
+                                    class="form-control"
+                                    ng-options="repo.name as repo.name for repo in githubConfig.gitRepoList">
+                                    <option value="">Choose a repo</option>
+                                    </select>
+
+                  </div>
+                  <div class="boxConfig" ng-show="fetchBranchListSuccess"> 
+                          <span class="boxConfigTitles">
+                            Branch List
+                          </span>
+                            <select name="branchList"
+                                    ng-model="githubConfig.repoBranch"
+                                    ng-change="branchValid = true"
+                                    class="form-control"
+                                    ng-options="branch as branch for branch in githubConfig.gitBranchList">
+                                    <option value="">Choose a branch</option>
+                            </select>
+
+                  </div>
+                  <div class="boxConfig" ng-show="branchValid"> 
+                          <span class="boxConfigTitles">
+                            Commit Path
+                          </span>
+                            <input name="gitPath" 
+                                  ng-model="githubConfig.path"
+                                  type="text" 
+                                  class="form-control"   
+                                  placeholder="Enter path on remote repo" 
+                                  required                                    
+                            />
+                  </div>
+                  <div class="boxConfig" ng-show="branchValid"> 
+                          <span class="boxConfigTitles">
+                            Comment
+                          </span>
+                            <input name="gitComment" 
+                                  ng-model="githubConfig.comment"
+                                  type="text" 
+                                  class="form-control"
+                                  required                                    
+                            />
+                  </div>
+                      
+              </form>
                   <!--<div class="formLoader" ng-show="loaderValid"><img  src="img/formLoader.GIF" /></div>-->
                   
             </div>
-          </div>
+        </div>
+        <div class="statusMessage text-center" ng-hide="checkRepoList" style="color:red;"><span>{{statusText}}</span></div>
+        <div class="statusLoader text-center" ng-show="checkRepoList"><span><i class="fa fa-refresh fa-spin"></i></span></div>
 
 
-        <!--<div id="gitAccountFields" class="row">
-          <div class="input-group input-group-sm col-lg-6"> <span  class="input-group-addon">Username</span>
-            <input type="text" id="gitUsername"  class="form-control centerText" ng-model="githubConfig.username"  placeholder="Enter your github account username" required="required" />
-          </div>
-            
-            <div class="input-group input-group-sm col-lg-6"> <span  class="input-group-addon">Password</span>
-            <input type="password" id="gitPassword"  ng-pattern="/^.*(?=.{6})(?=.*[a-z])(?=.*\d)[a-zA-Z0-9]+$/"class="form-control centerText" ng-model="githubConfig.password"  placeholder="Enter your github account password" required="required"  ng-blur="getGitRepoList();"/>
-          </div>
-          
-          <div  class="input-group input-group-sm dropdown col-lg-6" > <span class="input-group-addon">Repo Name</span>
-            <select ng-model="githubConfig.repoName"  class="form-control" ng-change="getGitBranchList();">
-              <option ng-repeat="repo in githubConfig.gitRepoList ">{{repo.name}}</option>
-            </select>
-          </div>
-          <div ng-show="repoValid">
-          <div class="input-group input-group-sm dropdown col-lg-6"> <span class="input-group-addon">Branch</span>
-            <select ng-model="githubConfig.repoBranch" class="form-control" ng-change="branchValidity();">
-                 <option ng-repeat="branch in githubConfig.gitBranchList ">{{branch}}</option>
-            </select>
-          </div>
-          <div ng-show="branchValid">
-          <div class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Path</span>
-           <input type="text" id="gitPath" class="form-control centerText" ng-model="githubConfig.path"/>
-          </div>
+        <!--
 
           <div class="input-group input-group-sm col-lg-6"> <span class="input-group-addon">Comment</span>
             <input type="text" id="gitCommitMessage" class="form-control centerText" ng-model="githubConfig.comment" />
@@ -85,8 +113,9 @@
         <!-- /. modal-body -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-        <button ng-show="branchValid" type="button" class="btn btn-primary gitCommit btn-sm" ng-click="commitToGithub()">Commit</button>
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" ng-click="resetFlags()">Close</button>
+        <button class="btn btn-primary btn-sm" ng-click="getGitRepoList();" ng-hide="fetchRepoListSuccess">{{buttonText}}</button>
+        <button type="button" class="btn btn-primary gitCommit btn-sm" ng-show="fetchBranchListSuccess" ng-click="commitToGithub()">Commit</button>
         
       </div>
     </div>

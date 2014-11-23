@@ -279,7 +279,7 @@
 							<copy file="${project.build.directory}/../src/main/resources/config.properties" tofile="${project.build.directory}/boxuppzipdir/config/config.properties"/>					
 							<copy file="${project.build.directory}/../src/main/resources/config.properties" tofile="${project.build.directory}/classes/config.properties"/>
 							<zip basedir="${project.build.directory}/boxuppzipdir/" destfile="${project.build.directory}/${project.artifactId}-v${project.version}.zip"/>
-							<!-- <zip basedir="${project.build.directory}/boxuppzipdir/" destfile="\\192.168.1.14\Local Share\Folder by names\Akshay\BOXUPP\${project.artifactId}-v${project.version}.zip"/>-->
+							<zip basedir="${project.build.directory}/boxuppzipdir/" destfile="\\192.168.1.14\Local Share\Folder by names\Akshay\BOXUPP\${project.artifactId}-v${project.version}.zip"/>
 			          </target>
 			          
 			          </configuration>

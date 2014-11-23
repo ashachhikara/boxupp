@@ -471,7 +471,7 @@ $scope.updateContainerBox = function(){
 
 	$scope.listOfSSHImages=[
 		{
-			"path":"boxupp/centos-base",
+			"path":"boxupp/centos-dev:V1.4",
 			"iconSrc":"img/centos-32.png"
 		},
 		{

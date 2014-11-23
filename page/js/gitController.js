@@ -10,8 +10,20 @@ angular.module("boxuppApp").controller('gitController', [ '$scope', '$routeParam
 
 	$scope.buttonText = "Get Repos";
 	$scope.loaderValid = false;
+	$scope.statusText = "";
+	$scope.fetchRepoListSuccess = false;
+	$scope.branchValid = false;
+	
+	$scope.resetFlags = function(){
+		$scope.fetchRepoListSuccess = false;
+		$scope.fetchBranchListSuccess = false;
+		$scope.branchValid = false;
+		// $scope.githubConfig.username = "";
+		// $scope.githubConfig.password = "";
+	}	
+
 	$scope.getGitRepoList = function(){
-		
+		$scope.checkRepoList = true;
 		/*if( !$scope.githubConfig.password ){
 			$scope.passValid = true ;
 			return -1;
@@ -28,22 +40,36 @@ angular.module("boxuppApp").controller('gitController', [ '$scope', '$routeParam
 		
 		/*$scope.loaderValid = true;*/
 		
-		github.getUser().repos(function(err, response){
+		$scope.userData = github.getUser();
+		try{
+			$scope.userData.repos(function(err, response){
+				$scope.checkRepoList = false;
 			if(err != null){
+				$scope.errorCode = err.error;
+				$scope.statusText = $scope.errorCode + ": Please check your credentials";
+				$scope.$apply();
 				// $scope.loaderValid = false;
 				// $scope.loginValid = true;
-				$scope.githubConfig.username = "";
-				$scope.githubConfig.password = "";
+				// $scope.githubConfig.username = "";
+				// $scope.githubConfig.password = "";
 				// return -1;
 			}
 			
 			if(err == null){
-				$scope.loginValid = false;
-				$scope.loaderValid = false;
+				// $scope.loginValid = false;
+				// $scope.loaderValid = false;
+				$scope.statusText="";
 				gC.gitRepoList = response;
+				$scope.fetchRepoListSuccess = true;
+				$scope.$apply();
 			}
-			console.log(response);
-		});
+			
+		});	
+		}
+		catch(err){
+			console.error('Github error');
+		}
+		
 		
 	}
 	$scope.getGitBranchList = function(){
@@ -54,24 +80,22 @@ angular.module("boxuppApp").controller('gitController', [ '$scope', '$routeParam
 			auth : 'basic'
 		});
 
-		$scope.loaderValid = true;
+		// $scope.loaderValid = true;
 		
 		github.getRepo(gC.username, gC.repoName).listBranches(function(err, response){
 
 			if(err == null){
 				gC.gitBranchList = response;
-				$scope.loaderValid = false;
-				$scope.repoValid = true;
+				$scope.fetchBranchListSuccess = true;
+				// $scope.loaderValid = false;
+				// $scope.repoValid = true;
+				$scope.$apply();
 
 			}
 		});
 
 	}
-	$scope.branchValidity = function(){
-		$scope.branchValid = true;
-	}
-	
-	
+		
 	$scope.commitToGithub = function(){
 		var gC = $scope.githubConfig;
 		var github = new Github({
@@ -111,14 +135,16 @@ angular.module("boxuppApp").controller('gitController', [ '$scope', '$routeParam
 		});
 		
 	}
-}]).factory('fetchVagrantFile',function($http,$q){
+}]).factory('fetchVagrantFile',function($http,$q,$routeParams){
 		return{
 			content : function(userID){
-				var completeURL = '/boxupp/getVagrantFile/'+ userID + '/';
+				var completeURL = '/boxupp/getVagrantFile/';
 				var deferred = $q.defer();
+				var parameters = {"projectID" : $routeParams.projectID, "userID" : $routeParams.userID};
 				$http({	
 					method:'GET',
 					headers:{'Content-Type':'application/json; charset=UTF-8'},
+					params: parameters,
 					url:completeURL
 				}).
 				success(function(response, status, headers, config) {
