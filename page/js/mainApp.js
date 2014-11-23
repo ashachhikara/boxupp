@@ -509,7 +509,11 @@ $scope.updateContainerBox = function(){
 		$scope.activeScript = $scope.shellScripts[num];
 		// $scope.nodeSelectionDisabled = false;
 	}
-
+	$scope.selectModule = function(num){
+		// if($scope.nodeSelectionDisabled === true) animateArrow();
+		$scope.activeModule = $scope.projectData.modules[num];
+		// $scope.nodeSelectionDisabled = false;
+	}
 	$scope.resetCtrlBarSecNav = function(){
 		$('ul.ctrl-bar-sec-list li').removeClass('active');
 	}
@@ -942,7 +946,7 @@ $scope.updateContainerBox = function(){
 			"0100":"vagrant up --provision",
 			"0101":"vagrant reload --provision",
 			"0110":"vagrant up --provision",
-			"0111":"vagrant reload --provision",
+			"0111":"vagrant up --provision",
 			"1000":"vagrant up",
 			"1001":"vagrant reload",
 			"1010":"vagrant reload --provision",
@@ -973,7 +977,7 @@ $scope.updateContainerBox = function(){
 			"0100":"vagrant up --provision --provider=docker",
 			"0101":"vagrant reload --provision",
 			"0110":"vagrant up --provision --provider=docker",
-			"0111":"vagrant reload --provision",
+			"0111":"vagrant up --provision --provider=docker",
 			"1000":"vagrant up --provider=docker",
 			"1001":"vagrant reload",
 			"1010":"vagrant up --provision --provider=docker",
