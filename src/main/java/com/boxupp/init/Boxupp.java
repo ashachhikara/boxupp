@@ -25,7 +25,7 @@ public class Boxupp {
 
 	public static void main(String[] args) throws Exception {
 		
-		Utilities.getInstance().createBoxuppFolderIfNotExists();
+		Utilities.getInstance().createRequiredFoldersIfNotExists();
 		ToolConfigurationReader toolConfig = new ToolConfigurationReader();
 		Config conf = toolConfig.getConfiguration();
 		AppContextBuilder appContextBuilder = new AppContextBuilder();

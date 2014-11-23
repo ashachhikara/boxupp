@@ -43,13 +43,13 @@ Vagrant.configure("2") do |config|
 		$identifier$syncFolderMarker "$syncMapping.hostFolder", "$syncMapping.vmFolder"
 		#end
 		#end
-		#if(!$moduleMappings.isEmpty())
+		
 		config.vm.provision "puppet" do |$identifier|
 		$identifier$manifestsPathMarker = "../manifests"
 		$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
 		$identifier$modulePathMarker = "../modules"
 		end		
-		#end
+		
 		#foreach ($scriptMapping in $scriptMappings)
 		#if($scriptMapping.machineConfig.vagrantID == $identifier)
 		#foreach($script in $scripts)
