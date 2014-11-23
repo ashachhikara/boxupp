@@ -57,12 +57,28 @@ if [ $? -ne 0 ]; then
 exit 1
 fi
 
+
+#Check Docker
+dpkg -l |grep  docker  >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+    #Script runs on Ubuntu Trusty 14.04 
+	echo "Installing Docker"
+		sudo apt-get update
+		sudo apt-get install docker.io
+		sudo service docker restart
+fi
+
+if [ $? -ne 0 ]; then
+      echo "Installing Docker package failed. Check network and start again."
+      exit 1
+fi
+
 #Check Vagrant
 dpkg -l |grep  vagrant  >/dev/null 2>&1
 if [ $? -ne 0 ]; then
 	echo "Installing Vagrant"
-		sudo wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb
-		dpkg -i vagrant_1.6.3_x86_64.deb
+		sudo wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb
+		dpkg -i vagrant_1.6.5_x86_64.deb
 fi
 
 if [ $? -ne 0 ]; then
@@ -73,7 +89,7 @@ fi
 
 "centos")
 
-#Check Oracle Virtualbox
+#Check Oracle Virttualbox
 rpm -qa |grep -i virtualbox  >/dev/null 2>&1
 if [ $? -ne 0 ]; then
 	echo "Installing Oracle Virtual Box"
@@ -87,7 +103,20 @@ if [ $? -ne 0 ]; then
       exit 1
 fi
 
+#Check Docker
+rpm -qa |grep -i docker  >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+	echo "Installing Docker"
+        sudo yum -y install http://boxupp.com/data/docker-io-1.1.2-1.el6.x86_64.rpm
+		cp -rf  docker /etc/sysconfig/docker
+		service docker restart
+fi
 
+if [ $? -ne 0 ]; then
+    echo "Installing docker package failed. Check network and start again."
+		exit 1
+
+fi
 
 #Check Vagrant
 rpm -qa |grep -i vagrant  >/dev/null 2>&1
@@ -121,6 +150,21 @@ if [ $? -ne 0 ]; then
       exit 1
 fi
 
+#Check Docker
+rpm -qa |grep -i docker  >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+	echo "Installing Docker"
+        sudo yum -y install http://boxupp.com/data/docker-io-1.1.2-1.el6.x86_64.rpm
+		cp -rf  docker /etc/sysconfig/docker
+		service docker restart
+fi
+
+if [ $? -ne 0 ]; then
+    echo "Installing docker package failed. Check network and start again."
+		exit 1
+
+fi
+
 #Check Vagrant
 
 rpm -qa |grep -i vagrant  >/dev/null 2>&1
@@ -132,6 +176,23 @@ fi
 if [ $? -ne 0 ]; then
       echo "Installing vagrant package failed. Check network and start again."
       exit 1
+fi
+
+## check Docker
+
+rpm -qa |grep - docker  >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+	echo "Installing Docker"
+     sudo yum -y  install http://mirror-fpt-telecom.fpt.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm
+	 sudo yum -y  install docker-io
+	 sudo cp -rf docker.txt /etc/sysconfig/docker
+	 sudo  service docker start
+fi
+
+if [ $? -ne 0 ]; then
+    echo "Installing docker package failed. Check network and start again."
+		exit 1
+
 fi
 
 ;;

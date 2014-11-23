@@ -9,7 +9,8 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			update : false
 		}
 	};
-
+	$scope.consoleTrial = "Hello";
+	$scope.vagrantOutput = [{"type":"normal","output":"C:\\Users\\Paxcel Techn…second","dataEnd":false,"vagrantFileExists":true}];
 	$scope.boxuppMappings = {};
 	$scope.serverAddress = "http://"+window.location.host;
 	$scope.serverWSAddress = "ws://"+window.location.host;
@@ -69,6 +70,8 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		},
 
 		_onmessage : function(message) {
+			$scope.vagrantOutput.push(message.data);
+			$scope.$apply();
 			console.log(message);
 			var data = JSON.parse(message.data);
 			if(data.dataEnd === false){
@@ -820,7 +823,7 @@ $scope.updateContainerBox = function(){
 		}
 	}
 	
-	$scope.vagrantOutput = [];
+	
 	$scope.activeOutputSnippet = {};
 		
 	$scope.urlInfo = {};
