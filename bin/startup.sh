@@ -73,7 +73,7 @@ fi
 
 "centos")
 
-#Check Oracle Virttualbox
+#Check Oracle Virtualbox
 rpm -qa |grep -i virtualbox  >/dev/null 2>&1
 if [ $? -ne 0 ]; then
 	echo "Installing Oracle Virtual Box"
