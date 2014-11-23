@@ -1,5 +1,6 @@
 package com.boxupp.dao;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.db.beans.UserProjectMapping;
 import com.boxupp.responseBeans.StatusBean;
+import com.boxupp.utilities.OSProperties;
+import com.boxupp.utilities.PuppetUtilities;
 import com.boxupp.utilities.Utilities;
 import com.boxupp.vagrant.VagrantCommandProcessor;
 import com.google.gson.Gson;
@@ -71,6 +74,9 @@ public class ProjectDAOManager implements DAOImplInterface {
 			statusBean.setStatusCode(0);
 			statusBean.setData(projectBean);
 			Utilities.getInstance().initializeDirectory(projectBean.getProjectID());
+			String nodeFileLoc = PuppetUtilities.getInstance().constructManifestsDirectory()+OSProperties.getInstance().getOSFileSeparator()+projectBean.getProjectID()+".pp";
+			boolean nodeFile =	new File(nodeFileLoc).createNewFile();
+			
 			Integer providerID = ProviderDAOManager.getInstance().providerDao.queryForId(projectBean.getProviderType()).getProviderID();
 			ProjectProviderMappingBean projectProvider = new ProjectProviderMappingBean(projectBean.getProjectID(), providerID);
 			projectProviderMappingDao.create(projectProvider);
@@ -81,6 +87,9 @@ public class ProjectDAOManager implements DAOImplInterface {
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error creating project : "+ e.getMessage());
 			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		System.out.println("Id assigned to new project : "+ projectBean.getProjectID() + " creation time : "

@@ -83,9 +83,13 @@ public class Utilities {
 		return boxuppPuppetData;
 	}
 	
-	public boolean createBoxuppFolderIfNotExists(){
+	public boolean createRequiredFoldersIfNotExists(){
 		String boxuppDirPath = osProperties.getUserHomeDirectory() + 
 				 osProperties.getOSFileSeparator() + "Boxupp";
+		String moduleDir = PuppetUtilities.getInstance().constructModuleDirectory();
+		String manifestDir = PuppetUtilities.getInstance().constructManifestsDirectory();
+		checkIfDirExists(new File(moduleDir));
+		checkIfDirExists(new File(manifestDir));
 		File boxuppDir = new File(boxuppDirPath);
 		if(!boxuppDir.exists()){
 			boxuppDir.mkdirs();
