@@ -70,6 +70,7 @@ angular.module("boxuppApp").
 
 
 	$scope.updateShellProvMapping = function(selectedProvMachine){
+		if(selectedProvMachine.machineID){
 			var checkedScripts = [];
 			angular.forEach($scope.shellScripts, function(value){
 				if(value.shellProvChecked){
@@ -78,6 +79,7 @@ angular.module("boxuppApp").
 			});
 			var selectedMachine = selectedProvMachine.machineID;
 			$scope.shellProvMappings[selectedProvMachine.machineID] = checkedScripts;
+		}
 	}
 
 	$scope.shellProvMachineSelectedList = [];

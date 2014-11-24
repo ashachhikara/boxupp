@@ -26,6 +26,7 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
+import com.j256.ormlite.stmt.UpdateBuilder;
 
 public class ShellScriptDAOManager implements DAOImplInterface {
 	private static Logger logger = LogManager.getLogger(ShellScriptDAOManager.class.getName());
@@ -266,9 +267,9 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		ProjectBean project = null;
 		try {
 			 project = ProjectDAOManager.projectDao.queryForId(projectID);
-			 DeleteBuilder<ShellScriptMapping, Integer> deleteBuilder = shellScriptMappingDao.deleteBuilder();
-			 deleteBuilder.where().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project);
-			 deleteBuilder.delete();
+			 UpdateBuilder<ShellScriptMapping, Integer> updateBuilder = shellScriptMappingDao.updateBuilder();
+			 updateBuilder.where().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project);
+			 updateBuilder.updateColumnValue(ShellScriptMapping.MACHINE_ID_FIELD_NAME, null);
 			 JsonNode scriptMappings = shellScriptMapping.get("scriptMappings");
 			   Iterator<Map.Entry<String,JsonNode>> fieldsIterator = scriptMappings.getFields();
 		       while (fieldsIterator.hasNext()) {
@@ -280,7 +281,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		    		   String scriptMappingValue = scriptValues.next().toString();
 		    		   ShellScriptBean script = shellScriptDao.queryForId(Integer.parseInt(scriptMappingValue));
 		    		   ShellScriptMapping scriptMapping = new ShellScriptMapping(machineConfig, script, project);
-		    		   shellScriptMappingDao.create(scriptMapping);
+		    		   shellScriptMappingDao.update(scriptMapping);
 		        	
 		    	   }
 		         

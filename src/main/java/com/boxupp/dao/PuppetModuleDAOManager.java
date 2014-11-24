@@ -59,7 +59,7 @@ public class PuppetModuleDAOManager implements DAOImplInterface {
 				"yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		puppetModuleBean = puppetModuleData.fromJson(newData.toString(),
 				PuppetModuleBean.class);
-		puppetModuleBean.setModuleName(searchModuleBean.getModuleName());
+		puppetModuleBean.setModuleName(searchModuleBean.getName());
 		puppetModuleBean.setComman_Uri(searchModuleBean.getUri());
 		puppetModuleBean.setDownloads(searchModuleBean.getDownloads());
 		puppetModuleBean.setCreated_at(searchModuleBean.getCreated_at());
