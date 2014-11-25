@@ -289,8 +289,6 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		    	   }
 		         
 		         }
-		       List<ShellScriptMapping> mappings = shellScriptMappingDao.queryForEq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project);
-		       System.out.println(mappings);
 		} catch (SQLException e) {
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error in ScriptMapping :"+e.getMessage());
