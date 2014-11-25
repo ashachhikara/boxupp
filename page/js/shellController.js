@@ -194,7 +194,9 @@ angular.module("boxuppApp").
 			}
 		}
 	}
-		
+	
+	
+	
 	$scope.toggleScriptSelection = function(num){
 		var index = $scope.boxesData[num].linkedScripts.indexOf($scope.activeScript.scriptName);
 		if( index > -1){
