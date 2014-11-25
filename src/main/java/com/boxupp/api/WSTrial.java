@@ -1,4 +1,4 @@
-package com.boxupp.api;
+/*package com.boxupp.api;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -25,3 +25,4 @@ public class WSTrial{
 	        System.out.println("MyWebSocket.onClose()");
 	    }
 }
+*/

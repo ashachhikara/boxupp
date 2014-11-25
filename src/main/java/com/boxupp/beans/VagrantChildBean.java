@@ -1,4 +1,4 @@
-package com.boxupp.beans;
+/*package com.boxupp.beans;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,7 +119,7 @@ public class VagrantChildBean implements java.io.Serializable{
 	
 	
 	
-	/*public static void main(String args[]){
+	public static void main(String args[]){
 		VagrantChildBean childBean = new VagrantChildBean();
 		childBean.setBox("CentOS");
 		childBean.setBoxURL("http://www.google.com");
@@ -170,5 +170,6 @@ public class VagrantChildBean implements java.io.Serializable{
 		}
 
 		
-	}*/
+	}
 }
+*/

@@ -1,4 +1,4 @@
-package com.boxupp.beans;
+/*package com.boxupp.beans;
 
 public class VagrantProvisionerBean {
 	private String options;
@@ -13,3 +13,4 @@ public class VagrantProvisionerBean {
 	
 	
 }
+*/

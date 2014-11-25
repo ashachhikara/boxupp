@@ -33,6 +33,7 @@
 					<li ng-repeat="script in shellScripts">
 						<a data-target="#" ng-click="selectScript(script)" role="tab" data-toggle="tab">
 							<div class="main-nav-icon"><i class="fa fa-code"></i></div>
+							<div class="arrow"></div>
 							<div class="main-nav-label">{{script.scriptName}}</div>
 							<div class="main-nav-description"></div>
 						</a>
@@ -48,8 +49,9 @@
 				</div>
 				<ul class="nav nav-pills nav-stacked secondaryNavList">
 					<li ng-repeat="module in projectData.modules">
-						<a data-target="#" ng-click="selectModule(module)">
+						<a data-target="#" ng-click="selectModule(module)" role="tab" data-toggle="tab">
 							<div class="main-nav-icon"><i class="fa fa-code"></i></div>
+							<div class="arrow"></div>
 							<div class="main-nav-label">{{module.moduleName}}</div>
 							<div class="main-nav-description"></div>
 						</a>

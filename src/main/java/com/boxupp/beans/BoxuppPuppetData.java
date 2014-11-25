@@ -1,4 +1,4 @@
-package com.boxupp.beans;
+/*package com.boxupp.beans;
 
 import java.util.ArrayList;
 
@@ -21,3 +21,4 @@ public class BoxuppPuppetData {
 	}
 	
 }
+*/

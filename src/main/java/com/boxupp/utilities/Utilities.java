@@ -15,9 +15,6 @@ import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.ConfigurationGenerator;
 import com.boxupp.FileManager;
-import com.boxupp.beans.BoxuppPuppetData;
-import com.boxupp.beans.BoxuppScriptsData;
-import com.boxupp.beans.BoxuppVMData;
 import com.boxupp.dao.MachineConfigDAOManager;
 import com.boxupp.dao.ProjectDAOManager;
 import com.boxupp.dao.PuppetModuleDAOManager;
@@ -29,7 +26,6 @@ import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.db.beans.SyncFoldersBean;
 import com.boxupp.responseBeans.VagrantFileStatus;
-import com.google.gson.Gson;
 
 public class Utilities { 
 	
@@ -56,7 +52,7 @@ public class Utilities {
 		return utilities;
 	}
 	
-	public BoxuppVMData populateVMDataBean(JsonNode mappings){
+	/*public BoxuppVMData populateVMDataBean(JsonNode mappings){
 		
 		Gson boxuppConfigurations = new Gson();
 		BoxuppVMData boxuppVMData = new BoxuppVMData();
@@ -81,7 +77,7 @@ public class Utilities {
 		BoxuppPuppetData boxuppPuppetData = new BoxuppPuppetData();
 		boxuppPuppetData = puppetConfigurations.fromJson(mappings.toString(), BoxuppPuppetData.class);
 		return boxuppPuppetData;
-	}
+	}*/
 	
 	public boolean createRequiredFoldersIfNotExists(){
 		String boxuppDirPath = osProperties.getUserHomeDirectory() + 

@@ -126,12 +126,12 @@ div.secondaryNavElements {
     display: block;
     width: 0;
     height: 0;
-    border-right: 20px solid transparent;
-    border-left: 20px solid grey;
-    border-top: 20px solid transparent;
-    border-bottom: 20px solid transparent;
+    border-right: 12px solid white;
+    border-left: 12px solid transparent;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
     position: absolute;
-    right: -46px;
+    right: -15px;
     top: 4px;
     z-index: 1; }
   div.secondaryNavElements .secondaryNavList li a {
@@ -151,7 +151,7 @@ div.secondaryNavElements {
       top: 16px;
       left: 65px; }
   div.secondaryNavElements .secondaryNavList li a:hover {
-    background: #88D2F7;
+    background: grey;
     cursor: pointer; }
   div.secondaryNavElements .secondaryNavList li div.arrow {
     display: none; }
@@ -328,6 +328,19 @@ div.project-container {
         color: #FFF; }
         div.project-container ul.projectsList li a:hover div.projectTitle span {
           color: #FFF; }
+
+div#consoleOutput {
+  font-family: courier new;
+  font-size: 14px;
+  background: black;
+  height: 400px;
+  overflow: auto;
+  padding-left: 10px;
+  padding-right: 5px; }
+  div#consoleOutput span.error {
+    color: #DA0A0A; }
+  div#consoleOutput span.normal {
+    color: #0FF173; }
 
 div#moduleModal div.modal-lg {
   width: 1000px; }
@@ -528,6 +541,13 @@ div.modulesProvisionList div.searchBox, div.scriptsProvisionList div.searchBox, 
     color: grey; }
   div.modulesProvisionList div.searchBox input, div.scriptsProvisionList div.searchBox input, div.boxesProvisionList div.searchBox input {
     border-radius: 0px; }
+
+div.errorMessage {
+  font-size: 11px;
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  color: #ED7A33; }
 
 div#ctrlBarPlayArea ul.ctrl-bar-sec-list li, div#ctrlBarPlayArea ul.ctrl-bar-main-list li {
   overflow: auto; }

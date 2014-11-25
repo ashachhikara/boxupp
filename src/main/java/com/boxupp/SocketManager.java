@@ -1,13 +1,8 @@
 package com.boxupp;
 
 import org.eclipse.jetty.server.handler.ContextHandler;
-import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
-
-import com.boxupp.api.AppDataUpdater;
-import com.boxupp.ws.VagrantConsole;
 
 
 

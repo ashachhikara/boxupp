@@ -71,6 +71,7 @@ ngBoxuppApp.controller('loginController',function($scope,$http,$location,User){
 					$scope.regError = false;
 				}
 			});	
+			ga('send', 'event', 'v0.0.4 Download', 'click');
 		}catch(err){
 			$scope.startRegistration = false;
 			$scope.regErrorMessage = err;

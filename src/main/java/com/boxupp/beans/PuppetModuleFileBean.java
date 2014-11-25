@@ -1,4 +1,4 @@
-package com.boxupp.beans;
+/*package com.boxupp.beans;
 
 public class PuppetModuleFileBean {
 	
@@ -26,3 +26,4 @@ public class PuppetModuleFileBean {
 	}
 	
 }
+*/

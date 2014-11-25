@@ -13,6 +13,9 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 				console.info('Shell Script has been saved successfully');
 				console.log(data);
 				$scope.shellScripts.push(data.beanData);
+				newShellScriptData.scriptName = "";
+				newShellScriptData.scriptContent = "";
+				$scope.rawScriptForm.$setPristine();
 			}
 			
 		});
@@ -189,7 +192,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 				return !(!$scope.quickBoxForm.vagrantID.$pristine && $scope.quickBoxForm.vagrantID.$valid &&
 				    !$scope.quickBoxForm.hostName.$pristine && $scope.quickBoxForm.hostName.$valid &&
 				    !$scope.quickBoxForm.boxType.$pristine && $scope.quickBoxForm.boxType.$valid &&
-				    !$scope.quickBoxForm.boxUrl.$pristine && $scope.quickBoxForm.boxUrl.$valid);
+				    !$scope.quickBoxForm.boxUrl.$pristine && $scope.quickBoxForm.boxUrl.$valid && $scope.quickBoxForm.$valid);
 		},
 		vmRawBox : function(){
 
@@ -233,6 +236,19 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 			},
 			box : function(){
 				$scope.projectData.boxesState.update = false;
+				
+				$scope.rawBoxForm.basicSettings.boxType.$setViewValue("");
+				$scope.rawBoxForm.basicSettings.boxUrl.$setViewValue("");
+				$scope.rawBoxForm.basicSettings.hostName.$setViewValue("");
+				$scope.rawBoxForm.basicSettings.vagrantID.$setViewValue("");
+				$scope.rawBoxForm.networkSettings.networkIP.$setViewValue("");
+
+				$scope.rawBoxForm.basicSettings.boxType.$render();
+				$scope.rawBoxForm.basicSettings.boxUrl.$render();
+				$scope.rawBoxForm.basicSettings.hostName.$render();
+				$scope.rawBoxForm.basicSettings.vagrantID.$render();
+				$scope.rawBoxForm.networkSettings.networkIP.$render();
+
 				$scope.rawBoxForm.basicSettings.$setPristine();
 				$scope.rawBoxForm.networkSettings.$setPristine();
 				$('#boxModal').modal('hide');

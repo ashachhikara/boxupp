@@ -1,4 +1,4 @@
-package com.boxupp.beans;
+/*package com.boxupp.beans;
 
 public class ShellScriptBean {
 	
@@ -20,3 +20,4 @@ public class ShellScriptBean {
 	
 	
 }
+*/
