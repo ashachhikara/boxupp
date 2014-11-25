@@ -267,9 +267,13 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		ProjectBean project = null;
 		try {
 			 project = ProjectDAOManager.projectDao.queryForId(projectID);
-			 UpdateBuilder<ShellScriptMapping, Integer> updateBuilder = shellScriptMappingDao.updateBuilder();
-			 updateBuilder.where().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project);
-			 updateBuilder.updateColumnValue(ShellScriptMapping.MACHINE_ID_FIELD_NAME, null);
+			
+			 List<ShellScriptMapping> mapping = shellScriptMappingDao.queryForEq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project);
+			 for(ShellScriptMapping scriptMapping : mapping){
+				scriptMapping.setMachineConfig(null);
+
+				 shellScriptMappingDao.update(scriptMapping);
+			 }
 			 JsonNode scriptMappings = shellScriptMapping.get("scriptMappings");
 			   Iterator<Map.Entry<String,JsonNode>> fieldsIterator = scriptMappings.getFields();
 		       while (fieldsIterator.hasNext()) {
@@ -281,8 +285,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		    		   String scriptMappingValue = scriptValues.next().toString();
 		    		   ShellScriptBean script = shellScriptDao.queryForId(Integer.parseInt(scriptMappingValue));
 		    		   ShellScriptMapping scriptMapping = new ShellScriptMapping(machineConfig, script, project);
-		    		   shellScriptMappingDao.update(scriptMapping);
-		        	
+		    			   shellScriptMappingDao.create(scriptMapping);
 		    	   }
 		         
 		         }
