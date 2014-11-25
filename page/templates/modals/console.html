@@ -1,15 +1,15 @@
 <div class="modal fade" id="console" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content" >
       
       <div class="modal-header">
         
         <h4 class="modal-title">Output Console</h4>
       </div>
-      <div class="modal-body">
-          <div id="consoleOutput" style="height:200px;overflow:auto;">
+      <div class="modal-body" style="padding: 0px;">
+          <div id="consoleOutput">
             {{consoleTrial}} - {{vagrantOutput.length}}
-              <span class="vagrantOutputStream" ng-repeat="outputSnippet in vagrantOutput">
+              <span class="vagrantOutputStream" ng-repeat="outputSnippet in vagrantOutput track by $index">
                 <span ng-class="{'normal':outputSnippet.type === 'normal','error':outputSnippet.type === 'error'}">{{outputSnippet.output}}<br></span>
               </span>
           </div>

@@ -1,4 +1,4 @@
-package com.boxupp.api;
+/*package com.boxupp.api;
 
 import java.io.IOException;
 
@@ -40,3 +40,4 @@ public class AppDataUpdater {
         // MyWebSocket.onClose()
     }
 }
+*/

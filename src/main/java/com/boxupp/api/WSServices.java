@@ -1,4 +1,4 @@
-package com.boxupp.api;
+/*package com.boxupp.api;
 
 import javax.servlet.annotation.WebServlet;
 import javax.ws.rs.Path;
@@ -16,3 +16,4 @@ public class WSServices extends WebSocketServlet {
         factory.register(WSTrial.class);
     }
 }
+*/

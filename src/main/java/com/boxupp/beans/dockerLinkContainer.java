@@ -1,4 +1,4 @@
-package com.boxupp.beans;
+/*package com.boxupp.beans;
 
 class DockerLinkContainer {
 private String linkContainer;
@@ -11,3 +11,4 @@ public void setLinkContainer(String linkContainer) {
 	this.linkContainer = linkContainer;
 }
 }
+*/

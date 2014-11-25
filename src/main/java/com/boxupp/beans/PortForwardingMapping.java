@@ -1,4 +1,4 @@
-package com.boxupp.beans;
+/*package com.boxupp.beans;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -36,3 +36,4 @@ public class PortForwardingMapping {
 	
 	
 }
+*/

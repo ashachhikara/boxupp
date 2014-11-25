@@ -192,7 +192,7 @@ public class BoxuppServices {
 		return "";
 	}
 
-	@GET
+	/*@GET
 	@Path("/projectConfig")
 	@Produces(MediaType.APPLICATION_JSON)
 	
@@ -205,7 +205,7 @@ public class BoxuppServices {
 			config.setProjectPort(8585);
 		}
 		return config;
-	}
+	}*/
 
 	@GET
 	@Path("/checkVagrantStatus")

@@ -23,12 +23,10 @@ public class ToolConfigurationReader {
 
 	public Config getConfiguration(){
 
-		JAXBContext jc; //jaxbContext
+		JAXBContext jc;
 		Config config = null ;
 		try {
 			jc = JAXBContext.newInstance(Config.class);
-
-//			File file = new File(this.getClass().getResource("/config.xml").toURI());
 			InputStream toolSettings = getClass().getResourceAsStream("/config.xml");
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db;

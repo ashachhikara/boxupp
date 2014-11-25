@@ -1,4 +1,4 @@
-package com.boxupp.beans;
+/*package com.boxupp.beans;
 
 public class PuppetManifestFileBean {
 	
@@ -18,3 +18,4 @@ public class PuppetManifestFileBean {
 		this.moFileSource = moFileSource;
 	}
 }
+*/

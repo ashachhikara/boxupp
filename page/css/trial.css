@@ -329,6 +329,19 @@ div.project-container {
         div.project-container ul.projectsList li a:hover div.projectTitle span {
           color: #FFF; }
 
+div#consoleOutput {
+  font-family: courier new;
+  font-size: 14px;
+  background: black;
+  height: 400px;
+  overflow: auto;
+  padding-left: 10px;
+  padding-right: 5px; }
+  div#consoleOutput span.error {
+    color: #DA0A0A; }
+  div#consoleOutput span.normal {
+    color: #0FF173; }
+
 div#moduleModal div.modal-lg {
   width: 1000px; }
 
@@ -528,6 +541,13 @@ div.modulesProvisionList div.searchBox, div.scriptsProvisionList div.searchBox, 
     color: grey; }
   div.modulesProvisionList div.searchBox input, div.scriptsProvisionList div.searchBox input, div.boxesProvisionList div.searchBox input {
     border-radius: 0px; }
+
+div.errorMessage {
+  font-size: 11px;
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  color: #ED7A33; }
 
 div#ctrlBarPlayArea ul.ctrl-bar-sec-list li, div#ctrlBarPlayArea ul.ctrl-bar-main-list li {
   overflow: auto; }

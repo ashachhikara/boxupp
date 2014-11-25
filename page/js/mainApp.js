@@ -10,7 +10,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		}
 	};
 	$scope.consoleTrial = "Hello";
-	$scope.vagrantOutput = [{"type":"normal","output":"C:\\Users\\Paxcel Techn…second","dataEnd":false,"vagrantFileExists":true}];
+	$scope.vagrantOutput = [];
 	$scope.boxuppMappings = {};
 	$scope.serverAddress = "http://"+window.location.host;
 	$scope.serverWSAddress = "ws://"+window.location.host;
@@ -71,7 +71,6 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 
 		_onmessage : function(message) {
 			$scope.vagrantOutput.push(message.data);
-			$scope.$apply();
 			console.log(message);
 			var data = JSON.parse(message.data);
 			if(data.dataEnd === false){
@@ -84,8 +83,10 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 					if((data.output.indexOf('rogress') !== -1)){
 						$scope.vagrantOutput.splice($scope.vagrantOutput.length-1,1);
 						$scope.vagrantOutput.push($scope.activeOutputSnippet);
+						$scope.$apply();
 					}else{
 						$scope.vagrantOutput.push($scope.activeOutputSnippet);
+						$scope.$apply();
 					}
 					$("#consoleOutput").scrollTop(1500000);
 				}
@@ -528,7 +529,6 @@ $scope.updateContainerBox = function(){
 	$scope.fetchBoxList = function(){
 		ResourcesData.fetchBoxList($routeParams.projectID).then(function(response){
 			if(response.length > 0){
-				// $scope.boxesData.push(angular.copy(response));
 				$scope.boxesData = response;
 			}			
 		});	
@@ -536,7 +536,6 @@ $scope.updateContainerBox = function(){
 
 	$scope.fetchScriptList = function(){
 		ResourcesData.fetchScriptList($routeParams.projectID).then(function(response){
-			console.log(response);
 			$scope.shellScripts = response;
 		});		
 	}
@@ -549,7 +548,6 @@ $scope.updateContainerBox = function(){
 
 	$scope.markActiveProject = function(){
 		miscUtil.selectActiveProject().then(function(response){
-			console.log(response);
 		});
 	}
 
@@ -745,7 +743,6 @@ $scope.updateContainerBox = function(){
 	});
 	
 	$scope.$watch('activeVM',function(newVal,oldVal){
-		console.log(newVal +""+oldVal);
 		// console.log("new val "+newVal +" : old val "+oldVal);// console.log("new val "+newVal +" : old val "+oldVal);
 	});
 
@@ -976,7 +973,7 @@ $scope.updateContainerBox = function(){
 			"0100":"vagrant up --provision --provider=docker",
 			"0101":"vagrant provision",
 			"0110":"vagrant up --provision --provider=docker",
-			"0111":"vagrant up --provision --provider=docker",
+			"0111":"vagrant provision",
 			"1000":"vagrant up --provider=docker",
 			"1001":"vagrant reload",
 			"1010":"vagrant up --provision --provider=docker",
@@ -1147,7 +1144,7 @@ $scope.updateContainerBox = function(){
 		syncFolderMapping.vmFolder = vmFolder;
 		if($scope.rawBox !== null){
 			if(!angular.isArray($scope.rawBox.syncFolders)){
-				$scope.rawBox.syncFolders = [];
+				$scope.rawBox["syncFolders"] = [];
 			}
 			$scope.rawBox.syncFolders.push(syncFolderMapping);
 		}
@@ -1221,7 +1218,39 @@ $scope.updateContainerBox = function(){
         }, 500);
 	}
 
-	
+	$scope.checkValidity = {
+		vagrantID : function(form){
+			if(!$scope.projectData.boxesState.update){
+				var keepgoing = true;
+				angular.forEach($scope.boxesData,function(box){
+					if(keepgoing){
+						if(box.vagrantID === form.vagrantID.$modelValue){
+							form.vagrantID.$setValidity('alreadyExists',false);
+							keepgoing = false;
+						}else{
+							form.vagrantID.$setValidity('alreadyExists',true);				
+						}	
+					}
+				});
+			}
+		},
+		scriptName : function(form){
+			if(!$scope.projectData.scriptsState.update){
+				var keepgoing = true;
+				angular.forEach($scope.shellScripts,function(script){
+					if(keepgoing){
+						if(script.scriptName === form.shellScriptName.$modelValue){
+							form.shellScriptName.$setValidity('alreadyExists',false);
+							keepgoing = false;
+						}else{
+							form.shellScriptName.$setValidity('alreadyExists',true);				
+						}	
+					}
+					
+				});		
+			}
+		}		
+	}	
 
 });
 

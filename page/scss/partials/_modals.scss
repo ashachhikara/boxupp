@@ -1,3 +1,21 @@
+div#consoleOutput{
+	font-family: courier new;
+	font-size: 14px;
+	background:black;
+	height:400px;
+	overflow:auto; 
+	padding-left:10px; 
+	padding-right:5px;
+
+	span.error{
+		color: #DA0A0A;
+	}
+	span.normal{
+		color: #0FF173;
+		
+	}
+}
+
 @mixin modal-header-footer{
 	
 	div.modal-body{

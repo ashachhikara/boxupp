@@ -3,11 +3,9 @@ package com.boxupp.utilities;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,7 +23,6 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.helpers.FileUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -33,16 +30,10 @@ import org.codehaus.jettison.json.JSONObject;
 
 import com.boxupp.ConfigurationGenerator;
 import com.boxupp.FileManager;
-import com.boxupp.beans.BoxuppPuppetData;
-import com.boxupp.beans.PuppetManifestFileBean;
-import com.boxupp.beans.PuppetModuleBean;
-import com.boxupp.beans.PuppetModuleFileBean;
-import com.boxupp.beans.PuppetModuleFolderBean;
 import com.boxupp.dao.PuppetModuleDAOManager;
 import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.SearchModuleBean;
 import com.boxupp.responseBeans.StatusBean;
-import com.boxupp.responseBeans.VagrantFileStatus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -120,7 +111,7 @@ public class PuppetUtilities extends Utilities {
 		catch(IOException e){
 			logger.error("Error writing modules : " + moduleBean.getMoName() + " : "+e.getMessage());
 		}
-	}*/
+	}
 	
 	public void commitModuleFolderToDisk(String parentFolder,ArrayList<PuppetModuleFolderBean> folderBeanList) throws IOException{
 		
@@ -143,7 +134,7 @@ public class PuppetUtilities extends Utilities {
 				commitModuleFolderToDisk(folderDirectory,folderBean.getMoFolders());
 			}
 		}
-	}
+	}*/
 	
 	public void deletePuppetModule(String puppetModuleName){
 		String modulesDir =  constructModuleDirectory() +OSFileSeparator;

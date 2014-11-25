@@ -28,7 +28,14 @@
 													 ng-pattern="/^[a-z0-9]{1,8}$/"
 												     type="text" 
 													 class="form-control" 
+													 ng-disabled="projectData.boxesState.update"
+													 ng-change="checkValidity.vagrantID(rawBoxForm.basicSettings)"
 													 required/>
+												 <div ng-messages="rawBoxForm.basicSettings.$error" >
+								            		<div ng-message="alreadyExists" class="errorMessage">This vagrant ID is already in use</div>
+								            		<div ng-message="pattern" class="errorMessage">Invalid pattern</div>
+								            		<div ng-message="maxlength" class="errorMessage">Maximum of 8 chars</div>
+						            			</div>
 										    </div>
 										  	<div class="boxConfig"> 
 										  		<span class="boxConfigTitles">
@@ -202,7 +209,7 @@
 					
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-link" ng-click="modals.close.box()">Close</button>
+					<button class="btn btn-link" ng-click="modals.close.box(rawBoxForm)">Close</button>
 					<button class="btn btn-success" ng-disabled="checkFormStates.vmRawBox()" ng-click="createBoxes(rawBox)" ng-hide="projectData.boxesState.update">Create</button>
 					<button class="btn btn-success" ng-disabled="checkFormStates.vmRawBoxUpdate()" ng-click="updateBox()" ng-show="projectData.boxesState.update">Update</button>
 				</div>

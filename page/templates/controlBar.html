@@ -166,11 +166,19 @@
 						  			<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
 						              <input name="vagrantID"
 						              		 type="text" 
-						              		 ng-pattern="/^[a-z0-9]{1,8}$/"
+						              		 ng-pattern="/^[a-z0-9]{1,10}$/"
+						              		 ng-change="checkValidity.vagrantID(quickBoxForm)"
 											 ng-model="quickBox.vagrantID"
 											 class="form-control" 
+											 ng-maxlength="8"
 											 required/>
+										<div ng-messages="quickBoxForm.vagrantID.$error" >
+						            		<div ng-message="alreadyExists" class="errorMessage">This vagrant ID is already in use</div>
+						            		<div ng-message="pattern" class="errorMessage">Invalid pattern</div>
+						            		<div ng-message="maxlength" class="errorMessage">Maximum of 8 chars</div>
+						            	</div>
 						            </div>
+						            
 								  	<div class="boxConfig"> <span class="boxConfigTitles">Host-Name<sup>*</sup></span>
 						              <input name="hostName" 
 						              		 type="text"
@@ -194,12 +202,19 @@
 						            </div>
 						        </form>
 					            <div class="boxConfig">
-								       	<a class="btn btn-success" ng-disabled="checkFormStates.vmQuickBox()" ng-click="createQuickBox(quickBox)">
+					            	
+					            		<a class="btn btn-success" ng-disabled="quickBoxForm.$invalid" ng-click="createQuickBox(quickBox)">
 								       		<span ng-show="quickBoxCommitLoader" ng-init="quickBoxCommitLoader = false"><i class="fa fa-spin fa-refresh"></i></span>
 								       		<span ng-show="!quickBoxCommitLoader">
 								       			Create Box
 								       		</span>
 								       	</a>
+								       	<!--<a class="btn btn-success" ng-disabled="checkFormStates.vmQuickBox()" ng-click="createQuickBox(quickBox)">
+								       		<span ng-show="quickBoxCommitLoader" ng-init="quickBoxCommitLoader = false"><i class="fa fa-spin fa-refresh"></i></span>
+								       		<span ng-show="!quickBoxCommitLoader">
+								       			Create Box
+								       		</span>
+								       	</a>-->
 								</div>
 					  		</div>
 					  		<div class="tab-pane fade" id="box-clone">

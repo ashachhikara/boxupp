@@ -1,4 +1,4 @@
-package com.boxupp.beans;
+/*package com.boxupp.beans;
 
 public class VagrantFileBean {
 
@@ -57,3 +57,4 @@ public class VagrantFileBean {
 		return isMaster;
 	}
 }
+*/

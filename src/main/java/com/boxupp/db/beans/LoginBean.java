@@ -1,4 +1,4 @@
-package com.boxupp.db.beans;
+/*package com.boxupp.db.beans;
 
 
 public class LoginBean {
@@ -24,3 +24,4 @@ public class LoginBean {
 	}
 
 }
+*/
