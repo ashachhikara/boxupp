@@ -58,6 +58,7 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 		}
 
 		$scope.updateModuleProvMapping = function(selectedProvMachine){
+			if(selectedProvMachine.machineID){
 			var checkedModules = [];
 			angular.forEach($scope.projectData.modules, function(value){
 				if(value.moduleProvChecked){
@@ -66,6 +67,7 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 			});
 			var selectedMachine = selectedProvMachine.machineID;
 			$scope.moduleProvMappings[selectedProvMachine.machineID] = checkedModules;
+			}
 		}
 
 		$scope.$watch('selectedProvMachine',function(newVal,oldVal){

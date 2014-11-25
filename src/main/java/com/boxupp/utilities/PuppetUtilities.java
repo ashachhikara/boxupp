@@ -224,10 +224,19 @@ public class PuppetUtilities extends Utilities {
 			GzipCompressorInputStream gzIn = new GzipCompressorInputStream(in);
 			TarArchiveInputStream tarIn = new TarArchiveInputStream(gzIn);
 			TarArchiveEntry entry = null;
+			int length =0;
+			File unzipFile = null;
 			while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
 				if (entry.isDirectory()) {
-					File f = new File(moduleDirPath + entry.getName());
-					f.mkdirs();
+					if(length == 0){
+						File f = new File(moduleDirPath + entry.getName());
+						f.mkdirs();
+						 unzipFile = f;
+						 length++;
+					}else{
+						File f = new File(moduleDirPath + entry.getName());
+						f.mkdirs();
+					}
 				} else {
 					int count;
 					byte data[] = new byte[4096];
@@ -239,10 +248,8 @@ public class PuppetUtilities extends Utilities {
 					}
 					dest.close();
 				}
+				
 			}
-			
-			File unzipFile = new File(saveFilePath.split(".tar.gz")[0]);
-			
 			File renamedFile= new File(moduleDirPath+"/"+moduleName);
 			if(unzipFile.isDirectory()){
 				unzipFile.renameTo(renamedFile);
@@ -315,7 +322,7 @@ public class PuppetUtilities extends Utilities {
 		for(PuppetModuleMapping puppetModule : puppetModuleData){
 			if(puppetModule.getMachineConfig().getIsDisabled() == false && puppetModule.getPuppetModule().getIsDisabled() == false){
 				if(nodeConfigMap.containsKey(puppetModule.getMachineConfig().getHostName())){
-					nodeConfigMap.get(puppetModule.getMachineConfig().getHostName()).add(puppetModule.getPuppetModule().getFile_uri().split("/")[3].split(".tar.gz")[0]);
+					nodeConfigMap.get(puppetModule.getMachineConfig().getHostName()).add(puppetModule.getPuppetModule().getModuleName());
 				}else{
 					ArrayList<String > moduleNameList = new ArrayList<String>();
 					moduleNameList.add(puppetModule.getPuppetModule().getModuleName());
