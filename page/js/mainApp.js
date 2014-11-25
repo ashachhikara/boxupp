@@ -9,7 +9,8 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			update : false
 		}
 	};
-
+	$scope.moduleMappingData = null;
+    $scope.scriptMappingTree = {};
 	$scope.boxuppMappings = {};
 	$scope.serverAddress = "http://"+window.location.host;
 	$scope.serverWSAddress = "ws://"+window.location.host;
@@ -38,6 +39,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	$scope.boxesSize = 0;
 	$scope.boxCounter = 0;
 	$scope.providerType = provider;
+	$scope.moduleMappingTree= {}
 	$scope.server = {
 		connect : function(promise) {
 			
@@ -105,6 +107,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		}
 	};
 
+ 
 
 	$scope.checkMachineFlags = function(machine){
 		if(machine !== null){
@@ -467,10 +470,27 @@ $scope.updateContainerBox = function(){
 
 	$scope.selectModule = function(module){
 		$scope.activeModule = module;
+		$scope.convertModuleMappingStructureForGraph($scope.moduleMappingData);
+		$scope.moduleMapping = new ModuleMapping($scope.moduleMappingTree );
+		
 	}
-
+	$scope.convertModuleMappingStructureForGraph = function(mappings){
+		
+		$scope.moduleMappingTree = {"name": $scope.activeModule.moduleName,"children":[]};
+		var machineList =[];
+		angular.forEach(mappings, function(map){
+			if($scope.activeModule.moduleID === map.puppetModule.moduleID){
+				machineList.push(map.machineConfig);
+			}
+		});
+		
+		$scope.moduleMappingTree.children = machineList;
+		
+	}
 	$scope.selectScript = function(script){		
 		$scope.activeScript = script;
+		$scope.convertScriptMappingStructureForGraph($scope.scriptMappingData);
+		$scope.scriptMapping = new ScriptMapping($scope.scriptMappingTree );
 	}
 
 	$scope.listOfSSHImages=[
@@ -552,11 +572,25 @@ $scope.updateContainerBox = function(){
 
 	$scope.fetchShellScriptMappings = function(){
 		retrieveMappings.fetchScriptMappings().then(function(mappings){
+
+			$scope.scriptMappingData = mappings;
 			$scope.shellProvMappings = {};
 			$scope.shellProvMappings = $scope.convertScriptMappingsStructure(mappings);
 		});
 	}
-
+	$scope.convertScriptMappingStructureForGraph = function(mappings){
+		$scope.scriptMappingTree ={};
+		$scope.scriptMappingTree = {"name": $scope.activeScript.scriptName,"children":[]};
+		var machineList =[];
+		angular.forEach(mappings, function(map){
+			if($scope.activeScript.scriptID === map.script.scriptID){
+				machineList.push(map.machineConfig);
+			}
+		});
+		
+		$scope.scriptMappingTree.children = machineList;
+		
+	}
 	$scope.convertScriptMappingsStructure = function(mappings){
 		var newMappings = {};
 		angular.forEach(mappings,function(map){
@@ -590,6 +624,7 @@ $scope.updateContainerBox = function(){
 	$scope.fetchPuppetMappings = function(){
 		retrieveMappings.fetchPuppetMappings().then(function(mappings){
 			$scope.moduleProvMappings = {};
+			$scope.moduleMappingData = mappings;
 			$scope.moduleProvMappings = $scope.convertPuppetMappingsStructure(mappings);
 		});
 	}
