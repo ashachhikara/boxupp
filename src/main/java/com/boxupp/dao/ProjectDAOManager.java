@@ -286,31 +286,36 @@ public class ProjectDAOManager implements DAOImplInterface {
 	public <E> List<E> retireveScriptsMapping(String projectID) {
 		List<ShellScriptMapping> scriptMappingList = new ArrayList<ShellScriptMapping>();
 		try {
+			ProjectBean project = projectDao.queryForId(Integer.parseInt(projectID));
 			List<ShellScriptBean> shellScripts = ShellScriptDAOManager.getInstance().shellScriptDao.queryForEq("isDisabled", false);
 			List<MachineConfigurationBean> machineConfigs = MachineConfigDAOManager.getInstance().machineConfigDao.queryForEq("isDisabled", false);
 			if(!(shellScripts.isEmpty())){
-				scriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryBuilder().where().in(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScripts).and().in(ShellScriptMapping.MACHINE_ID_FIELD_NAME, machineConfigs).query();
+				scriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryBuilder().where().in(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScripts).and().in(ShellScriptMapping.MACHINE_ID_FIELD_NAME, machineConfigs).and().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project).query();
 			}
 			//scriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryForAll();
 		} catch (SQLException e) {
 			logger.error("Error in retireving scripts mapping: "+ e.getMessage());
-			e.printStackTrace();
 		}
-		System.out.println(scriptMappingList);
 		return (List<E>) scriptMappingList;
 	}
 	
 	public <E> List<E> retireveModulesMapping(String projectID) {
 		List<PuppetModuleMapping> moduleMappingList = new ArrayList<PuppetModuleMapping>();
 		try {
-			ProjectBean project = ProjectDAOManager.projectDao.queryForId(Integer.parseInt(projectID));
-			/*moduleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryForAll();
+			ProjectBean project = projectDao.queryForId(Integer.parseInt(projectID));
+			List<PuppetModuleBean> puppetModules = PuppetModuleDAOManager.getInstance().puppetModuleDao.queryForEq("isDisabled", false);
+			List<MachineConfigurationBean> machineConfigs = MachineConfigDAOManager.getInstance().machineConfigDao.queryForEq("isDisabled", false);
+			if(!(puppetModules.isEmpty())){
+				moduleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryBuilder().where().in(PuppetModuleMapping.MODULE_ID_FIELD_NAME, puppetModules).and().in(PuppetModuleMapping.MACHINE_ID_FIELD_NAME, machineConfigs).and().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project).query();
+			}
+			/*ProjectBean project = ProjectDAOManager.projectDao.queryForId(Integer.parseInt(projectID));
+			moduleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryForAll();
 			for(PuppetModuleMapping mapping : moduleMappingList){
 				MachineConfigDAOManager.getInstance().machineConfigDao.refresh(mapping.getMachineConfig());
 				PuppetModuleDAOManager.getInstance().puppetModuleDao.refresh(mapping.getPuppetModule());
-			}*/
+			}
 			 moduleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryForEq(PuppetModuleMapping.PROJECT_ID_FIELD_NAME, project);
-
+*/
 		} catch (SQLException e) {
 			logger.error("Error in retireving module mapping: "	+ e.getMessage());
 		}
