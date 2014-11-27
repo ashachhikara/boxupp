@@ -21,6 +21,7 @@ import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.db.beans.UserProjectMapping;
 import com.boxupp.responseBeans.StatusBean;
+import com.boxupp.utilities.CommonProperties;
 import com.boxupp.utilities.OSProperties;
 import com.boxupp.utilities.PuppetUtilities;
 import com.boxupp.utilities.Utilities;
@@ -74,14 +75,17 @@ public class ProjectDAOManager implements DAOImplInterface {
 			statusBean.setStatusCode(0);
 			statusBean.setData(projectBean);
 			Utilities.getInstance().initializeDirectory(projectBean.getProjectID());
+			
 			String nodeFileLoc = PuppetUtilities.getInstance().constructManifestsDirectory()+OSProperties.getInstance().getOSFileSeparator()+projectBean.getProjectID()+".pp";
 			boolean nodeFile =	new File(nodeFileLoc).createNewFile();
 			
 			Integer providerID = ProviderDAOManager.getInstance().providerDao.queryForId(projectBean.getProviderType()).getProviderID();
 			ProjectProviderMappingBean projectProvider = new ProjectProviderMappingBean(projectBean.getProjectID(), providerID);
 			projectProviderMappingDao.create(projectProvider);
-			System.out.println(projectProvider);
-
+			String providerName = ProviderDAOManager.getInstance().providerDao.queryForId(projectBean.getProviderType()).getName();
+			if(providerName.equalsIgnoreCase(CommonProperties.getInstance().getDockerProvider())){
+				Utilities.getInstance().initializeDockerVagrantFile(projectBean.getProjectID());
+			}
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);

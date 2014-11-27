@@ -35,6 +35,7 @@ Vagrant.configure("2") do |config|
 				d.name = "$identifier"
 				d.has_ssh= true
 				d.volumes << '/var/lib/docker'
+				d.vagrant_vagrantfile = "./docker/Vagrantfile"
 				#foreach($portMapping in $portMappings)
 				#if(!($portMapping.hostPort.isEmpty() && $portMapping.vmPort.isEmpty()))
 				#set($localVar = $ports.add("""$portMapping.hostPort : $portMapping.vmPort"""))

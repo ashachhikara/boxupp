@@ -4,6 +4,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +16,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.helpers.FileUtils;
 import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.ConfigurationGenerator;
@@ -107,7 +113,24 @@ public class Utilities {
 		}
 //		activeProjectDirectory = userHomeDir;
 	}
-	
+	public void initializeDockerVagrantFile(Integer projectID){
+		String projectDir = constructProjectDirectory(projectID);
+		
+		checkIfDirExists(new File(projectDir+osProperties.getOSFileSeparator()+osProperties.getDockerVagrantFileDir()));
+		Path FROM = Paths.get("src/main/resources/Vagrantfile");
+	    Path TO = Paths.get(projectDir+osProperties.getOSFileSeparator()+osProperties.getDockerVagrantFileDir()+osProperties.getOSFileSeparator()+osProperties.getVagrantFileName());
+	    //overwrite existing file, if exists
+	    CopyOption[] options = new CopyOption[]{
+	      StandardCopyOption.REPLACE_EXISTING,
+	      StandardCopyOption.COPY_ATTRIBUTES
+	    }; 
+	    try {
+		Files.copy(FROM, TO, options);
+		} catch (IOException e) {
+		logger.error("Error in coping static vagrant file for docker "+e.getMessage());
+		}
+	  
+	}
 	/*public void commitScriptsToDisk(BoxuppScriptsData scriptsData){
 		ArrayList<ShellScriptBean> scriptBeanList = scriptsData.getScriptsList();
 		for(int counter=0; counter<scriptBeanList.size(); counter++){
