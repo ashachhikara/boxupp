@@ -7,7 +7,7 @@
 </div>
 
 <div class="boxDetails" ng-show="boxesData.length>0 && activeVM !== null">
-	<table class="table table-striped" style="table-layout:fixed; width:83.33%">
+	<table class="table table-striped configurations" style="table-layout:fixed;">
 		<thead>
 			<tr>
 				<td>VagrantID</td>
@@ -25,7 +25,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<table class="table table-striped">
+	<table class="table table-striped configurations">
 		<thead>
 			<tr>
 				<td>NetworkIP</td>
@@ -45,7 +45,7 @@
 	</table>
 
 	
-	<table class="table table-striped mappings" >
+	<table class="table table-striped mappings configurations" >
 		<thead>
 			<tr>
 				<td class="col-md-2">Scripts Mapped</td>
@@ -63,7 +63,7 @@
 		</tbody>
 	</table>
 
-	<table class="table table-striped mappings" >
+	<table class="table table-striped mappings configurations" >
 		<thead>
 			<tr>
 				<td class="col-md-2">Modules Mapped</td>
@@ -85,5 +85,7 @@
 	<!--Config Change flag - {{activeVM.configChangeFlag}}
 	Script change flag - {{activeVM.scriptChangeFlag}}
 	Puppet Change flag - {{activeVM.moduleChangeFlag}}-->
-	<a class="btn btn-info" ng-click="deployBox(activeVM)" ng-show="checkMachineFlags(activeVM)">Commit changes</a>
+	<div style="clear:both;">
+		<a class="btn btn-info" ng-click="deployBox(activeVM)" ng-disabled="activeVM.underExecution" ng-show="checkMachineFlags(activeVM)" ><i class="fa fa-external-link-square"></i> Commit changes</a>
+	</div>
 </div>

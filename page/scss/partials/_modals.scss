@@ -1,6 +1,6 @@
 div#consoleOutput{
 	font-family: courier new;
-	font-size: 14px;
+	font-size: 15px;
 	background:black;
 	height:400px;
 	overflow:auto; 
@@ -8,7 +8,7 @@ div#consoleOutput{
 	padding-right:5px;
 
 	span.error{
-		color: #DA0A0A;
+		color: #FF7D7D;
 	}
 	span.normal{
 		color: #0FF173;

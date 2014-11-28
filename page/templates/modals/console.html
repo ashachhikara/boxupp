@@ -10,7 +10,7 @@
           <div id="consoleOutput">
             {{consoleTrial}} - {{vagrantOutput.length}}
               <span class="vagrantOutputStream" ng-repeat="outputSnippet in vagrantOutput track by $index">
-                <span ng-class="{'normal':outputSnippet.type === 'normal','error':outputSnippet.type === 'error'}">{{outputSnippet.output}}<br></span>
+                <span ng-class="{'normal':outputSnippet.type === 'normal','error':outputSnippet.type === 'error'}" style="display:block;">{{outputSnippet.output}}</span>
               </span>
           </div>
       </div>

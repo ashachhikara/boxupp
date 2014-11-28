@@ -18,6 +18,10 @@
 							<div class="arrow"></div>
 							<div class="main-nav-label">{{box.vagrantID}}</div>
 							<div class="main-nav-description"></div>
+							<div class="notifications" ng-show="checkMachineFlags(box)" title="This machine has unsaved changes" style="position: absolute;top: 12px;right: 45px;color: orange;font-size: 15px;"><i class="fa fa-exclamation-triangle"></i></div>
+							<div class="boxLoader" ng-show="box.underExecution" title="Committing changes" style="cursor: pointer;position: absolute; top: 8px;right: 16px;font-size: 21px;">
+								<a data-toggle="modal" data-target="#console"><i class="fa fa-spin fa-refresh"></i></a>
+							</div>
 						</a>
 					</li>
 				</ul>

@@ -6,13 +6,20 @@ div.errorMessage{
 	color: #ED7A33;
 }
 
+div#box-quick,div#box-clone{
+	div.boxConfig{
+		span.boxConfigTitles{
+			color:#E5E5E5;
+		}
+	}
+}
 div#ctrlBarPlayArea{
 
 	ul.ctrl-bar-sec-list, ul.ctrl-bar-main-list{
 		li{
 			overflow:auto;
 			a{
-				color:#FFF;
+				color:#E5E5E5;
 				font-size:26px;
 				border-radius : 0px;
 				height:50px;

@@ -9,6 +9,11 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			update : false
 		}
 	};
+
+	$scope.showConsole = function(){
+		$('#console').modal('show');
+	}
+
 	$scope.consoleTrial = "Hello";
 	$scope.vagrantOutput = [];
 	$scope.moduleMappingData = null;
@@ -74,7 +79,6 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 
 		_onmessage : function(message) {
 			$scope.vagrantOutput.push(message.data);
-			console.log(message);
 			var data = JSON.parse(message.data);
 			if(data.dataEnd === false){
 				$scope.activeOutputSnippet = {};
@@ -106,7 +110,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		},
 
 		_onclose : function(m) {
-			this.promise.resolve();
+			this.promise.resolve("Done");
 			this._ws = null;
 			console.log('connection has been closed');
 		}
@@ -123,6 +127,16 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			}
 		}
 		
+	}
+
+	$scope.checkUpdatedMachineCount = function(){
+		var count = 0;
+		angular.forEach($scope.boxesData,function(box){
+			if(box.configChangeFlag || box.scriptChangeFlag || box.moduleChangeFlag){
+				count = count + 1;
+			}
+		});
+		return count;
 	}
 
 	$scope.switchWorkspace = function(){
@@ -206,21 +220,27 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			
 			$scope.boxesSize > 0 ? $scope.triggerDeployment(elements[0],elements) : console.log('No boxes to deploy');
 			
-			/*var promises = [];
-			angular.forEach($scope.boxesData,function(box){
-				if(box.configChangeFlag || box.scriptChangeFlag || box.moduleChangeFlag){
-					$q.all(promises).then(function(){
-						console.log('promise resolved');
-						promises.push($scope.startDeployment(box));	
-					});
-				}
+		});
+	}
+
+	$scope.deployBox = function(vmConfig){
+		$scope.createVagrantFile().then(function(){
+			$scope.startDeployment(vmConfig).then(function(response){
+				vmConfig.underExecution = false;	
+				$scope.resetFlags(vmConfig);
+				$scope.commitBoxChanges(vmConfig);
+				console.log('Box execution completed now !');
 			});
-			console.log('Done deploying all boxes');*/
 		});
 	}
 
 	$scope.triggerDeployment = function(box,elements){
-		promise = $scope.startDeployment(box);
+		promise = $scope.startDeployment(box).then(function(response){
+			box.underExecution = false;	
+			$scope.resetFlags(box);
+			$scope.commitBoxChanges(box);
+			console.log('Box execution completed now !');
+		});
 		$scope.boxCounter++;
 		promise.then(function(){
 			if($scope.boxCounter < $scope.boxesSize){
@@ -245,13 +265,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		return deferred.promise;
 	}
 
-	$scope.deployBox = function(vmConfig){
-		$scope.createVagrantFile().then(function(){
-			$scope.startDeployment(vmConfig).then(function(){
-				console.log('Box execution completed now !');
-			});
-		});
-	}
+	
 
 	$scope.startDeployment = function(vmConfig){
 		var deferred = $q.defer();
@@ -260,6 +274,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		// var optionSelected = $scope.vagrantOptions;
 		// if(optionSelected === 0){
 		// 	$scope.pushCustomMessage();
+		vmConfig.underExecution = true;
 			vagrantStatus.checkMachineStatus($routeParams.userID, vmConfig.vagrantID).then(function(response){
 				console.log(response);
 				vmConfig.machineStatusFlag = response.statusCode;
@@ -400,7 +415,23 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			});
 		});
 	}
-$scope.updateContainerBox = function(){
+
+	$scope.commitBoxChanges = function(box){
+		var updatedContent = box;
+		$scope.entry = MachineConfig.get({id:updatedContent.machineID},function(){
+			angular.extend($scope.entry,updatedContent);
+			$scope.entry.$update(function(){
+				angular.forEach($scope.boxesData,function(box){
+					if(box.machineID === $scope.entry.beanData.machineID){
+						angular.extend(box,$scope.entry.beanData);
+						return;
+					}
+				});
+			});
+		});
+	}
+
+	$scope.updateContainerBox = function(){
 		var updatedContent = $scope.dockerLinkMappingForBackend($scope.rawBox);
 		
 		$scope.entry = MachineConfig.get({id:updatedContent.machineID},function(){
@@ -1074,10 +1105,10 @@ $scope.updateContainerBox = function(){
 		  });
 	}
 	
-	$scope.resetFlags = function(){
-		$scope.boxuppConfig.vagrantChangeFlag = 0;
-		$scope.boxuppConfig.puppetChangeFlag = 0;
-		$scope.boxuppConfig.shellChangeFlag = 0;
+	$scope.resetFlags = function(vmConfig){
+		vmConfig.configChangeFlag = 0;
+		vmConfig.moduleChangeFlag = 0;
+		vmConfig.scriptChangeFlag = 0;
 	}
 	
 	$scope.boxuppStateChanged = function(){

@@ -11,13 +11,13 @@
 		<div class="navbar-collapse collapse">
 
 			<ul class="nav navbar-nav navbar-left">
-				<li class="dropdown">
+				<li>
 					<a class="dropdown-toggle" data-toggle="dropdown" data-target="#" style="padding-bottom:-15px; padding-top:-15px;">
-						<img src="../img/boxupp-icon.png" alt="Boxupp Tool logo" style="width: 30px;height: 30px;position: absolute;top: 10px;">
+						<img src="../img/boxupp-icon.png" alt="Boxupp Tool logo" style="width: 30px;height: 30px;position: absolute;top: 10px; left:1px;">
 					</a>
-					<ul class="dropdown-menu" role="menu">
-						<li> <a ng-click="switchWorkspace()">Switch Workspace</a></li>
-					</ul>
+					<!--<ul class="dropdown-menu" role="menu">
+						
+					</ul>-->
 				</li>
 				<!--<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
@@ -46,11 +46,14 @@
 				<!--<li>
 					<button class="btn navbar-btn btn-sm btn-danger" ng-click="createVagrantFile();">Vagrant File</button>
 				</li>-->
-				<li>
+				<!--<li>
 					<button class="btn navbar-btn btn-sm" data-toggle="modal" data-target="#console">Console</button>
-				</li>
+				</li>-->
 				<li>
-					<button class="btn navbar-btn btn-sm btn-success" ng-click="deployEnvironment();"><i class="fa fa-rocket" style="margin-right: 5px; font-size: 15px;"></i>DEPLOY</button>
+					<button class="btn navbar-btn btn-sm btn-success" ng-click="deployEnvironment();"><i class="fa fa-rocket" style="margin-right: 5px; font-size: 15px;"></i>DEPLOY ALL</button>
+				</li>
+				<li> 
+					<a ng-click="switchWorkspace()">Switch Workspace</a>
 				</li>
 				<!--<li>
 					<a id="vagrantIcon" data-toggle="modal" data-target="#vagrantFileModal">Config</a>
@@ -63,7 +66,7 @@
 						</li>
 					</ul>
 				</li>-->
-				<li class="dropdown">
+				<!--<li class="dropdown">
 					<a target="#" data-toggle="dropdown" class="dropdown-toggle">Help<b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li>
@@ -73,7 +76,7 @@
 							<a data-target="http://www.boxupp.com/data/Boxupp_User_Manual_v0.0.3.pdf" target="_blank">Product Manual</a>
 						</li>
 					</ul>
-				</li>
+				</li>-->
 				<li class="dropdown">
 					<a data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-gear"></i><b class="caret"></b></a>
 					<ul class="dropdown-menu">

@@ -1,7 +1,7 @@
 <div class="sectionContainer">
 	<div class="section">
 		<div class="sectionTitle">
-			<span class="messageTitle">Boxes</span><hr>
+			<span class="messageTitle">Boxes</span>
 		</div>
 		<div class="sectionContent">
 			<div ng-show="boxesData.length === 0">
@@ -9,7 +9,7 @@
 			</div>
 			<table class="table table-striped table-condensed table-hover" ng-hide="boxesData.length === 0">
 				<thead>
-					<tr>
+					<tr class="columnHeading">
 						<td>#</td>
 						<td>VagrantID</td>
 						<td>HostName</td>
@@ -29,7 +29,7 @@
 	</div>
 	<div class="section">
 		<div class="sectionTitle">
-			<span class="messageTitle">Scripts</span><hr>
+			<span class="messageTitle">Scripts</span>
 		</div>
 		<div class="sectionContent">
 			<div ng-show="shellScripts.length === 0">
@@ -37,7 +37,7 @@
 			</div>
 			<table class="table table-striped table-condensed table-hover" ng-hide="shellScripts.length === 0">
 				<thead>
-					<tr>
+					<tr class="columnHeading">
 						<td>#</td>
 						<td>ScriptID</td>
 						<td>Script Name</td>
@@ -55,7 +55,7 @@
 	</div>
 	<div class="section">
 		<div class="sectionTitle">
-			<span class="messageTitle">Modules</span><hr>
+			<span class="messageTitle">Modules</span>
 		</div>
 		<div class="sectionContent">
 			<div ng-show="projectData.modules.length === 0">
@@ -63,7 +63,7 @@
 			</div>
 			<table class="table table-striped table-condensed table-hover" ng-hide="projectData.modules.length === 0">
 				<thead>
-					<tr>
+					<tr class="columnHeading">
 						<td>#</td>
 						<td>ModuleID</td>
 						<td>Module Name</td>
