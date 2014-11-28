@@ -15,8 +15,16 @@ ngBoxuppApp.controller('loginController',function($scope,$http,$location,User){
 			User.checkIfExists(mailID).then(function(response){
 				if(response.statusCode === 0){
 					$scope.disableUserReg = true;	
+				}else{
+					$scope.disableUserReg = false;	
 				}
 			});	
+		}
+	}
+
+	$scope.checkEmailID = function(registrationForm){
+		if(!registrationForm.emailID.$valid && registrationForm.emailID.$dirty){
+			return true;
 		}
 	}
 

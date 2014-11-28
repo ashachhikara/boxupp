@@ -186,7 +186,7 @@ div.mainNavElements{
 
 			li.active{
 				a{
-					background:#f48d1f;
+					background:#71B1D1;
 					color:#FFFFFF;
 
 					.main-nav-icon i{
@@ -194,7 +194,7 @@ div.mainNavElements{
 					}
 				}
 				a:hover{
-					background:#f48d1f;
+					background:#71B1D1;
 					color : #FFFFFF;
 				}
 			}
@@ -419,12 +419,10 @@ div{
 		height:400px;
 	}
 }
-input[type="text"] {
-	&.ng-invalid{
+input[type="text"].ng-invalid-pattern, input[type="text"].ng-invalid-maxlength {
 		border-color: #F7404F !important;
 		-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(236, 51, 51, 0.6) !important;
 		box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(212, 44, 30, 0.6) !important;
-	}
 }
 /*
 div.collapseCtrlBar{

@@ -11,6 +11,7 @@ import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.UserDetailBean;
 import com.boxupp.db.beans.UserProjectMapping;
+import com.boxupp.mail.MailManager;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.responseBeans.UserAuthenticationResponse;
 import com.google.gson.Gson;
@@ -57,6 +58,10 @@ public class UserDAOManager implements DAOImplInterface{
 		response.setStatusCode(0);
 		response.setStatusMessage("User created successfully");
 		response.setUserID(userDetailBean.getUserID());
+		MailManager mailManager = new MailManager();
+		mailManager.sendRegistrationMail(newData.get("mailID").getTextValue(),
+										 newData.get("firstName").getTextValue(),
+										 newData.get("password").getTextValue());
 		return response;
 	}
 

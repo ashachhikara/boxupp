@@ -66,13 +66,22 @@
                     <img src="img/logo.png" title="boxupp" alt="logo">
                   </div>
                   
-                        
+                  <form name="registrationForm" ng-hide="showRegInfo">      
                     <div class="form-field">
                         <div class="fieldIcon col-sm-1">
                           <i class="fa fa-envelope"></i> 
                         </div>
                         <div class="field col-sm-11">
-                          <input type="text" ng-model="newUserDetail.mailID" placeholder="Enter Email ID here" class="form-control" ng-blur="checkIfUserExists(newUserDetail.mailID)" required>
+                          <input type="email" 
+                          ng-model="newUserDetail.mailID" 
+                          name="emailID"
+                          placeholder="Enter Email ID here" 
+                          class="form-control" 
+                          ng-blur="checkIfUserExists(newUserDetail.mailID)" 
+                          required>
+                          <div ng-show="checkEmailID(registrationForm)" >
+                            <div class="errorMessage" style="top:10px;">Invalid email address</div>
+                          </div>
                         </div>
                     </div>
 
@@ -105,7 +114,7 @@
                     <div class="form-field">
                       
                         <div class="fieldIcon col-sm-12">
-                          <a ng-click="registerNewUser()" class="btn btn-primary" ng-disabled="disableUserReg">
+                          <a ng-click="registerNewUser()" class="btn btn-primary" ng-disabled="disableUserReg || registrationForm.$invalid">
                             Register
                           </a>
                           <span class="newRegLoader" ng-show="startRegistration" ng-init="startRegistration = false">
@@ -114,6 +123,7 @@
                         </div>
                       
                     </div>
+                  </form>
                     <div class=" col-sm-4"  ng-hide="showRegInfo">
                     
                       <div class="registrationAction pull-left">
@@ -124,8 +134,9 @@
 
                     <div class="form-field" ng-show="showRegInfo" ng-init="showRegInfo = false">
                       
-                        <div class="fieldIcon col-sm-12 pull-left" >
+                        <div class="fieldIcon col-sm-12 pull-left" style="font-size:15px;">
                           <!--<a ng-click="showLogin = !showLogin" style="cursor:pointer;">-->
+                          Thanks for registering. A confirmation mail has been sent on your registered email address. Sometimes emails misbehave, so please check your SPAM folder also.<br>
                             <a ng-click="proceedToLogin()" style="cursor:pointer;">
                               Click here to login
                             </a>

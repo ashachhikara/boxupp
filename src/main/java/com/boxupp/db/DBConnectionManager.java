@@ -1,6 +1,7 @@
 package com.boxupp.db;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -61,81 +62,41 @@ public class DBConnectionManager {
 	}
 	
 	private static boolean createDatabases(){
-		try {
-			
-			//************* DELETE TABLES **************//
-
-//			TableUtils.dropTable(connectionSource, ProviderBean.class, true);
-
-			/*TableUtils.dropTable(connectionSource, UserDetailBean.class, true);
-			TableUtils.dropTable(connectionSource, ProjectBean.class, true);
-			TableUtils.dropTable(connectionSource, ProjectProviderMappingBean.class, true);
-			TableUtils.dropTable(connectionSource, UserProjectMapping.class, false);
-
-			TableUtils.dropTable(connectionSource, ShellScriptBean.class, true);
-			TableUtils.dropTable(connectionSource, ShellScriptMapping.class, true);
-			TableUtils.dropTable(connectionSource, PuppetModuleMapping.class, true);
-			TableUtils.dropTable(connectionSource, PuppetModuleBean.class, true);
-			TableUtils.dropTable(connectionSource, ForwardedPortsBean.class, true);
-     		TableUtils.dropTable(connectionSource, SyncFoldersBean.class, true);
-			TableUtils.dropTable(connectionSource, DockerLinkBean.class, true);
-			TableUtils.dropTable(connectionSource, MachineConfigurationBean.class, true);
-			TableUtils.dropTable(connectionSource, MachineProjectMapping.class, true);*/
-
-			TableUtils.dropTable(connectionSource, GitRepoBean.class, true);
-
-
-			//************* CREATE TABLES **************//
-
-
-		//	TableUtils.createTable(connectionSource, ProviderBean.class);
-			/*TableUtils.createTable(connectionSource, UserDetailBean.class);			
-
-			TableUtils.createTable(connectionSource, ProjectBean.class);
-			TableUtils.createTable(connectionSource, ProjectProviderMappingBean.class);
-			TableUtils.createTable(connectionSource, UserProjectMapping.class);
-			TableUtils.createTable(connectionSource, ShellScriptBean.class);
-			TableUtils.createTable(connectionSource, ShellScriptMapping.class);
-			TableUtils.createTable(connectionSource, PuppetModuleMapping.class);
-			TableUtils.createTable(connectionSource, PuppetModuleBean.class);
-			TableUtils.createTable(connectionSource, ForwardedPortsBean.class);
-			TableUtils.createTable(connectionSource, SyncFoldersBean.class);
-			TableUtils.createTable(connectionSource, DockerLinkBean.class);
-			TableUtils.createTable(connectionSource, MachineConfigurationBean.class);
-
-			TableUtils.createTable(connectionSource, MachineProjectMapping.class);*/
-
-			TableUtils.createTable(connectionSource, GitRepoBean.class);
-			
 		
-			
+		//************* CREATE TABLES **************//
 
-			//***************CREATE_ENTRIES**********************//
-			
-			/*ProviderBean provider1 = new ProviderBean();
-			provider1.setDisabled(false);
-			provider1.setName("VirtualBox");
-			
-			DAOProvider.getInstance().fetchProviderDao().create(provider1);
-			
-			ProviderBean provider2 = new ProviderBean();
-			provider2.setDisabled(false);
-			provider2.setName("Docker");
-			
-			
-			
-			DAOProvider.getInstance().fetchProviderDao().create(provider2);*/
-			
-			//**************CREATE_ENTRIES***********************//
-			
-			System.out.println("Created tables for mapping");
+			ArrayList<Class> classList = new ArrayList<Class>();
+			classList.add(ProviderBean.class);
+			classList.add(UserDetailBean.class);
+			classList.add(ProjectBean.class);
+			classList.add(ProjectProviderMappingBean.class);
+			classList.add(UserProjectMapping.class);
+			classList.add(ShellScriptBean.class);
+			classList.add(ShellScriptMapping.class);
+			classList.add(PuppetModuleMapping.class);
+			classList.add(PuppetModuleBean.class);
+			classList.add(ForwardedPortsBean.class);
+			classList.add(SyncFoldersBean.class);
+			classList.add(DockerLinkBean.class);
+			classList.add(MachineConfigurationBean.class);
+			classList.add(MachineProjectMapping.class);
+			classList.add(GitRepoBean.class);
+				
+			for(Class className : classList){
+				createTableIfNotExists(className);
+			}
 			return true;
+
+	}
+	
+	public static void createTableIfNotExists(Class className){
 		
-		}catch (SQLException e) {
-			System.out.println("table exists");
-			e.printStackTrace();
+		try {
+			TableUtils.createTable(connectionSource, className);
+		} catch (SQLException e) {
+				
 		}
-		return true;
+
 	}
 		
 	public boolean checkForProviderEntries(){
