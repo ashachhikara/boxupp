@@ -14,6 +14,7 @@ public class OSProperties {
 	private String moduleDirName = "modules";
 	private String manifestsDirName = "manifests";
 	private String nodeFileName = "site.pp";
+	private String dockerVagrantFileDir = "docker";
 			
 	private OSProperties(){
 			OSFileSeparator = System.getProperty("file.separator");
@@ -98,6 +99,14 @@ public class OSProperties {
 
 	public void setNodeFileName(String nodeFileName) {
 		this.nodeFileName = nodeFileName;
+	}
+
+	public String getDockerVagrantFileDir() {
+		return dockerVagrantFileDir;
+	}
+
+	public void setDockerVagrantFileDir(String dockerVagrantFileDir) {
+		this.dockerVagrantFileDir = dockerVagrantFileDir;
 	}
 
 	

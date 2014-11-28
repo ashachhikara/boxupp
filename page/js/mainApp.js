@@ -506,8 +506,14 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 
 	$scope.selectModule = function(module){
 		$scope.activeModule = module;
+		retrieveMappings.fetchPuppetMappings().then(function(mappings){
+			$scope.moduleMappingData = mappings;
+		});
 		$scope.convertModuleMappingStructureForGraph($scope.moduleMappingData);
-		$scope.moduleMapping = new ModuleMapping($scope.moduleMappingTree );
+		$("#moduleMapping").empty();
+		if($scope.moduleMappingTree.children.length != 0 ){
+			$scope.moduleMapping = new ModuleMapping($scope.moduleMappingTree );
+		}
 		
 	}
 	$scope.convertModuleMappingStructureForGraph = function(mappings){
@@ -515,7 +521,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		$scope.moduleMappingTree = {"name": $scope.activeModule.moduleName,"children":[]};
 		var machineList =[];
 		angular.forEach(mappings, function(map){
-			if($scope.activeModule.moduleID === map.puppetModule.moduleID){
+			if($scope.activeModule.puppetID === map.puppetModule.puppetID){
 				machineList.push(map.machineConfig);
 			}
 		});
@@ -525,8 +531,16 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	}
 	$scope.selectScript = function(script){		
 		$scope.activeScript = script;
+		retrieveMappings.fetchScriptMappings().then(function(mappings){
+
+			$scope.scriptMappingData = mappings;
+		});
 		$scope.convertScriptMappingStructureForGraph($scope.scriptMappingData);
-		$scope.scriptMapping = new ScriptMapping($scope.scriptMappingTree );
+		$("#scriptMapping").empty();
+		if($scope.scriptMappingTree.children.length != 0 ){
+
+			$scope.scriptMapping = new ScriptMapping($scope.scriptMappingTree );
+		}
 	}
 
 	$scope.listOfSSHImages=[
