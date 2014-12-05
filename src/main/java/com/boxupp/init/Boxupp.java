@@ -21,7 +21,7 @@ import com.boxupp.ws.VagrantConsole;
 
 public class Boxupp {
 	
-	private static Logger logger = LogManager.getLogger("Boxupp");
+	private static Logger logger = LogManager.getLogger(Boxupp.class.getName());
 
 	public static void main(String[] args) throws Exception {
 		

@@ -121,7 +121,6 @@ public class UserDAOManager implements DAOImplInterface{
 	public static void main(String[] args){
 		UserDAOManager user = new UserDAOManager();
 		StatusBean statusBean = user.checkForExistingUser("a");
-		System.out.println(statusBean.getStatusCode());
 		
 	}
 }

@@ -26,7 +26,6 @@ public class CreateDB {
 //			projectDao.create(bean);
 			connectionSource.close();
 			TableUtils.createTable(connectionSource, ProjectBean.class);
-			System.out.println(projectDao.queryForAll().size());
 		
 	}
 }

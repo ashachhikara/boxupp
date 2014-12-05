@@ -36,7 +36,6 @@ public class VagrantConsole implements OutputConsole{
 
 	@OnWebSocketMessage
     public void onMessage(Session session,String command) throws IOException, InterruptedException {
-		System.out.println("Websocket command received : " + command);
 		String[] commands = command.split(":");
 		Integer userID = Integer.parseInt(commands[1]);
 		command = commands[0];
@@ -56,7 +55,6 @@ public class VagrantConsole implements OutputConsole{
 	@OnWebSocketClose
     public void onClose(int statusCode, String reason) {
         logger.info("Close: statusCode=" + statusCode + ", reason=" + reason);
-        System.out.println("connection closed "+ statusCode + ", reason=" + reason);
     }
 
     @OnWebSocketError
@@ -94,7 +92,6 @@ public class VagrantConsole implements OutputConsole{
 	public void commitOutput(VagrantOutput output){
 		try{
 			remote.sendString(gson.toJson(output));
-			System.out.println(gson.toJson(output));
 		}
 		catch(IOException e){
 			logger.error("Error committing output to console : "+e.getMessage());

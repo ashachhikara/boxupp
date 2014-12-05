@@ -1,6 +1,6 @@
 var ngBoxuppApp = angular.module('boxuppApp');
 
-ngBoxuppApp.controller('loginController',function($scope,$http,$location,User){
+ngBoxuppApp.controller('loginController',function($scope,$http,$location,User,$routeParams){
 
 	/*$scope.loginCredentials = {
 			loginId : '',
@@ -43,6 +43,7 @@ ngBoxuppApp.controller('loginController',function($scope,$http,$location,User){
 					if(data.statusCode === 0){
 						$scope.checkLogin = false;
 						$location.path("/" + data.userID + "/projects/");
+						ga('send', 'event', 'v1.0.0', 'login',lc.loginID);
 					}else{
 						$scope.authError = true;
 						$scope.checkLogin = false;
@@ -79,7 +80,7 @@ ngBoxuppApp.controller('loginController',function($scope,$http,$location,User){
 					$scope.regError = false;
 				}
 			});	
-			ga('send', 'event', 'v0.0.4 Download', 'click');
+			ga('send', 'event', 'v1.0.0', 'register',nu.mailID);
 		}catch(err){
 			$scope.startRegistration = false;
 			$scope.regErrorMessage = err;

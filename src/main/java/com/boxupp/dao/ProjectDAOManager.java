@@ -95,9 +95,6 @@ public class ProjectDAOManager implements DAOImplInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		System.out.println("Id assigned to new project : "+ projectBean.getProjectID() + " creation time : "
-				+ projectBean.getCreationTime());
 		return statusBean;
 	}
 
@@ -212,9 +209,6 @@ public class ProjectDAOManager implements DAOImplInterface {
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error creating project : "+ e.getMessage());
 		}
-		System.out.println("Id assigned to new project : "
-				+ projectBean.getProjectID() + " creation time : "
-				+ projectBean.getCreationTime());
 		return statusBean;
 	}
 

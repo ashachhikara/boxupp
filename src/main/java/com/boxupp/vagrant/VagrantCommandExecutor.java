@@ -61,15 +61,12 @@ public class VagrantCommandExecutor {
 			
 			String windowsCmd = "cmd /C " + vagrantCommand.toString();
 			if(osType.indexOf("windows") != -1){
-				System.out.println("in windows");
 				String commandArray[] = windowsCmd.split(" ");
 				processBuilder = new ProcessBuilder(commandArray);
 			}else if((osType.indexOf("mac")!= -1) || (osType.indexOf("darwin")!= -1)){
-				System.out.println("in mac");
 				String command = vagrantCommand.toString().replaceAll("vagrant", "/Applications/Vagrant/bin/vagrant");
 				processBuilder = new ProcessBuilder(command.split(" "));
 			}else{
-				System.out.println("in linux");
 				String command = vagrantCommand.toString().replaceAll("vagrant", "/opt/vagrant/bin/vagrant");
 				processBuilder = new ProcessBuilder(command.split(" "));
 			}

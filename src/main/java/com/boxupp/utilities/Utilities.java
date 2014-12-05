@@ -1,13 +1,14 @@
 package com.boxupp.utilities;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.helpers.FileUtils;
 import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.ConfigurationGenerator;
@@ -115,21 +115,39 @@ public class Utilities {
 	}
 	public void initializeDockerVagrantFile(Integer projectID){
 		String projectDir = constructProjectDirectory(projectID);
-		
-		checkIfDirExists(new File(projectDir+osProperties.getOSFileSeparator()+osProperties.getDockerVagrantFileDir()));
-		Path FROM = Paths.get("src/main/resources/Vagrantfile");
-	    Path TO = Paths.get(projectDir+osProperties.getOSFileSeparator()+osProperties.getDockerVagrantFileDir()+osProperties.getOSFileSeparator()+osProperties.getVagrantFileName());
-	    //overwrite existing file, if exists
-	    CopyOption[] options = new CopyOption[]{
-	      StandardCopyOption.REPLACE_EXISTING,
-	      StandardCopyOption.COPY_ATTRIBUTES
-	    }; 
-	    try {
-		Files.copy(FROM, TO, options);
+		try {
+			checkIfDirExists(new File(projectDir+osProperties.getOSFileSeparator()+osProperties.getDockerVagrantFileDir()));
+			InputStream resourceUrl = getClass().getResourceAsStream("/Vagrantfile");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(resourceUrl));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(projectDir+osProperties.getOSFileSeparator()+
+					osProperties.getDockerVagrantFileDir()+
+					osProperties.getOSFileSeparator()+
+					osProperties.getVagrantFileName())));
+			String data = "";
+			while((data = reader.readLine())!= null){
+				writer.write(data);
+				writer.newLine();
+			}
+			reader.close();
+			writer.close();
+//			Path FROM = Paths.get(resourceUrl.getPath());
+//		    Path TO = Paths.get(projectDir+osProperties.getOSFileSeparator()+osProperties.getDockerVagrantFileDir()+osProperties.getOSFileSeparator()+osProperties.getVagrantFileName());
+		    //overwrite existing file, if exists
+		    
+//			File destination = new File(projectDir+osProperties.getOSFileSeparator()+osProperties.getDockerVagrantFileDir()+osProperties.getOSFileSeparator()+osProperties.getVagrantFileName());
+//			File sourcefile = new File(getClass().getResource("/Vagrantfile").getFile());
+//			  
+//		    CopyOption[] options = new CopyOption[]{
+//		      StandardCopyOption.REPLACE_EXISTING,
+//		      StandardCopyOption.COPY_ATTRIBUTES
+//		    }; 
+//		    System.out.println(FROM);
+//		    System.out.println(TO);
+//			Files.copy(sourcefile.toPath(), destination.toPath(), options);
 		} catch (IOException e) {
-		logger.error("Error in coping static vagrant file for docker "+e.getMessage());
-		}
-	  
+			logger.error("Error in coping static vagrant file for docker "+e.getMessage());
+		} 
+		  
 	}
 	/*public void commitScriptsToDisk(BoxuppScriptsData scriptsData){
 		ArrayList<ShellScriptBean> scriptBeanList = scriptsData.getScriptsList();
@@ -257,7 +275,6 @@ public class Utilities {
     		if(file.list().length==0){
  
     		   file.delete();
-    		   System.out.println("Directory is deleted : " + file.getAbsolutePath());
  
     		}else{
  
@@ -275,15 +292,12 @@ public class Utilities {
         	   //check the directory again, if empty then delete it
         	   if(file.list().length==0){
            	     file.delete();
-        	     System.out.println("Directory is deleted : " 
-                                                  + file.getAbsolutePath());
         	   }
     		}
  
     	}else{
     		//if file, then delete it
     		file.delete();
-    		System.out.println("File is deleted : " + file.getAbsolutePath());
     	}
 		
 	}

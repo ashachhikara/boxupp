@@ -14,7 +14,6 @@ public class WebSocketsServletFactory extends WebSocketServlet {
 	
 	@Override
 	public void configure(WebSocketServletFactory factory) {
-		System.out.println(".... "+webSocket);
 		factory.register(this.webSocket);
 		
 	}

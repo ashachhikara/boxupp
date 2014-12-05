@@ -59,7 +59,6 @@ public class BoxuppServices {
 		Integer projectID = Integer.parseInt(request.getParameter("projectID"));
 		Integer userID = Integer.parseInt(request.getParameter("userID"));
 		StatusBean statusBean = new StatusBean();
-		System.out.println("Call received for project ID : "+projectID);
 		Utilities.getInstance().changeActiveDirectory(userID,projectID);
 		statusBean.setStatusCode(0);
 		return statusBean;

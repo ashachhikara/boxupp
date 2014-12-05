@@ -161,7 +161,6 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		} catch (SQLException e) {
 			logger.error("Error in retireving scripts for project: "+e.getMessage());
 		}
-		System.out.println(shellScriptList);
 		return (List<E>)shellScriptList;
 	}
 

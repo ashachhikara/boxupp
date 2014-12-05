@@ -27,7 +27,7 @@ public class MailManager {
 	        "api","key-c6ff792c4302a87dde14906beea6d8cb"));
 	    WebResource webResource = client.resource("https://api.mailgun.net/v2/support.boxupp.com/messages");
 	    MultivaluedMapImpl formData = new MultivaluedMapImpl();
-	    formData.add("from", "Boxupp Support <support@boxupp.com>");
+	    formData.add("from", "Boxupp Support <info@boxupp.com>");
 	    formData.add("to", emailID);
 	    formData.add("subject", "Welcome to Boxupp");
 	    BufferedReader fileReader = null;
@@ -43,14 +43,14 @@ public class MailManager {
 				buffer.append(data);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    data = buffer.toString();
 	    data = data.replaceAll("<USERNAME>", emailID);
 	    data = data.replaceAll("<PASSWORD>", password);
 	    data = data.replaceAll("<NAME>", name);
-	    formData.add("html", buffer.toString());
+	    formData.add("html", data);
+//	    formData.add("text","Welcome to Boxupp");
 //	    formData.add("o:campaign", "welcome");
 	    
 	    return webResource.type(MediaType.APPLICATION_FORM_URLENCODED).

@@ -39,6 +39,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	$scope.rawBox = {};
 	$scope.rawScript = {};
 	$scope.rawBoxForm = {};
+	$scope.rawScriptForm = {};
 	$scope.rawBoxFormNetworkSettings = {};
 	$scope.containerRawBoxForm ={};
 	$scope.moduleProvMappings = {};

@@ -162,6 +162,5 @@ public class DBConnectionManager {
 		provider2.setDisabled(false);
 		provider2.setName("Docker");
 		DAOProvider.getInstance().fetchProviderDao().create(provider2);
-		System.out.println("Done");
 	}
 }
