@@ -17,6 +17,12 @@
   <dependencies>
   	
   	<dependency>
+		<groupId>com.mycila</groupId>
+		<artifactId>license-maven-plugin</artifactId>
+		<version>2.6</version>
+	</dependency>
+  	
+  	<dependency>
 		<groupId>javax.persistence</groupId>
 		<artifactId>persistence-api</artifactId>
 		<version>1.0</version>
@@ -207,6 +213,36 @@
    </plugins></pluginManagement>
    
    <plugins>
+   
+   		<plugin>
+   			 <groupId>com.mycila</groupId>
+			    <artifactId>license-maven-plugin</artifactId>
+			    <version>2.3</version>
+			    <configuration>
+			        <header>HEADER.txt</header>
+			        <excludes>
+			            <exclude>WEB-INF/**</exclude>
+			            <exclude>pom.xml</exclude>
+			            <exclude>data.html</exclude>
+			            <exclude>LICENSE.txt</exclude>
+			            <exclude>derby.log</exclude>
+			            <exclude>boxupp/**</exclude>
+			            <exclude>bin/**</exclude>
+			            <exclude>db/**</exclude>
+			            <exclude>page/**</exclude>
+			            <exclude>src/main/resources/**</exclude>
+			            <exclude>src/test/**</exclude>
+			        </excludes>
+			    </configuration>
+			    <executions>
+			        <execution>
+			            <goals>
+			                <goal>check</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+   		</plugin>
+   
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jar-plugin</artifactId>
