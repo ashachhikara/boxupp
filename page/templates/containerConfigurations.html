@@ -36,7 +36,7 @@
 			<tr>
 				<td><span ng-bind="activeVM.username"></span></td>
 				<td><span ng-bind="activeVM.password"></span></td>
-				<td><span ng-bind="activeVM.provider"></span></td>
+				<td><span ng-bind="activeVM.providerType"></span></td>
 			</tr>
 		</tbody>
 	</table>
@@ -80,5 +80,7 @@
 	<!--Config Change flag - {{activeVM.configChangeFlag}}
 	Script change flag - {{activeVM.scriptChangeFlag}}
 	Puppet Change flag - {{activeVM.moduleChangeFlag}}-->
-	<a class="btn btn-info" ng-click="deployBox(activeVM)" ng-disabled="activeVM.underExecution" ng-show="checkMachineFlags(activeVM)" ><i class="fa fa-external-link-square"></i> Commit changes</a>
+	<div style="clear:both;">
+		<a class="btn btn-info" ng-click="deployBox(activeVM)" ng-disabled="activeVM.underExecution" ng-show="checkMachineFlags(activeVM)" ><i class="fa fa-external-link-square"></i> Commit changes</a>
+	</div>
 </div>

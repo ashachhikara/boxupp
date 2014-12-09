@@ -76,7 +76,12 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		$scope.quickContainerBoxCommitLoader = true;
 		$scope.toBeCreatedBox = angular.copy(boxData);
 		$scope.toBeCreatedBox = $scope.dockerLinkMappingForBackend($scope.toBeCreatedBox);
-		
+		if(!$scope.toBeCreatedBox.username){
+			$scope.toBeCreatedBox.username = "root";
+		}
+		if(!$scope.toBeCreatedBox.password){
+			$scope.toBeCreatedBox.password = "root123";
+		}
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
 		$scope.toBeCreatedBox.providerType = $scope.providerType;
 		$scope.toBeCreatedBox.isDisabled = false;
@@ -97,7 +102,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		angular.extend($scope.toBeCreatedBox,$scope.projectData.defaultSettings);
 
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
-		$scope.toBeCreatedBox.providerID = $routeParams.providerID;
+		$scope.toBeCreatedBox.providerID = $routeParams.providerID
 		$scope.toBeCreatedBox.providerType = $scope.providerType;
 		$scope.toBeCreatedBox.isDisabled = false;
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
@@ -112,7 +117,12 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		
 		$scope.toBeCreatedBox = angular.copy(boxData);
 		angular.extend($scope.toBeCreatedBox,$scope.projectData.defaultSettings);
-
+		if(!$scope.toBeCreatedBox.username){
+			$scope.toBeCreatedBox.username = "root";
+		}
+		if(!$scope.toBeCreatedBox.password){
+			$scope.toBeCreatedBox.password = "root123";
+		}
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
 		$scope.toBeCreatedBox.providerType = $scope.providerType;
 		$scope.toBeCreatedBox.isDisabled = false;
