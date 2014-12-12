@@ -21,10 +21,17 @@
 								<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
 					            	<input name="vagrantID" id="vagrantID" 
 									ng-model="rawBox.vagrantID"
-									ng-pattern="/^[a-z0-9]{1,8}$/"
+									ng-pattern="/^[a-z]{1,8}$/"
 									type="text" 
 									class="form-control"
+									ng-disabled="projectData.boxesState.update"
+									ng-change="checkValidity.vagrantID(containerRawBoxForm.basicSettings)"
 									required>
+									<div ng-messages="containerRawBoxForm.basicSettings.$error" >
+								        <div ng-message="alreadyExists" class="errorMessage">This vagrant ID is already in use</div>
+								        <div ng-message="pattern" class="errorMessage">Invalid pattern</div>
+								        <div ng-message="maxlength" class="errorMessage">Maximum of 8 chars</div>
+						            </div>
 					        	</div>
 						  		<div class="boxConfig"> <span class="boxConfigTitles">Host-Name<sup>*</sup></span>
 					           		<input name="hostName" id="hostName" type="text" data-placement="right" 

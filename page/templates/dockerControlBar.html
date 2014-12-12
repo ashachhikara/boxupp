@@ -163,7 +163,8 @@
 							<div class="tab-pane fade" id="box-quick">
 								<form name="containerQuickBoxForm">
 						  			<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
-						              <input name="vagrantID" id="vagrantID" 
+						              <input name="vagrantID" id="vagrantID"
+						              	ng-pattern="/^[a-z]{1,10}$/" 
 										ng-model="quickBox.vagrantID"
 										type="text" 
 										class="form-control" 

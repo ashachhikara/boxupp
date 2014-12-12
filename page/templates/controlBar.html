@@ -13,7 +13,7 @@
 				<div class="col-md-4 text-center">
 					<div class="tab-content">
 						<div class="editIcon tab-pane fade" id="boxEdit">
-							<a ng-click="editActiveBox()" ng-hide="activeVM === null">
+							<a ng-click="editActiveBox()"  ng-hide="activeVM === null">
 								<span ng-hide="expandedCtrlBar">
 									<i class="fa fa-edit"></i>
 								</span>
@@ -166,7 +166,7 @@
 						  			<div class="boxConfig"> <span class="boxConfigTitles" >Vagrant ID<sup>*</sup></span>
 						              <input name="vagrantID"
 						              		 type="text" 
-						              		 ng-pattern="/^[a-z0-9]{1,10}$/"
+						              		 ng-pattern="/^[a-z]{1,10}$/"
 						              		 ng-change="checkValidity.vagrantID(quickBoxForm)"
 											 ng-model="quickBox.vagrantID"
 											 class="form-control" 

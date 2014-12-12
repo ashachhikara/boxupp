@@ -1,15 +1,15 @@
 <div class="row " ng-controller="gitController">
-      <div style="border-center : 1px dashed grey; height:300px;"  class=" boxesProvisionList col-md-8 col-md-offset-2 "style="color:#2AB7C6;">
-      <div style="color:#2AB7C6; font-size:90px; position:absolute; z-index:1; margin-top:80px " ng-show="loaderValid" class="col-md-offset-5 col-md-1 ng-scope">
+      <div style="border:solid 1px #000;"  class=" boxesProvisionList col-md-8 col-md-offset-2 ">
+      <div style="color:#2AB7C6; font-size:90px; position:absolute; z-index:1; margin-top: 60px;" ng-show="loaderValid" class="col-md-offset-5 col-md-1 ng-scope">
               <span class="projectInitLoader">
                 <i class="fa fa-refresh fa-spin"></i>
               </span>
       </div>
       
-        <div class="sectionTitle col-md-12 text-center" >GIT SHARE  </div>
+        <div class="sectionTitle col-md-13 text-center" style="margin:-20px !important">GIT SHARE  </div>
       
         <div class="error" ng-show="loginValid" ng-init="loginValid=false">Invalid Username or Password.</div>
-        <div class="modal-body">
+        <div class="modal-body" style="margin-top:20px;">
        
           <div id="gitAccountFields" class="row" style="position:relative;">
             <div class="boxConfig" >
@@ -56,8 +56,8 @@
           </div>
         <!-- /. modal-body -->
         </div>
-          <button type="button"  class="btn btn-default btn-sm pull-right" data-dismiss="modal-body">Close</button>
-          <button ng-show="branchValid" type="button" class="btn btn-primary gitCommit btn-sm" ng-click="commitToGithub()">Commit</button>
+         <!--  <button type="button"  class="btn btn-default btn-sm pull-right" data-dismiss="modal-body">Close</button> -->
+          <button ng-show="branchValid" type="button" class="btn btn-primary gitCommit btn-sm pull-right" ng-click="commitToGithub()">Commit</button>
         
       </div>
     </div>

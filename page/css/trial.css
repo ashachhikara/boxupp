@@ -629,9 +629,9 @@ div.scriptsProvisionList, div.modulesProvisionList {
   border-right: 1px solid #eee; }
 
 div.errorMessage {
-  font-size: 11px;
+  font-size: 15px;
   position: absolute;
-  top: 30px;
+  top: 40px;
   right: 20px;
   color: #ED7A33; }
 
@@ -690,5 +690,12 @@ div#ctrlBarPlayArea div.main-nav-label {
   left: 54px; }
 div#ctrlBarPlayArea div.main-nav-icon {
   float: left; }
+.currentWorkspace{
+    width:271px;
+    color:white;
+    position: absolute;
+    right: 50%;
+    top: 17px;
+  }
 
 /*# sourceMappingURL=trial.css.map */

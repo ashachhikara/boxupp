@@ -11,7 +11,6 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		shellScript.save(newShellScriptData,function(data){
 			if(data.statusCode === 0){
 				console.info('Shell Script has been saved successfully');
-				console.log(data);
 				$scope.shellScripts.push(data.beanData);
 				newShellScriptData.scriptName = "";
 				newShellScriptData.scriptContent = "";
@@ -265,6 +264,11 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 			},
 			containerBox : function(){
 				$scope.projectData.boxesState.update = false;
+				$scope.containerRawBoxForm.basicSettings.vagrantID.$setViewValue("");
+				$scope.containerRawBoxForm.basicSettings.hostName.$setViewValue("");
+				$scope.containerRawBoxForm.basicSettings.vagrantID.$render();
+				$scope.containerRawBoxForm.basicSettings.hostName.$render();
+				
 				$scope.containerRawBoxForm.basicSettings.$setPristine();
 				$('#boxModal').modal('hide');
 			}	

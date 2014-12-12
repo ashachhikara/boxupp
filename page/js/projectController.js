@@ -1,10 +1,10 @@
-angular.module("boxuppApp").controller('projectController',function($scope,Projects,Providers,User,$routeParams,$filter,$location,miscUtil,$http,$timeout){
+angular.module("boxuppApp").controller('projectController',function($scope,$rootScope, Projects,Providers,User,$routeParams,$filter,$location,miscUtil,$http,$timeout){
 
 	/*$scope.projects = Projects.query(function(){
 		if($scope.projects.length === 0) $scope.noProjectsInfo = true;
 		
 	});*/
-	
+	 
 	$scope.bodyStyle.applyDashBoardStyling = false;
 	
 	User.getProjects($routeParams.userID).then(function(projectsList){
