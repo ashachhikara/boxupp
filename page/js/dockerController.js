@@ -1,4 +1,4 @@
-angular.module('boxuppApp').controller('dockerController',function($scope,$http,$rootScope,$timeout,searchDockerImage,vagrantStatus,executeCommand,fileUpload){
+/*angular.module('boxuppApp').controller('dockerController',function($scope,$http,$rootScope,$timeout,searchDockerImage,vagrantStatus,executeCommand,fileUpload){
 	
 	$scope.mapping = {};
 	$scope.serverAddress = "http://"+window.location.host;
@@ -732,4 +732,4 @@ angular.module('boxuppApp').controller('dockerController',function($scope,$http,
 				return deferred.promise;
 			}
 		}
-	});
+	});*/

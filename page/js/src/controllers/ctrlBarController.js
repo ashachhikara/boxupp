@@ -56,6 +56,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 	};
 
 	$scope.createBoxes = function(boxData){
+		$('#boxModal').modal('hide');
 		$scope.quickBoxCommitLoader = true;
 		$scope.toBeCreatedBox = angular.copy(boxData);
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
@@ -70,8 +71,10 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		});
 		$scope.quickBoxForm.$setPristine();
 		$scope.quickBoxCommitLoader = false;
+		$scope.modals.close.box();
 	}
 	$scope.createContainerBoxes = function(boxData){
+		$('#boxModal').modal('hide');
 		$scope.quickContainerBoxCommitLoader = true;
 		$scope.toBeCreatedBox = angular.copy(boxData);
 		$scope.toBeCreatedBox = $scope.dockerLinkMappingForBackend($scope.toBeCreatedBox);
@@ -92,6 +95,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,shell
 		});
 		$scope.containerQuickBoxForm.$setPristine();
 		$scope.quickContainerBoxCommitLoader = false;
+		$scope.modals.close.containerBox();
 	}
 	
 	$scope.createQuickBox = function(boxData){

@@ -1,4 +1,4 @@
-angular.module('boxuppApp').controller('trial',function($scope){
+/*angular.module('boxuppApp').controller('trial',function($scope){
 	alert('Hello');
 
-});
+});*/

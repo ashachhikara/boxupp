@@ -31,7 +31,6 @@ import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.SearchModuleBean;
-import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.PuppetUtilities;
 import com.google.gson.Gson;

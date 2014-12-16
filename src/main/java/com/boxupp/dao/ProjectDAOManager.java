@@ -205,7 +205,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 		return statusBean;
 	}
 
-	public StatusBean createMappedDB(JsonNode newData) {
+	/*public StatusBean createMappedDB(JsonNode newData) {
 		ProjectBean projectBean = new ProjectBean();
 		Gson projectData = new GsonBuilder().setDateFormat(
 				"yyyy'-'MM'-'dd HH':'mm':'ss").create();
@@ -225,7 +225,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 			statusBean.setStatusMessage("Error creating project : "+ e.getMessage());
 		}
 		return statusBean;
-	}
+	}*/
 
 	public <E> List<E> retireveProjectsForUser(String UserID) {
 		List<ProjectBean> projectList = new ArrayList<ProjectBean>();
