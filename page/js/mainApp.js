@@ -196,7 +196,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			var moduleMappings = $scope.moduleProvMappings[machineID];
 			angular.forEach(moduleMappings,function(moduleID){
 				angular.forEach($scope.projectData.modules,function(value){
-					if(value.moduleID === moduleID){
+					if(value.puppetID === moduleID){
 						moduleNames.push(value.moduleName);
 					}
 				})
@@ -616,8 +616,6 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	$scope.markActiveProject = function(){
 		miscUtil.selectActiveProject().then(function(response){
 			$scope.selectedProject = response.data;
-			console.log("***********"+response.data.name);
-			
 		});
 	}
 
