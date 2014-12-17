@@ -697,6 +697,7 @@ div#ctrlBarPlayArea div.main-nav-icon {
     position: absolute;
     right: 35%;
     top: 5px;
+    text-transform : uppercase;
   }
 
 /*# sourceMappingURL=trial.css.map */
