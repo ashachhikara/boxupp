@@ -27,7 +27,6 @@ import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
-import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
@@ -37,11 +36,9 @@ import com.boxupp.utilities.Utilities;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
-import com.j256.ormlite.stmt.UpdateBuilder;
 
 public class ShellScriptDAOManager implements DAOImplInterface {
 	private static Logger logger = LogManager.getLogger(ShellScriptDAOManager.class.getName());
@@ -179,7 +176,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		return (List<E>)shellScriptList;
 	}
 
-	public StatusBean linkScriptMachine(JsonNode shellScriptMapping) {
+	/*public StatusBean linkScriptMachine(JsonNode shellScriptMapping) {
 		StatusBean statusBean =   new StatusBean();
 		try {
 			ShellScriptBean shellScript =  shellScriptDao.queryForId(Integer.parseInt(shellScriptMapping.get("scriptID").toString()));
@@ -226,7 +223,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 		
 		return statusBean;
 		
-	}
+	}*/
 	/*public <E> List<E> retireveScriptsForBoxes(String machineID) {
 		List<ShellScriptBean> shellScriptList = new ArrayList<ShellScriptBean>();
 		try {

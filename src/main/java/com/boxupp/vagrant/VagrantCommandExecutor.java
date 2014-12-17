@@ -74,7 +74,7 @@ public class VagrantCommandExecutor {
 			ProcessBuilder processBuilder;
 			String osType = OSProperties.getInstance().getOSName();
 			
-			String windowsCmd = "cmd /C " + vagrantCommand.toString();
+			String windowsCmd = "cmd /C" + vagrantCommand.toString();
 			if(osType.indexOf("windows") != -1){
 				String commandArray[] = windowsCmd.split(" ");
 				processBuilder = new ProcessBuilder(commandArray);

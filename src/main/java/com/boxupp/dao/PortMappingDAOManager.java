@@ -16,7 +16,6 @@
 package com.boxupp.dao;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,11 +24,9 @@ import org.codehaus.jackson.JsonNode;
 import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.ForwardedPortsBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
-import com.boxupp.db.beans.SyncFoldersBean;
 import com.boxupp.responseBeans.StatusBean;
 import com.google.gson.Gson;
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
 public class PortMappingDAOManager {

@@ -16,10 +16,8 @@
 package com.boxupp.resources;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -27,7 +25,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.LogManager;
@@ -35,11 +32,8 @@ import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import com.boxupp.ConfigurationGenerator;
-import com.boxupp.FileManager;
 import com.boxupp.dao.MachineConfigDAOManager;
 import com.boxupp.dao.ProjectDAOManager;
-import com.boxupp.dao.PuppetModuleDAOManager;
 import com.boxupp.dao.ShellScriptDAOManager;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.ProjectBean;

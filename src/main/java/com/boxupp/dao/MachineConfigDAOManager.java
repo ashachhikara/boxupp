@@ -29,8 +29,6 @@ import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
-import com.boxupp.db.beans.ShellScriptBean;
-import com.boxupp.db.beans.UserDetailBean;
 import com.boxupp.db.beans.UserProjectMapping;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.Utilities;
@@ -41,7 +39,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.SelectArg;
-import com.j256.ormlite.stmt.query.In;
 
 public class MachineConfigDAOManager implements DAOImplInterface {
 	private static Logger logger = LogManager.getLogger(MachineConfigDAOManager.class.getName());

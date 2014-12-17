@@ -17,7 +17,7 @@ package com.boxupp.responseBeans;
 
 public class SnapshotStatus {
 	
-	private int status;
+	/*private int status;
 	private String saveLocation;
 	
 	public int getStatus() {
@@ -31,5 +31,5 @@ public class SnapshotStatus {
 	}
 	public void setSaveLocation(String saveLocation) {
 		this.saveLocation = saveLocation;
-	}
+	}*/
 }

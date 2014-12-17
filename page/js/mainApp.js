@@ -615,7 +615,9 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 
 	$scope.markActiveProject = function(){
 		miscUtil.selectActiveProject().then(function(response){
-			console.log("*************"+response);
+			$scope.selectedProject = response.data;
+			console.log("***********"+response.data.name);
+			
 		});
 	}
 

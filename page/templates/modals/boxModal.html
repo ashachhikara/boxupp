@@ -7,45 +7,43 @@
 		        <div class="modal-body">
 		        	
 					<div class="boxConfigs">
-						
-							<ul id="boxConfigTabs" class="nav nav-tabs" role="tablist">
-							  <li class="active"><a data-target="#machine" role="tab" data-toggle="tab">Box Settings</a></li>
-							  <li class=""><a data-target="#networking" role="tab" data-toggle="tab">Networking</a></li>
-							  <li class=""><a data-target="#folders" role="tab" data-toggle="tab">Folders</a></li>
-							  <li class=""><a data-target="#misc" role="tab" data-toggle="tab">Miscellaneous</a></li>
-							  
-							</ul>
-							<div id="boxConfigContent" class="tab-content" style="position:relative;">
+						<ul id="boxConfigTabs" class="nav nav-tabs" role="tablist">
+						    <li class="active"><a data-target="#machine" role="tab" data-toggle="tab">Box Settings</a></li>
+							<li class=""><a data-target="#networking" role="tab" data-toggle="tab">Networking</a></li>
+							<li class=""><a data-target="#folders" role="tab" data-toggle="tab">Folders</a></li>
+							<li class=""><a data-target="#misc" role="tab" data-toggle="tab">Miscellaneous</a></li>
+						</ul>
+						<div id="boxConfigContent" class="tab-content" style="position:relative;">
 								
-									<div class="tab-pane fade active in container-fluid" id="machine">
-										<form name="rawBoxForm.basicSettings">			
-											<div class="boxConfig"> 
-												<span class="boxConfigTitles">
-													Vagrant ID<sup>*</sup>
-												</span>
-										      	<input name="vagrantID"
-													 ng-model="rawBox.vagrantID"
-													 ng-pattern="/^[a-z]{1,8}$/"
-												     type="text" 
-													 class="form-control" 
-													 ng-disabled="projectData.boxesState.update"
-													 ng-change="checkValidity.vagrantID(rawBoxForm.basicSettings)"
-													 required/>
-												 <div ng-messages="rawBoxForm.basicSettings.$error" >
-								            		<div ng-message="alreadyExists" class="errorMessage">This vagrant ID is already in use</div>
-								            		<div ng-message="pattern" class="errorMessage">Invalid pattern</div>
-								            		<div ng-message="maxlength" class="errorMessage">Maximum of 8 chars</div>
-						            			</div>
-										    </div>
-										  	<div class="boxConfig"> 
-										  		<span class="boxConfigTitles">
-										  			Host-Name<sup>*</sup>
-										  		</span>
-										      	<input name="hostName" 
-										      		 ng-model="rawBox.hostName"
-										      		 type="text"
-													 class="form-control"
-													 required>
+							<div class="tab-pane fade active in container-fluid" id="machine">
+								<form name="rawBoxForm.basicSettings">			
+									<div class="boxConfig"> 
+										<span class="boxConfigTitles">
+											Vagrant ID<sup>*</sup>
+										</span>
+										<input name="vagrantID"
+										 ng-model="rawBox.vagrantID"
+										 ng-pattern="/^[a-z]{1,8}$/"
+										 type="text" 
+										 class="form-control" 
+										 ng-disabled="projectData.boxesState.update"
+										 ng-change="checkValidity.vagrantID(rawBoxForm.basicSettings)"
+										 required/>
+										<div ng-messages="rawBoxForm.basicSettings.$error" >
+								        	<div ng-message="alreadyExists" class="errorMessage">This vagrant ID is already in use</div>
+								        	<div ng-message="pattern" class="errorMessage">Invalid pattern</div>
+								        	<div ng-message="maxlength" class="errorMessage">Maximum of 8 chars</div>
+						            	</div>
+									</div>
+									<div class="boxConfig"> 
+										<span class="boxConfigTitles">
+											Host-Name<sup>*</sup>
+										</span>
+									   	<input name="hostName" 
+										 ng-model="rawBox.hostName"
+										 type="text"
+									     class="form-control"
+										 required>
 										    </div>
 										    <div class="boxConfig">
 												<span class="boxConfigTitles">
@@ -65,13 +63,12 @@
 														ng-model="rawBox.boxUrl" 
 														type="url" 
 														class="form-control" 
-														required/>
+												        required/>
 										    </div>
 										</form>
 									</div>
 									<div class="tab-pane fade container-fluid" id="networking">
-										<form name="rawBoxForm.networkSettings"
->											<div class="boxConfigFxdTop" >
+										<form name="rawBoxForm.networkSettings">				<div class="boxConfigFxdTop" >
 												<div class="boxConfig"> 
 													<span class="boxConfigTitles">
 														Network IP<sup>*</sup>
@@ -117,8 +114,7 @@
 										  						ng-model="mapping.vmPort" 
 										  						type="text"
 										  						ng-pattern="/^(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{3}|[1-5]\d{4}|[1-9]\d{0,3}|)$/"
-																class="form-control"
-														/>
+																class="form-control"/>
 									  				</div>
 									  			</div>
 									  		</div>
