@@ -33,13 +33,7 @@
 		</init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <!-- <servlet>
-    	<servlet-name>WSHandler</servlet-name>
-    	<servlet-class>com.paxcel.boxupp.api.WSServices</servlet-class>
-    	<load-on-startup>1</load-on-startup>
-    </servlet>-->
-	
-	<filter>
+    <filter>
         	<filter-name>cross-origin</filter-name>
         	<filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
     </filter>
@@ -56,11 +50,4 @@
         <servlet-name>ResourcesServlet</servlet-name>
         <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
-    
-    <!-- <servlet-mapping>
-    	<servlet-name>WSHandler</servlet-name>
-    	<url-pattern>/ws/*</url-pattern>
-    </servlet-mapping>
-	--> 
- 
 </web-app>

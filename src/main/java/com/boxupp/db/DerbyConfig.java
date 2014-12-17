@@ -21,19 +21,17 @@ import org.apache.logging.log4j.Logger;
 import com.boxupp.utilities.OSProperties;
 
 public class DerbyConfig {
-	
-//	public static final String DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
 	 
-	public static final String JDBC_URL = "jdbc:derby:D:\\db;create=true";
+	public static final String JDBC_URL = "jdbc:derby:"+ getDatabaseLocation() +";create=true";
 	
 	private static Logger logger = LogManager.getLogger(DerbyConfig.class.getName());
 	
-	public static void main(String args[]){
-		System.out.println(OSProperties.getInstance().getUserHomeDirectory() + 
+	public static String getDatabaseLocation(){
+		return OSProperties.getInstance().getUserHomeDirectory() + 
 						   OSProperties.getInstance().getOSFileSeparator() + 
 						   OSProperties.getInstance().getPrimaryFolderName() +
 						   OSProperties.getInstance().getOSFileSeparator() + 
-						   OSProperties.getInstance().getDatabaseFolderName());
+						   OSProperties.getInstance().getDatabaseFolderName();
 	}
 }
 
