@@ -19,6 +19,7 @@ package com.boxupp.api;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +36,7 @@ import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.FileManager;
 import com.boxupp.VagrantOutputStream;
+import com.boxupp.dao.ProjectDAOManager;
 import com.boxupp.responseBeans.BoxURLResponse;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.responseBeans.VagrantFile;
@@ -56,6 +58,12 @@ public class BoxuppServices {
 		Integer projectID = Integer.parseInt(request.getParameter("projectID"));
 		Integer userID = Integer.parseInt(request.getParameter("userID"));
 		StatusBean statusBean = new StatusBean();
+		try {
+			statusBean.setData(ProjectDAOManager.getInstance().projectDao.queryForId(projectID));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Utilities.getInstance().changeActiveDirectory(userID,projectID);
 		statusBean.setStatusCode(0);
 		return statusBean;

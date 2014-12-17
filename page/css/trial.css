@@ -691,11 +691,12 @@ div#ctrlBarPlayArea div.main-nav-label {
 div#ctrlBarPlayArea div.main-nav-icon {
   float: left; }
 .currentWorkspace{
+    font-size: 30px; 
     width:271px;
-    color:white;
+    color:#71b1d1;
     position: absolute;
-    right: 50%;
-    top: 17px;
+    right: 35%;
+    top: 5px;
   }
 
 /*# sourceMappingURL=trial.css.map */
