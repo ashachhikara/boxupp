@@ -1,5 +1,5 @@
 body {
-  background: #444546; }
+  background: url(../img/img-dotted.png)repeat;}
   body button {
     border-radius: 0px !important; }
   body a.btn {
@@ -281,7 +281,7 @@ div.logo img {
   width: 150px; }
 
 div.login-container, div.registration-container {
-  background: #444546;
+ /* background: #444546;*/
   position: absolute;
   top: 100px;
   padding: 20px 15px 20px 15px;
@@ -338,11 +338,12 @@ div.project-container {
         text-decoration: none;
         cursor: pointer;
         padding: 10px;
-        background: none;
+        background: rgb(252, 249, 246);
         border: 1px solid grey;
         color: #FFF; }
         div.project-container ul.projectsList li a div.projectLogo {
-          font-size: 35px;
+          color: #428bca;
+         font-size: 35px;
           float: left; }
         div.project-container ul.projectsList li a div.projectTitle {
           position: absolute;
@@ -360,13 +361,18 @@ div.project-container {
           left: 94px;
           width: 66%;
           font-family: 'Open Sans', sans-serif;
-          font-size: 12px; }
+          font-size: 12px;
+          color: #428bca; }
       div.project-container ul.projectsList li a:hover {
         background: #71B1D1;
         color: #FFF; }
+        div.project-container ul.projectsList li a:hover div.projectLogo {
+          color: #FFF;
+        }
         div.project-container ul.projectsList li a:hover div.projectTitle span {
           color: #FFF; }
-
+        div.project-container ul.projectsList li a:hover div.projectDesc span {
+          color: #FFF; }
 div#consoleOutput {
   font-family: courier new;
   font-size: 15px;
@@ -699,5 +705,7 @@ div#ctrlBarPlayArea div.main-nav-icon {
     top: 5px;
     text-transform : uppercase;
   }
-
+.loginInput {
+  color:black !important;
+}
 /*# sourceMappingURL=trial.css.map */

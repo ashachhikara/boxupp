@@ -10,20 +10,20 @@
                   <form name="user-registration"> 
                     <div class="form-field">
                         <div class="fieldIcon col-sm-1">
-                          <i class="fa fa-envelope"></i> 
+                          <i class="fa fa-envelope loginInput"></i> 
                         </div>
                         <div class="field col-sm-11">
-                          <input type="text" ng-model="loginCredentials.loginID" class="form-control" placeholder="Enter your loginID" required>
+                          <input type="text" ng-model="loginCredentials.loginID" class="form-control loginInput" placeholder="Enter your loginID" required>
                         </div>
                     </div>
                     
                     <div class="form-field">
                       
                         <div class="fieldIcon col-sm-1">
-                          <i class="fa fa-unlock-alt"></i>
+                          <i class="fa fa-unlock-alt loginInput"></i>
                         </div>
                         <div class="field col-sm-11">
-                          <input type="password" ng-model="loginCredentials.password" class="form-control" placeholder="Enter your password" required>
+                          <input type="password" ng-model="loginCredentials.password" class="form-control loginInput" placeholder="Enter your password" required>
                         </div>
                       
                     </div>
@@ -33,7 +33,7 @@
                           <a ng-click="checkUserLogin()" class="btn btn-primary">
                             Sign in
                           </a>
-                          <span class="loginSpinner" ng-show="checkLogin" ng-init="checkLogin = false">
+                          <span class="loginSpinner loginInput" ng-show="checkLogin" ng-init="checkLogin = false">
                               <i class="fa fa-cog fa-spin"></i>
                           </span>
                         </div>
@@ -69,14 +69,14 @@
                   <form name="registrationForm" ng-hide="showRegInfo">      
                     <div class="form-field">
                         <div class="fieldIcon col-sm-1">
-                          <i class="fa fa-envelope"></i> 
+                          <i class="fa fa-envelope loginInput"></i> 
                         </div>
                         <div class="field col-sm-11">
                           <input type="email" 
                           ng-model="newUserDetail.mailID" 
                           name="emailID"
                           placeholder="Enter Email ID here" 
-                          class="form-control" 
+                          class="form-control loginInput" 
                           ng-blur="checkIfUserExists(newUserDetail.mailID)" 
                           required>
                           <div ng-show="checkEmailID(registrationForm)" >
@@ -87,19 +87,19 @@
 
                     <div class="form-field">
                         <div class="fieldIcon col-sm-1">
-                          <i class="fa fa-unlock-alt"></i> 
+                          <i class="fa fa-unlock-alt loginInput"></i> 
                         </div>
                         <div class="field col-sm-11">
-                          <input type="password" ng-model="newUserDetail.password" placeholder="Enter password here" class="form-control" required>
+                          <input type="password" ng-model="newUserDetail.password" placeholder="Enter password here" class="form-control loginInput" required>
                         </div>
                     </div>
 
                     <div class="form-field">
                         <div class="fieldIcon col-sm-1">
-                          <i class="fa fa-user"></i> 
+                          <i class="fa fa-user loginInput"></i> 
                         </div>
                         <div class="field col-sm-11">
-                          <input type="text" ng-model="newUserDetail.firstName" placeholder="Enter first name here" class="form-control" required>
+                          <input type="text" ng-model="newUserDetail.firstName" placeholder="Enter first name here" class="form-control loginInput" required>
                         </div>
                     </div>
 
@@ -108,7 +108,7 @@
                           <!--<i class="fa fa-user"></i> -->
                         </div>
                         <div class="field col-sm-11">
-                          <input type="text" ng-model="newUserDetail.lastName" placeholder="Enter last name here" class="form-control" required>
+                          <input type="text" ng-model="newUserDetail.lastName" placeholder="Enter last name here" class="form-control loginInput" required>
                         </div>
                     </div>
                     <div class="form-field">
@@ -134,7 +134,7 @@
 
                     <div class="form-field" ng-show="showRegInfo" ng-init="showRegInfo = false">
                       
-                        <div class="fieldIcon col-sm-12 pull-left" style="font-size:15px;">
+                        <div class="fieldIcon col-sm-12 pull-left " style="font-size:15px; color:black;">
                           <!--<a ng-click="showLogin = !showLogin" style="cursor:pointer;">-->
                           Thanks for registering. A confirmation mail has been sent on your registered email address. Sometimes emails misbehave, so please check your SPAM folder also.<br>
                             <a ng-click="proceedToLogin()" style="cursor:pointer;">
