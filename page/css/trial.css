@@ -311,7 +311,7 @@ div.login-container, div.registration-container {
     div.login-container div.form-field input[type='button'], div.registration-container div.form-field input[type='button'] {
       background: grey; }
   div.login-container div.registrationAction a, div.registration-container div.registrationAction a {
-    cursor: pointer; }
+    cursor: pointer; margin-top: 10px;  }
 
 div.project-container {
   position: absolute;
@@ -338,8 +338,9 @@ div.project-container {
         text-decoration: none;
         cursor: pointer;
         padding: 10px;
-        background: rgb(252, 249, 246);
-        border: 1px solid grey;
+        background: rgb(255, 255, 255);
+        border: 1px  lightgray;
+        box-shadow: 0 0 10px lightgray;
         color: #FFF; }
         div.project-container ul.projectsList li a div.projectLogo {
           color: #428bca;
@@ -351,7 +352,8 @@ div.project-container {
           font-family: 'Open Sans', sans-serif;
           text-transform: uppercase;
           font-weight: 700;
-          font-size: 11px; }
+          font-size: 14px;
+          padding-top: 5px; }
           div.project-container ul.projectsList li a div.projectTitle span {
             color: #71B1D1; }
         div.project-container ul.projectsList li a div.projectDesc {
@@ -362,7 +364,8 @@ div.project-container {
           width: 66%;
           font-family: 'Open Sans', sans-serif;
           font-size: 12px;
-          color: #428bca; }
+          color: gray;
+           padding-top: 5px;  }
       div.project-container ul.projectsList li a:hover {
         background: #71B1D1;
         color: #FFF; }
@@ -697,15 +700,22 @@ div#ctrlBarPlayArea div.main-nav-label {
 div#ctrlBarPlayArea div.main-nav-icon {
   float: left; }
 .currentWorkspace{
-    font-size: 30px; 
+    font-size: 25px; 
     width:271px;
     color:#71b1d1;
     position: absolute;
     right: 35%;
-    top: 5px;
+    top: 10px;
     text-transform : uppercase;
   }
 .loginInput {
   color:black !important;
 }
+div.container-fluid .rowShadow
+{
+  box-shadow: 0 0 10px lightgray;
+  padding: 10px 0;
+}
+.iconStyle { font-size:18px;}
 /*# sourceMappingURL=trial.css.map */
+
