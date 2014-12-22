@@ -166,10 +166,17 @@
 						              <input name="vagrantID" id="vagrantID"
 						              	ng-pattern="/^[a-z]{1,10}$/" 
 										ng-model="quickBox.vagrantID"
+										ng-change="checkValidity.vagrantID(containerQuickBoxForm)"
 										type="text" 
 										class="form-control" 
 										required>
+										<div ng-messages="containerQuickBoxForm.vagrantID.$error" >
+								        <div ng-message="alreadyExists" class="errorMessage">This vagrant ID is already in use</div>
+								        <div ng-message="pattern" class="errorMessage">Invalid pattern</div>
+								        <div ng-message="maxlength" class="errorMessage">Maximum of 8 chars</div>
 						            </div>
+						            </div>
+
 								  	<div class="boxConfig"> <span class="boxConfigTitles">Host-Name<sup>*</sup></span>
 						              <input name="hostName" id="hostName" type="text"
 										ng-model="quickBox.hostName"

@@ -639,10 +639,11 @@ div.scriptsProvisionList, div.modulesProvisionList {
 
 div.errorMessage {
   font-size: 15px;
-  position: absolute;
-  top: 40px;
-  right: 20px;
-  color: #ED7A33; }
+position: relative;
+margin: -27px 15px 0 0;
+right: 0px;
+float: right;
+color: #ED7A33; }
 
 div#box-quick div.boxConfig span.boxConfigTitles, div#box-clone div.boxConfig span.boxConfigTitles {
   color: #E5E5E5; }
