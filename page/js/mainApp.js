@@ -14,7 +14,7 @@
  *  limitations under the License.
  *******************************************************************************/
 
-angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location,puppetModuleResource){
+angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location,puppetModuleResource, boxFunctionality){
 
 	$scope.projectData = {
 		boxesState : {
@@ -238,7 +238,18 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			
 		});
 	}
-
+	$scope.stopBox = function(vmConfig){
+		boxFunctionality.stopBox(vmConfig).then(function(response){
+			vmConfig.underExecution = false;	
+			console.log('Box stop successfully!');
+		});
+	}
+	$scope.reloadBox = function(vmConfig){
+		boxFunctionality.reloadBox(vmConfig).then(function(response){
+			vmConfig.underExecution = false;	
+			console.log('Box reload successfully!');
+		});
+	}
 	$scope.deployBox = function(vmConfig){
 		$scope.createVagrantFile().then(function(){
 			$scope.startDeployment(vmConfig).then(function(response){
@@ -599,7 +610,38 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	$scope.resetCtrlBarSecNav = function(){
 		$('ul.ctrl-bar-sec-list li').removeClass('active');
 	}
-	
+	$scope.resetBoxInControlBar = function(){
+		$('ul.ctrl-bar-main-list .liForScript').removeClass('active');
+		$('ul.ctrl-bar-main-list .liForModule').removeClass('active');
+		$('ul.ctrl-bar-main-list .liForBox').addClass('active');
+		$scope.resetCtrlBarSecNav();
+		$('#ctrl-bar-module-sec-nav').removeClass('in active');
+		$('#ctrl-bar-script-sec-nav').removeClass('in active');
+		$('#ctrl-bar-box-sec-nav').addClass('in active');
+		$('#ctrl-bar-empty-play-area').addClass('in active');
+		
+	}
+	$scope.resetScriptInControlBar = function(){
+		$('ul.ctrl-bar-main-list .liForBox').removeClass('active');
+		$('ul.ctrl-bar-main-list .liForModule').removeClass('active');
+		$('ul.ctrl-bar-main-list .liForScript').addClass('active');
+		$scope.resetCtrlBarSecNav();
+		$('#ctrl-bar-box-sec-nav').removeClass('in active');
+		$('#ctrl-bar-module-sec-nav').removeClass('in active');
+		$('#ctrl-bar-script-sec-nav').addClass('in active');
+		$('#ctrl-bar-empty-play-area').addClass('in active');
+		
+	}
+	$scope.resetModuleInControlBar = function(){
+		$('ul.ctrl-bar-main-list .liForScript').removeClass('active');
+		$('ul.ctrl-bar-main-list .liForBox').removeClass('active');
+		$('ul.ctrl-bar-main-list .liForModule').addClass('active');
+		$scope.resetCtrlBarSecNav();
+		$('#ctrl-bar-box-sec-nav').removeClass('in active');
+		$('#ctrl-bar-script-sec-nav').removeClass('in active');
+		$('#ctrl-bar-module-sec-nav').addClass('in active');
+		$('#ctrl-bar-empty-play-area').addClass('in active');
+	}
 		
 	$scope.vagrantCommands = {
 		0:"Choose what's best"
