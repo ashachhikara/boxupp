@@ -14,7 +14,7 @@
 			</div>
 		</li>
 	  	<li>
-	  		<a data-target="#boxesList , #boxesPlayArea, #boxTrash, #boxEdit" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = false">
+	  		<a data-target="#boxesList , #boxesPlayArea, #boxTrash, #boxEdit" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = false; resetBoxInControlBar();">
 	  			<div class="main-nav-icon">
 	  				  <i class="fa fa-cubes"></i>
 	  			</div>
@@ -23,7 +23,7 @@
 			</a>
 		</li>
 	  	<li>
-	  		<a data-target="#scriptsList , #scriptsPlayArea, #scriptTrash, #scriptEdit" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = false">
+	  		<a data-target="#scriptsList , #scriptsPlayArea, #scriptTrash, #scriptEdit" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = false; resetScriptInControlBar()">
 	  			<div class="main-nav-icon">
 	  				  <i class="fa fa-file-code-o"></i>
 	  			</div>
@@ -32,7 +32,7 @@
 			</a>
 		</li>
 	  	<li>
-	  		<a data-target="#modulesList , #modulesPlayArea, #moduleTrash, #moduleEdit" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = false">
+	  		<a data-target="#modulesList , #modulesPlayArea, #moduleTrash, #moduleEdit" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = false; resetModuleInControlBar()">
 	  			<div class="main-nav-icon">
 	  				  <i class="fa fa-gears"></i>
 	  			</div>
@@ -46,7 +46,7 @@
 			</div>
 		</li>
 		<li ng-mouseenter="shellHover = true" ng-mouseleave = "shellHover = false" ng-init="shellHover = false">
-			<a data-target="#shellProvPlayArea, #scriptsProvList" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true">
+			<a data-target="#shellProvPlayArea, #scriptsProvList" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true; ">
 				<div class="main-nav-icon"><i class="fa fa-cog" ng-class="{'fa-spin' : shellHover}"></i></div>
 				<div class="main-nav-label">Shell Provisioner</div>
 				<div class="main-nav-description"></div>
@@ -59,7 +59,7 @@
 				<div class="main-nav-description"></div>
 			</a>
 		</li>
-		<li class="sectionTitle">
+		<!-- <li class="sectionTitle">
 			<div class="sectionTitleText">
 				Share
 			</div>
@@ -70,7 +70,35 @@
 				<div class="main-nav-label">Github</div>
 				<div class="main-nav-description"></div>
 			</a>
+		</li> -->
+	</ul>
+	<ul class="nav nav-pills nav-stacked mainNavList">
+		<li class="sectionTitle">
+			<div class="sectionTitleText">
+				Share
+			</div>
 		</li>
+		<li>
+			<a data-target="#gitModal" data-toggle="modal">
+				<div class="main-nav-icon"><i class="fa fa-github"></i></div>
+				<div class="main-nav-label">Github</div>
+				<div class="main-nav-description"></div>
+			</a>
+		</li>
+		<!--
+		<li class="sectionTitle">
+			<div class="sectionTitleText">
+				Share
+			</div>
+		</li>
+		<li>
+			<a data-target="#githubPlayArea" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true">
+				<div class="main-nav-icon"><i class="fa fa-github"></i></div>
+				<div class="main-nav-label">Github</div>
+				<div class="main-nav-description"></div>
+			</a>
+		</li>
+		-->
 	</ul>
 	<!-- <ul class="nav nav-pills nav-stacked mainNavList">
 		<li class="sectionTitle">
