@@ -100,9 +100,9 @@ public class FileManager {
 		return statusBean;
 	}
 	
-	public VagrantFile fetchVagrantFileData(JsonNode projectData){
-		Integer userID = Integer.parseInt(projectData.get("userID").getTextValue());
-		String projectDir = Utilities.getInstance().fetchActiveProjectDirectory(userID);
+	public VagrantFile fetchVagrantFileData(String projectID, String userID){
+		/*Integer userID = Integer.parseInt(projectData.get("userID").getTextValue());*/
+		String projectDir = Utilities.getInstance().fetchActiveProjectDirectory(Integer.parseInt(userID));
 		String fileLocation = projectDir + OSProperties.getInstance().getOSFileSeparator() + 
 								OSProperties.getInstance().getVagrantFileName();
 		File vagrantFile = new File(fileLocation);
@@ -121,7 +121,7 @@ public class FileManager {
 				fileResponse.setStatusCode(0);
 			}else{
 				fileResponse.setStatusCode(0);
-				Utilities.getInstance().saveVagrantFile(projectData);
+				Utilities.getInstance().saveVagrantFile(projectID, userID);
 			}
 			return fileResponse;
 		}catch(Exception e){
