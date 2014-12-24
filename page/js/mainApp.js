@@ -13,7 +13,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	$scope.showConsole = function(){
 		$('#console').modal('show');
 	}
-
+	$rootScope.expandedCtrlBar = "";
 	$scope.consoleTrial = "Hello";
 	$scope.vagrantOutput = [];
 	$scope.moduleMappingData = null;
@@ -116,8 +116,6 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			console.log('connection has been closed');
 		}
 	};
-
- 
 
 	$scope.checkMachineFlags = function(machine){
 		if(machine !== null){

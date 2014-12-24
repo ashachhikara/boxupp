@@ -1,11 +1,11 @@
-<div id="controlBar" ng-controller="ctrlBarController" class="col-md-8 col-md-offset-4" style="position:absolute; bottom:0px;  background:#3c454f; color:#FFF;" ng-class="{collapseCtrlBar:collapseSecNav, normalCtrlBar:!collapseSecNav, expandCtrlBar:expandedCtrlBar}">
+<div id="controlBar" ng-controller="ctrlBarController" class="col-md-8 col-md-offset-4" style="position:absolute; bottom:0px;  background:#3c454f; color:#FFF;" ng-class="{collapseCtrlBar:collapseSecNav, normalCtrlBar:!collapseSecNav, expandCtrlBar:$root.expandedCtrlBar}">
 	<div id="controlBarNav">
 		<div class="container-fluid">
 			<div class="row">
 				
 				<div class="col-md-4">
-					<a data-target="#" class="pull-left" style="font-size:26px; color:#FFF;" ng-click="expandedCtrlBar = true;">
-						<span ng-hide="expandedCtrlBar">
+					<a data-target="#" class="pull-left" style="font-size:26px; color:#FFF;" ng-click="$root.expandedCtrlBar = true;">
+						<span ng-hide="$root.expandedCtrlBar">
 							<i class="fa fa-plus"></i>
 						</span>
 					</a>
@@ -21,7 +21,7 @@
 						</div>
 						<div class="editIcon tab-pane fade" id="scriptEdit">
 							<a ng-click="editActiveScript()" ng-hide="activeScript === null">
-								<span ng-hide="expandedCtrlBar">
+								<span ng-hide="$root.expandedCtrlBar">
 									<i class="fa fa-edit"></i>
 								</span>
 							</a>
@@ -36,37 +36,37 @@
 					<div class="tab-content">
 						<div class="trashIcon tab-pane fade" id="boxTrash">
 							<a class="pull-right" ng-click="deleteActiveBox()" ng-hide="activeVM === null">
-								<span ng-hide="expandedCtrlBar">
+								<span ng-hide ="$root.expandedCtrlBar">
 									<i class="fa fa-trash-o"></i>
 								</span>
 							</a>
 							<a class="pull-right">
-								<span ng-show="expandedCtrlBar">
-									<i class="fa fa-minus-circle" ng-click="expandedCtrlBar = false;"></i>
+								<span ng-show="$root.expandedCtrlBar">
+									<i class="fa fa-minus-circle" ng-click="$root.expandedCtrlBar = false;"></i>
 								</span>
 							</a>
 						</div>
 						<div class="trashIcon tab-pane fade" id="scriptTrash">
 							<a class="pull-right" ng-click="deleteActiveScript()" ng-hide="activeScript === null">
-								<span ng-hide="expandedCtrlBar">
+								<span ng-hide="$root.expandedCtrlBar">
 									<i class="fa fa-trash-o"></i>
 								</span>
 							</a>
 							<a class="pull-right">
-								<span ng-show="expandedCtrlBar">
-									<i class="fa fa-minus-circle" ng-click="expandedCtrlBar = false;"></i>
+								<span ng-show="$root.expandedCtrlBar">
+									<i class="fa fa-minus-circle" ng-click="$root.expandedCtrlBar = false;"></i>
 								</span>
 							</a>
 						</div>
 						<div class="trashIcon tab-pane fade" id="moduleTrash">
 							<a class="pull-right" ng-click="deleteActiveModule()" ng-hide="activeModule === null">
-								<span ng-hide="expandedCtrlBar">
+								<span ng-hide="$root.expandedCtrlBar">
 									<i class="fa fa-trash-o"></i>
 								</span>
 							</a>
 							<a class="pull-right">
-								<span ng-show="expandedCtrlBar">
-									<i class="fa fa-minus-circle" ng-click="expandedCtrlBar = false;"></i>
+								<span ng-show="$root.expandedCtrlBar">
+									<i class="fa fa-minus-circle" ng-click="$root.expandedCtrlBar = false;"></i>
 								</span>
 							</a>
 						</div>
