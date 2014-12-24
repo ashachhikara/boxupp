@@ -313,9 +313,9 @@ public class Utilities {
     	}
 		
 	}
-	public VagrantFileStatus saveVagrantFile(JsonNode vargantFileData){
-		String projectID = vargantFileData.get("projectID").getTextValue();
-		String userID = vargantFileData.get("userID").getTextValue();
+	public VagrantFileStatus saveVagrantFile(String projectID, String userID){
+		/*String projectID = vargantFileData.get("projectID").getTextValue();
+		String userID = vargantFileData.get("userID").getTextValue();*/
 		List<MachineConfigurationBean>  machineConfigList = MachineConfigDAOManager.getInstance().retireveBoxesForProject(projectID);
 		List<PuppetModuleBean>  puppetModuleList = PuppetModuleDAOManager.getInstance().retireveModulesForProject(projectID);
 		List<ShellScriptBean> shellScriptList = ShellScriptDAOManager.getInstance().retireveScriptsForProject(projectID);

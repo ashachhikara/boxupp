@@ -79,9 +79,11 @@ public class BoxuppServices {
 	@GET
 	@Path("/getVagrantFile")
 	@Produces(MediaType.APPLICATION_JSON)
-	public VagrantFile getVagrantFile(JsonNode projectData) throws IOException{
+	public VagrantFile getVagrantFile(@Context HttpServletRequest request) throws IOException{
 		FileManager manager = new FileManager();
-		return manager.fetchVagrantFileData(projectData);
+		String projectID = request.getParameter("projectID");
+		String userID = request.getParameter("userID");
+		return manager.fetchVagrantFileData(projectID, userID);
 	}
 	
 	/*@POST

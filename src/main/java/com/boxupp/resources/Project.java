@@ -104,12 +104,15 @@ public class Project {
 	public List<ShellScriptMapping> getAllScriptMapping(@PathParam("id") String projectID) {
 		return ProjectDAOManager.getInstance().retireveScriptsMapping(projectID);
 	}
+	
 	@POST
 	@Path("/createVagrantFile")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public VagrantFileStatus saveAsFile(JsonNode VagrantFileData) throws IOException
 	{
-		return Utilities.getInstance().saveVagrantFile(VagrantFileData);
+		String projectID = VagrantFileData.get("projectID").getTextValue();
+		String userID = VagrantFileData.get("userID").getTextValue();
+		return Utilities.getInstance().saveVagrantFile(projectID, userID);
 	}
 	
 }
