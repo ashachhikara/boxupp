@@ -320,8 +320,8 @@ div.project-container {
     font-family: 'Roboto', sans-serif;
     font-size: 22px;
     line-height: 11px;
-    font-weight: 100;
-    color: #FFF; }
+    font-weight: 300;
+    color: #888080 !important;}
   div.project-container a.titleTextAction {
     font-family: 'Roboto', sans-serif;
     font-size: 22px;

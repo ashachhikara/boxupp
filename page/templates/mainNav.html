@@ -2,7 +2,7 @@
 	<ul class="nav nav-pills nav-stacked mainNavList">
 
 		<li class="active">
-			<a data-target="#dashboardList , #dashboardPlayArea" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true" ng-nit="$parent.collapseSecNav = true">
+			<a data-target="#dashboardList , #dashboardPlayArea" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true; $root.expandedCtrlBar = false;" ng-nit="$parent.collapseSecNav = true">
 						<div class="main-nav-icon"><i class="fa fa-desktop"></i></div>
 						<div class="main-nav-label">Dashboard</div>
 						<div class="main-nav-description"></div>
@@ -46,14 +46,14 @@
 			</div>
 		</li>
 		<li ng-mouseenter="shellHover = true" ng-mouseleave = "shellHover = false" ng-init="shellHover = false">
-			<a data-target="#shellProvPlayArea, #scriptsProvList" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true; expandedCtrlBar = false; ">
+			<a data-target="#shellProvPlayArea, #scriptsProvList" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true; $root.expandedCtrlBar = false;">
 				<div class="main-nav-icon"><i class="fa fa-cog" ng-class="{'fa-spin' : shellHover}"></i></div>
 				<div class="main-nav-label">Shell Provisioner</div>
 				<div class="main-nav-description"></div>
 			</a>
 		</li>
 		<li ng-mouseenter="puppetHover = true" ng-mouseleave = "puppetHover = false" ng-init="puppetHover = false">
-			<a data-target="#puppetProvPlayArea, #modulesProvList" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true">
+			<a data-target="#puppetProvPlayArea, #modulesProvList" role="tab" data-toggle="tab" ng-click="$parent.collapseSecNav = true; $root.expandedCtrlBar = false;">
 				<div class="main-nav-icon"><i class="fa fa-cog" ng-class="{'fa-spin' : puppetHover}"></i></div>
 				<div class="main-nav-label">Puppet Provisioner</div>
 				<div class="main-nav-description"></div>
@@ -79,7 +79,7 @@
 			</div>
 		</li>
 		<li>
-			<a data-target="#gitModal" data-toggle="modal">
+			<a data-target="#gitModal" data-toggle="modal" ng-click="$root.expandedCtrlBar = false;">
 				<div class="main-nav-icon"><i class="fa fa-github"></i></div>
 				<div class="main-nav-label">Github</div>
 				<div class="main-nav-description"></div>
