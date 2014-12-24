@@ -320,12 +320,13 @@
       // and the new tree SHA, getting a commit SHA back
       // -------
 
+		/*"author": {
+            "name": options.username,
+			"email":options.email
+          },*/
       this.commit = function(parent, tree, message, cb) {
         var data = {
           "message": message,
-          "author": {
-            "name": options.username
-          },
           "parents": [
             parent
           ],
