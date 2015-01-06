@@ -33,6 +33,7 @@ import com.boxupp.beans.Config;
 import com.boxupp.db.DBConnectionManager;
 import com.boxupp.utilities.Utilities;
 import com.boxupp.ws.VagrantConsole;
+import com.boxupp.ws.VagrantConsole1;
 
 public class Boxupp {
 	
@@ -77,8 +78,23 @@ public class Boxupp {
 				wsHandler		
 		});
 		
-		contexts.setHandlers(new Handler[] { list											
-											});
+		WebSocketHandler wsHandler1 = new WebSocketHandler(){
+			@Override
+            public void configure(WebSocketServletFactory webSocketServletFactory) {
+                webSocketServletFactory.register(VagrantConsole1.class);
+            }
+		};
+		ContextHandler handler1 = new ContextHandler();
+		handler1.setHandler(wsHandler1);
+		handler1.setContextPath("/vagrantConsole1/");		
+		
+		list.setHandlers(new Handler[] {
+				appContextBuilder.getStaticResourceHandler(),
+				appContextBuilder.getWebAppHandler(),
+				wsHandler1		
+		});
+		
+		contexts.setHandlers(new Handler[] { list });
 		
 		jettyServer.setHandler(contexts);
 		Runnable runner = new Runnable() {

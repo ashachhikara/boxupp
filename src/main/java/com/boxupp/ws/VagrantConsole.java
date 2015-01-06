@@ -28,7 +28,6 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
-import com.boxupp.VagrantOutputStream;
 import com.boxupp.responseBeans.VagrantOutput;
 import com.boxupp.responseBeans.VagrantStreamError;
 import com.boxupp.responseBeans.VagrantStreamOutput;

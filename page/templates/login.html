@@ -1,6 +1,6 @@
 <!--<div class="container">
     <div class="row">-->
-        <div class="login-container col-sm-offset-4 col-sm-4" ng-show="showLogin" ng-init="showLogin = true">
+      <div class="login-container col-sm-offset-4 col-sm-4" ng-show="showLogin" ng-init="showLogin = true">
             <div class="container-fluid">
               <div class="row rowShadow">
                   <div class="logo col-sm-12">
@@ -72,15 +72,15 @@
                           <i class="fa fa-envelope loginInput iconStyle"></i> 
                         </div>
                         <div class="field col-sm-11">
-                          <input type="email" 
+                          <input type="email" ng-focus="emailValidate=false;" ng-blur="emailValidate=true;"
                           ng-model="newUserDetail.mailID" 
                           name="emailID"
-                          placeholder="Enter Email ID here" 
+                          placeholder="Enter Email ID here"
+                          ng-pattern ="^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$"
                           class="form-control loginInput" 
-                          ng-blur="checkIfUserExists(newUserDetail.mailID)" 
                           required>
-                          <div ng-show="checkEmailID(registrationForm)" >
-                            <div class="errorMessage" style="top:10px;">Invalid email address</div>
+                          <div ng-show="registrationForm.emailID.$dirty &&  registrationForm.emailID.$invalid && emailValidate" >
+                            <div class="errorMessage">Invalid email address</div>
                           </div>
                         </div>
                     </div>

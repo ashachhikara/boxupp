@@ -250,4 +250,66 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		return machineConfigQb.prepare();
 		
 	}
+
+	public StatusBean stop(String machineID) {
+
+		
+		StatusBean statusBean = new StatusBean();
+		ProjectBean project;
+		try {
+			project = machineMappingDao.queryBuilder().where().eq(MachineProjectMapping.MACHINE_ID_FIELD_NAME, machineConfigDao.queryForId(Integer.parseInt(machineID))).queryForFirst().getProject();
+			Integer userID = UserDAOManager.getInstance().userProjectMappingDao.queryBuilder().where().eq(UserProjectMapping.PROJECT_ID_FIELD_NAME, project).queryForFirst().getUser().getUserID();
+			String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
+			MachineConfigurationBean machineConfig = machineConfigDao.queryForId(Integer.parseInt(machineID));
+			String vagrantCommand = "vagrant halt "+machineConfig.getVagrantID();
+			VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
+			shellProcessor.executeVagrantFile(location,vagrantCommand, userID, new VagrantOutputStream());
+		} catch (NumberFormatException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("error in stoping box"+e.getMessage());
+		} catch (SQLException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("error in stoping box"+e.getMessage());
+		} catch (IOException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("error in stoping box"+e.getMessage());
+		} catch (InterruptedException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("error in stoping box"+e.getMessage());
+		}
+		statusBean.setStatusCode(0);
+		statusBean.setStatusMessage("Machine stop successfully");
+		return statusBean;
+	}
+	
+	public StatusBean reload(String machineID) {
+
+		
+		StatusBean statusBean = new StatusBean();
+		ProjectBean project;
+		try {
+			project = machineMappingDao.queryBuilder().where().eq(MachineProjectMapping.MACHINE_ID_FIELD_NAME, machineConfigDao.queryForId(Integer.parseInt(machineID))).queryForFirst().getProject();
+			Integer userID = UserDAOManager.getInstance().userProjectMappingDao.queryBuilder().where().eq(UserProjectMapping.PROJECT_ID_FIELD_NAME, project).queryForFirst().getUser().getUserID();
+			String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
+			MachineConfigurationBean machineConfig = machineConfigDao.queryForId(Integer.parseInt(machineID));
+			String vagrantCommand = "vagrant reload "+machineConfig.getVagrantID();
+			VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
+			shellProcessor.executeVagrantFile(location,vagrantCommand, userID, new VagrantOutputStream());
+		} catch (NumberFormatException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("error in stoping box"+e.getMessage());
+		} catch (SQLException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("error in stoping box"+e.getMessage());
+		} catch (IOException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("error in stoping box"+e.getMessage());
+		} catch (InterruptedException e) {
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("error in stoping box"+e.getMessage());
+		}
+		statusBean.setStatusCode(0);
+		statusBean.setStatusMessage("Machine stop successfully");
+		return statusBean;
+	}
 }

@@ -24,7 +24,6 @@ import java.io.InputStreamReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.boxupp.VagrantOutputStream;
 import com.boxupp.utilities.OSProperties;
 import com.boxupp.utilities.Utilities;
 import com.boxupp.ws.OutputConsole;

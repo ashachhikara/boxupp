@@ -17,7 +17,6 @@ package com.boxupp.vagrant;
 
 import java.io.IOException;
 
-import com.boxupp.VagrantOutputStream;
 import com.boxupp.responseBeans.VagrantStatus;
 import com.boxupp.ws.OutputConsole;
 

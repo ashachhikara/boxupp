@@ -60,4 +60,17 @@ public class MachineConfig {
 		return MachineConfigDAOManager.getInstance().delete(machineID);
 	}
 	
+	@POST
+	@Path("/stopMachine")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StatusBean stopMachine(JsonNode machineData) {
+		return MachineConfigDAOManager.getInstance().stop(machineData.get("machineID").toString());
+	}
+	
+	@POST
+	@Path("/reloadMachine")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StatusBean reloadMachine(JsonNode machineData) {
+		return MachineConfigDAOManager.getInstance().reload(machineData.get("machineID").toString());
+	}
 }
