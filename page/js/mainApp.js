@@ -24,7 +24,23 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			update : false
 		}
 	};
+/*loggerFunctionality.getLogFiles(){
 
+}*/
+/*$(document).ready(function(){
+    $("#txtFromDate").datepicker({
+        numberOfMonths: 2,
+        onSelect: function(selected) {
+          $("#txtToDate").datepicker("option","minDate", selected)
+        }
+    });
+    $("#txtToDate").datepicker({ 
+        numberOfMonths: 2,
+        onSelect: function(selected) {
+           $("#txtFromDate").datepicker("option","maxDate", selected)
+        }
+    });  
+});*/
 	$scope.showConsole = function(){
 		$('#console').modal('show');
 	}
@@ -615,6 +631,8 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		$scope.resetCtrlBarSecNav();
 		$('#ctrl-bar-module-sec-nav').removeClass('in active');
 		$('#ctrl-bar-script-sec-nav').removeClass('in active');
+		$('#box-quick').removeClass('active in');
+		$('#box-clone').removeClass('active in');
 		$('#ctrl-bar-box-sec-nav').addClass('in active');
 		$('#ctrl-bar-empty-play-area').addClass('in active');
 		
@@ -626,8 +644,11 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		$scope.resetCtrlBarSecNav();
 		$('#ctrl-bar-box-sec-nav').removeClass('in active');
 		$('#ctrl-bar-module-sec-nav').removeClass('in active');
+		$('#box-quick').removeClass('active in');
+		$('#box-clone').removeClass('active in');
 		$('#ctrl-bar-script-sec-nav').addClass('in active');
 		$('#ctrl-bar-empty-play-area').addClass('in active');
+
 		
 	}
 	$scope.resetModuleInControlBar = function(){
@@ -637,6 +658,8 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		$scope.resetCtrlBarSecNav();
 		$('#ctrl-bar-box-sec-nav').removeClass('in active');
 		$('#ctrl-bar-script-sec-nav').removeClass('in active');
+		$('#box-quick').removeClass('active in');
+		$('#box-clone').removeClass('active in');
 		$('#ctrl-bar-module-sec-nav').addClass('in active');
 		$('#ctrl-bar-empty-play-area').addClass('in active');
 	}
