@@ -33,7 +33,6 @@ import com.boxupp.beans.Config;
 import com.boxupp.db.DBConnectionManager;
 import com.boxupp.utilities.Utilities;
 import com.boxupp.ws.VagrantConsole;
-import com.boxupp.ws.VagrantConsole1;
 
 public class Boxupp {
 	
@@ -78,7 +77,7 @@ public class Boxupp {
 				wsHandler		
 		});
 		
-		WebSocketHandler wsHandler1 = new WebSocketHandler(){
+		/*WebSocketHandler wsHandler1 = new WebSocketHandler(){
 			@Override
             public void configure(WebSocketServletFactory webSocketServletFactory) {
                 webSocketServletFactory.register(VagrantConsole1.class);
@@ -92,7 +91,7 @@ public class Boxupp {
 				appContextBuilder.getStaticResourceHandler(),
 				appContextBuilder.getWebAppHandler(),
 				wsHandler1		
-		});
+		});*/
 		
 		contexts.setHandlers(new Handler[] { list });
 		
