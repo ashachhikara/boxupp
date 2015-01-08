@@ -13,7 +13,7 @@
 				</div>
 				<ul class="nav nav-pills nav-stacked secondaryNavList" ng-hide="boxesData.length === 0">
 				  	<li ng-repeat="box in boxesData">
-						<a data-target="#" ng-click="selectNode(box)" role="tab" data-toggle="tab">
+						<a data-target="#" ng-click="selectNode(box); $root.expandedCtrlBar = false;" role="tab" data-toggle="tab">
 							<div class="main-nav-icon"><i class="fa fa-cube"></i></div>
 							<div class="arrow"></div>
 							<div class="main-nav-label">{{box.vagrantID}}</div>
@@ -35,7 +35,7 @@
 				</div>
 				<ul class="nav nav-pills nav-stacked secondaryNavList">
 					<li ng-repeat="script in shellScripts">
-						<a data-target="#" ng-click="selectScript(script)" ng-dblclick="editActiveScript();" role="tab" data-toggle="tab">
+						<a data-target="#" ng-click="selectScript(script);  $root.expandedCtrlBar = false;" ng-dblclick="editActiveScript();" role="tab" data-toggle="tab">
 							<div class="main-nav-icon"><i class="fa fa-code"></i></div>
 							<div class="arrow"></div>
 							<div class="main-nav-label">{{script.scriptName}}</div>
@@ -53,7 +53,7 @@
 				</div>
 				<ul class="nav nav-pills nav-stacked secondaryNavList">
 					<li ng-repeat="module in projectData.modules">
-						<a data-target="#" ng-click="selectModule(module)" role="tab" data-toggle="tab">
+						<a data-target="#" ng-click="selectModule(module); $root.expandedCtrlBar = false;" role="tab" data-toggle="tab">
 							<div class="main-nav-icon"><i class="fa fa-code"></i></div>
 							<div class="arrow"></div>
 							<div class="main-nav-label">{{module.moduleName}}</div>
