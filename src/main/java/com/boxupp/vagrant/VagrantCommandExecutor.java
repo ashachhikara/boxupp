@@ -16,10 +16,14 @@
 package com.boxupp.vagrant;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -93,14 +97,47 @@ public class VagrantCommandExecutor {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 			String data;
 			console.pushOutput(cmdExecDir + ">" + vagrantCommand.toString());
-			while((data = reader.readLine())!=null){
-				console.pushOutput(data);
+			Integer commandLength = vagrantCommand.toString().split(" ").length;
+			String vagrantID = vagrantCommand.toString().split(" ")[commandLength -1].equalsIgnoreCase("-f")? vagrantCommand.toString().split(" ")[commandLength -2]:vagrantCommand.toString().split(" ")[commandLength -1];
+			File logdir = new File(Utilities.getInstance().fetchActiveProjectDirectory(userID)+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getLogDirName());
+			if(!logdir.exists()){
+				logdir.mkdir();
+			}
+			if(!reader.equals(null)){
+				String logFileName = logdir+OSProperties.getInstance().getOSFileSeparator()+userID+"_"+vagrantID+"_"+getCurrentTime()+"_"+"success.log";
+				File file = new File(logFileName);
+				// if file doesnt exists, then create it
+				if (!file.exists()) {
+					file.createNewFile();
+				}
+				FileWriter fw = new FileWriter(file.getAbsoluteFile());
+				BufferedWriter bw = new BufferedWriter(fw);
+				while((data = reader.readLine())!=null){
+					bw.write(data);
+					console.pushOutput(data);
+				}
+				bw.close();
 			}
 			int exitCode = proc.waitFor();
+			
+			if(errReader.readLine() != null){
+				String logFileName = logdir+OSProperties.getInstance().getOSFileSeparator()+userID+"_"+vagrantID+"_"+getCurrentTime()+"_"+"error.log";
+				File file = new File(logFileName);
+				
+				
+				if (!file.exists()) {
+					file.createNewFile();
+				}
+				
+				FileWriter fw = new FileWriter(file.getAbsoluteFile());
+				BufferedWriter bw = new BufferedWriter(fw);
 //			if(exitCode != 0){
 				while((data = errReader.readLine())!=null){
+					bw.write(data);
 					console.pushError(data);
 				}
+				bw.close();
+			}
 //			}
 			console.pushDataTermination();
 		}else{
@@ -122,8 +159,7 @@ public class VagrantCommandExecutor {
 				for(int counter=0; counter<commands.length; counter++){
 					if(counter == commands.length-1){
 						vagrantCommand.append(commands[counter]);
-					}
-					else{
+					}else{
 						vagrantCommand.append(commands[counter]).append(" ");
 					}
 				}
@@ -181,7 +217,10 @@ public class VagrantCommandExecutor {
 		}
 		return commandOutput;
 	}
-		
+	public  String getCurrentTime()
+    {
+        return new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss").format(Calendar.getInstance().getTime());
+    }
 	public static void main(String args[]) throws IOException, InterruptedException{
 		VagrantCommandExecutor executor = new VagrantCommandExecutor();
 		String[] array = {"vagrant","status"};

@@ -14,7 +14,7 @@
  *  limitations under the License.
  *******************************************************************************/
 
-angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http,$rootScope,$routeParams,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location,puppetModuleResource, boxFunctionality){
+angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http,$rootScope,$routeParams,$filter,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location,puppetModuleResource, boxFunctionality, loggerFunctionality){
 
 	$scope.projectData = {
 		boxesState : {
@@ -24,22 +24,14 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			update : false
 		}
 	};
-/*loggerFunctionality.getLogFiles(){
+	
+/*$('#datepicker-example7-start').Zebra_DatePicker({
+  direction: true,
+  pair: $('#datepicker-example7-end')
+});
 
-}*/
-/*$(document).ready(function(){
-    $("#txtFromDate").datepicker({
-        numberOfMonths: 2,
-        onSelect: function(selected) {
-          $("#txtToDate").datepicker("option","minDate", selected)
-        }
-    });
-    $("#txtToDate").datepicker({ 
-        numberOfMonths: 2,
-        onSelect: function(selected) {
-           $("#txtFromDate").datepicker("option","maxDate", selected)
-        }
-    });  
+$('#datepicker-example7-end').Zebra_DatePicker({
+  direction: 1
 });*/
 	$scope.showConsole = function(){
 		$('#console').modal('show');
@@ -78,7 +70,8 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 	$scope.boxesSize = 0;
 	$scope.boxCounter = 0;
 	$scope.providerType = provider;
-	$scope.moduleMappingTree= {}
+	$scope.moduleMappingTree= {};
+	$scope.fileName="1_t_2015-01-07-14:31:05_success.log";
 	$scope.server = {
 		connect : function(promise) {
 			
@@ -147,7 +140,23 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 			console.log('connection has been closed');
 		}
 	};
-
+	
+	$scope.fromDate = $filter('date')(new Date(),'yyyy-MM-dd');
+	$scope.toDate = $filter('date')(new Date(),'yyyy-MM-dd');
+	loggerFunctionality.getLogFiles($routeParams.userID, $scope.fromDate, $scope.toDate).then(function(response){
+		$scope.logFiles = response;
+	});
+	$scope.getLogFiles = function(fromDate, toDate){
+		loggerFunctionality.getLogFiles($routeParams.userID,fromDate, toDate).then(function(response){
+			$scope.logFiles = response;
+		
+	});
+	}
+	$scope.getLogFileContent = function(fileName){
+		loggerFunctionality.getLogFileContent($routeParams.userID, fileName).then(function(response){
+			$scope.logFileContent = response;
+		});
+	}
 	$scope.checkMachineFlags = function(machine){
 		if(machine !== null){
 			if(machine.configChangeFlag || machine.scriptChangeFlag || machine.moduleChangeFlag){
@@ -378,7 +387,7 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		return $scope.containerData;
 	}
 	$scope.deleteActiveBox = function(){
-
+		alert(" Are you sure you want to remove this box.");
 		MachineConfig.delete({id:$scope.activeVM.machineID},function(){			
 			var boxCounter = 0;
 

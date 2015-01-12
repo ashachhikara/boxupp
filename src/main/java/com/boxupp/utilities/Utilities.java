@@ -29,7 +29,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.ConfigurationGenerator;
 import com.boxupp.FileManager;

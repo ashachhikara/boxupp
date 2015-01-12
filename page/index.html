@@ -21,12 +21,15 @@
 <link href='http://fonts.googleapis.com/css?family=Roboto:300,100' rel='stylesheet' type='text/css'>
 <link href="css/trial.css" rel="stylesheet" type="text/css" />
 <script src="http://d3js.org/d3.v3.min.js"></script>
-
+<script src="http://www.datejs.com/build/date.js" type="text/javascript"></script>
+<link rel="stylesheet"
+  href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 <script>document.write('<script src="js/jquery.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/angular.min.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/angular-messages.min.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/angular-resource.min.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
-
 <script>document.write('<script src="js/codemirror.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/lib/ace.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <script>document.write('<script src="js/lib/ui-ace.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
@@ -36,6 +39,12 @@
 <script>document.write('<script src="js/ui-codemirror.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>
 <!--<script>document.write('<script src="js/boxupp.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>-->
 <script src="js/boxupp.js"></script>
+      <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" media="all" href="css/daterangepicker-bs3.css" />
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+      <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="js/moment.js"></script>
+      <script type="text/javascript" src="js/daterangepicker.js"></script>
 <!--<script>document.write('<script src="js/factoryCtrl.min.js?dev=' + Math.floor(Math.random() * 100) + '"\><\/script>');</script>-->
 <script src="js/factoryCtrl.min.js"></script>
 <!-- <script src="js/dockerController.js"></script> -->
@@ -71,6 +80,13 @@
 <script src="js/gitController.js"></script>
 <script src="js/src/directives/boxuppDirectives.js"></script>
 
+    <script>
+      jQuery(document).ready(function ($) {
+        $('#contentScrollBar').perfectScrollbar({useBothWheelAxes: true});
+        $('#contentScrollBar').perfectScrollbar({useBothWheelAxes: true});
+      });
+      
+    </script>
 
 
 <!--[if gte IE 9]>
@@ -103,7 +119,6 @@
   ga('send', 'pageview');
 
 </script>
-
 </body>
 <head>
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache"/>

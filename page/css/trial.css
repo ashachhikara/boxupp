@@ -720,3 +720,8 @@ div.container-fluid .rowShadow
 .iconStyle { font-size:18px;}
 /*# sourceMappingURL=trial.css.map */
 
+          .logFileHolder { position:relative; margin:0px auto; padding:0px; width: 100%; height:400px; overflow: hidden; }
+          
+          .logFileHolder .logFileContent {   width: 100%; height:100%; }
+          .logFileHolder .logFileContent p{ padding:0px 30px; margin:0px; }
+        

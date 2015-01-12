@@ -31,6 +31,7 @@ public class OSProperties {
 	private String nodeFileName = "site.pp";
 	private String dockerVagrantFileDir = "docker";
 	private String databaseFolderName = "db";
+	private String logDirName =  "logs";
 			
 	private OSProperties(){
 			OSFileSeparator = System.getProperty("file.separator");
@@ -131,6 +132,14 @@ public class OSProperties {
 
 	public void setDatabaseFolderName(String databaseFolderName) {
 		this.databaseFolderName = databaseFolderName;
+	}
+
+	public String getLogDirName() {
+		return logDirName;
+	}
+
+	public void setLogDirName(String logDirName) {
+		this.logDirName = logDirName;
 	}
 	
 }

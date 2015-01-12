@@ -168,6 +168,7 @@ public class PuppetUtilities extends Utilities {
 				osProperties.getOSFileSeparator() +
 				"Boxupp" + osProperties.getOSFileSeparator()+osProperties.getManifestsDirName();
 	}
+	
 	public StatusBean downloadModule(JsonNode moduleData){
 		Gson searchModuleData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		SearchModuleBean searchModuleBean = searchModuleData.fromJson(moduleData.toString(), SearchModuleBean.class);
@@ -269,9 +270,6 @@ public class PuppetUtilities extends Utilities {
 			if(unzipFile.isDirectory()){
 				unzipFile.renameTo(renamedFile);
 			}
-			
-			
-			
 			tarIn.close();
 			
 		} catch (IOException e) {

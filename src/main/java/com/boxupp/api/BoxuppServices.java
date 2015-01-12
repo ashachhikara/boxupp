@@ -16,6 +16,7 @@
 package com.boxupp.api;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -32,7 +33,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.codehaus.jackson.JsonNode;
 
 import com.boxupp.FileManager;
 import com.boxupp.VagrantOutputStream;
@@ -42,6 +42,7 @@ import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.responseBeans.VagrantFile;
 import com.boxupp.responseBeans.VagrantOutput;
 import com.boxupp.responseBeans.VagrantStatus;
+import com.boxupp.utilities.OSProperties;
 import com.boxupp.utilities.Utilities;
 import com.boxupp.vagrant.VagrantCommandProcessor;
 import com.boxupp.ws.OutputConsole;
@@ -185,6 +186,8 @@ public class BoxuppServices {
 	@Path("/boxupp")
 	public String runVagrantFile(@Context HttpServletRequest request) throws IOException, InterruptedException{
 		Integer userID = Integer.parseInt(request.getParameter("userID"));
+		String projectDir = Utilities.getInstance().fetchActiveProjectDirectory(userID);
+		Utilities.getInstance().checkIfDirExists(new File(projectDir+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getLogDirName()));
 		VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
 		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		String command = request.getParameter("command");
@@ -231,7 +234,6 @@ public class BoxuppServices {
 	public VagrantStatus checkMachineStatus(@Context HttpServletRequest request){
 		Integer userID = Integer.parseInt(request.getParameter("userID"));
 		String vagrantID = request.getParameter("vagrantID");
-		
 		VagrantCommandProcessor commandProcessor = new VagrantCommandProcessor();
 		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
 		return commandProcessor.checkMachineStatus(location,vagrantID);
@@ -247,10 +249,8 @@ public class BoxuppServices {
 		BoxURLResponse urlResponse = null;
 		String url = request.getParameter("boxURL");
 		try{
-			
 			URL boxURL = new URL(url);
 			HttpURLConnection boxURLConnection = (HttpURLConnection) boxURL.openConnection();
-	
 			urlResponse = new BoxURLResponse();
 			urlResponse.setContentLength(boxURLConnection.getContentLength());
 			urlResponse.setStatusCode(boxURLConnection.getResponseCode());

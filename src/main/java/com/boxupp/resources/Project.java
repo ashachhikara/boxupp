@@ -27,8 +27,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -47,8 +45,7 @@ import com.boxupp.utilities.Utilities;
 
 @Path("/project/")
 public class Project {
-	private static Logger logger = LogManager.getLogger(Project.class.getName());
-
+	
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -94,10 +91,10 @@ public class Project {
 	@GET
 	@Path("/getModuleMapping/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-
 	public List<PuppetModuleMapping> getAllModuleMapping(@PathParam("id") String projectID) {
 		return ProjectDAOManager.getInstance().retireveModulesMapping(projectID);
 	}
+	
 	@GET
 	@Path("/getScriptMappping/{id}")
 	@Produces(MediaType.APPLICATION_JSON)

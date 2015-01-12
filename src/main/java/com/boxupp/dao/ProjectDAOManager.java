@@ -140,8 +140,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 		try {
 			project = projectDao.queryForId(Integer.parseInt(projectID));
 		} catch (SQLException e) {
-			logger.error("Error querying the project from DB : "
-					+ e.getMessage());
+			logger.error("Error querying the project from DB : "+ e.getMessage());
 		}
 		return (T) project;
 	}
@@ -167,6 +166,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 		statusBean.setStatusMessage("Project deleted successfully");
 		return statusBean;
 	}
+	
 	public StatusBean delete(JsonNode projectData) {
 		StatusBean statusBean = new StatusBean();
 		Integer userID = Integer.parseInt(projectData.get("userID").getTextValue());
