@@ -14,7 +14,7 @@
  *  limitations under the License.
  *******************************************************************************/
 
-angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http,$rootScope,$routeParams,$filter,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location,puppetModuleResource, boxFunctionality, loggerFunctionality){
+angular.module('boxuppApp').controller('vboxController',function($scope,$interval,$q,$http,$rootScope,$routeParams,$filter,$timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location,puppetModuleResource, boxFunctionality, loggerFunctionality){
 
 	$scope.projectData = {
 		boxesState : {
@@ -25,6 +25,8 @@ angular.module('boxuppApp').controller('vboxController',function($scope,$q,$http
 		}
 	};
 	
+
+
 /*$('#datepicker-example7-start').Zebra_DatePicker({
   direction: true,
   pair: $('#datepicker-example7-end')
@@ -147,7 +149,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 		$scope.logFiles = response;
 	});
 	$scope.getLogFiles = function(fromDate, toDate){
-		loggerFunctionality.getLogFiles($routeParams.userID,fromDate, toDate).then(function(response){
+		loggerFunctionality.getLogFiles($routeParams.userID,$filter('date')(fromDate,'yyyy-MM-dd'), $filter('date')(toDate,'yyyy-MM-dd')).then(function(response){
 			$scope.logFiles = response;
 		
 	});

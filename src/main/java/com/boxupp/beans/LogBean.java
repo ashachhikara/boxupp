@@ -9,7 +9,7 @@ public class LogBean {
 	private Integer projectID;
 	private String vagrantID;
 	private String status;
-	private Date time;
+	private String time;
 	private String filename;
 	
 	public Integer getUserID() {
@@ -36,17 +36,17 @@ public class LogBean {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Date getTime() {
-		return time;
-	}
-	public void setTime(Date time) {
-		this.time = time;
-	}
 	public String getFilename() {
 		return filename;
 	}
 	public void setFilename(String filename) {
 		this.filename = filename;
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
 	}
 	
 

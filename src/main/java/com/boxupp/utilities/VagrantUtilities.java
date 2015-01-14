@@ -40,7 +40,7 @@ public class VagrantUtilities {
 	}
 	
 	public List<LogBean> getVagrantLoges(HttpServletRequest request){
-		Integer userID = Integer.parseInt(request.getParameter("userID"));
+		Integer userID = Integer.parseInt(request.getParameter("userID") != null?request.getParameter("userID"):null);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		List<LogBean> logfileList = new ArrayList<LogBean>();
 		try {
@@ -53,12 +53,12 @@ public class VagrantUtilities {
 				if (file.isFile()) {
 					String fileName = file.getName();
 					Date fileDate=convertStringInDate(fileName.split("_")[2]);
-					if(fileDate.after(fromDate)||fileDate.equals(fromDate)&&(fileDate.before(toDate)||fileDate.equals(toDate))){
+					if((fileDate.after(fromDate)||fileDate.equals(fromDate))&&(fileDate.before(toDate)||fileDate.equals(toDate))){
 						logBean.setFilename(fileName);
-						logBean.setVagrantID(fileName.split("_")[1]);
-						logBean.setUserID(Integer.parseInt(fileName.split("_")[0]));
+						logBean.setVagrantID(fileName.split("_")[1] != null?fileName.split("_")[1]:null);
+						logBean.setUserID(Integer.parseInt(fileName.split("_")[0] != null?fileName.split("_")[0]:null));
 						logBean.setStatus(fileName.split("_")[fileName.split("_").length-1].split("\\.")[0]);
-						logBean.setTime(fileDate);
+						logBean.setTime(fileName.split("_")[2]);
 						logfileList.add(logBean);
 					}
 				}
@@ -70,8 +70,9 @@ public class VagrantUtilities {
 	}
 	
 	public String getVagrantLogContent(HttpServletRequest request){
-		Integer userID = Integer.parseInt(request.getParameter("userID"));
-		String fileName = request.getParameter("fileName");
+		Integer userID = Integer.parseInt(request.getParameter("userID") != null?request.getParameter("userID"):null);
+		String fileName = request.getParameter("fileName") != null? request.getParameter("fileName"):null;
+		
 		String logFilePath= Utilities.getInstance().fetchActiveProjectDirectory(userID)+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getLogDirName()+OSProperties.getInstance().getOSFileSeparator()+fileName;
 		StringBuilder contents = new StringBuilder();
 		   try {
@@ -91,7 +92,7 @@ public class VagrantUtilities {
 	        	logger.error("Error in fetching content of vagrant log file: "+ex.getMessage());
 	        }
 		return contents.toString();
-		
+	
 	}
 	
 	public Date convertStringInDate(String dateInString){
