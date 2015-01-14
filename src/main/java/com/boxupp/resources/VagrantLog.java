@@ -19,7 +19,7 @@ public class VagrantLog {
 	@Path("/getVagrantLogFiles")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<LogBean> getVagrantLog(@Context HttpServletRequest request) {
-		return VagrantUtilities.getInstance().getVagrantLoges(request);
+		return VagrantUtilities.getInstance().getVagrantLogs(request);
 	}
 	
 	@GET

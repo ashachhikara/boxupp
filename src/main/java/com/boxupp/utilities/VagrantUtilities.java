@@ -39,18 +39,20 @@ public class VagrantUtilities {
 		return vagrantUtilities;
 	}
 	
-	public List<LogBean> getVagrantLoges(HttpServletRequest request){
+	public List<LogBean> getVagrantLogs(HttpServletRequest request){
 		Integer userID = Integer.parseInt(request.getParameter("userID") != null?request.getParameter("userID"):null);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		List<LogBean> logfileList = new ArrayList<LogBean>();
+		List<LogBean> logFileList = new ArrayList<LogBean>();
 		try {
 			Date fromDate = convertStringInDate(dateFormat.format(dateFormat.parse(request.getParameter("fromDate"))));
 			Date toDate = convertStringInDate(dateFormat.format(dateFormat.parse(request.getParameter("toDate"))));
 			String logdir= Utilities.getInstance().fetchActiveProjectDirectory(userID)+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getLogDirName();
 			File[] files = new File(logdir).listFiles();
-			for (File file : files) {
-				LogBean logBean = new LogBean();
+			if (files == null){ return logFileList;}
+			for ( File file : files) {
+				
 				if (file.isFile()) {
+					LogBean logBean = new LogBean();
 					String fileName = file.getName();
 					Date fileDate=convertStringInDate(fileName.split("_")[2]);
 					if((fileDate.after(fromDate)||fileDate.equals(fromDate))&&(fileDate.before(toDate)||fileDate.equals(toDate))){
@@ -59,14 +61,16 @@ public class VagrantUtilities {
 						logBean.setUserID(Integer.parseInt(fileName.split("_")[0] != null?fileName.split("_")[0]:null));
 						logBean.setStatus(fileName.split("_")[fileName.split("_").length-1].split("\\.")[0]);
 						logBean.setTime(fileName.split("_")[2]);
-						logfileList.add(logBean);
+						logFileList.add(logBean);
 					}
 				}
-			}
+				}
+				
+			
 		} catch (ParseException e) {
 			logger.error("Error in fetching vagrant log files: "+e.getMessage());
 		}
-		return logfileList;
+		return logFileList;
 	}
 	
 	public String getVagrantLogContent(HttpServletRequest request){
