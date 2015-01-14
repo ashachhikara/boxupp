@@ -142,14 +142,15 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 			console.log('connection has been closed');
 		}
 	};
-	
-	$scope.fromDate = $filter('date')(new Date(),'yyyy-MM-dd');
-	$scope.toDate = $filter('date')(new Date(),'yyyy-MM-dd');
+	$scope.fromDate = new Date();
+	$scope.toDate = new Date();
+	/*$scope.fromDate = $filter('date')(new Date(),'yyyy-MM-dd');
+	$scope.toDate = $filter('date')(new Date(),'yyyy-MM-dd');*/
 	loggerFunctionality.getLogFiles($routeParams.userID, $scope.fromDate, $scope.toDate).then(function(response){
 		$scope.logFiles = response;
 	});
 	$scope.getLogFiles = function(fromDate, toDate){
-		loggerFunctionality.getLogFiles($routeParams.userID,$filter('date')(fromDate,'yyyy-MM-dd'), $filter('date')(toDate,'yyyy-MM-dd')).then(function(response){
+		loggerFunctionality.getLogFiles($routeParams.userID,fromDate, toDate).then(function(response){
 			$scope.logFiles = response;
 		
 	});
