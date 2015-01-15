@@ -738,3 +738,6 @@ border-radius: 3px;
 padding: 10px 0;
 color: white;
 }
+.datePicker label{
+  padding-top: 6px;
+}
