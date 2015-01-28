@@ -44,16 +44,18 @@
  					<div class="col-md-2">Creation Time</div>
  				 </div>
   				<div class="panel panel-default" ng-repeat="logFile in logFiles" ng-click="getLogFileContent(logFile.filename)" data-toggle="collapse" data-parent="#accordion" href="#{{$index}}" aria-expanded="true" aria-controls="#{{$index}}">
-    				<div class="panel-heading" role="tab" id="headingOne">
-      					<h4 class="panel-title" >
+         
+    				<div ng-class="getClass(logFile.status);" class="panel-heading" role="tab" id="headingOne">
+      					<h4 class="panel-title loggerBarTextColor" >
       					<div class="row">
   							<div class="col-md-2">{{$index + 1}}</div>
   							<div class="col-md-2">{{logFile.vagrantID}}</div>
   							<div class="col-md-4">{{logFile.filename}}</div>
   							<div class="col-md-2">{{logFile.status}}</div>
- 							<div class="col-md-2">{{logFile.time}}</div> </div>
+ 							  <div class="col-md-2">{{logFile.time}}</div> </div>
         				</h4>
     				</div>
+                                      
     				<div id="{{$index}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
       					<div class="panel-body">
         					{{logFileContent}}

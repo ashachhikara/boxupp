@@ -155,6 +155,13 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 		
 	});
 	}
+	$scope.getClass = function(status){
+		if(status === 'success'){
+			return 'success';
+		}else if(status == 'error'){
+			return 'error';
+		}
+	}
 	$scope.getLogFileContent = function(fileName){
 		loggerFunctionality.getLogFileContent($routeParams.userID, fileName).then(function(response){
 			$scope.logFileContent = response;

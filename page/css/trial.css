@@ -738,6 +738,16 @@ border-radius: 3px;
 padding: 10px 0;
 color: white;
 }
+.loggerBarTextColor{
+  color: white !important;
+  font-size: 15px;
+}
 .datePicker label{
   padding-top: 6px;
+}
+.success{
+  background-color: #5cb85c !important;
+}
+.error{
+  background-color: #ea5c57 !important;
 }
