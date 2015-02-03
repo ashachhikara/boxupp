@@ -45,11 +45,17 @@ public class LocalGitRepo {
 	}
 
 	@GET
-	@Path("/getLocalRepos")
+	@Path("/getBranches")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes("application/json")
 	public List<String> getLocalGitRepos(@Context HttpServletRequest request) {
 		return LocalRepoUtilities.getInstance().getLocalRepos(request);
 	}
-
+	
+	@POST
+	@Path("/commmit")
+	@Produces(MediaType.APPLICATION_JSON)
+	public StatusBean commitOnRemoteRepo(JsonNode param) {
+		return LocalRepoUtilities.getInstance().commitOnRemoteRepo(param);
+	}
 }
