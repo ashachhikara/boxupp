@@ -74,6 +74,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	$scope.providerType = provider;
 	$scope.moduleMappingTree= {};
 	$scope.fileName="1_t_2015-01-07-14:31:05_success.log";
+	$scope.isLogFiles = false;
 	$scope.server = {
 		connect : function(promise) {
 			
@@ -152,6 +153,9 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	$scope.getLogFiles = function(fromDate, toDate){
 		loggerFunctionality.getLogFiles($routeParams.userID,fromDate, toDate).then(function(response){
 			$scope.logFiles = response;
+			if($scope.logFiles.length == 0){
+				$scope.isLogFiles = true;
+			}
 		
 	});
 	}
