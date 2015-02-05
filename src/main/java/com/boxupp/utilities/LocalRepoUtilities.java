@@ -1,31 +1,35 @@
 package com.boxupp.utilities;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
-import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
+import org.eclipse.jgit.api.AddCommand;
+import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
+import com.boxupp.db.beans.LocalGitRepoBean;
 import com.boxupp.responseBeans.StatusBean;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class LocalRepoUtilities {
-
+	private static Logger logger = LogManager.getLogger(LocalRepoUtilities.class.getName());
 	private static LocalRepoUtilities localRepoUtilities = null;
-	  private String localPath, remotePath;
-	    private Repository remoteRepo;
-	    private Git git;
-
+	
 	public static LocalRepoUtilities getInstance() {
 		if (localRepoUtilities == null) {
 			try {
@@ -37,147 +41,123 @@ public class LocalRepoUtilities {
 		return localRepoUtilities;
 	}
 
-	  public void init() throws IOException {
-	        localPath = "/tmp/repo/myrepo";
-	        remotePath = "ashachhikara@github.com/ashachhikara/box.git";
-	        remoteRepo = new FileRepository(remotePath);
-	        git = new Git(remoteRepo);
-	       // LocalRepoUtilities.getInstance().testCreate();
-	      
-	        try {
-	        	//LocalRepoUtilities.getInstance().testClone();
-				LocalRepoUtilities.getInstance().testAdd();
-				LocalRepoUtilities.getInstance().testCommit();
-				LocalRepoUtilities.getInstance().testPush();
-			} catch (GitAPIException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	    }
-
-	   
-	    public void testCreate() throws IOException {
-	        Repository newRepo = new FileRepository(localPath + "/.git");
-	        newRepo.create();
-	        System.out.println(newRepo);
-	       
-	    }
-
-	   public List<String> getBranches(String remotePath){
+	public List<String> fetchBranches(HttpServletRequest request){
+		
+		String localRepoPath = request.getParameter("localRepoPath");
 		   List<String> branchList = new ArrayList<String>();
 		   List<Ref> call;
+		   Repository repository = null;
 		   try {
-				call = git.branchList().setListMode(ListMode.REMOTE).call();
-	
-				for (Ref ref : call) {
-					int listLength = ref.getObjectId().getName().split(" ")[0].split("/").length;
-					branchList.add(ref.getObjectId().getName().split(" ")[0].split("/")[listLength-1]);
-					System.out.println("Branch: " + ref + " " + ref.getObjectId().getName() + " " + ref.getObjectId().getName());
-				}
-			}catch (GitAPIException e) {
-			
+			   /*FileRepositoryBuilder builder = new FileRepositoryBuilder();
+		      repository = builder.readEnvironment() // scan environment GIT_* variables
+					        .findGitDir() // scan up the file system tree
+					        .build();
+*/		      call = Git.open( new File(localRepoPath + "/.git" ) ).branchList().setListMode(ListMode.REMOTE).call();
+		      
+		      
+	          for (Ref ref : call) {
+				branchList.add(ref.getName().split("\\/")[ ref.getName().split("\\/").length-1]);
+			  }
+			}catch (Exception e) {
+				logger.error("Error in fetching repo branch list "+e);
 			}
 	       	return branchList;
 	   	}
-	   
-	    public void testClone() throws IOException, GitAPIException {
-	    	Git.cloneRepository().setURI(remotePath)
-            .setDirectory(new File(localPath)).call();
-	    	/*final SshSessionFactory sshSessionFactory = new JschConfigSessionFactory() {
-	    		
-	    		@Override
-				protected void configure(Host hc, Session session) {
-					   session.setPassword( "paxcel!@2345" );
-					
-				}
-	    	};
-	    		
-	    		CloneCommand cloneCommand = Git.cloneRepository();
-	    		
-	    		cloneCommand.setURI( "paxgit@172.16.0.46:/home/paxgit/Boxupp.git");
-	    		
-	    		cloneCommand.setTransportConfigCallback( new TransportConfigCallback() {
-	    		
-	    		  @Override
-	    		
-	    		  public void configure( Transport transport ) {
-	    		
-	    		    SshTransport sshTransport = ( SshTransport )transport;
-	    		
-	    		    sshTransport.setSshSessionFactory( sshSessionFactory );
-	    		
-	    		  }
-	    		
-	    		} );*/
-	    		//cloneCommand.setDirectory(new File(localPath)).call();
-	    }
 
-	    public void testAdd() throws IOException, GitAPIException {
-	       // File myfile = new File(localPath + "/Vagrantfile");
-	       // myfile.createNewFile();
-	       // git.add().addFilepattern("Vagrantfile").call();
-	    	  File myfile = new File(localPath + "/Vagrantfile");
-	          myfile.createNewFile();
-	          git.add().addFilepattern("Vagrantfile").call();
-	        /*CredentialsProvider cp = new UsernamePasswordCredentialsProvider("paxgit", "paxcel!@2345");
-	        Collection<Ref> remoteRefs = git.lsRemote()
-	            .setCredentialsProvider(cp) .setRemote("origin")     
-	            .setTags(true)
-	            .setHeads(false)
-	            .call();
-	        for (Ref ref : remoteRefs) {
-	            System.out.println(ref.getName() + " -> " + ref.getObjectId().name());
-	        }
-	             */ 
-	    }
+	
 
-
-	    public StatusBean testCommit() {
-	    	StatusBean stBean = new StatusBean();
+	public StatusBean commitOnRemoteRepo(JsonNode commitData) {
+		StatusBean stBean = new StatusBean();
+		Gson projectData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
+		LocalGitRepoBean localRepoBean = projectData.fromJson(commitData.toString(), LocalGitRepoBean.class);
+	    String username = localRepoBean.getGitURI().split("@")[0]; 
+	    try {   
+	    // credentials
+	        CredentialsProvider cp = new UsernamePasswordCredentialsProvider(username, localRepoBean.getPassword());
+	      
+			 Git git =  Git.open( new File( localRepoBean.getLocalRepoPath() + "/.git" ) );
+			//add	
+	        AddCommand ac = git.add();
+	        ac.addFilepattern(localRepoBean.getPath());
+	        ac.call();
+	       
+	        // commit
+	        CommitCommand commit = git.commit();
+	        commit.setMessage(localRepoBean.getComment());
+	        commit.call();
+	        
+	        // push
+	        PushCommand pc = git.push();
+	        pc.setCredentialsProvider(cp).setRemote("origin").setForce(true).setPushAll();
+	        Iterator<PushResult> it = pc.call().iterator();
+	          if(it.hasNext()){
+	               System.out.println(it.next().toString());
+	          }
+	        stBean.setStatusCode(0);
+	        stBean.setStatusMessage("Commited Successfully");
+	    }catch(Exception e){
+	    	logger.error("Error in commiting code on remote repo :"+e);
 	    	stBean.setStatusCode(1);
-	        try {
-				git.commit().setMessage("Added myfile").call();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-	        return stBean;
-	        		
+	    	stBean.setStatusMessage("Error in commiting code on remote repo ");
 	    }
+		return stBean;
 
-	
-	    public void testPush() throws IOException, JGitInternalException,
-	            GitAPIException {
-	        git.push().setPushAll().setRemote("origin").call();
-	    }
-
-	    public void testTrackMaster() throws IOException, JGitInternalException,
-	            GitAPIException {
-	        git.branchCreate().setName("master")
-	                .setUpstreamMode(SetupUpstreamMode.SET_UPSTREAM)
-	                .setStartPoint("origin/master").setForce(true).call();
-	    }
-
-	    public void testPull() throws IOException, GitAPIException {
-	        git.pull().call();
-	    }
-	
-	public static void main(String[] args){
+	}
+	public static void main(String[] args) {
+		/*String name = "paxgit";
+		String password = "paxcel!@2345";
+		String url = "paxgit@172.16.0.46:/home/paxgit/boxupp";*/
+		String name = "ashachhikara";
+		String password = "Jhajjar1979";
+		String url = "https://github.com/ashachhikara/box.git";
+        // credentials
+        CredentialsProvider cp = new UsernamePasswordCredentialsProvider(name, password);
+        // clone
+        //File dir = new File("/tmp/abf");
+        /*CloneCommand cc = new CloneCommand()
+                .setCredentialsProvider(cp)
+                .setDirectory(dir)
+                .setURI(url);*/
+        Git git = null;
 		try {
-			LocalRepoUtilities.getInstance().init();
-		} catch (IOException e) {
+			git = Git.open( new File( "/tmp/abf" + "/.git" ) );
+			//git = cc.call();
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			e1.printStackTrace();
+		} 
+        // add
+        AddCommand ac = git.add();
+        ac.addFilepattern("Vagrantfile");
+        try {
+            ac.call();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+ 
+        // commit
+        CommitCommand commit = git.commit()
+       .setMessage("push war");
+        try {
+            commit.call();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } // push
+        PushCommand pc = git.push();
+        pc.setCredentialsProvider(cp)
+                .setForce(true)
+                .setPushAll();
+        try {
+            Iterator<PushResult> it = pc.call().iterator();
+            if(it.hasNext()){
+                System.out.println(it.next().toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+ 
+       
 	}
 
-	public List<String> getLocalRepos(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public StatusBean commitOnRemoteRepo(JsonNode param) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 }

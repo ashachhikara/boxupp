@@ -15,8 +15,9 @@
  *******************************************************************************/
 angular.module("boxuppApp").controller('localGitController', [ '$scope', '$routeParams','remoteRepoFunctionality',function($scope, $routeParams, remoteRepoFunctionality){
 	$scope.localGitConfig = {
-		GitURI:"",
+		gitURI:"",
 		password:"",
+		localRepoPath:"",
 		repoBranch:"",
 		path:"local/VagrantFile",
 		comment:"Vagrantfile commit"
@@ -26,7 +27,7 @@ angular.module("boxuppApp").controller('localGitController', [ '$scope', '$route
 	$scope.loaderValid = false;
 	$scope.statusText = "";
 	//$scope.fetchRepoListSuccess = false;
-	$scope.branchValid = false;
+	$scope.branchValid = true;
 	
 	$scope.resetFlags = function(){
 		//$scope.fetchRepoListSuccess = false;
@@ -38,10 +39,13 @@ angular.module("boxuppApp").controller('localGitController', [ '$scope', '$route
 
 	
 	$scope.getRemoteBranchList = function(){
-		console.log("*************"+$scope.localGitConfig);
-		remoteRepoFunctionality.branchList($scope.localGitConfig.gitURI, $scope.localGitConfig.password).then(function(error, response){
-			if(resonse.statusCode == 0){
-				$scope.localGitConfig.gitBranchList = response.beanData;
+		
+		$scope.loaderValid = true;
+		remoteRepoFunctionality.branchList($scope.localGitConfig.gitURI,$scope.localGitConfig.localRepoPath, $scope.localGitConfig.password).then(function(response){
+			if(response != null){
+				$scope.localGitConfig.gitBranchList = response;
+				$scope.fetchBranchListSuccess = true;
+				$scope.loaderValid = false;
 			}
 		});
 
@@ -69,7 +73,7 @@ angular.module("boxuppApp").controller('localGitController', [ '$scope', '$route
 				$scope.newProjectData.$setPristine();
 			});*/
 		
-			remoteRepoFunctionality.commitOnRemoteRepo($scope.localGitConfig).then(function(error, response){
+			remoteRepoFunctionality.commitOnRemoteRepo($scope.localGitConfig).then(function(err, response){
 				if(err !== null){
 					var responseObj = JSON.parse(err.request.response);
 					alert(responseObj.message);
@@ -80,20 +84,21 @@ angular.module("boxuppApp").controller('localGitController', [ '$scope', '$route
 		}
 }]).factory('remoteRepoFunctionality', function($http, $q){
 	return{
-		branchList: function(gitURI, password){
+		branchList: function(gitURI, localRepoPath, password){
 			var repoURL = '/boxupp/resources/localGitRepo/getBranches';
-			var parameters = {"gitURI" : gitURI, "password" : password};
+			var parameters = {"gitURI" : gitURI, "localRepoPath":localRepoPath, "password" : password};
 			var deferred = $q.defer();
 			$http({
 				method: 'GET',
 				headers: {'Content-Type':'application/json; charset=UTF-8'},
-				url : repoURL
+				url : repoURL,
+				params:parameters
 			}).
 			success(function (response,status, headers, config) {
 				deferred.resolve(response);
 				console.log(response);
 			}).error(function(data, status, headers, config){
-				console.log(":Error geting Repo from github for a user");
+				console.log(":Error geting List of branches from remote server for a user");
 			});
 			return deferred.promise;
 		},
@@ -103,6 +108,7 @@ angular.module("boxuppApp").controller('localGitController', [ '$scope', '$route
 			var deferred = $q.defer();
 			$http({
 				method: 'POST',
+				url : repoURL,
 				headers: {'Content-Type':'application/json; charset=UTF-8'},
 				data : localGitConfig
 			}).
@@ -110,7 +116,7 @@ angular.module("boxuppApp").controller('localGitController', [ '$scope', '$route
 				deferred.resolve(response);
 				console.log(response);
 			}).error(function(data, status, headers, config){
-				console.log(":Error geting Repo from github for a user");
+				console.log(":Error geting Repo from remote server");
 			});
 			return deferred.promise;
 		}

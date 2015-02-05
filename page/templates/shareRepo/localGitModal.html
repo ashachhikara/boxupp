@@ -26,11 +26,21 @@
                   </div>
                   <div class="boxConfig" ng-hide="fetchBranchListSuccess"> 
                           <span class="boxConfigTitles">
+                            LocalRepo Path<sup>*</sup>
+                          </span>
+                            <input name="gitLocalRepoPath"
+                                  ng-model="localGitConfig.localRepoPath"
+                                  type="text" 
+                                  class="form-control" 
+                                  placeholder = "Enter Local Repo Path"
+                                  required/>
+                  </div>
+                  <div class="boxConfig" ng-hide="fetchBranchListSuccess"> 
+                          <span class="boxConfigTitles">
                             Password<sup>*</sup>
                           </span>
                             <input name="gitPassword" 
                                   ng-model="localGitConfig.password"
-                                  ng-pattern="/^.*(?=.{6})(?=.*[a-z])(?=.*\d)[a-zA-Z0-9]+$/"
                                   type="password" 
                                   class="form-control"   
                                   placeholder="Enter Github account password" 
@@ -51,7 +61,7 @@
                             </select>
 
                   </div>
-                  <div class="boxConfig" ng-show="branchValid"> 
+                  <div class="boxConfig" ng-show="fetchBranchListSuccess"> 
                           <span class="boxConfigTitles">
                             Commit Path
                           </span>
@@ -63,7 +73,7 @@
                                   required                                    
                             />
                   </div>
-                  <div class="boxConfig" ng-show="branchValid"> 
+                  <div class="boxConfig" ng-show="fetchBranchListSuccess"> 
                           <span class="boxConfigTitles">
                             Comment
                           </span>

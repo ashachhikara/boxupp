@@ -5,17 +5,26 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "local_git_repo_details")
 public class LocalGitRepoBean {
+	
+	public String getLocalRepoPath() {
+		return localRepoPath;
+	}
+
+	public void setLocalRepoPath(String localRepoPath) {
+		this.localRepoPath = localRepoPath;
+	}
+
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
 	private Integer localGitRepoID;
 	
 	@DatabaseField(useGetSet = true)
-	private String localGitURI;
+	private String gitURI;
 	
 	@DatabaseField(useGetSet = true)
-	private  String Password;
-
+	private String localRepoPath;
+	
 	@DatabaseField(useGetSet = true)
-	private String repoName;
+	private  String password;
 
 	@DatabaseField(useGetSet = true)
 	private String branch;
@@ -26,36 +35,29 @@ public class LocalGitRepoBean {
 	@DatabaseField(useGetSet = true)
 	private String comment;
 
+	
 	public Integer getLocalGitRepoID() {
 		return localGitRepoID;
 	}
 
-	public void setGitRepoID(Integer localGitRepoID) {
+	public void setLocalGitRepoID(Integer localGitRepoID) {
 		this.localGitRepoID = localGitRepoID;
 	}
 
-	public String getLocalGitURI() {
-		return localGitURI;
+	public String getGitURI() {
+		return gitURI;
 	}
 
-	public void setLocalGitURI(String localGitURI) {
-		this.localGitURI = localGitURI;
+	public void setGitURI(String gitURI) {
+		this.gitURI = gitURI;
 	}
 
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 
 	public void setPassword(String password) {
-		Password = password;
-	}
-
-	public String getRepoName() {
-		return repoName;
-	}
-
-	public void setRepoName(String repoName) {
-		this.repoName = repoName;
+		this.password = password;
 	}
 
 	public String getBranch() {
@@ -81,4 +83,8 @@ public class LocalGitRepoBean {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
+	
+
+	
 }
