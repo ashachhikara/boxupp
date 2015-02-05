@@ -76,6 +76,7 @@ public class VagrantUtilities {
 	}
 	
 	public String getVagrantLogContent(HttpServletRequest request){
+		
 		Integer userID = Integer.parseInt(request.getParameter("userID") != null?request.getParameter("userID"):null);
 		String fileName = request.getParameter("fileName") != null? request.getParameter("fileName"):null;
 		

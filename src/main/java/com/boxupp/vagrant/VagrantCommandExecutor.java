@@ -114,6 +114,7 @@ public class VagrantCommandExecutor {
 				BufferedWriter bw = new BufferedWriter(fw);
 				while((data = reader.readLine())!=null){
 					bw.write(data);
+					bw.append(System.getProperty("line.separator"));
 					console.pushOutput(data);
 				}
 				bw.close();
@@ -134,6 +135,7 @@ public class VagrantCommandExecutor {
 //			if(exitCode != 0){
 				while((data = errReader.readLine())!=null){
 					bw.write(data);
+					bw.append(System.getProperty("line.separator"));
 					console.pushError(data);
 				}
 				bw.close();
