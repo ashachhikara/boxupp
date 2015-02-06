@@ -21,8 +21,9 @@
                                   ng-model="localGitConfig.remoteRepoURI"
                                   type="text" 
                                   class="form-control" 
-                                  placeholder = "Enter Local Git URI"
-                                  required/>
+                                  placeholder = "Enter Remote Repo URI"
+                                   popover="URI Example username@hostName:/(git repo path on remote server)" popover-trigger="focus" popover-placement="bottom" required/>
+
                   </div>
                   <div class="boxConfig" ng-hide="fetchBranchListSuccess"> 
                           <span class="boxConfigTitles">

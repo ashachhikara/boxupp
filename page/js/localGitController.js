@@ -15,11 +15,11 @@
  *******************************************************************************/
 angular.module("boxuppApp").controller('localGitController', [ '$scope', '$routeParams','remoteRepoFunctionality',function($scope, $routeParams, remoteRepoFunctionality){
 	$scope.localGitConfig = {
-		remoteRepoURI:"paxgit@172.16.0.46:/home/paxgit/boxupp",
-		password:"paxcel!@2345",
+		remoteRepoURI:"",
+		password:"",
 		repoBranch:"",
 		path:"/local/Vagrantfile",
-		comment:"Vagrantfile commit1"
+		comment:"Vagrantfile commit"
 	};
 	$scope.checkbranchList = false;
 	$scope.buttonText = "Get Branches";
