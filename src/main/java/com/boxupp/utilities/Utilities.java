@@ -18,10 +18,14 @@ package com.boxupp.utilities;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +46,7 @@ import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.ShellScriptBean;
 import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.db.beans.SyncFoldersBean;
+import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.responseBeans.VagrantFileStatus;
 
 public class Utilities { 
@@ -311,6 +316,37 @@ public class Utilities {
     		file.delete();
     	}
 		
+	}
+	public  StatusBean copyFile(File source, File dest) throws IOException {
+		StatusBean stBean = new StatusBean();
+		InputStream inStream = null;
+		OutputStream outStream = null;
+	 
+	    	try{
+	 
+	    	   
+	    	    inStream = new FileInputStream(source);
+	    	    outStream = new FileOutputStream(dest);
+	 
+	    	    byte[] buffer = new byte[1024];
+	 
+	    	    int length;
+	    	    //copy the file content in bytes 
+	    	    while ((length = inStream.read(buffer)) > 0){
+	 
+	    	    	outStream.write(buffer, 0, length);
+	 
+	    	    }
+	 
+	    	    inStream.close();
+	    	    outStream.close();
+	    	    stBean.setStatusCode(0);
+	    	    stBean.setStatusMessage("File is copied successful!");
+	 
+	    	}catch(IOException e){
+	    		logger.error("Error in copy file : "+e.getMessage());
+	    	}
+	    return stBean;
 	}
 	public VagrantFileStatus saveVagrantFile(String projectID, String userID){
 		/*String projectID = vargantFileData.get("projectID").getTextValue();

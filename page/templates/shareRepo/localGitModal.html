@@ -15,10 +15,10 @@
               <form name="githubForm">
                  <div class="boxConfig" ng-hide="fetchBranchListSuccess"> 
                           <span class="boxConfigTitles">
-                            GitURI<sup>*</sup>
+                            Remote Repo URI<sup>*</sup>
                           </span>
-                            <input name="gitUsername"
-                                  ng-model="localGitConfig.gitURI"
+                            <input name="remoteURI"
+                                  ng-model="localGitConfig.remoteRepoURI"
                                   type="text" 
                                   class="form-control" 
                                   placeholder = "Enter Local Git URI"
@@ -26,28 +26,16 @@
                   </div>
                   <div class="boxConfig" ng-hide="fetchBranchListSuccess"> 
                           <span class="boxConfigTitles">
-                            LocalRepo Path<sup>*</sup>
-                          </span>
-                            <input name="gitLocalRepoPath"
-                                  ng-model="localGitConfig.localRepoPath"
-                                  type="text" 
-                                  class="form-control" 
-                                  placeholder = "Enter Local Repo Path"
-                                  required/>
-                  </div>
-                  <div class="boxConfig" ng-hide="fetchBranchListSuccess"> 
-                          <span class="boxConfigTitles">
                             Password<sup>*</sup>
                           </span>
-                            <input name="gitPassword" 
+                            <input name="remotePassword" 
                                   ng-model="localGitConfig.password"
                                   type="password" 
                                   class="form-control"   
-                                  placeholder="Enter Github account password" 
-                                  required                                    
+                                  placeholder="Enter Remote server account password" required                          
                                   />
                   </div>
-                  
+                             
                   <div class="boxConfig" ng-show="fetchBranchListSuccess"> 
                           <span class="boxConfigTitles">
                             Branch List
@@ -90,8 +78,8 @@
                   
             </div>
         </div>
-        <div class="statusMessage text-center" ng-hide="checkRepoList" style="color:red;"><span>{{statusText}}</span></div>
-        <div class="statusLoader text-center" ng-show="checkRepoList"><span><i class="fa fa-refresh fa-spin"></i></span></div>
+        <div class="statusMessage text-center" ng-hide="checkbranchList" style="color:red;"><span>{{statusText}}</span></div>
+        <div class="statusLoader text-center" ng-show="checkbranchList"><span><i class="fa fa-refresh fa-spin"></i></span></div>
 
 
         <!-- /. modal-body -->
@@ -99,7 +87,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" ng-click="resetFlags()">Close</button>
         <button class="btn btn-primary btn-sm" ng-click="getRemoteBranchList();" ng-hide="fetchBranchListSuccess">{{buttonText}}</button>
-        <button type="button" class="btn btn-primary gitCommit btn-sm" ng-show="fetchBranchListSuccess" ng-click="commitToGit()">Commit</button>
+        <button type="button" class="btn btn-primary gitCommit btn-sm" ng-show="fetchBranchListSuccess" ng-click="commitToRemoteRepo()">Commit</button>
         
       </div>
     </div>

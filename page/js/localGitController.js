@@ -15,65 +15,41 @@
  *******************************************************************************/
 angular.module("boxuppApp").controller('localGitController', [ '$scope', '$routeParams','remoteRepoFunctionality',function($scope, $routeParams, remoteRepoFunctionality){
 	$scope.localGitConfig = {
-		gitURI:"",
-		password:"",
-		localRepoPath:"",
+		remoteRepoURI:"paxgit@172.16.0.46:/home/paxgit/boxupp",
+		password:"paxcel!@2345",
 		repoBranch:"",
-		path:"local/VagrantFile",
-		comment:"Vagrantfile commit"
+		path:"/local/Vagrantfile",
+		comment:"Vagrantfile commit1"
 	};
-
+	$scope.checkbranchList = false;
 	$scope.buttonText = "Get Branches";
-	$scope.loaderValid = false;
 	$scope.statusText = "";
 	//$scope.fetchRepoListSuccess = false;
 	$scope.branchValid = true;
 	
 	$scope.resetFlags = function(){
-		//$scope.fetchRepoListSuccess = false;
 		$scope.fetchBranchListSuccess = false;
 		$scope.branchValid = false;
-		// $scope.githubConfig.username = "";
-		// $scope.githubConfig.password = "";
+		
 	}	
 
 	
 	$scope.getRemoteBranchList = function(){
-		
+		$scope.checkbranchList = true;
+		$scope.localGitConfig.userID = $routeParams.userID;
 		$scope.loaderValid = true;
-		remoteRepoFunctionality.branchList($scope.localGitConfig.gitURI,$scope.localGitConfig.localRepoPath, $scope.localGitConfig.password).then(function(response){
+		remoteRepoFunctionality.branchList($scope.localGitConfig.remoteRepoURI,$scope.localGitConfig.localRepoPath, $scope.localGitConfig.password).then(function(response){
 			if(response != null){
 				$scope.localGitConfig.gitBranchList = response;
 				$scope.fetchBranchListSuccess = true;
-				$scope.loaderValid = false;
+				$scope.checkbranchList = false;
 			}
 		});
 
-		
-
 	}
 		
-	$scope.commitToGit = function(){
-		/*var gC = $scope.githubConfig;
-		var github = new Github({
-			username: gC.username,
-			password:gC.password,
-			auth : 'basic'
-		});
-	
-		var gitPath = gC.path;
-		var repo = github.getRepo(gC.username, gC.repoName);
-		var gitBranch = gC.repoBranch;
-		var gitCommitMessage = gC.comment;*/
-		/*GitRepo.save($scope.githubConfig,function(data){
-				$scope.projects.push(angular.copy(data.beanData));
-				//Reset New Project Modal Data
-				$scope.newProject = {};
-				//Reset form pristine state
-				$scope.newProjectData.$setPristine();
-			});*/
-		
-			remoteRepoFunctionality.commitOnRemoteRepo($scope.localGitConfig).then(function(err, response){
+	$scope.commitToRemoteRepo = function(){
+		remoteRepoFunctionality.commitOnRemoteRepo($scope.localGitConfig, $routeParams.userID).then(function(err, response){
 				if(err !== null){
 					var responseObj = JSON.parse(err.request.response);
 					alert(responseObj.message);
@@ -84,9 +60,9 @@ angular.module("boxuppApp").controller('localGitController', [ '$scope', '$route
 		}
 }]).factory('remoteRepoFunctionality', function($http, $q){
 	return{
-		branchList: function(gitURI, localRepoPath, password){
+		branchList: function(remoteRepoURI, localRepoPath, password){
 			var repoURL = '/boxupp/resources/localGitRepo/getBranches';
-			var parameters = {"gitURI" : gitURI, "localRepoPath":localRepoPath, "password" : password};
+			var parameters = {"remoteRepoURI" : remoteRepoURI, "localRepoPath":localRepoPath, "password" : password};
 			var deferred = $q.defer();
 			$http({
 				method: 'GET',
@@ -104,7 +80,6 @@ angular.module("boxuppApp").controller('localGitController', [ '$scope', '$route
 		},
 		commitOnRemoteRepo: function(localGitConfig){
 			var repoURL = '/boxupp/resources/localGitRepo/commmit';
-			
 			var deferred = $q.defer();
 			$http({
 				method: 'POST',

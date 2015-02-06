@@ -18,7 +18,7 @@ public class LocalGitRepoBean {
 	private Integer localGitRepoID;
 	
 	@DatabaseField(useGetSet = true)
-	private String gitURI;
+	private String remoteRepoURI;
 	
 	@DatabaseField(useGetSet = true)
 	private String localRepoPath;
@@ -44,12 +44,12 @@ public class LocalGitRepoBean {
 		this.localGitRepoID = localGitRepoID;
 	}
 
-	public String getGitURI() {
-		return gitURI;
+	public String getRemoteRepoURI() {
+		return remoteRepoURI;
 	}
 
-	public void setGitURI(String gitURI) {
-		this.gitURI = gitURI;
+	public void setRemoteRepoURI(String remoteRepoURI) {
+		this.remoteRepoURI = remoteRepoURI;
 	}
 
 	public String getPassword() {

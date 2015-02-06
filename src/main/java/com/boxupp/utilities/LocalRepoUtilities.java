@@ -11,12 +11,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.eclipse.jgit.api.AddCommand;
+import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.CommitCommand;
+import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -30,6 +31,7 @@ public class LocalRepoUtilities {
 	private static Logger logger = LogManager.getLogger(LocalRepoUtilities.class.getName());
 	private static LocalRepoUtilities localRepoUtilities = null;
 	
+	
 	public static LocalRepoUtilities getInstance() {
 		if (localRepoUtilities == null) {
 			try {
@@ -42,19 +44,24 @@ public class LocalRepoUtilities {
 	}
 
 	public List<String> fetchBranches(HttpServletRequest request){
-		
-		String localRepoPath = request.getParameter("localRepoPath");
+		String username = request.getParameter("remoteRepoURI").split("@")[0]; 
+		String password = request.getParameter("password");
 		   List<String> branchList = new ArrayList<String>();
 		   List<Ref> call;
-		   Repository repository = null;
+		   Git git = null;
+		   CredentialsProvider cp = new UsernamePasswordCredentialsProvider(username, password);
+
+		   File localRepo = new File(CommonProperties.getInstance().getRemoteRepoClonePath());
 		   try {
-			   /*FileRepositoryBuilder builder = new FileRepositoryBuilder();
-		      repository = builder.readEnvironment() // scan environment GIT_* variables
-					        .findGitDir() // scan up the file system tree
-					        .build();
-*/		      call = Git.open( new File(localRepoPath + "/.git" ) ).branchList().setListMode(ListMode.REMOTE).call();
-		      
-		      
+			   if(localRepo.exists()){
+				   CloneCommand cc = new CloneCommand().setCredentialsProvider(cp).setDirectory(localRepo).setURI(request.getParameter("remoteRepoURI"));
+				   git =  cc.call();
+				  
+			   }else{
+				  git =   Git.open( new File( CommonProperties.getInstance().getRemoteRepoClonePath() + "/.git" ) );
+			   }
+			   call = git.branchList().setListMode(ListMode.REMOTE).call();
+		           
 	          for (Ref ref : call) {
 				branchList.add(ref.getName().split("\\/")[ ref.getName().split("\\/").length-1]);
 			  }
@@ -70,12 +77,20 @@ public class LocalRepoUtilities {
 		StatusBean stBean = new StatusBean();
 		Gson projectData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		LocalGitRepoBean localRepoBean = projectData.fromJson(commitData.toString(), LocalGitRepoBean.class);
-	    String username = localRepoBean.getGitURI().split("@")[0]; 
+	    String username = localRepoBean.getRemoteRepoURI().split("@")[0]; 
+        File cloneDir  = new File(CommonProperties.getInstance().getRemoteRepoClonePath()); 
+
 	    try {   
 	    // credentials
 	        CredentialsProvider cp = new UsernamePasswordCredentialsProvider(username, localRepoBean.getPassword());
-	      
-			 Git git =  Git.open( new File( localRepoBean.getLocalRepoPath() + "/.git" ) );
+	        File vagrantpath = new File(CommonProperties.getInstance().getRemoteRepoClonePath()+localRepoBean.getPath());
+			Git git =   Git.open( new File( CommonProperties.getInstance().getRemoteRepoClonePath() + "/.git" ) );
+			String projectDir =  Utilities.getInstance().fetchActiveProjectDirectory(Integer.parseInt(commitData.get("userID").getTextValue()));
+			String vagrantfilePath = projectDir + OSProperties.getInstance().getOSFileSeparator() + 
+				OSProperties.getInstance().getVagrantFileName();
+			Utilities.getInstance().copyFile(new File(vagrantfilePath), vagrantpath);
+			//git.checkout().setName(localRepoBean.getBranch()).setUpstreamMode(SetupUpstreamMode.TRACK).call();
+			
 			//add	
 	        AddCommand ac = git.add();
 	        ac.addFilepattern(localRepoBean.getPath());
@@ -93,6 +108,7 @@ public class LocalRepoUtilities {
 	          if(it.hasNext()){
 	               System.out.println(it.next().toString());
 	          }
+	          if(cloneDir.exists()) Utilities.getInstance().deleteFile(cloneDir);
 	        stBean.setStatusCode(0);
 	        stBean.setStatusMessage("Commited Successfully");
 	    }catch(Exception e){
@@ -103,6 +119,7 @@ public class LocalRepoUtilities {
 		return stBean;
 
 	}
+	
 	public static void main(String[] args) {
 		/*String name = "paxgit";
 		String password = "paxcel!@2345";
@@ -113,22 +130,22 @@ public class LocalRepoUtilities {
         // credentials
         CredentialsProvider cp = new UsernamePasswordCredentialsProvider(name, password);
         // clone
-        //File dir = new File("/tmp/abf");
-        /*CloneCommand cc = new CloneCommand()
+        File dir = new File("/tmp/a");
+        CloneCommand cc = new CloneCommand()
                 .setCredentialsProvider(cp)
                 .setDirectory(dir)
-                .setURI(url);*/
+                .setURI(url);
         Git git = null;
 		try {
-			git = Git.open( new File( "/tmp/abf" + "/.git" ) );
-			//git = cc.call();
+			//git = Git.open( new File( "/tmp/abf" + "/.git" ) );
+			git = cc.call();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} 
         // add
         AddCommand ac = git.add();
-        ac.addFilepattern("Vagrantfile");
+        ac.addFilepattern(".");
         try {
             ac.call();
         } catch (Exception e) {
@@ -156,7 +173,10 @@ public class LocalRepoUtilities {
             e.printStackTrace();
         }
  
-       
+     // cleanup
+        if(dir.exists()){
+        Utilities.getInstance().deleteFile(dir);
+        }
 	}
 
 	
