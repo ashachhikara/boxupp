@@ -80,4 +80,6 @@ public class MachineConfig {
 	public StatusBean updatePuppetConfigForMachine(JsonNode updatedMachineMapping) {
 		return MachineConfigDAOManager.getInstance().updatePuppetMasterMapping(updatedMachineMapping);
 	}
+	
+	
 }

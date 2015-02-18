@@ -51,29 +51,29 @@ Vagrant.configure("2") do |config|
 			
 				#if($puppetMasterMachine.vagrantID  == $childBean.vagrantID)
 				
-				$identifier$manifestsPathMarker = "../manifests"
-				$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
-				$identifier$modulePathMarker = "../modules"
-				#foreach ($innerChildBean in $childStructures)
-					#if($puppetMasterMachine.vagrantID  != $innerChildBean.vagrantID)
-						$identifier$shellProvisionMarker "shell" , inline: "echo $innerChildBean.hostName >> /etc/puppet/autosign.conf"
+					$identifier$manifestsPathMarker = "../manifests"
+					$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
+					$identifier$modulePathMarker = "../modules"
+					#foreach ($innerChildBean in $childStructures)
+						#if($puppetMasterMachine.vagrantID  != $innerChildBean.vagrantID)
+							$identifier$shellProvisionMarker "shell" , inline: "echo $innerChildBean.hostName >> /etc/puppet/autosign.conf"
+						#end
 					#end
-				#end
-					  $identifier$shellProvisionMarker  "puppet_server" do |$identifier|
-                       $identifier$puppetServerMarker = "$childBean.hostName"
-                       $identifier$puppetOptionMarker = "--verbose --debug"
+					 $identifier$shellProvisionMarker  "puppet_server" do |$identifier|
+                    	 $identifier$puppetServerMarker = "$childBean.hostName"
+                     	$identifier$puppetOptionMarker = "--verbose --debug"
                 	end		
-			#else
+				#else
 				     $identifier$shellProvisionMarker  "puppet_server" do |$identifier|
-				     #foreach ($innerChildBean in $childStructures)
-				     	#if($puppetMasterMachine.vagrantID  == $innerChildBean.vagrantID)
-                         $identifier$puppetServerMarker = "$innerChildBean.hostName"
-                         #end
-                      #end
+				     	#foreach ($innerChildBean in $childStructures)
+				     		#if($puppetMasterMachine.vagrantID  == $innerChildBean.vagrantID)
+                         		$identifier$puppetServerMarker = "$innerChildBean.hostName"
+                        	 #end
+                     	 #end
                          $identifier$puppetNodeMarker = "$childBean.hostName"
                          $identifier$puppetOptionMarker = "--verbose --d"
-            		#end
-            		end
+                       end  
+            	#end
             #else
             
            	 	$identifier$shellProvisionMarker "puppet" do |$identifier|
@@ -105,12 +105,12 @@ Vagrant.configure("2") do |config|
 		#end
 		#if($childBean.provisionerName)prov.name="$childBean.provisionerName"
 		#end
-	end
+		end
 	#end
 	#set ($counter = $counter + 1)
 
-end
-#end
+	end
+	#end
 end
 #*
 '$MARKER_NAME are used to set LHS Markers in the vm configuration for setting up
