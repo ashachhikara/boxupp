@@ -41,6 +41,8 @@ import com.boxupp.dao.ProjectDAOManager;
 import com.boxupp.dao.PuppetModuleDAOManager;
 import com.boxupp.dao.ShellScriptDAOManager;
 import com.boxupp.db.beans.MachineConfigurationBean;
+import com.boxupp.db.beans.MachineProjectMapping;
+import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.PuppetModuleBean;
 import com.boxupp.db.beans.PuppetModuleMapping;
 import com.boxupp.db.beans.ShellScriptBean;
@@ -349,8 +351,12 @@ public class Utilities {
 	    return stBean;
 	}
 	public VagrantFileStatus saveVagrantFile(String projectID, String userID){
+		VagrantFileStatus fileStatus = new VagrantFileStatus();
 		/*String projectID = vargantFileData.get("projectID").getTextValue();
 		String userID = vargantFileData.get("userID").getTextValue();*/
+		MachineConfigurationBean puppetMasterMachine = null;
+		try{
+		ProjectBean projectbean  = ProjectDAOManager.getInstance().projectDao.queryForId(Integer.parseInt(projectID));
 		List<MachineConfigurationBean>  machineConfigList = MachineConfigDAOManager.getInstance().retireveBoxesForProject(projectID);
 		List<PuppetModuleBean>  puppetModuleList = PuppetModuleDAOManager.getInstance().retireveModulesForProject(projectID);
 		List<ShellScriptBean> shellScriptList = ShellScriptDAOManager.getInstance().retireveScriptsForProject(projectID);
@@ -358,8 +364,19 @@ public class Utilities {
 		List<PuppetModuleMapping> puppetModuleMappingList = ProjectDAOManager.getInstance().retireveModulesMapping(projectID);
 		String provider  = ProjectDAOManager.getInstance().getProviderForProject(projectID);
 		Utilities.getInstance().commitSyncFoldersToDisk(machineConfigList, Integer.parseInt(userID));
-		boolean configFileData = ConfigurationGenerator.generateConfig(machineConfigList, puppetModuleList,  shellScriptList, shellScriptMappingList, puppetModuleMappingList, provider, projectID);
-		VagrantFileStatus fileStatus = new VagrantFileStatus();
+		List<MachineProjectMapping> puppetMasterMachines = MachineConfigDAOManager.getInstance().machineMappingDao.queryBuilder().where().eq(MachineProjectMapping.PROJECT_ID_FIELD_NAME, projectbean).and().eq(MachineProjectMapping.Is_PuppetMaster, true).query();
+		if(!puppetMasterMachines.isEmpty()){
+			 puppetMasterMachine = puppetMasterMachines.get(0).getMachineConfig();
+		for(MachineConfigurationBean machineBean : machineConfigList){
+			 if(machineBean.getMachineID() == puppetMasterMachine.getMachineID()){
+				 machineConfigList.remove(machineBean);
+				 machineConfigList.add(0, puppetMasterMachine);
+				 break;
+			 }
+		}
+		}
+		boolean configFileData = ConfigurationGenerator.generateConfig(machineConfigList, puppetModuleList,  shellScriptList, shellScriptMappingList, puppetModuleMappingList, provider, projectID, puppetMasterMachine );
+		
 		if(configFileData){
 			logger.info("Started saving vagrant file");
 			FileManager fileManager = new FileManager();
@@ -369,6 +386,9 @@ public class Utilities {
 		}
 		else{
 			logger.info("Failed to save vagrant file !!");
+		}
+		}catch(Exception ex){
+			logger.error("error in saving vagrant file"+ex);
 		}
 		//persistData(mappings);
 		return fileStatus;

@@ -29,6 +29,7 @@ import com.boxupp.db.DAOProvider;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
+import com.boxupp.db.beans.ShellScriptMapping;
 import com.boxupp.db.beans.UserProjectMapping;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.Utilities;
@@ -43,7 +44,7 @@ import com.j256.ormlite.stmt.SelectArg;
 public class MachineConfigDAOManager implements DAOImplInterface {
 	private static Logger logger = LogManager.getLogger(MachineConfigDAOManager.class.getName());
 	public static Dao<MachineConfigurationBean, Integer>machineConfigDao = null;
-	protected static Dao<MachineProjectMapping, Integer> machineMappingDao = null;
+	public static Dao<MachineProjectMapping, Integer> machineMappingDao = null;
 	private static MachineConfigDAOManager machineConfigDBManager = null;
 	private PreparedQuery<MachineConfigurationBean> queryForBoxesOfProject = null;
 	
@@ -312,4 +313,38 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		statusBean.setStatusMessage("Machine stop successfully");
 		return statusBean;
 	}
+	
+	public StatusBean updatePuppetMasterMapping(JsonNode updatedData){
+		Integer projectID = Integer.parseInt(updatedData.get("projectID").getTextValue());
+		StatusBean statusBean = new StatusBean();
+		try {
+			ProjectBean projectBean = ProjectDAOManager.getInstance().projectDao.queryForId(projectID);
+			 List<MachineProjectMapping> mapping = machineMappingDao.queryBuilder().where().eq(MachineProjectMapping.PROJECT_ID_FIELD_NAME, projectBean).query();
+			 for(MachineProjectMapping machineMapping : mapping){
+				 machineMapping.setIsPuppetMaster(false);
+				 machineMappingDao.update(machineMapping);
+				 machineMappingDao.refresh(machineMapping);
+			 }
+			 
+			 if(updatedData.has("machineID")){
+				 Integer machineID = updatedData.get("machineID").getIntValue();
+				 MachineConfigurationBean machineConfigBean  = machineConfigDao.queryForId(machineID);
+				 MachineProjectMapping machineMapping = machineMappingDao.queryBuilder().where().eq(MachineProjectMapping.PROJECT_ID_FIELD_NAME, projectBean).and().eq(MachineProjectMapping.MACHINE_ID_FIELD_NAME, machineConfigBean).query().get(0);
+				 machineMapping.setIsPuppetMaster(true);
+				 machineMappingDao.update(machineMapping);
+				
+			 }
+			
+			
+		} catch (SQLException e) {
+			logger.error("Error  updating machine project mapping for puppet master  : " + e.getMessage());
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error updating machine Project Mapping with Puppet Master  configuration : "+e.getMessage());
+		}
+		
+		statusBean.setStatusCode(0);
+		statusBean.setStatusMessage("Machine Project Mapping with puppet Master Configuration updated successfully");
+		return statusBean;
+	}
+
 }

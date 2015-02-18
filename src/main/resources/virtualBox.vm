@@ -17,6 +17,9 @@ Vagrant.configure("2") do |config|
 #set ($providerMarker = ".vm.provider")
 #set ($shellProvisionMarker = ".vm.provision")
 #set ($childStructures = $boxuppConfig)
+#set ($puppetServerMarker = ".puppet_server")
+#set ($puppetNodeMarker = ".puppet_node")
+#set ($puppetOptionMarker = ".options")
 
 #foreach ($childBean in $childStructures)
 	#set ($folderMappings = $childBean.getSyncFolders())
@@ -44,11 +47,41 @@ Vagrant.configure("2") do |config|
 		#end
 		#end
 		
-		$identifier$shellProvisionMarker "puppet" do |$identifier|
-		$identifier$manifestsPathMarker = "../manifests"
-		$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
-		$identifier$modulePathMarker = "../modules"
-		end		
+		#if($puppetMasterMachine)
+			
+				#if($puppetMasterMachine.vagrantID  == $childBean.vagrantID)
+				
+				$identifier$manifestsPathMarker = "../manifests"
+				$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
+				$identifier$modulePathMarker = "../modules"
+				#foreach ($innerChildBean in $childStructures)
+					#if($puppetMasterMachine.vagrantID  != $innerChildBean.vagrantID)
+						$identifier$shellProvisionMarker "shell" , inline: "echo $innerChildBean.hostName >> /etc/puppet/autosign.conf"
+					#end
+				#end
+					  $identifier$shellProvisionMarker  "puppet_server" do |$identifier|
+                       $identifier$puppetServerMarker = "$childBean.hostName"
+                       $identifier$puppetOptionMarker = "--verbose --debug"
+                	end		
+			#else
+				     $identifier$shellProvisionMarker  "puppet_server" do |$identifier|
+				     #foreach ($innerChildBean in $childStructures)
+				     	#if($puppetMasterMachine.vagrantID  == $innerChildBean.vagrantID)
+                         $identifier$puppetServerMarker = "$innerChildBean.hostName"
+                         #end
+                      #end
+                         $identifier$puppetNodeMarker = "$childBean.hostName"
+                         $identifier$puppetOptionMarker = "--verbose --d"
+            		#end
+            		end
+            #else
+            
+           	 	$identifier$shellProvisionMarker "puppet" do |$identifier|
+					$identifier$manifestsPathMarker = "../manifests"
+					$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
+					$identifier$modulePathMarker = "../modules"
+				end	
+			#end	
 		
 		#foreach ($scriptMapping in $scriptMappings)
 		#if($scriptMapping.machineConfig.vagrantID == $identifier)

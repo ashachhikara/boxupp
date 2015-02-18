@@ -20,8 +20,10 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "machineProjectMapping")
 public class MachineProjectMapping {
+	
 	public final static String MACHINE_ID_FIELD_NAME = "machineID";
 	public final static String PROJECT_ID_FIELD_NAME = "projectID";
+	public final static String Is_PuppetMaster = "isPuppetMaster";
 	public MachineProjectMapping( ProjectBean project,
 			MachineConfigurationBean machineConfig) {
 		super();
@@ -32,6 +34,10 @@ public class MachineProjectMapping {
 	public MachineProjectMapping(){
 		
 	}
+	
+	@DatabaseField(useGetSet = true, defaultValue = "false")
+	private Boolean isPuppetMaster;
+	
 	
 	@DatabaseField(canBeNull = false, generatedId = true, useGetSet = true)
 	private Integer ID;
@@ -59,6 +65,12 @@ public class MachineProjectMapping {
 	}
 	public void setMachineConfig(MachineConfigurationBean machineConfig) {
 		this.machineConfig = machineConfig;
+	}
+	public Boolean getIsPuppetMaster() {
+		return isPuppetMaster;
+	}
+	public void setIsPuppetMaster(Boolean isPuppetMaster) {
+		this.isPuppetMaster = isPuppetMaster;
 	}
 	
 }
