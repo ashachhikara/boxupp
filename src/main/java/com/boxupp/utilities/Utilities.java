@@ -368,7 +368,7 @@ public class Utilities {
 		if(!puppetMasterMachines.isEmpty()){
 			 puppetMasterMachine = puppetMasterMachines.get(0).getMachineConfig();
 		for(MachineConfigurationBean machineBean : machineConfigList){
-			 if(machineBean.getMachineID() == puppetMasterMachine.getMachineID()){
+			 if(machineBean.getVagrantID().equalsIgnoreCase( puppetMasterMachine.getVagrantID())){
 				 machineConfigList.remove(machineBean);
 				 machineConfigList.add(0, puppetMasterMachine);
 				 break;
