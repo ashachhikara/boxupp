@@ -70,12 +70,13 @@ Vagrant.configure("2") do |config|
 				#if($puppetMasterMachine.vagrantID  == $childBean.vagrantID)
 				
 				
-					$identifier$syncFolderMarker "manifests", "../manifests"
-					$identifier$syncFolderMarker "modules", "../modules"
-					$identifier$$syncFolderMarker "files", "../manifests/$nodeFile"
+					$identifier$syncFolderMarker "../manifests", "/etc/puppet/manifests" 
+					$identifier$syncFolderMarker "../modules", "/etc/puppet/modules"
+					$identifier$syncFolderMarker "../manifests/$nodeFile", "/etc/puppet/files"
 				#foreach ($innerChildBean in $childStructures)
 					#if($puppetMasterMachine.vagrantID  != $innerChildBean.vagrantID)
 						$identifier$shellProvisionMarker "shell" , inline: "echo $innerChildBean.hostName >> /etc/puppet/autosign.conf"
+						$identifier$shellProvisionMarker "shell" , inline: "/etc/init.d/puppetmaster start"
 					#end
 				#end
 					  $identifier$shellProvisionMarker  "puppet_server" do |$identifier|

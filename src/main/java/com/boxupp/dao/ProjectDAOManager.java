@@ -91,7 +91,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 			statusBean.setData(projectBean);
 			Utilities.getInstance().initializeDirectory(projectBean.getProjectID());
 			
-			String nodeFileLoc = PuppetUtilities.getInstance().constructManifestsDirectory()+OSProperties.getInstance().getOSFileSeparator()+projectBean.getProjectID()+".pp";
+			String nodeFileLoc = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID())+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getManifestsDirName()+OSProperties.getInstance().getOSFileSeparator()+projectBean.getProjectID()+".pp";
 			boolean nodeFile =	new File(nodeFileLoc).createNewFile();
 			
 			Integer providerID = ProviderDAOManager.getInstance().providerDao.queryForId(projectBean.getProviderType()).getProviderID();

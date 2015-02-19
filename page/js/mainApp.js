@@ -1418,6 +1418,23 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 				});
 			}
 		},
+		hostName : function(form){
+
+			if(!$scope.projectData.boxesState.update){
+				var keepgoing = true;
+				angular.forEach($scope.boxesData,function(box){
+					if(keepgoing){
+						if(box.hostName === form.hostName.$modelValue){
+							form.hostName.$setValidity('alreadyExists',false);
+							keepgoing = false;
+						}else{
+							form.hostName.$setValidity('alreadyExists',true);				
+						
+						}	
+					}
+				});
+			}
+		},
 		scriptName : function(form){
 			if(!$scope.projectData.scriptsState.update){
 				var keepgoing = true;

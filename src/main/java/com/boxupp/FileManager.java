@@ -76,7 +76,9 @@ public class FileManager {
 	
 	public StatusBean writeNodeFileToDisk(String data, String projectID ){
 		StatusBean statusBean = new StatusBean();
-		String fileOutputPath = PuppetUtilities.getInstance().constructManifestsDirectory()+
+		String fileOutputPath = OSProperties.getInstance().getUserHomeDirectory() + 
+				OSProperties.getInstance().getOSFileSeparator() + "Boxupp" + 
+				OSProperties.getInstance().getOSFileSeparator() + projectID+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getManifestsDirName()+
 				OSProperties.getInstance().getOSFileSeparator()+projectID+".pp";
 		VagrantFileStatus vagrantFileStatus = new VagrantFileStatus();
 		

@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,9 +106,9 @@ public class Utilities {
 		String boxuppDirPath = osProperties.getUserHomeDirectory() + 
 				 osProperties.getOSFileSeparator() + "Boxupp";
 		String moduleDir = PuppetUtilities.getInstance().constructModuleDirectory();
-		String manifestDir = PuppetUtilities.getInstance().constructManifestsDirectory();
+		//String manifestDir = PuppetUtilities.getInstance().constructManifestsDirectory();
 		checkIfDirExists(new File(moduleDir));
-		checkIfDirExists(new File(manifestDir));
+		//checkIfDirExists(new File(manifestDir));
 		File boxuppDir = new File(boxuppDirPath);
 		if(!boxuppDir.exists()){
 			boxuppDir.mkdirs();
@@ -129,6 +128,8 @@ public class Utilities {
 			projectDir.mkdir();
 			logger.debug("Project Directory initialized at : " + userHomeDir);
 		}
+		String manifestDir = userHomeDir+ osProperties.getOSFileSeparator()+osProperties.getManifestsDirName();
+		checkIfDirExists(new File(manifestDir));
 //		activeProjectDirectory = userHomeDir;
 	}
 	public void initializeDockerVagrantFile(Integer projectID){
