@@ -91,7 +91,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 			statusBean.setData(projectBean);
 			Utilities.getInstance().initializeDirectory(projectBean.getProjectID());
 			
-			String nodeFileLoc = PuppetUtilities.getInstance().constructManifestsDirectory()+OSProperties.getInstance().getOSFileSeparator()+projectBean.getProjectID()+".pp";
+			String nodeFileLoc = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID())+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getManifestsDirName()+OSProperties.getInstance().getOSFileSeparator()+projectBean.getProjectID()+".pp";
 			boolean nodeFile =	new File(nodeFileLoc).createNewFile();
 			
 			Integer providerID = ProviderDAOManager.getInstance().providerDao.queryForId(projectBean.getProviderType()).getProviderID();
@@ -205,6 +205,28 @@ public class ProjectDAOManager implements DAOImplInterface {
 		return statusBean;
 	}
 
+	/*public StatusBean createMappedDB(JsonNode newData) {
+		ProjectBean projectBean = new ProjectBean();
+		Gson projectData = new GsonBuilder().setDateFormat(
+				"yyyy'-'MM'-'dd HH':'mm':'ss").create();
+		projectBean = projectData.fromJson(newData.toString(),
+				ProjectBean.class);
+		StatusBean statusBean = new StatusBean();
+		try {
+			int rowsUpdated = projectDao.create(projectBean);
+			// if(rowsUpdated == 1)
+			// Utilities.getInstance().changeActiveDirectory(projectBean.getProjectId());
+			UserDAOManager.getInstance().populateMappingBean(projectBean,
+					newData.get("owner").getValueAsText());
+			statusBean.setStatusCode(0);
+		} catch (SQLException e) {
+			logger.error("Error creating a new project : " + e.getMessage());
+			statusBean.setStatusCode(1);
+			statusBean.setStatusMessage("Error creating project : "+ e.getMessage());
+		}
+		return statusBean;
+	}*/
+
 	public <E> List<E> retireveProjectsForUser(String UserID) {
 		List<ProjectBean> projectList = new ArrayList<ProjectBean>();
 		try {
@@ -295,6 +317,14 @@ public class ProjectDAOManager implements DAOImplInterface {
 			if(!(puppetModules.isEmpty())){
 				moduleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryBuilder().where().in(PuppetModuleMapping.MODULE_ID_FIELD_NAME, puppetModules).and().in(PuppetModuleMapping.MACHINE_ID_FIELD_NAME, machineConfigs).and().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project).query();
 			}
+			/*ProjectBean project = ProjectDAOManager.projectDao.queryForId(Integer.parseInt(projectID));
+			moduleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryForAll();
+			for(PuppetModuleMapping mapping : moduleMappingList){
+				MachineConfigDAOManager.getInstance().machineConfigDao.refresh(mapping.getMachineConfig());
+				PuppetModuleDAOManager.getInstance().puppetModuleDao.refresh(mapping.getPuppetModule());
+			}
+			 moduleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryForEq(PuppetModuleMapping.PROJECT_ID_FIELD_NAME, project);
+*/
 		} catch (SQLException e) {
 			logger.error("Error in retireving module mapping: "	+ e.getMessage());
 		}

@@ -54,8 +54,10 @@ public class VagrantConsole implements OutputConsole{
 		Integer userID = Integer.parseInt(commands[1]);
 		command = commands[0];
         VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
+//		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
         String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
         if(command.toLowerCase(Locale.ENGLISH).indexOf("vagrant")!= -1 ){
+//			shellProcessor.executeVagrantFile(location,command,userID, this);
         	shellProcessor.executeVagrantFile(location,command,userID, this);
 		}else{
 			this.pushError("Not a valid Vagrant command");

@@ -74,6 +74,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	$scope.providerType = provider;
 	$scope.moduleMappingTree= {};
 	$scope.fileName="1_t_2015-01-07-14:31:05_success.log";
+	$scope.isLogFiles = false;
 	$scope.server = {
 		connect : function(promise) {
 			
@@ -152,8 +153,18 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	$scope.getLogFiles = function(fromDate, toDate){
 		loggerFunctionality.getLogFiles($routeParams.userID,fromDate, toDate).then(function(response){
 			$scope.logFiles = response;
+			if($scope.logFiles.length == 0){
+				$scope.isLogFiles = true;
+			}
 		
 	});
+	}
+	$scope.getClass = function(status){
+		if(status === 'success'){
+			return 'success';
+		}else if(status == 'error'){
+			return 'error';
+		}
 	}
 	$scope.getLogFileContent = function(fileName){
 		loggerFunctionality.getLogFileContent($routeParams.userID, fileName).then(function(response){
@@ -1402,6 +1413,23 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 							keepgoing = false;
 						}else{
 							form.vagrantID.$setValidity('alreadyExists',true);				
+						}	
+					}
+				});
+			}
+		},
+		hostName : function(form){
+
+			if(!$scope.projectData.boxesState.update){
+				var keepgoing = true;
+				angular.forEach($scope.boxesData,function(box){
+					if(keepgoing){
+						if(box.hostName === form.hostName.$modelValue){
+							form.hostName.$setValidity('alreadyExists',false);
+							keepgoing = false;
+						}else{
+							form.hostName.$setValidity('alreadyExists',true);				
+						
 						}	
 					}
 				});

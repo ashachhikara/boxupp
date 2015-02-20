@@ -183,8 +183,12 @@
 						              <input name="hostName" 
 						              		 type="text"
 											 ng-model="quickBox.hostName"
-											 class="form-control"
+											 class="form-control"  ng-change="checkValidity.hostName(quickBoxForm)"
 											 required/>
+											 <div ng-messages="quickBoxForm.hostName.$error" >
+								        	<div ng-message="alreadyExists" class="errorMessage">This Host Name is already in use</div>
+								        	
+						            	</div>
 						            </div>
 						            <div class="boxConfig">	<span class="boxConfigTitles">Box Type<sup>*</sup></span>
 									  <input name="boxType"

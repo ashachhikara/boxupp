@@ -49,6 +49,7 @@ public class Boxupp {
 			connectionManager.checkForProviderEntries();
 		}
 		
+//		String jettyPort = PropertyReader.getInstance().getProperty("port");
 		String jettyPort = conf.getSetting().getPortNumber();
 		
 		final JettyServer jettyServer;
@@ -57,6 +58,9 @@ public class Boxupp {
 		HandlerCollection contexts = new HandlerCollection();
 		
 		HandlerList list = new HandlerList();
+//		org.eclipse.jetty.util.log.
+		
+//		SocketManager socketManagerObject = new SocketManager();
 		WebSocketHandler wsHandler = new WebSocketHandler(){
 			@Override
             public void configure(WebSocketServletFactory webSocketServletFactory) {
@@ -73,6 +77,22 @@ public class Boxupp {
 				wsHandler		
 		});
 		
+		/*WebSocketHandler wsHandler1 = new WebSocketHandler(){
+			@Override
+            public void configure(WebSocketServletFactory webSocketServletFactory) {
+                webSocketServletFactory.register(VagrantConsole1.class);
+            }
+		};
+		ContextHandler handler1 = new ContextHandler();
+		handler1.setHandler(wsHandler1);
+		handler1.setContextPath("/vagrantConsole1/");		
+		
+		list.setHandlers(new Handler[] {
+				appContextBuilder.getStaticResourceHandler(),
+				appContextBuilder.getWebAppHandler(),
+				wsHandler1		
+		});*/
+		
 		contexts.setHandlers(new Handler[] { list });
 		
 		jettyServer.setHandler(contexts);
@@ -81,7 +101,9 @@ public class Boxupp {
 			public void run() {
 				try {
 					jettyServer.start();
+//					logger.debug("Server started");
 				} catch (Exception e) {
+//					logger.error("Problem starting server "+ e.getMessage());
 				}
 			}
 		};

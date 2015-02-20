@@ -26,6 +26,7 @@ import com.boxupp.dao.ProviderDAOManager;
 import com.boxupp.db.beans.DockerLinkBean;
 import com.boxupp.db.beans.ForwardedPortsBean;
 import com.boxupp.db.beans.GitRepoBean;
+import com.boxupp.db.beans.LocalGitRepoBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;
@@ -96,6 +97,7 @@ public class DBConnectionManager {
 			classList.add(MachineConfigurationBean.class);
 			classList.add(MachineProjectMapping.class);
 			classList.add(GitRepoBean.class);
+			//classList.add(LocalGitRepoBean.class);
 				
 			for(Class className : classList){
 				createTableIfNotExists(className);
@@ -151,6 +153,16 @@ public class DBConnectionManager {
 			DAOProvider.getInstance().fetchProviderDao().create(provider2);
 		} catch (SQLException e) {
 			logger.error("Error committing provider2 data to database");
+			return false;
+		}
+		ProviderBean provider3 = new ProviderBean();
+		provider3.setDisabled(false);
+		provider3.setName("AWS");
+		
+		try {
+			DAOProvider.getInstance().fetchProviderDao().create(provider3);
+		} catch (SQLException e) {
+			logger.error("Error committing provider3 data to database");
 			return false;
 		}
 		return true;
