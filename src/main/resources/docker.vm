@@ -70,12 +70,13 @@ Vagrant.configure("2") do |config|
 				#if($puppetMasterMachine.vagrantID  == $childBean.vagrantID)
 				
 				
-					$identifier$syncFolderMarker "../manifests", "/etc/puppet/manifests" 
+					$identifier$syncFolderMarker "manifests", "/etc/puppet/manifests" 
 					$identifier$syncFolderMarker "../modules", "/etc/puppet/modules"
-					$identifier$syncFolderMarker "../manifests/$nodeFile", "/etc/puppet/files"
-				#foreach ($innerChildBean in $childStructures)
+			#foreach ($innerChildBean in $childStructures)
 					#if($puppetMasterMachine.vagrantID  != $innerChildBean.vagrantID)
+						
 						$identifier$shellProvisionMarker "shell" , inline: "echo $innerChildBean.hostName >> /etc/puppet/autosign.conf"
+						
 						$identifier$shellProvisionMarker "shell" , inline: "/etc/init.d/puppetmaster start"
 					#end
 				#end
@@ -84,6 +85,7 @@ Vagrant.configure("2") do |config|
                        $identifier$puppetOptionMarker = "--verbose --debug"
                 	end		
 			#else
+	
 				     $identifier$shellProvisionMarker  "puppet_server" do |$identifier|
 				     #foreach ($innerChildBean in $childStructures)
 				     	#if($puppetMasterMachine.vagrantID  == $innerChildBean.vagrantID)
@@ -91,17 +93,19 @@ Vagrant.configure("2") do |config|
                          #end
                       #end
                          $identifier$puppetNodeMarker = "$childBean.hostName"
-                         $identifier$puppetOptionMarker = "--verbose --d"
+                         $identifier$puppetOptionMarker = "--verbose --debug --waitforcert 60"
                          end
             		#end
             		
             #else
+           
             
            	 	$identifier$shellProvisionMarker "puppet" do |$identifier|
-					$identifier$manifestsPathMarker = "../manifests"
-					$identifier$manifestFilePathMarker = "../manifests/$nodeFile"
+					$identifier$manifestsPathMarker = "manifests"
+					$identifier$manifestFilePathMarker = "site.pp"
 					$identifier$modulePathMarker = "../modules"
 				end	
+				
 			#end
 			
 					

@@ -16,10 +16,10 @@
 package com.boxupp.ws;
 
 import java.io.IOException;
-import java.util.Locale;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.jackson.JsonNode;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -28,18 +28,15 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
-import com.boxupp.responseBeans.VagrantOutput;
 import com.boxupp.responseBeans.VagrantStatus;
-import com.boxupp.responseBeans.VagrantStreamError;
-import com.boxupp.responseBeans.VagrantStreamOutput;
 import com.boxupp.utilities.Utilities;
 import com.boxupp.vagrant.VagrantCommandProcessor;
 import com.google.gson.Gson;
 
-@WebSocket
-public class VagrantConsole implements OutputConsole{
+@WebSocket(maxIdleTime=1500000)
+public class MachineStatus implements OutputConsole{
 	
-	private static Logger logger = LogManager.getLogger(VagrantConsole.class.getName());
+	private static Logger logger = LogManager.getLogger(MachineStatus.class.getName());
 	private RemoteEndpoint remote;
 	private static Gson gson = new Gson();
 	
@@ -51,22 +48,25 @@ public class VagrantConsole implements OutputConsole{
 
 	@OnWebSocketMessage
     public void onMessage(Session session,String command) throws IOException, InterruptedException {
-		System.out.println("**********"+command);
 		String[] commands = command.split(":");
 		Integer userID = Integer.parseInt(commands[1]);
+		
 		command = commands[0];
         VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
 //		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
         String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
-        if(command.toLowerCase(Locale.ENGLISH).indexOf("vagrant")!= -1 ){
+       
 //			shellProcessor.executeVagrantFile(location,command,userID, this);
-        	shellProcessor.executeVagrantFile(location,command,userID, this);
-		}else{
-			this.pushError("Not a valid Vagrant command");
-			this.pushDataTermination();
-		}
         
+        	VagrantStatus vagrantStatus = shellProcessor.checkMachineStatus(location, commands[0]);
+        	vagrantStatus.setVagrantID(commands[0]);
+        	remote.sendString(gson.toJson(vagrantStatus));
+	     
     }
+	private void onSend() {
+		// TODO Auto-generated method stub
+
+	}
 	
 	@OnWebSocketClose
     public void onClose(int statusCode, String reason) {
@@ -81,31 +81,23 @@ public class VagrantConsole implements OutputConsole{
 	@Override
 	public void pushOutput(String data) {
 		
-		VagrantStreamOutput vagrantStreamOutput = new VagrantStreamOutput();
-		vagrantStreamOutput.setOutput(data);
-		commitOutput(vagrantStreamOutput);
+		
 	}
 
 	@Override
 	public void pushError(String data) {
 		
-		VagrantStreamError vagrantStreamError = new VagrantStreamError();
-		vagrantStreamError.setOutput(data);
-		commitOutput(vagrantStreamError);
+		
 	}
 
 	@Override
 	public void pushDataTermination() {
 		
-		VagrantStreamOutput vagrantStreamOutput = new VagrantStreamOutput();
-		vagrantStreamOutput.setOutput("Execution Completed");
-		vagrantStreamOutput.setDataEnd(true);
-		commitOutput(vagrantStreamOutput);
 		
 		
 	}
 	
-	public void commitOutput(VagrantOutput output){
+	public void commitOutput(VagrantStatus output){
 		try{
 			remote.sendString(gson.toJson(output));
 		}
@@ -116,7 +108,9 @@ public class VagrantConsole implements OutputConsole{
 
 	@Override
 	public void pustOutPut(VagrantStatus status) {
-		// TODO Auto-generated method stub
+		VagrantStatus vagrantStatus = new VagrantStatus();
+		vagrantStatus.setStatusCode(status.statusCode);
+		commitOutput(vagrantStatus);
 		
 	}
 

@@ -53,34 +53,39 @@ Vagrant.configure("2") do |config|
 				
 					$identifier$syncFolderMarker "manifests", "/etc/puppet/manifests" 
 					$identifier$syncFolderMarker "../modules", "/etc/puppet/modules"
-					$identifier$syncFolderMarker "manifests", "/etc/puppet/files"
-					
+					$identifier$shellProvisionMarker "shell" , path: "./scripts/puppetMaster.sh"
 					#foreach ($innerChildBean in $childStructures)
+						$identifier$shellProvisionMarker "shell" , inline: "echo  $innerChildBean.networkIP $innerChildBean.hostName >> /etc/hosts"
+						$identifier$shellProvisionMarker "shell" , inline: "echo $innerChildBean.hostName >> /etc/puppet/autosign.conf"
 						#if($puppetMasterMachine.vagrantID  != $innerChildBean.vagrantID)
-							$identifier$shellProvisionMarker "shell" , inline: "echo $innerChildBean.hostName >> /etc/puppet/autosign.conf"
 							$identifier$shellProvisionMarker "shell" , inline: "/etc/init.d/puppetmaster start"
 						#end
 					#end
 					 $identifier$shellProvisionMarker  "puppet_server" do |$identifier|
                     	 $identifier$puppetServerMarker = "$childBean.hostName"
-                     	$identifier$puppetOptionMarker = "--verbose --debug"
+                     	 $identifier$puppetOptionMarker = "--verbose --debug"
                 	end		
 				#else
-				     $identifier$shellProvisionMarker  "puppet_server" do |$identifier|
-				     	#foreach ($innerChildBean in $childStructures)
-				     		#if($puppetMasterMachine.vagrantID  == $innerChildBean.vagrantID)
-                         		$identifier$puppetServerMarker = "$innerChildBean.hostName"
-                        	 #end
-                     	 #end
-                         $identifier$puppetNodeMarker = "$childBean.hostName"
-                         $identifier$puppetOptionMarker = "--verbose --d"
-                       end  
+				$identifier$shellProvisionMarker "shell" , path: "./scripts/puppetAgent.sh"
+				#foreach ($innerChildBean in $childStructures)
+					$identifier$shellProvisionMarker "shell" , inline: "echo  $innerChildBean.networkIP $innerChildBean.hostName >> /etc/hosts"
+				
+				#end
+				$identifier$shellProvisionMarker  "puppet_server" do |$identifier|
+				   	#foreach ($innerChildBean in $childStructures)
+				   		#if($puppetMasterMachine.vagrantID  == $innerChildBean.vagrantID)
+                       		$identifier$puppetServerMarker = "$innerChildBean.hostName"
+                       	 #end
+                   	 #end
+                     $identifier$puppetNodeMarker = "$childBean.hostName"
+                     $identifier$puppetOptionMarker = "--verbose --debug --waitforcert 60"
+                end  
             	#end
             #else
             
            	 	$identifier$shellProvisionMarker "puppet" do |$identifier|
 					$identifier$manifestsPathMarker = "manifests"
-					$identifier$manifestFilePathMarker = "manifests/$nodeFile"
+					$identifier$manifestFilePathMarker = "site.pp"
 					$identifier$modulePathMarker = "../modules"
 				end	
 			#end	

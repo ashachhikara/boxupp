@@ -18,8 +18,6 @@ package com.boxupp.db.beans;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.management.loading.PrivateClassLoader;
-
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.boxupp.dao.MachineConfigDAOManager;

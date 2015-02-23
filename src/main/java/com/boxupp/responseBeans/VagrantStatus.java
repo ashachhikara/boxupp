@@ -17,11 +17,14 @@ package com.boxupp.responseBeans;
 
 public class VagrantStatus {
 	
+	
+
 	//0 : OFF
 	//1 : RUNNING
 	//3 : VAGRANT_FILE_NOT_PRESENT OR VAGRANT_UNINITIALIZED
 	public int statusCode;  
 	public String vagrantStatusMessage;
+	public String vagrantID ;
 
 	public int getStatusCode() {
 		return statusCode;
@@ -37,5 +40,12 @@ public class VagrantStatus {
 
 	public void setVagrantStatus(String vagrantStatus) {
 		this.vagrantStatusMessage = vagrantStatus;
+	}
+	public String getVagrantID() {
+		return vagrantID;
+	}
+
+	public void setVagrantID(String vagrantID) {
+		this.vagrantID = vagrantID;
 	}
 }

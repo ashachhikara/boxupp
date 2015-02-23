@@ -230,7 +230,6 @@ public class BoxuppServices {
 	@GET
 	@Path("/checkMachineStatus")
 	@Produces(MediaType.APPLICATION_JSON)
-	
 	public VagrantStatus checkMachineStatus(@Context HttpServletRequest request){
 		Integer userID = Integer.parseInt(request.getParameter("userID"));
 		String vagrantID = request.getParameter("vagrantID");
@@ -239,6 +238,18 @@ public class BoxuppServices {
 		return commandProcessor.checkMachineStatus(location,vagrantID);
 		
 	}
+	
+	/*@GET
+	@Path("/checkAllMachineStatus")
+	@Produces(MediaType.APPLICATION_JSON)
+	public VagrantStatus checkAllMachineStatus(@Context HttpServletRequest request){
+		Integer userID = Integer.parseInt(request.getParameter("userID"));
+		String vagrantID = request.getParameter("boxesData");
+		VagrantCommandProcessor commandProcessor = new VagrantCommandProcessor();
+		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
+		return commandProcessor.checkMachineStatus(location,vagrantID);
+		
+	}*/
 	
 	@GET
 	@Path("/checkURL")

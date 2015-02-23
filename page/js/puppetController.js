@@ -31,10 +31,10 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 			
 				 boxFunctionality.updateMachineMapping(resetMachineMapping).then(function(response, error){
 						if(response){
-							deferred.resolve(response);
+							//deferred.resolve(response);
 							console.log('Machine Data Updated Succesfully : ');
 						}else{
-							deferred.reject('Error in updating machine Mapping');
+							//deferred.reject('Error in updating machine Mapping');
 						}
 					});
 			}else{
@@ -121,6 +121,7 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 			}
 		});
 	$scope.$watch('selectedPuppetMaster',function(newVal,oldVal){
+		var defferred = $q.defer();
 			if(!angular.equals(newVal,oldVal)){
 					newVal.projectID = $routeParams.projectID;
 				     boxFunctionality.updateMachineMapping(newVal).then(function(response, error){

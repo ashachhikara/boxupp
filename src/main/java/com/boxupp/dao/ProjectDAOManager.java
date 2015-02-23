@@ -17,6 +17,7 @@ package com.boxupp.dao;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,8 +92,9 @@ public class ProjectDAOManager implements DAOImplInterface {
 			statusBean.setData(projectBean);
 			Utilities.getInstance().initializeDirectory(projectBean.getProjectID());
 			
-			String nodeFileLoc = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID())+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getManifestsDirName()+OSProperties.getInstance().getOSFileSeparator()+projectBean.getProjectID()+".pp";
+			String nodeFileLoc = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID())+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getManifestsDirName()+OSProperties.getInstance().getOSFileSeparator()+"site.pp";
 			boolean nodeFile =	new File(nodeFileLoc).createNewFile();
+			
 			
 			Integer providerID = ProviderDAOManager.getInstance().providerDao.queryForId(projectBean.getProviderType()).getProviderID();
 			ProjectProviderMappingBean projectProvider = new ProjectProviderMappingBean(projectBean.getProjectID(), providerID);
@@ -101,12 +103,23 @@ public class ProjectDAOManager implements DAOImplInterface {
 			if(providerName.equalsIgnoreCase(CommonProperties.getInstance().getDockerProvider())){
 				Utilities.getInstance().initializeDockerVagrantFile(projectBean.getProjectID());
 			}
+			String scriptsDir = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID())+OSProperties.getInstance().getOSFileSeparator()
+					+OSProperties.getInstance().getScriptsDirName()+OSProperties.getInstance().getOSFileSeparator();
+			Utilities.getInstance().checkIfDirExists(new File(scriptsDir));
+			
+			File puppetMasterScriptFile = new File (getClass().getResource("/puppetMaster.sh").toURI());
+			File puppetAgentScriptFile = new File(getClass().getResource("/puppetAgent.sh").toURI());
+			Utilities.getInstance().copyFile(puppetMasterScriptFile, new File(scriptsDir+"puppetMaster.sh"));
+			Utilities.getInstance().copyFile(puppetAgentScriptFile, new File(scriptsDir+"puppetAgent.sh"));
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error creating project : "+ e.getMessage());
 			
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

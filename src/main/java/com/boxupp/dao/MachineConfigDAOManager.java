@@ -298,19 +298,19 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 			shellProcessor.executeVagrantFile(location,vagrantCommand, userID, new VagrantOutputStream());
 		} catch (NumberFormatException e) {
 			statusBean.setStatusCode(1);
-			statusBean.setStatusMessage("error in stoping box"+e.getMessage());
+			statusBean.setStatusMessage("error in reloading box"+e.getMessage());
 		} catch (SQLException e) {
 			statusBean.setStatusCode(1);
-			statusBean.setStatusMessage("error in stoping box"+e.getMessage());
+			statusBean.setStatusMessage("error in reloading box"+e.getMessage());
 		} catch (IOException e) {
 			statusBean.setStatusCode(1);
-			statusBean.setStatusMessage("error in stoping box"+e.getMessage());
+			statusBean.setStatusMessage("error in reloading box"+e.getMessage());
 		} catch (InterruptedException e) {
 			statusBean.setStatusCode(1);
-			statusBean.setStatusMessage("error in stoping box"+e.getMessage());
+			statusBean.setStatusMessage("error in reloading box"+e.getMessage());
 		}
 		statusBean.setStatusCode(0);
-		statusBean.setStatusMessage("Machine stop successfully");
+		statusBean.setStatusMessage("Machine reloading successfully");
 		return statusBean;
 	}
 	
