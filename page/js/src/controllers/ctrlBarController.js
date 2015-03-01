@@ -71,6 +71,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 	};
 
 	$scope.createBoxes = function(boxData){
+
 		$('#boxModal').modal('hide');
 		$scope.quickBoxCommitLoader = true;
 		$scope.toBeCreatedBox = angular.copy(boxData);
@@ -83,11 +84,10 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 		}
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			if($scope.boxesData.length == 0 && $scope.project.provisionerType == "Master-Agent"){
+				alert("This is Puppet Master  Machine. Please to be make sure it's always be in running state.");
 				$scope.toBeCreatedBox.isPuppetMaster = true;
 				$scope.updateProjectMapping($scope.toBeCreatedBox, data);
-				$scope.boxesData.push(data.beanData);
-				$scope.quickBox = {};
-				$scope.quickBoxForm.$setPristine();
+				
 			}else if($scope.boxesData.length != 0 && $scope.project.provisionerType == "Master-Agent"){	
 				$scope.executeCommandOnMaster(data);			
 			}else{
@@ -120,11 +120,10 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 		}
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			if($scope.boxesData.length == 0 && $scope.project.provisionerType == "Master-Agent"){
+				alert("This is Puppet Master  Machine. Please to be make sure it's always be in running state.");
 				$scope.toBeCreatedBox.isPuppetMaster = true;
 				$scope.updateProjectMapping($scope.toBeCreatedBox, data);
-				$scope.boxesData.push($scope.dockerLinkMappingForFrontend(data.beanData));
-				$scope.quickBox = {};
-				$scope.containerQuickBoxForm.$setPristine();
+				
 			}else if($scope.boxesData.length != 0 && $scope.project.provisionerType == "Master-Agent"){	
 				$scope.executeCommandOnDockerMaster(data);			
 			}else{
@@ -156,6 +155,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 		}
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 			if($scope.boxesData.length == 0 && $scope.project.provisionerType == "Master-Agent"){
+			alert("This is Puppet Master  Machine. Please to be make sure it's always be in running state.");
 				$scope.toBeCreatedBox.isPuppetMaster = true;
 				$scope.updateProjectMapping($scope.toBeCreatedBox, data);
 			}else if($scope.boxesData.length != 0 && $scope.project.provisionerType == "Master-Agent"){	
@@ -187,6 +187,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 		}
 		MachineConfig.save($scope.toBeCreatedBox,function(data){
 		    if($scope.boxesData.length == 0 && $scope.project.provisionerType == "Master-Agent"){
+				alert("This is Puppet Master  Machine. Please to be make sure it's always be in running state.");
 				$scope.updateProjectMapping($scope.toBeCreatedBox, data);
 			}else if($scope.boxesData.length != 0 && $scope.project.provisionerType == "Master-Agent"){	
 				$scope.executeCommandOnDockerMaster(data);			

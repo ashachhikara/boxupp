@@ -155,16 +155,7 @@ public class DBConnectionManager {
 			logger.error("Error committing provider2 data to database");
 			return false;
 		}
-		ProviderBean provider3 = new ProviderBean();
-		provider3.setDisabled(false);
-		provider3.setName("AWS");
 		
-		try {
-			DAOProvider.getInstance().fetchProviderDao().create(provider3);
-		} catch (SQLException e) {
-			logger.error("Error committing provider3 data to database");
-			return false;
-		}
 		return true;
 	}
 	
