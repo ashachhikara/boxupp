@@ -100,17 +100,24 @@ public class ProjectDAOManager implements DAOImplInterface {
 			ProjectProviderMappingBean projectProvider = new ProjectProviderMappingBean(projectBean.getProjectID(), providerID);
 			projectProviderMappingDao.create(projectProvider);
 			String providerName = ProviderDAOManager.getInstance().providerDao.queryForId(projectBean.getProviderType()).getName();
-			if(providerName.equalsIgnoreCase(CommonProperties.getInstance().getDockerProvider())){
-				Utilities.getInstance().initializeDockerVagrantFile(projectBean.getProjectID());
-			}
 			String scriptsDir = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID())+OSProperties.getInstance().getOSFileSeparator()
 					+OSProperties.getInstance().getScriptsDirName()+OSProperties.getInstance().getOSFileSeparator();
 			Utilities.getInstance().checkIfDirExists(new File(scriptsDir));
+			if(providerName.equalsIgnoreCase(CommonProperties.getInstance().getDockerProvider())){
+				Utilities.getInstance().initializeDockerVagrantFile(projectBean.getProjectID());
+				File puppetMasterScriptFile = new File (getClass().getResource("/dockerPuppetMaster.sh").toURI());
+				File puppetAgentScriptFile = new File(getClass().getResource("/dockerPuppetAgent.sh").toURI());
+				Utilities.getInstance().copyFile(puppetMasterScriptFile, new File(scriptsDir+"puppetMaster.sh"));
+				Utilities.getInstance().copyFile(puppetAgentScriptFile, new File(scriptsDir+"puppetAgent.sh"));
+			}else{
+				File puppetMasterScriptFile = new File (getClass().getResource("/puppetMaster.sh").toURI());
+				File puppetAgentScriptFile = new File(getClass().getResource("/puppetAgent.sh").toURI());
+				Utilities.getInstance().copyFile(puppetMasterScriptFile, new File(scriptsDir+"puppetMaster.sh"));
+				Utilities.getInstance().copyFile(puppetAgentScriptFile, new File(scriptsDir+"puppetAgent.sh"));
+			}
 			
-			File puppetMasterScriptFile = new File (getClass().getResource("/puppetMaster.sh").toURI());
-			File puppetAgentScriptFile = new File(getClass().getResource("/puppetAgent.sh").toURI());
-			Utilities.getInstance().copyFile(puppetMasterScriptFile, new File(scriptsDir+"puppetMaster.sh"));
-			Utilities.getInstance().copyFile(puppetAgentScriptFile, new File(scriptsDir+"puppetAgent.sh"));
+			
+			
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);

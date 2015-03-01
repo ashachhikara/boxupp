@@ -84,7 +84,7 @@ public class MachineConfigurationBean {
 	@DatabaseField(useGetSet = true)
 	private boolean guiMode;
 
-	@DatabaseField(useGetSet = true)
+	@DatabaseField(useGetSet = true, defaultValue="false")
 	private boolean isPuppetMaster;
 
 	@DatabaseField(useGetSet = true)

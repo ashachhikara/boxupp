@@ -19,7 +19,6 @@ import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.codehaus.jackson.JsonNode;
 import org.eclipse.jetty.websocket.api.RemoteEndpoint;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -60,13 +59,9 @@ public class MachineStatus implements OutputConsole{
         
         	VagrantStatus vagrantStatus = shellProcessor.checkMachineStatus(location, commands[0]);
         	vagrantStatus.setVagrantID(commands[0]);
-        	remote.sendString(gson.toJson(vagrantStatus));
+        	
 	     
     }
-	private void onSend() {
-		// TODO Auto-generated method stub
-
-	}
 	
 	@OnWebSocketClose
     public void onClose(int statusCode, String reason) {

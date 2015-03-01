@@ -23,7 +23,7 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 			return _.isEmpty($scope.moduleProvMappings);
 		}
 		$scope.setPuppetConfig = function(){
-			console.log($scope.puppetConfig);
+			
 			if($scope.puppetConfig === "puppetStandalone"){
 				$scope.isPuppetMaster= false;
 				var resetMachineMapping = {};

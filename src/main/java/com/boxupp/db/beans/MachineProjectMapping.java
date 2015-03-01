@@ -31,6 +31,7 @@ public class MachineProjectMapping {
 		this.machineConfig = machineConfig;
 	}
 	
+	
 	public MachineProjectMapping(){
 		
 	}
@@ -69,8 +70,9 @@ public class MachineProjectMapping {
 	public Boolean getIsPuppetMaster() {
 		return isPuppetMaster;
 	}
+
 	public void setIsPuppetMaster(Boolean isPuppetMaster) {
 		this.isPuppetMaster = isPuppetMaster;
 	}
-	
+
 }

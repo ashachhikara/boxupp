@@ -51,7 +51,6 @@ public class VagrantConsole implements OutputConsole{
 
 	@OnWebSocketMessage
     public void onMessage(Session session,String command) throws IOException, InterruptedException {
-		System.out.println("**********"+command);
 		String[] commands = command.split(":");
 		Integer userID = Integer.parseInt(commands[1]);
 		command = commands[0];

@@ -47,10 +47,18 @@ Vagrant.configure("2") do |config|
 				#if(!$portMappings.isEmpty())
 				d.ports=$ports
 				#end
-				#foreach ($dockerLinkContainer in $dockerLinkContainers)#foreach($box in $childStructures)#if( $dockerLinkContainer.linkedMachineID == $box.machineID)
+				#if($puppetMasterMachine)
+			
+					#if(!($puppetMasterMachine.vagrantID  == $childBean.vagrantID))
+					
+					#foreach ($dockerLinkContainer in $dockerLinkContainers)
+					#foreach($box in $childStructures)
+					#if( $dockerLinkContainer.linkedMachineID == $box.machineID)
 							d.link("$box.vagrantID : $box.hostName")
 						#end	
 					#end
+				#end
+				#end
 				#end
 			end
 			
@@ -72,6 +80,8 @@ Vagrant.configure("2") do |config|
 				
 					$identifier$syncFolderMarker "manifests", "/etc/puppet/manifests" 
 					$identifier$syncFolderMarker "../modules", "/etc/puppet/modules"
+					$identifier$shellProvisionMarker "shell" , path: "./scripts/puppetMaster.sh"
+					
 			#foreach ($innerChildBean in $childStructures)
 					#if($puppetMasterMachine.vagrantID  != $innerChildBean.vagrantID)
 						
@@ -80,11 +90,12 @@ Vagrant.configure("2") do |config|
 						$identifier$shellProvisionMarker "shell" , inline: "/etc/init.d/puppetmaster start"
 					#end
 				#end
-					  $identifier$shellProvisionMarker  "puppet_server" do |$identifier|
+					   $identifier$shellProvisionMarker  "puppet_server" do |$identifier|
                        $identifier$puppetServerMarker = "$childBean.hostName"
                        $identifier$puppetOptionMarker = "--verbose --debug"
                 	end		
 			#else
+				$identifier$shellProvisionMarker "shell" , path: "./scripts/puppetAgent.sh"
 	
 				     $identifier$shellProvisionMarker  "puppet_server" do |$identifier|
 				     #foreach ($innerChildBean in $childStructures)

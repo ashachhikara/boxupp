@@ -75,6 +75,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	$scope.moduleMappingTree= {};
 	$scope.fileName="1_t_2015-01-07-14:31:05_success.log";
 	$scope.isLogFiles = false;
+	
 	$scope.server = {
 		connect : function(promise) {
 			
@@ -106,7 +107,6 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 		},
 
 		_onmessage : function(message) {
-				console.log("****"+message);
 			$scope.vagrantOutput.push(message.data);
 			var data = JSON.parse(message.data);
 			if(data.dataEnd === false){
@@ -187,7 +187,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 			});
 			$scope.boxesData = boxes;
 			this.close();
-			
+			n
 		},
 
 		_onclose : function(m) {
@@ -207,11 +207,13 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	$interval(function(){ $scope.getAllMachineStatus(); }, 150000);
 	$scope.getAllMachineStatus = function(){
 		var deferred = $q.defer();
-		angular.forEach($scope.boxesData, function(box){
-			if(!box.underExecution){
-				vagrantStatus.checkAllMachineStatus($scope, $routeParams.userID, box.vagrantID, deferred);
-			}
-		});
+		if($routeParams.projectID != null){
+			angular.forEach($scope.boxesData, function(box){
+				if(!box.underExecution){
+					vagrantStatus.checkAllMachineStatus($scope, $routeParams.userID, box.vagrantID, deferred);
+				}
+			});
+		}
 		
 	}
 

@@ -44,6 +44,10 @@ public class ProjectBean  {
 	private Integer providerType;
 	
 	@DatabaseField(useGetSet = true)
+	private String provisionerType;
+	
+	
+	@DatabaseField(useGetSet = true)
 	private boolean isDisabled;
 
 	
@@ -82,6 +86,12 @@ public class ProjectBean  {
 	}
 	public void setProviderType(Integer providerType) {
 		this.providerType = providerType;
+	}
+	public String getProvisionerType() {
+		return provisionerType;
+	}
+	public void setProvisionerType(String provisionerType) {
+		this.provisionerType = provisionerType;
 	}
 	public boolean getIsDisabled() {
 		return isDisabled;
