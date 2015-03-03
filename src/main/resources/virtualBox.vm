@@ -53,16 +53,19 @@ Vagrant.configure("2") do |config|
 				
 					$identifier$syncFolderMarker "manifests", "/etc/puppet/manifests" 
 					$identifier$syncFolderMarker "../modules", "/etc/puppet/modules"
+
 					$identifier$shellProvisionMarker "shell" , path: "./scripts/puppetMaster.sh"
 					#foreach ($innerChildBean in $childStructures)
 						$identifier$shellProvisionMarker "shell" , inline: "echo  $innerChildBean.networkIP $innerChildBean.hostName >> /etc/hosts"
 						$identifier$shellProvisionMarker "shell" , inline: "echo $innerChildBean.hostName >> /etc/puppet/autosign.conf"
 						#if($puppetMasterMachine.vagrantID  != $innerChildBean.vagrantID)
+
 							$identifier$shellProvisionMarker "shell" , inline: "/etc/init.d/puppetmaster start"
 						#end
 					#end
 					 $identifier$shellProvisionMarker  "puppet_server" do |$identifier|
                     	 $identifier$puppetServerMarker = "$childBean.hostName"
+
                      	 $identifier$puppetOptionMarker = "--verbose --debug"
                 	end		
 				#else
@@ -80,12 +83,15 @@ Vagrant.configure("2") do |config|
                      $identifier$puppetNodeMarker = "$childBean.hostName"
                      $identifier$puppetOptionMarker = "--verbose --debug --waitforcert 60"
                 end  
+
             	#end
             #else
             
            	 	$identifier$shellProvisionMarker "puppet" do |$identifier|
 					$identifier$manifestsPathMarker = "manifests"
+
 					$identifier$manifestFilePathMarker = "site.pp"
+			
 					$identifier$modulePathMarker = "../modules"
 				end	
 			#end	

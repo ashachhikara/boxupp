@@ -20,6 +20,7 @@ import java.util.NoSuchElementException;
 
 import com.boxupp.responseBeans.VagrantOutput;
 import com.boxupp.responseBeans.VagrantStatus;
+
 import com.boxupp.responseBeans.VagrantStreamError;
 import com.boxupp.responseBeans.VagrantStreamOutput;
 import com.boxupp.ws.OutputConsole;
@@ -67,4 +68,5 @@ public class VagrantOutputStream implements OutputConsole{
 		// TODO Auto-generated method stub
 		
 	}
+
 }

@@ -87,12 +87,14 @@ public class ProjectBean  {
 	public void setProviderType(Integer providerType) {
 		this.providerType = providerType;
 	}
+
 	public String getProvisionerType() {
 		return provisionerType;
 	}
 	public void setProvisionerType(String provisionerType) {
 		this.provisionerType = provisionerType;
 	}
+
 	public boolean getIsDisabled() {
 		return isDisabled;
 	}

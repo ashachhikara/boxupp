@@ -14,7 +14,9 @@
  *  limitations under the License.
  *******************************************************************************/
 angular.module("boxuppApp").controller('projectController',function($scope,$rootScope, Projects,Providers,User,$routeParams,$filter,$location,miscUtil,$http,$timeout){
+
 $scope.provisionTypes = ["Master-Agent", "Standalone"];
+
 	/*$scope.projects = Projects.query(function(){
 		if($scope.projects.length === 0) $scope.noProjectsInfo = true;
 		

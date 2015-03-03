@@ -113,10 +113,12 @@ public class VagrantConsole implements OutputConsole{
 		}
 	}
 
+
 	@Override
 	public void pustOutPut(VagrantStatus status) {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

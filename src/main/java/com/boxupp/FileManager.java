@@ -79,7 +79,9 @@ public class FileManager {
 		String fileOutputPath = OSProperties.getInstance().getUserHomeDirectory() + 
 				OSProperties.getInstance().getOSFileSeparator() + "Boxupp" + 
 				OSProperties.getInstance().getOSFileSeparator() + projectID+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getManifestsDirName()+
+
 				OSProperties.getInstance().getOSFileSeparator()+"site.pp";
+
 		VagrantFileStatus vagrantFileStatus = new VagrantFileStatus();
 		
 		File file = new File(fileOutputPath);

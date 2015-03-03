@@ -71,25 +71,7 @@
 		</div>
 		
 	</div>
-	<div class="col-md-12 ">
-	<span class= "col-md-6 text-right">
-		<input type="radio" value="puppetStandalone" ng-model="puppetConfig" ng-change="setPuppetConfig()">Stand Alone
-		</span>
-		<span class= "col-md-6 text-left">
-		<input type="radio" ng-change="setPuppetConfig()" value="puppetMasterAgent" ng-model="puppetConfig"> Master Agent
-		</span>
-	</div>
-
-	<div id="modulesControl" ng-show="isPuppetMaster && boxesData.length 
-	>= 2 "class="col-md-12 text-center">
-		<span id="puppetMaster">
-			<label for="puppetMasterSelector">Choose Puppet Master: </label>
-			<select id="puppetMasterSelector" ng-model="selectedPuppetMaster" ng-options="box.vagrantID for box in boxesData">
-			</select>
-		</span>
-			
-	</div>
-	<!-- SCRIPTS LIST -->	
+		<!-- SCRIPTS LIST -->	
 
 	<div class="moduleProvisionControls col-md-12 text-center" style="margin-top:40px;">
 		<a class="btn btn-success" ng-disabled="checkProvState()" ng-click="commitModulesProvisioning()">APPLY</a>

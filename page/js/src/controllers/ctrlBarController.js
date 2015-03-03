@@ -13,10 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *******************************************************************************/
+
 angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,shellScript,executeCommand,$routeParams,Projects,miscUtil,MachineConfig, boxFunctionality){
 
 	$scope.project = Projects.get({id : $routeParams.projectID});
-
 
 	$scope.saveNewScript = function(newShellScriptData){
 		newShellScriptData.isDisabled = false;
@@ -79,6 +79,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 		$scope.toBeCreatedBox.providerID = $routeParams.providerID;
 		$scope.toBeCreatedBox.providerType = $scope.providerType;
 		$scope.toBeCreatedBox.isDisabled = false;
+
 		if($scope.boxesData.length == 0 && $scope.project.provisionerType == "Master-Agent"){
 			$scope.toBeCreatedBox.isPuppetMaster = true;
 		}
@@ -96,6 +97,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 				$scope.boxesData.push(data.beanData);
 				$scope.quickBox = {};
 				$scope.quickBoxForm.$setPristine();
+
 		});
 		$scope.quickBoxForm.$setPristine();
 		$scope.quickBoxCommitLoader = false;
@@ -115,6 +117,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
 		$scope.toBeCreatedBox.providerType = $scope.providerType;
 		$scope.toBeCreatedBox.isDisabled = false;
+
 		if($scope.boxesData.length == 0 && $scope.project.provisionerType == "Master-Agent"){
 			$scope.toBeCreatedBox.isPuppetMaster = true;
 		}
@@ -134,6 +137,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 				$scope.containerQuickBoxForm.$setPristine();
 				
 			
+
 		});
 		$scope.containerQuickBoxForm.$setPristine();
 		$scope.quickContainerBoxCommitLoader = false;
@@ -150,6 +154,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 		$scope.toBeCreatedBox.providerID = $routeParams.providerID
 		$scope.toBeCreatedBox.providerType = $scope.providerType;
 		$scope.toBeCreatedBox.isDisabled = false;
+
 		if($scope.boxesData.length == 0 && $scope.project.provisionerType == "Master-Agent"){
 			$scope.toBeCreatedBox.isPuppetMaster = true;
 		}
@@ -166,6 +171,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 			$scope.boxesData.push(data.beanData);
 			$scope.quickBox = {};
 			$scope.quickBoxForm.$setPristine();
+
 		});
 		$scope.quickBoxCommitLoader = false;	
 	}
@@ -182,6 +188,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 		$scope.toBeCreatedBox.projectID = $routeParams.projectID;
 		$scope.toBeCreatedBox.providerType = $scope.providerType;
 		$scope.toBeCreatedBox.isDisabled = false;
+
 		if($scope.boxesData.length == 0 && $scope.project.provisionerType == "Master-Agent"){
 			$scope.toBeCreatedBox.isPuppetMaster = true;
 		}
@@ -198,6 +205,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 				$scope.quickBox = {};
 				$scope.containerQuickBoxForm.$setPristine();
 							
+
 		});
 		$scope.containerQuickBoxCommitLoader = false;	
 	}
@@ -222,6 +230,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 		$scope.rawBoxForm.basicSettings.boxType.$render();
 		$scope.rawBoxForm.basicSettings.boxUrl.$render();
 		$scope.rawBoxForm.basicSettings.hostName.$render();
+
 
 
 	}
@@ -276,6 +285,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 
 	}
 	
+
 	$scope.cloneContainerBoxData = function(cloneBox){
 
 		$('#boxModal').modal('show');

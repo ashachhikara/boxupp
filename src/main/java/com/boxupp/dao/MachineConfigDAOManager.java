@@ -311,14 +311,15 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 		}
 		statusBean.setStatusCode(0);
 		statusBean.setStatusMessage("Machine reloading successfully");
+
 		return statusBean;
 	}
 	
 	public StatusBean updatePuppetMasterMapping(JsonNode updatedData){
 		Integer projectID = Integer.parseInt(updatedData.get("projectID").getTextValue());
+
 		Gson machineData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		MachineConfigurationBean machineConfigBean = machineData.fromJson(updatedData.toString(),MachineConfigurationBean.class);
-		
 		StatusBean statusBean = new StatusBean();
 		try {
 			ProjectBean projectBean = ProjectDAOManager.getInstance().projectDao.queryForId(projectID);
@@ -328,11 +329,12 @@ public class MachineConfigDAOManager implements DAOImplInterface {
 				 machineMappingDao.update(machineMapping);
 				 machineMappingDao.refresh(machineMapping);
 			 }
-			 	 MachineConfigurationBean machineBean = machineConfigDao.queryForEq("vagrantID", machineConfigBean.getVagrantID()).get(0);
-			 	 MachineProjectMapping machineMapping = machineMappingDao.queryBuilder().where().eq(MachineProjectMapping.PROJECT_ID_FIELD_NAME, projectBean).and().eq(MachineProjectMapping.MACHINE_ID_FIELD_NAME, machineBean).query().get(0);
-				 machineMapping.setIsPuppetMaster(true);
-				 machineMappingDao.update(machineMapping);
+		 	 MachineConfigurationBean machineBean = machineConfigDao.queryForEq("vagrantID", machineConfigBean.getVagrantID()).get(0);
+		 	 MachineProjectMapping machineMapping = machineMappingDao.queryBuilder().where().eq(MachineProjectMapping.PROJECT_ID_FIELD_NAME, projectBean).and().eq(MachineProjectMapping.MACHINE_ID_FIELD_NAME, machineBean).query().get(0);
+			 machineMapping.setIsPuppetMaster(true);
+			 machineMappingDao.update(machineMapping);
 								
+
 		} catch (SQLException e) {
 			logger.error("Error  updating machine project mapping for puppet master  : " + e.getMessage());
 			statusBean.setStatusCode(1);

@@ -155,7 +155,7 @@ public class DBConnectionManager {
 			logger.error("Error committing provider2 data to database");
 			return false;
 		}
-		
+
 		return true;
 	}
 	

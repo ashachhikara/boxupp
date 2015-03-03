@@ -75,7 +75,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	$scope.moduleMappingTree= {};
 	$scope.fileName="1_t_2015-01-07-14:31:05_success.log";
 	$scope.isLogFiles = false;
-	
+
 	$scope.server = {
 		connect : function(promise) {
 			
@@ -144,6 +144,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 			console.log('connection has been closed');
 		}
 	};
+
 	$scope.statusServer= {
 		connect : function(promise) {
 			
@@ -196,6 +197,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 			console.log('connection has been closed 1');
 		}
 	};
+
 	$scope.fromDate = new Date();
 	$scope.toDate = new Date();
 	/*$scope.fromDate = $filter('date')(new Date(),'yyyy-MM-dd');
@@ -203,6 +205,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	loggerFunctionality.getLogFiles($routeParams.userID, $scope.fromDate, $scope.toDate).then(function(response){
 		$scope.logFiles = response;
 	});
+
 
 	$interval(function(){ $scope.getAllMachineStatus(); }, 150000);
 	$scope.getAllMachineStatus = function(){
@@ -216,6 +219,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 		}
 		
 	}
+
 
 	$scope.getLogFiles = function(fromDate, toDate){
 		loggerFunctionality.getLogFiles($routeParams.userID,fromDate, toDate).then(function(response){
@@ -407,7 +411,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 		// 	$scope.pushCustomMessage();
 		vmConfig.underExecution = true;
 			vagrantStatus.checkMachineStatus($routeParams.userID, vmConfig.vagrantID).then(function(response){
-				
+
 				vmConfig.machineStatusFlag = response.statusCode;
 				var commandForMachine = $scope.chooseBestDeployOption(vmConfig);
 				executeCommand.triggerVagrantCommand($scope,commandForMachine,deferred);
@@ -1468,6 +1472,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
             }
         }, 500);
 	}
+
 	$scope.waitForBoxStatusWSConnection = function(callback){
 		setTimeout(
         function () {
@@ -1482,6 +1487,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
             }
         }, 500);
 	}
+
 
 	$scope.checkValidity = {
 		vagrantID : function(form){

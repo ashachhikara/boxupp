@@ -17,7 +17,9 @@ package com.boxupp.dao;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.net.URISyntaxException;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,14 +94,17 @@ public class ProjectDAOManager implements DAOImplInterface {
 			statusBean.setData(projectBean);
 			Utilities.getInstance().initializeDirectory(projectBean.getProjectID());
 			
+
 			String nodeFileLoc = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID())+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getManifestsDirName()+OSProperties.getInstance().getOSFileSeparator()+"site.pp";
 			boolean nodeFile =	new File(nodeFileLoc).createNewFile();
 			
 			
+
 			Integer providerID = ProviderDAOManager.getInstance().providerDao.queryForId(projectBean.getProviderType()).getProviderID();
 			ProjectProviderMappingBean projectProvider = new ProjectProviderMappingBean(projectBean.getProjectID(), providerID);
 			projectProviderMappingDao.create(projectProvider);
 			String providerName = ProviderDAOManager.getInstance().providerDao.queryForId(projectBean.getProviderType()).getName();
+
 			String scriptsDir = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID())+OSProperties.getInstance().getOSFileSeparator()
 					+OSProperties.getInstance().getScriptsDirName()+OSProperties.getInstance().getOSFileSeparator();
 			Utilities.getInstance().checkIfDirExists(new File(scriptsDir));
@@ -118,6 +123,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 			
 			
 			
+
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
@@ -126,9 +132,11 @@ public class ProjectDAOManager implements DAOImplInterface {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+
 		}
 		return statusBean;
 	}

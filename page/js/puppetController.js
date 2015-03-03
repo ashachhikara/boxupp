@@ -23,7 +23,7 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 			return _.isEmpty($scope.moduleProvMappings);
 		}
 		$scope.setPuppetConfig = function(){
-			
+
 			if($scope.puppetConfig === "puppetStandalone"){
 				$scope.isPuppetMaster= false;
 				var resetMachineMapping = {};
@@ -31,10 +31,12 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 			
 				 boxFunctionality.updateMachineMapping(resetMachineMapping).then(function(response, error){
 						if(response){
+
 							//deferred.resolve(response);
 							console.log('Machine Data Updated Succesfully : ');
 						}else{
 							//deferred.reject('Error in updating machine Mapping');
+
 						}
 					});
 			}else{
@@ -120,23 +122,6 @@ angular.module("boxuppApp").controller('puppetController',function($scope,$rootS
 				});	
 			}
 		});
-	$scope.$watch('selectedPuppetMaster',function(newVal,oldVal){
-		var defferred = $q.defer();
-			if(!angular.equals(newVal,oldVal)){
-					newVal.projectID = $routeParams.projectID;
-				     boxFunctionality.updateMachineMapping(newVal).then(function(response, error){
-						if(response){
-							deferred.resolve(response);
-							console.log('Machine Data Updated Succesfully : ');
-						}else{
-							deferred.reject('Error in updating machine Mapping');
-						}
-					});
-			
-			
-				
-			}
-		},true);
 		$scope.checkManifest = function(){
 			$scope.outputConsole.boxuppExecuting = true;
 			$scope.outputConsole.boxuppOutputWindow = true;
