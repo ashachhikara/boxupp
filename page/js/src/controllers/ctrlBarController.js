@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *******************************************************************************/
-angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,shellScript,$routeParams,Projects,miscUtil,MachineConfig, boxFunctionality){
+angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,shellScript,executeCommand,$routeParams,Projects,miscUtil,MachineConfig, boxFunctionality){
 
 	$scope.project = Projects.get({id : $routeParams.projectID});
 

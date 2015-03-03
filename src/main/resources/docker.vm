@@ -50,7 +50,7 @@ Vagrant.configure("2") do |config|
 				#if($puppetMasterMachine)
 			
 					#if(!($puppetMasterMachine.vagrantID  == $childBean.vagrantID))
-					
+					d.link("$puppetMasterMachine.vagrantID : $puppetMasterMachine.hostName")
 					#foreach ($dockerLinkContainer in $dockerLinkContainers)
 					#foreach($box in $childStructures)
 					#if( $dockerLinkContainer.linkedMachineID == $box.machineID)
