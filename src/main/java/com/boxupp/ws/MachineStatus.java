@@ -57,7 +57,7 @@ public class MachineStatus implements OutputConsole{
        
 //			shellProcessor.executeVagrantFile(location,command,userID, this);
         
-        	VagrantStatus vagrantStatus = shellProcessor.checkMachineStatus(location, commands[0]);
+        	VagrantStatus vagrantStatus = shellProcessor.checkVagrantStatus(location);
         	vagrantStatus.setVagrantID(commands[0]);
         	
 	     
