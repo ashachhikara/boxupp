@@ -132,8 +132,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 				$scope.boxesData.push($scope.dockerLinkMappingForFrontend(data.beanData));
 				$scope.quickBox = {};
 				$scope.containerQuickBoxForm.$setPristine();
-				
-			
+					
 		});
 		$scope.containerQuickBoxForm.$setPristine();
 		$scope.quickContainerBoxCommitLoader = false;

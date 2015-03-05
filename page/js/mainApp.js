@@ -178,16 +178,17 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 			var data = JSON.parse(message.data);
 			var boxes = [];
 			angular.forEach($scope.boxesData, function(box){
-				if(box.vagrantID === data.vagrantID){
-					box.machineStatusFlag = data.statusCode;
-					console.log(box.machineStatusFlag);
-
-				}
-				boxes.push(box);
+				angular.forEach(data, function(boxStatus){
+					if(box.vagrantID === boxStatus.vagrantID){
+						box.machineStatusFlag = boxStatus.statusCode;
+						console.log(box.machineStatusFlag);
+					}
+					boxes.push(box);
+				});
 			});
 			$scope.boxesData = boxes;
 			this.close();
-			n
+			
 		},
 
 		_onclose : function(m) {
@@ -208,11 +209,12 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	$scope.getAllMachineStatus = function(){
 		var deferred = $q.defer();
 		if($routeParams.projectID != null){
-			angular.forEach($scope.boxesData, function(box){
+			vagrantStatus.checkAllMachineStatus($scope, $routeParams.userID, deferred);
+			/*angular.forEach($scope.boxesData, function(box){
 				if(!box.underExecution){
 					vagrantStatus.checkAllMachineStatus($scope, $routeParams.userID, box.vagrantID, deferred);
 				}
-			});
+			});*/
 		}
 		
 	}
@@ -1464,7 +1466,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
                 return;
             } else {
                 console.log("waiting for connection...")
-                waitForSocketConnection(callback);
+                waitForWSConnection(callback);
             }
         }, 500);
 	}

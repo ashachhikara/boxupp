@@ -107,10 +107,8 @@ Vagrant.configure("2") do |config|
                          $identifier$puppetOptionMarker = "--verbose --debug --waitforcert 60"
                          end
             		#end
-            		
             #else
-           
-            
+               
            	 	$identifier$shellProvisionMarker "puppet" do |$identifier|
 					$identifier$manifestsPathMarker = "manifests"
 					$identifier$manifestFilePathMarker = "site.pp"

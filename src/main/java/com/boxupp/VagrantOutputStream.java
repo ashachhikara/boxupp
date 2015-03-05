@@ -16,6 +16,7 @@
 package com.boxupp;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import com.boxupp.responseBeans.VagrantOutput;
@@ -63,7 +64,8 @@ public class VagrantOutputStream implements OutputConsole{
 	}
 
 	@Override
-	public void pustOutPut(VagrantStatus status) {
+	public void pustOutPut(List<VagrantStatus> status) {
+		
 		// TODO Auto-generated method stub
 		
 	}

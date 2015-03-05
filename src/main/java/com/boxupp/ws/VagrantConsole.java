@@ -16,6 +16,7 @@
 package com.boxupp.ws;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.logging.log4j.LogManager;
@@ -114,7 +115,7 @@ public class VagrantConsole implements OutputConsole{
 	}
 
 	@Override
-	public void pustOutPut(VagrantStatus status) {
+	public void pustOutPut(List<VagrantStatus> status) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -204,11 +204,13 @@ public class VagrantCommandExecutor {
 			String data;
 			while((data = reader.readLine())!=null){
 				commandOutput.append(data);
+				commandOutput.append(System.getProperty("line.separator"));
 			}
 			int exitCode = proc.waitFor();
 			if(exitCode != 0){
 				while((data = errReader.readLine())!=null){
 					commandOutput.append(data);
+					commandOutput.append(System.getProperty("line.separator"));
 				}
 			}
 		}catch(IOException e){
