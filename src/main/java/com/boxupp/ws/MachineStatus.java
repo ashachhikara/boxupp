@@ -16,6 +16,8 @@
 package com.boxupp.ws;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,20 +49,15 @@ public class MachineStatus implements OutputConsole{
 
 	@OnWebSocketMessage
     public void onMessage(Session session,String command) throws IOException, InterruptedException {
-		String[] commands = command.split(":");
-		Integer userID = Integer.parseInt(commands[1]);
-		
-		command = commands[0];
+		Integer userID = Integer.parseInt(command);
         VagrantCommandProcessor shellProcessor = new VagrantCommandProcessor();
 //		String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
         String location = Utilities.getInstance().fetchActiveProjectDirectory(userID);
        
 //			shellProcessor.executeVagrantFile(location,command,userID, this);
-        
-        	VagrantStatus vagrantStatus = shellProcessor.checkVagrantStatus(location);
-        	vagrantStatus.setVagrantID(commands[0]);
-        	
-	     
+	       	 List<VagrantStatus> statusList = shellProcessor.checkAllMachineStatus(location);
+        	// remote.sendString(gson.toJson(statusList));
+   
     }
 	
 	@OnWebSocketClose
@@ -87,14 +84,11 @@ public class MachineStatus implements OutputConsole{
 
 	@Override
 	public void pushDataTermination() {
-		
-		
-		
 	}
 	
-	public void commitOutput(VagrantStatus output){
+	public void commitOutput(List<VagrantStatus> statusList){
 		try{
-			remote.sendString(gson.toJson(output));
+			remote.sendString(gson.toJson(statusList));
 		}
 		catch(IOException e){
 			logger.error("Error committing output to console : "+e.getMessage());
@@ -102,10 +96,9 @@ public class MachineStatus implements OutputConsole{
 	}
 
 	@Override
-	public void pustOutPut(VagrantStatus status) {
-		VagrantStatus vagrantStatus = new VagrantStatus();
-		vagrantStatus.setStatusCode(status.statusCode);
-		commitOutput(vagrantStatus);
+	public void pustOutPut(List<VagrantStatus>statusList) {
+		
+		commitOutput(statusList);
 		
 	}
 

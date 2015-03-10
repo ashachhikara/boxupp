@@ -272,6 +272,7 @@ do
  url="$host $port"
  echo Boxupp is up at $url !
 done
+
 echo "Starting Boxupp"
 
 if [ $? -ne 0 ]; then

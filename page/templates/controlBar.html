@@ -37,8 +37,8 @@
 
 					<div class="tab-content">
 						<div class="trashIcon tab-pane fade" id="boxTrash">
-							<a class="pull-right" ng-click="deleteActiveBox()" ng-hide="activeVM === null ">
 
+							<a class="pull-right" ng-click="deleteActiveBox()" ng-hide="activeVM === null || activeVM.isPuppetMaster">
 								<span ng-hide="$root.expandedCtrlBar">
 									<i class="fa fa-trash-o"></i>
 								</span>

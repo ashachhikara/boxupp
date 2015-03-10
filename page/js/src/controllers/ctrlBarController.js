@@ -14,7 +14,7 @@
  *  limitations under the License.
  *******************************************************************************/
 
-angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,shellScript,executeCommand,$routeParams,Projects,miscUtil,MachineConfig, boxFunctionality){
+angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,vagrantStatus,shellScript,executeCommand,$routeParams,Projects,miscUtil,MachineConfig, boxFunctionality){
 
 	$scope.project = Projects.get({id : $routeParams.projectID});
 
@@ -135,8 +135,6 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 				$scope.boxesData.push($scope.dockerLinkMappingForFrontend(data.beanData));
 				$scope.quickBox = {};
 				$scope.containerQuickBoxForm.$setPristine();
-				
-			
 
 		});
 		$scope.containerQuickBoxForm.$setPristine();
@@ -254,7 +252,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 			if(box.isPuppetMaster){
 				$scope.createVagrantFile().then(function(){
 					var commandForMachine = null;
-					vagrantStatus.checkMachineStatus($routeParams.userID, vmConfig.vagrantID).then(function(response){
+					vagrantStatus.checkMachineStatus($routeParams.userID, box.vagrantID).then(function(response){
 						
 						if(response.statusCode != 1) {
 							commandForMachine = "vagrant up  "+box.vagrantID;
@@ -262,7 +260,7 @@ angular.module('boxuppApp').controller('ctrlBarController',function($scope,$q,sh
 							commandForMachine = "vagrant provision --provision-with shell  "+box.vagrantID;
 						}
 					});
-					var commandForMachine = "vagrant provision --provision-with shell"
+					
 					executeCommand.triggerVagrantCommand($scope,commandForMachine,deferred);
 				});		
 			}
