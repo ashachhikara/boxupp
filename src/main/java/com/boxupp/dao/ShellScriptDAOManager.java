@@ -129,7 +129,7 @@ public class ShellScriptDAOManager implements DAOImplInterface {
 			ShellScriptBean scriptBean = shellScriptDao.queryForId(Integer.parseInt(shellScriptID));
 			scriptBean.setIsDisabled(true);
 			shellScriptDao.update(scriptBean);
-			ProjectBean project = shellScriptMappingDao.queryBuilder().where().eq(ShellScriptMapping.MACHINE_ID_FIELD_NAME, shellScriptDao.queryForId(Integer.parseInt(shellScriptID))).queryForFirst().getProject();
+			ProjectBean project = shellScriptMappingDao.queryBuilder().where().eq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScriptDao.queryForId(Integer.parseInt(shellScriptID))).queryForFirst().getProject();
 			Integer userID = UserDAOManager.getInstance().userProjectMappingDao.queryBuilder().where().eq(UserProjectMapping.PROJECT_ID_FIELD_NAME, project).queryForFirst().getUser().getUserID();
 			/*List<ShellScriptMapping> shellscriptMappping = shellScriptMappingDao.queryForEq(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, Integer.parseInt(shellScriptID));
 				for(ShellScriptMapping shellScript : shellscriptMappping){

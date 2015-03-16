@@ -26,7 +26,6 @@ import com.boxupp.dao.ProviderDAOManager;
 import com.boxupp.db.beans.DockerLinkBean;
 import com.boxupp.db.beans.ForwardedPortsBean;
 import com.boxupp.db.beans.GitRepoBean;
-import com.boxupp.db.beans.LocalGitRepoBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.MachineProjectMapping;
 import com.boxupp.db.beans.ProjectBean;

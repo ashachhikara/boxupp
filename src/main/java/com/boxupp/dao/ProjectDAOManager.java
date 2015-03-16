@@ -17,9 +17,7 @@ package com.boxupp.dao;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.net.URISyntaxException;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +39,6 @@ import com.boxupp.db.beans.UserProjectMapping;
 import com.boxupp.responseBeans.StatusBean;
 import com.boxupp.utilities.CommonProperties;
 import com.boxupp.utilities.OSProperties;
-import com.boxupp.utilities.PuppetUtilities;
 import com.boxupp.utilities.Utilities;
 import com.boxupp.vagrant.VagrantCommandProcessor;
 import com.google.gson.Gson;
@@ -326,8 +323,10 @@ public class ProjectDAOManager implements DAOImplInterface {
 			ProjectBean project = projectDao.queryForId(Integer.parseInt(projectID));
 			List<ShellScriptBean> shellScripts = ShellScriptDAOManager.getInstance().shellScriptDao.queryForEq("isDisabled", false);
 			List<MachineConfigurationBean> machineConfigs = MachineConfigDAOManager.getInstance().machineConfigDao.queryForEq("isDisabled", false);
-			if(!(shellScripts.isEmpty())){
+			if(!shellScripts.isEmpty() && !machineConfigs.isEmpty()){
 				scriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryBuilder().where().in(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScripts).and().in(ShellScriptMapping.MACHINE_ID_FIELD_NAME, machineConfigs).and().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project).query();
+			}else if(!shellScripts.isEmpty()){
+				scriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryBuilder().where().in(ShellScriptMapping.SCRIPT_ID_FIELD_NAME, shellScripts).and().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project).query();
 			}
 			//scriptMappingList = ShellScriptDAOManager.getInstance().shellScriptMappingDao.queryForAll();
 		} catch (SQLException e) {
@@ -342,8 +341,11 @@ public class ProjectDAOManager implements DAOImplInterface {
 			ProjectBean project = projectDao.queryForId(Integer.parseInt(projectID));
 			List<PuppetModuleBean> puppetModules = PuppetModuleDAOManager.getInstance().puppetModuleDao.queryForEq("isDisabled", false);
 			List<MachineConfigurationBean> machineConfigs = MachineConfigDAOManager.getInstance().machineConfigDao.queryForEq("isDisabled", false);
-			if(!(puppetModules.isEmpty())){
+			if(!puppetModules.isEmpty() && !machineConfigs.isEmpty()){
 				moduleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryBuilder().where().in(PuppetModuleMapping.MODULE_ID_FIELD_NAME, puppetModules).and().in(PuppetModuleMapping.MACHINE_ID_FIELD_NAME, machineConfigs).and().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project).query();
+			}else if(!puppetModules.isEmpty()){
+				moduleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryBuilder().where().in(PuppetModuleMapping.MODULE_ID_FIELD_NAME, puppetModules).and().eq(ShellScriptMapping.PROJECT_ID_FIELD_NAME, project).query();
+
 			}
 			/*ProjectBean project = ProjectDAOManager.projectDao.queryForId(Integer.parseInt(projectID));
 			moduleMappingList = PuppetModuleDAOManager.getInstance().puppetModuleMappingDao.queryForAll();

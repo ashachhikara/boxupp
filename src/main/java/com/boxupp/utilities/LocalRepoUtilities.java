@@ -13,7 +13,6 @@ import org.codehaus.jackson.JsonNode;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.CommitCommand;
-import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.PushCommand;
@@ -26,6 +25,7 @@ import com.boxupp.db.beans.LocalGitRepoBean;
 import com.boxupp.responseBeans.StatusBean;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 
 public class LocalRepoUtilities {
 	private static Logger logger = LogManager.getLogger(LocalRepoUtilities.class.getName());

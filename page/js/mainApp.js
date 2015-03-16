@@ -211,7 +211,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	$interval(function(){ $scope.getAllMachineStatus(); }, 150000);
 	$scope.getAllMachineStatus = function(){
 		var deferred = $q.defer();
-		if($routeParams.projectID != null){
+		if($routeParams.projectID){
 			vagrantStatus.checkAllMachineStatus($scope, $routeParams.userID, deferred);
 			/*angular.forEach($scope.boxesData, function(box){
 				if(!box.underExecution){
