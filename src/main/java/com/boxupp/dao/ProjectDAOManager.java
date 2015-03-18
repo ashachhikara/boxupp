@@ -25,10 +25,16 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
 
 import com.boxupp.VagrantOutputStream;
 import com.boxupp.db.DAOProvider;
+import com.boxupp.db.DerbyConfig;
+import com.boxupp.db.beans.AwsProjectCredentialsBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
+import com.boxupp.db.beans.ProjectAwsCredentialsMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ProjectProviderMappingBean;
 import com.boxupp.db.beans.PuppetModuleBean;
@@ -79,19 +85,28 @@ public class ProjectDAOManager implements DAOImplInterface {
 		ProjectBean projectBean = new ProjectBean();
 		Gson projectData = new GsonBuilder().setDateFormat("yyyy'-'MM'-'dd HH':'mm':'ss").create();
 		projectBean = projectData.fromJson(newData.toString(), ProjectBean.class);
+
 		StatusBean statusBean = new StatusBean();
 		
 		try {
 
 			int rowsUpdated = projectDao.create(projectBean);
+
 			// if(rowsUpdated == 1)
 			// Utilities.getInstance().changeActiveDirectory(projectBean.getProjectId());
 			UserDAOManager.getInstance().populateMappingBean(projectBean, newData.get("owner").getValueAsText());
 			statusBean.setStatusCode(0);
 			statusBean.setData(projectBean);
 			Utilities.getInstance().initializeDirectory(projectBean.getProjectID());
+			String scriptDir  = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID())+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getScriptsDirName()+OSProperties.getInstance().getOSFileSeparator();
+			Utilities.getInstance().checkIfDirExists(new File (scriptDir));
+			File puppetScriptFile = new File(getClass().getResource("/puppet.sh").toURI());
+			Utilities.getInstance().copyFile(puppetScriptFile, new File(scriptDir+"puppet.sh"));
 			
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 			String nodeFileLoc = Utilities.getInstance().constructProjectDirectory(projectBean.getProjectID())+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getManifestsDirName()+OSProperties.getInstance().getOSFileSeparator()+"site.pp";
 			boolean nodeFile =	new File(nodeFileLoc).createNewFile();
 			
@@ -117,17 +132,24 @@ public class ProjectDAOManager implements DAOImplInterface {
 				Utilities.getInstance().copyFile(puppetMasterScriptFile, new File(scriptsDir+"puppetMaster.sh"));
 				Utilities.getInstance().copyFile(puppetAgentScriptFile, new File(scriptsDir+"puppetAgent.sh"));
 			}
+<<<<<<< HEAD
 			
 			
 			
 
+=======
+			else if(providerName.equalsIgnoreCase("AWS")){
+				AwsProjectDAOManager.getInstance().create(newData,projectBean);
+			}
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 		} catch (SQLException e) {
 			logger.error("Error creating a new project : " + e.getMessage());
 			statusBean.setStatusCode(1);
 			statusBean.setStatusMessage("Error creating project : "+ e.getMessage());
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
 			e.printStackTrace();
 
 		} catch (URISyntaxException e) {
@@ -137,6 +159,7 @@ public class ProjectDAOManager implements DAOImplInterface {
 		}
 		return statusBean;
 	}
+
 
 	@Override
 	public StatusBean update(JsonNode updateddata) {

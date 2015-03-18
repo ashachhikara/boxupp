@@ -27,9 +27,11 @@ import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.JsonNode;
 
+import com.boxupp.dao.AwsProjectDAOManager;
 import com.boxupp.dao.MachineConfigDAOManager;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.responseBeans.StatusBean;
+
 @Path("/machineConfig/")
 public class MachineConfig {
 	@POST 
@@ -38,7 +40,7 @@ public class MachineConfig {
 	public StatusBean saveMachineConfiguration(JsonNode mappings) {
 		return MachineConfigDAOManager.getInstance().create(mappings);
 	}
-	
+
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -74,6 +76,7 @@ public class MachineConfig {
 		return MachineConfigDAOManager.getInstance().reload(machineData.get("machineID").toString());
 	}
 	
+<<<<<<< HEAD
 	@POST
 	@Path("/updateMachineMappingWithPuppet")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -83,3 +86,13 @@ public class MachineConfig {
 	
 	
 }
+=======
+	@PUT
+	@Path("/hostName/")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes("application/json")
+	public StatusBean setHostName(JsonNode machineData){
+		return AwsProjectDAOManager.getInstance().setHostName(machineData);
+	}
+}	
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91

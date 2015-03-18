@@ -24,7 +24,9 @@ Vagrant.configure("2") do |config|
 #foreach ($childBean in $childStructures)
 	#set ($folderMappings = $childBean.getSyncFolders())
 	#set ($portMappings = $childBean.getPortMappings())	
-	#if($childBean.isPuppetMaster())#set($identifier="master")
+
+
+#if($childBean.isPuppetMaster())#set($identifier="master")
 	#{else}
 	#set($identifier=$childBean.vagrantID)
 	#end 
@@ -47,6 +49,7 @@ Vagrant.configure("2") do |config|
 		#end
 		#end
 		
+<<<<<<< HEAD
 		#if($puppetMasterMachine)
 			
 				#if($puppetMasterMachine.vagrantID  == $childBean.vagrantID)
@@ -95,6 +98,13 @@ Vagrant.configure("2") do |config|
 					$identifier$modulePathMarker = "../modules"
 				end	
 			#end	
+=======
+		$identifier$shellProvisionMarker "puppet" do |$identifier|
+		$identifier$manifestsPathMarker = "manifests"
+		$identifier$manifestFilePathMarker = "site.pp"
+		$identifier$modulePathMarker = "../modules"
+		end		
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 		
 		#foreach ($scriptMapping in $scriptMappings)
 		#if($scriptMapping.machineConfig.vagrantID == $identifier)

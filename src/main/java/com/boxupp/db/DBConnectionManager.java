@@ -23,11 +23,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.boxupp.dao.ProviderDAOManager;
+import com.boxupp.db.beans.AwsProjectCredentialsBean;
 import com.boxupp.db.beans.DockerLinkBean;
 import com.boxupp.db.beans.ForwardedPortsBean;
 import com.boxupp.db.beans.GitRepoBean;
 import com.boxupp.db.beans.MachineConfigurationBean;
 import com.boxupp.db.beans.MachineProjectMapping;
+import com.boxupp.db.beans.ProjectAwsCredentialsMapping;
 import com.boxupp.db.beans.ProjectBean;
 import com.boxupp.db.beans.ProjectProviderMappingBean;
 import com.boxupp.db.beans.ProviderBean;
@@ -96,8 +98,16 @@ public class DBConnectionManager {
 			classList.add(MachineConfigurationBean.class);
 			classList.add(MachineProjectMapping.class);
 			classList.add(GitRepoBean.class);
+<<<<<<< HEAD
 			//classList.add(LocalGitRepoBean.class);
 				
+=======
+
+			// Aws Project Required Tables
+			classList.add(AwsProjectCredentialsBean.class);
+			classList.add(ProjectAwsCredentialsMapping.class);
+			
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 			for(Class className : classList){
 				createTableIfNotExists(className);
 			}
@@ -154,7 +164,21 @@ public class DBConnectionManager {
 			logger.error("Error committing provider2 data to database");
 			return false;
 		}
+<<<<<<< HEAD
 
+=======
+		ProviderBean provider3 = new ProviderBean();
+		provider3.setDisabled(false);
+		provider3.setName("AWS");
+		
+		try {
+			DAOProvider.getInstance().fetchProviderDao().create(provider3);
+		} catch (SQLException e) {
+			logger.error("Error committing provider3 data to database");
+			return false;
+		}
+		
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 		return true;
 	}
 	

@@ -17,16 +17,22 @@ package com.boxupp.resources;
 
 import java.util.List;
 
+<<<<<<< HEAD
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+=======
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+<<<<<<< HEAD
 import javax.ws.rs.core.Context;
 
+=======
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.JsonNode;
@@ -44,9 +50,14 @@ public class User {
 	@POST
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
+<<<<<<< HEAD
 
 	public UserAuthenticationResponse getLoginUserId(JsonNode loginCredentials,@Context HttpServletRequest request){
 		return LoginDAOManager.getInstance().loginAuthorization(loginCredentials,request);
+=======
+	public UserAuthenticationResponse getLoginUserId(JsonNode loginCredentials){
+		return LoginDAOManager.getInstance().loginAuthorization(loginCredentials);
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 	}
 	
 	@POST
@@ -70,6 +81,7 @@ public class User {
 		return UserDAOManager.getInstance().checkForExistingUser(userId);
 	}
 	
+<<<<<<< HEAD
 	@GET
 	@Path("/signout")
 	public void deleteSession(@Context HttpServletRequest request){
@@ -84,4 +96,6 @@ public class User {
 	
 
 
+=======
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 }

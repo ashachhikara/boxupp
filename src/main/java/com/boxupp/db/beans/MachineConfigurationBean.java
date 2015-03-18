@@ -52,6 +52,22 @@ public class MachineConfigurationBean {
 	@DatabaseField(useGetSet = true)
 	private String networkIP;
 
+	@DatabaseField(useGetSet=true)
+	private String machineAmi;
+	
+	@DatabaseField(useGetSet=true)
+	private String instanceType;
+	
+	@DatabaseField(useGetSet=true)
+	private String instanceRegion;
+	
+	@DatabaseField(useGetSet=true)
+	private String sshUserName;
+	
+	@DatabaseField(useGetSet=true)
+	private String instanceCategory;
+
+	
 	@ForeignCollectionField(eager = true, maxEagerLevel =1)
 	private ForeignCollection<ForwardedPortsBean> ormPortMappings;
 	
@@ -118,7 +134,50 @@ public class MachineConfigurationBean {
 	@DatabaseField(useGetSet = true, defaultValue="0")
 	private Integer moduleChangeFlag;
 	
+<<<<<<< HEAD
 	
+=======
+	public void setMachineAmi(String machineAmi){
+		this.machineAmi=machineAmi;
+	}
+	
+	public String getMachineAmi(){
+		return machineAmi;
+	}
+
+	public void setInstanceType(String instanceType){
+		this.instanceType=instanceType;
+	}
+	
+	public String getInstanceType(){
+		return instanceType;
+	}
+	
+	public void setInstanceRegion(String instanceRegion){
+		this.instanceRegion=instanceRegion;
+	}
+
+	public String getInstanceRegion(){
+		return instanceRegion;
+	}
+	
+	public void setSshUserName(String sshUserName){
+		this.sshUserName=sshUserName;
+	}
+	
+	public String getSshUserName(){
+		return sshUserName;
+	}
+	
+	public void setInstanceCategory(String instanceCategory){
+		this.instanceCategory=instanceCategory;
+	}
+	
+	public String getInstanceCategory(){
+		return instanceCategory;
+	}
+
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 	public Integer getMachineID() {
 		return machineID;
 	}

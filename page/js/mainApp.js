@@ -14,7 +14,11 @@
  *  limitations under the License.
  *******************************************************************************/
 
+<<<<<<< HEAD
 angular.module('boxuppApp').controller('vboxController',function($scope,$interval,$q,$http,$rootScope,$routeParams,$filter,$interval, $timeout,MachineConfig,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location,puppetModuleResource, boxFunctionality, loggerFunctionality){
+=======
+angular.module('boxuppApp').controller('vboxController',function($scope,$interval,$q,$http,$rootScope,$routeParams,$filter,$timeout,MachineConfig,HostName,ResourcesData,vagrantStatus,executeCommand,retrieveMappings,puppetModule,miscUtil,shellScript,provider,User,$location,puppetModuleResource, boxFunctionality, loggerFunctionality){
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 
 	$scope.projectData = {
 		boxesState : {
@@ -127,6 +131,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 					$("#consoleOutput").scrollTop(1500000);
 				}
 			}else{
+				
 				$scope.activeOutputSnippet = {};
 				$scope.activeOutputSnippet.dataEnd = data.dataEnd;
 				$scope.activeOutputSnippet.type = data.type;
@@ -144,6 +149,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 			console.log('connection has been closed');
 		}
 	};
+<<<<<<< HEAD
 
 	$scope.statusServer= {
 		connect : function(promise) {
@@ -199,6 +205,10 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 		}
 	};
 
+=======
+	
+	
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 	$scope.fromDate = new Date();
 	$scope.toDate = new Date();
 	/*$scope.fromDate = $filter('date')(new Date(),'yyyy-MM-dd');
@@ -335,7 +345,6 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	$scope.deployEnvironment = function(){
 		$scope.createVagrantFile().then(function(){
 			var elements = [];
-			
 			angular.forEach($scope.boxesData,function(box){
 				if(box.configChangeFlag || box.scriptChangeFlag || box.moduleChangeFlag){
 					elements.push(box);
@@ -343,11 +352,11 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 			});
 			
 			$scope.boxesSize = elements.length;
-			
 			$scope.boxesSize > 0 ? $scope.triggerDeployment(elements[0],elements) : console.log('No boxes to deploy');
 			
 		});
 	}
+	
 	$scope.stopBox = function(vmConfig){
 		boxFunctionality.stopBox(vmConfig).then(function(response){
 			vmConfig.underExecution = false;	
@@ -360,15 +369,27 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 			console.log('Box reload successfully!');
 		});
 	}
+
 	$scope.deployBox = function(vmConfig){
 		$scope.createVagrantFile().then(function(){
 			$scope.startDeployment(vmConfig).then(function(response){
 				vmConfig.underExecution = false;	
 				$scope.resetFlags(vmConfig);
 				$scope.commitBoxChanges(vmConfig);
+				$scope.setAwsMachineHostName(vmConfig);
 				console.log('Box execution completed now !');
 			});
 		});
+	}
+
+	$scope.setAwsMachineHostName = function(machineData){
+		if(machineData.providerType=="AWS" && (machineData.hostName==null || machineData.hostName=="" )){
+			machineData.userID=$routeParams.userID;
+			machineData.projectID=$routeParams.projectID;
+			HostName.update(machineData,function(data){
+				$scope.fetchBoxList();
+			});
+		}
 	}
 
 	$scope.triggerDeployment = function(box,elements){
@@ -403,7 +424,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 	}
 
 	
-
+	
 	$scope.startDeployment = function(vmConfig){
 		var deferred = $q.defer();
 		// $scope.outputConsole.boxuppExecuting = true;
@@ -433,15 +454,19 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 		
 	}
 	
+
 	$scope.chooseBestDeployOption = function(vmConfig){
 		var flagStatesCombination = vmConfig.configChangeFlag + "" +vmConfig.moduleChangeFlag + "" +
 									vmConfig.scriptChangeFlag + "" +vmConfig.machineStatusFlag + "";	
 			if(vmConfig.providerType === "virtualbox"){						
 				return ($scope.fetchVagrantCommandForVirtualBox(flagStatesCombination)+" " + vmConfig.vagrantID);
-			}else{
+			}
+			else if(vmConfig.providerType==="docker"){
 				return ($scope.fetchVagrantCommandForDocker(flagStatesCombination)+" " + vmConfig.vagrantID);
 			}
-
+			else{
+				return ($scope.fetchVagrantCommandForVirtualBox(flagStatesCombination)+" " + vmConfig.vagrantID);
+			}
 	}
 
 	$scope.userSignout = function(){
@@ -774,6 +799,7 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 			}			
 		});	
 	}
+	
 
 	$scope.fetchScriptList = function(){
 		ResourcesData.fetchScriptList($routeParams.projectID).then(function(response){
@@ -852,12 +878,42 @@ $('#datepicker-example7-end').Zebra_DatePicker({
 		});
 	}
 
+	$scope.setInstanceCategory = function(){
+		$scope.instanceCategory = {
+				"General Purpose":"General Purpose",
+				"M3":"M3",
+				"Compute Optimized C4":"Compute Optimized C4",
+				"C3":"C3",
+				"Memory Optimized R3":"Memory Optimized R3",
+				"GPU G2":"GPU G2",
+				"Storage Optimized I2":"Storage Optimized I2",
+				"HS1":"HS1",
+		};
+		$scope.instanceCategoryTypes = {
+				"General Purpose":{"Micro":"t2.micro","Small":"t2.small","Medium":"t2.medium"},
+				"M3":{"Medium":"m3.medium","Large":"m3.large","xLarge":"m3.xlarge","2xLarge":"m3.2xlarge"},
+				"Compute Optimized C4":{"Large":"c4.large","xLarge":"c4.xlarge","2xLarge":"c4.2xlarge","4xLarge":"c4.4xlarge","8xLarge":"c4.8xlarge"},
+				"C3":{"Large":"c3.large","xLarge":"c3.xlarge","2xLarge":"c3.2xlarge","4xLarge":"c3.4xlarge","8xLarge":"c3.8xlarge"},
+				"Memory Optimized R3":{"Large":"r3.large","xLarge":"r3.xlarge","2xLarge":"r3.2xlarge","4xLarge":"r3.4xlarge","8xLarge":"r3.8xlarge"},
+				"GPU G2":{"2xLarge":"g2.2xlarge"},
+				"Storage Optimized I2":{"xLarge":"i2.xlarge","2xLarge":"i2.2xlarge","4xLarge":"i2.4xlarge","8xLarge":"i2.8xlarge"},
+				"HS1":{"8xLarge":"hs1.8xlarge"},
+		};
+
+	}
+	
+	$scope.onCategoryChange=function(data){
+		$scope.instanceTypes = $scope.instanceCategoryTypes[data];
+	}
+
 	$scope.fetchBoxList();
 	$scope.fetchScriptList();
 	$scope.fetchModuleList();
 	$scope.markActiveProject();
 	$scope.fetchShellScriptMappings();
 	$scope.fetchPuppetMappings();
+	$scope.setInstanceCategory();
+	
 	
 	/*$scope.server = {
 		connect : function() {

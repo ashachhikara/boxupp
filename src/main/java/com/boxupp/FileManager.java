@@ -76,12 +76,17 @@ public class FileManager {
 	
 	public StatusBean writeNodeFileToDisk(String data, String projectID ){
 		StatusBean statusBean = new StatusBean();
+<<<<<<< HEAD
 		String fileOutputPath = OSProperties.getInstance().getUserHomeDirectory() + 
 				OSProperties.getInstance().getOSFileSeparator() + "Boxupp" + 
 				OSProperties.getInstance().getOSFileSeparator() + projectID+OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getManifestsDirName()+
 
 				OSProperties.getInstance().getOSFileSeparator()+"site.pp";
 
+=======
+		String fileOutputPath = Utilities.getInstance().constructProjectDirectory(Integer.parseInt(projectID))+
+				OSProperties.getInstance().getOSFileSeparator()+OSProperties.getInstance().getManifestsDirName()+OSProperties.getInstance().getOSFileSeparator()+"site.pp";
+>>>>>>> 6f531bc934e3b2d6681b64c4509d519436275e91
 		VagrantFileStatus vagrantFileStatus = new VagrantFileStatus();
 		
 		File file = new File(fileOutputPath);
